@@ -1,1 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+  <header>
+    <a href="../index.html" class="logo">Bismarck</a>
+    <nav>
+      <a href="../index.html">Home</a>
+      <a href="services.html">Services</a>
+      <a href="skills.html">Skills</a>
+      <a href="education.html">Education</a>
+      <a href="experience.html">Experience</a>
+      <a href="contact.html" class="active">Contact</a>
+    </nav>
+  </header>
 
+  <section class="contact">
+    <h2 class="section-title"></h2>
+    <form action="https://formsubmit.co/agatanuraini48@gmail.com " method="POST" class="contact-form">
+      <!-- Anti-spam -->
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_next" value="https://agatanuraini48@gmail.com /thanks.html">
+
+      <input type="text" name="name" placeholder="Your Name" required />
+      <input type="email" name="email" placeholder="Your Email" required />
+      <textarea name="message" rows="6" placeholder="Your Message" required></textarea>
+      <button type="submit" class="btn">Send Message</button>
+    </form>
+  </section>
+</body>
+</html>
