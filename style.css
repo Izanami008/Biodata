@@ -316,11 +316,10 @@ span{
   justify-content: center;
   margin-top: 3rem;
 }
-
 .skills-game-box {
   width: 100%;
-  max-width: 560px;         /* Ukuran asli game canvas biasanya 560px */
-  height: 640px;            /* Tinggi disesuaikan agar tidak scroll */
+  max-width: 500px;
+  height: 500px;
   border-radius: 1rem;
   overflow: hidden;
   box-shadow: 0 0 25px #b74b4b;
