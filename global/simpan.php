@@ -21,7 +21,7 @@ $stmt->execute();
 $stmt->close();
 
 // Kirim email dengan lampiran gambar
-$to = "your-email@example.com"; // GANTI EMAIL
+$to = "agatanuraini48@gmail.com"; // GANTI EMAIL
 $subject = "Deteksi Perangkat Baru";
 $boundary = md5(uniqid());
 
