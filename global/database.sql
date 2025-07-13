@@ -1,0 +1,11 @@
+CREATE DATABASE IF NOT EXISTS lacak_hp;
+USE lacak_hp;
+
+CREATE TABLE IF NOT EXISTS pengunjung (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  ip_address VARCHAR(45),
+  lokasi VARCHAR(255),
+  perangkat TEXT,
+  foto LONGTEXT,
+  tanggal DATETIME DEFAULT CURRENT_TIMESTAMP
+);
