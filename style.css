@@ -200,46 +200,7 @@ span{
     position: relative;
 }
 
-.typing-text span::before{
-    content: "software Developer";
-    color: #b74b4b;
-    animation: words 20s infinite;
-}
-
-.typing-text span::after{
-    content: "";
-    background-color: black;
-    position: absolute;
-    width: calc(100% + 8px);
-    height: 100%;
-    border-left: 3px solid black;
-    right: -8px;
-    animation: cursor 0.6s infinite;
-}
-
-@keyframes cursor{
-    to{
-        border-left: 3px solid #b74b4b;
-    }
-}
-
-@keyframes words{
-    0%, 20%{
-        content: "Web Developer";
-    }
-    21%, 40%{
-        content: "Developer";
-    }
-    41%, 60%{
-        content: "Web Designer";
-    }
-    61%, 80%{
-        content: "Youtuber";
-    }
-    81%, 100%{
-        content: "Script Writer";
-    }
-}
+.
 
 @media (max-width: 1000px){
     .home{
@@ -248,6 +209,16 @@ span{
 }
 
 @media(max-width:995px){
+    
+.typing-text {
+  font-size: 34px;
+  font-weight: 600;
+  min-width: 280px;
+}
+
+.typing {
+  color: #b74b4b;
+}
     .home{
         flex-direction: column;
         margin: 5rem 4rem;
