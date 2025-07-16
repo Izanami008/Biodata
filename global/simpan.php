@@ -43,7 +43,7 @@ try {
     $mail->Host = 'smtp.gmail.com';
     $mail->SMTPAuth = true;
     $mail->Username = $from_email; // Gmail kamu
-    $mail->Password = 'jgiz xcnp tgmt uxup'; // App password Gmail
+    $mail->Password = 'XXXXXXXXXXXXX'; // App password Gmail
     $mail->SMTPSecure = 'tls';
     $mail->Port = 587;
 
