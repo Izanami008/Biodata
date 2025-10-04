@@ -58,7 +58,19 @@
 
     // Pilih video sesuai perangkat
     const video = document.getElementById("myVideo");
-    video.src = isMobile() ? "video-hp.mp4" : "video-pc.mp4";
+<script>
+  function isMobile() {
+    return /Mobi|Android/i.test(navigator.userAgent);
+  }
+
+  const video = document.getElementById("myVideo");
+  video.src = isMobile() ? "global/video-hp.mp4" : "global/video-pc.mp4";
+
+  video.addEventListener("canplay", function() {
+    document.getElementById("loader").style.display = "none";
+    video.style.display = "block";
+  });
+</script>
 
     // Saat video siap → hilangkan loader
     video.addEventListener("canplay", function() {
