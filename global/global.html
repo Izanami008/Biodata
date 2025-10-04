@@ -1,117 +1,63 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Global Market Dashboard</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Intro Video</title>
   <style>
-    .news-scroll::-webkit-scrollbar {
-      display: none;
+    body {
+      margin: 0;
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
     }
-    .news-scroll {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
+    #loader {
+      color: #00ff88;
+      font-size: 18px;
+      position: absolute;
+      bottom: 30px;
+      animation: blink 1.2s infinite;
+    }
+    @keyframes blink {
+      50% { opacity: 0.3; }
+    }
+    video {
+      max-width: 100%;
+      max-height: 100%;
+      display: none;
     }
   </style>
 </head>
-<body class="bg-gray-900 text-white">
-  <header class="p-4 bg-gray-800 shadow-md flex justify-between items-center">
-    <h1 class="text-2xl font-bold">📈 Global Market Dashboard</h1>
-    <span class="text-sm text-gray-400">Real-time Data & News</span>
-  </header>  <main class="p-4 space-y-6 max-w-6xl mx-auto">
-    <section class="grid md:grid-cols-2 gap-4">
-      <div class="bg-gray-800 p-4 rounded-xl shadow">
-        <h2 class="text-xl font-semibold mb-2">💱 Kurs Mata Uang</h2>
-        <ul id="currencyList" class="space-y-1 text-sm">
-          <li>USD/IDR: <span id="usdIdr">Loading...</span></li>
-          <li>EUR/USD: <span id="eurUsd">Loading...</span></li>
-          <li>BTC/USD: <span id="btcUsd">Loading...</span></li>
-        </ul>
-      </div>
-      <div class="bg-gray-800 p-4 rounded-xl shadow">
-        <h2 class="text-xl font-semibold mb-2">🛢️ Komoditas</h2>
-        <ul id="commodityList" class="space-y-1 text-sm">
-          <li>Emas: <span id="gold">Loading...</span></li>
-          <li>Minyak: <span id="oil">Loading...</span></li>
-          <li>Perak: <span id="silver">Loading...</span></li>
-        </ul>
-      </div>
-    </section><!-- Berita Dunia Geser -->
-<section class="bg-gray-800 p-4 rounded-xl shadow">
-  <h2 class="text-xl font-semibold mb-4">🗞️ Berita Dunia Terkini</h2>
-  <div id="newsCarousel" class="flex overflow-x-auto space-x-4 news-scroll">
-    <div class="text-sm text-gray-400">Memuat berita...</div>
-  </div>
-</section>
+<body>
+  <div id="loader">Loading video...</div>
+  <video id="myVideo" autoplay muted playsinline></video>
 
-<section class="bg-gray-800 p-4 rounded-xl shadow">
-  <h2 class="text-xl font-semibold mb-4">💹 Grafik BTC/USD (Live)</h2>
-  <canvas id="btcChart" height="100"></canvas>
-</section>
-
-  </main>  <footer class="p-4 text-center text-sm text-gray-500">
-    &copy; Bismarck
-  </footer>  <script>
-    const NEWS_API_KEY = 'YOUR_NEWSAPI_KEY';
-    const NEWS_URL = `https://newsapi.org/v2/top-headlines?category=business&language=en&pageSize=10&apiKey=${NEWS_API_KEY}`;
-    const EXCHANGE_API = 'https://api.exchangerate-api.com/v4/latest/USD';
-    const BTC_API = 'https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=1';
-
-    async function fetchNews() {
-      try {
-        const res = await fetch(NEWS_URL);
-        const { articles } = await res.json();
-        const container = document.getElementById('newsCarousel');
-        container.innerHTML = '';
-        articles.forEach(article => {
-          const card = document.createElement('div');
-          card.className = 'min-w-[250px] max-w-[250px] bg-gray-700 rounded-lg overflow-hidden shadow';
-          card.innerHTML = `
-            <a href="${article.url}" target="_blank">
-              <img src="${article.urlToImage || 'https://via.placeholder.com/250x150'}" alt="" class="w-full h-32 object-cover">
-              <div class="p-2">
-                <h3 class="text-sm font-semibold text-white line-clamp-2">${article.title}</h3>
-              </div>
-            </a>
-          `;
-          container.appendChild(card);
-        });
-      } catch (e) {
-        console.error(e);
-        document.getElementById('newsCarousel').innerHTML = '<div>Error memuat berita.</div>';
-      }
+  <script>
+    function isMobile() {
+      return /Mobi|Android/i.test(navigator.userAgent);
     }
 
-    async function fetchRates() {
-      try {
-        const res = await fetch(EXCHANGE_API);
-        const data = await res.json();
-        document.getElementById('usdIdr').textContent = data.rates.IDR.toFixed(2);
-        document.getElementById('eurUsd').textContent = (1 / data.rates.EUR).toFixed(4);
-        document.getElementById('btcUsd').textContent = '$' + (Math.random() * 10000 + 20000).toFixed(2);
-        document.getElementById('gold').textContent = '$' + (1950 + Math.random() * 100).toFixed(2) + '/oz';
-        document.getElementById('oil').textContent = '$' + (80 + Math.random() * 10).toFixed(2) + '/barrel';
-        document.getElementById('silver').textContent = '$' + (24 + Math.random() * 2).toFixed(2) + '/oz';
-      } catch (e) {
-        console.error(e);
-      }
-    }
+    const video = document.getElementById("myVideo");
+    // karena video.html dan video-hp.mp4 ada di folder yang sama (global/)
+    video.src = isMobile() ? "video-hp.mp4" : "video-pc.mp4";
 
-    async function initBTCChart() {
-      try {
-        const res = await fetch(BTC_API);
-        const data = await res.json();
-        const prices = data.prices.map(p => p[1]);
-        const labels = data.prices.map(p => new Date(p[0]).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+    // kalau sudah siap play → tampilkan
+    video.addEventListener("canplay", () => {
+      document.getElementById("loader").style.display = "none";
+      video.style.display = "block";
+    });
 
-        const ctx = document.getElementById('btcChart').getContext('2d');
-        new Chart(ctx, {
-          type: 'line',
-          data: {
-            labels: labels,
-            datasets: [{
-              label: 'BTC/USD',
+    // kalau selesai → pindah ke global.html
+    video.addEventListener("ended", () => {
+      window.location.href = "global.html";
+    });
+  </script>
+</body>
+</html>              label: 'BTC/USD',
               data: prices,
               borderColor: '#00FFAA',
               backgroundColor: 'rgba(0,255,170,0.1)',
