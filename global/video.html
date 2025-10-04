@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Video Player</title>
+  <title>Loading Video...</title>
   <style>
     body {
       margin: 0;
@@ -14,14 +14,13 @@
       height: 100vh;
       overflow: hidden;
       font-family: Arial, sans-serif;
+      color: white;
     }
 
     #loader {
-      color: #00ff88;
-      font-size: 20px;
       position: absolute;
       bottom: 40px;
-      text-align: center;
+      font-size: 18px;
       animation: blink 1.2s infinite;
     }
 
@@ -32,32 +31,33 @@
     video {
       max-width: 100%;
       max-height: 100%;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0,255,136,0.6);
-      display: none;
+      display: none; /* disembunyikan sampai siap */
     }
   </style>
 </head>
 <body>
   <div id="loader">Loading video...</div>
-  <video id="myVideo" controls autoplay muted playsinline></video>
+  <video id="myVideo" autoplay muted playsinline></video>
 
   <script>
-    // cek HP atau PC
+    // Deteksi perangkat
     function isMobile() {
       return /Mobi|Android/i.test(navigator.userAgent);
     }
 
     const video = document.getElementById("myVideo");
-
-    // Karena file video.html ada di folder "global",
-    // path videonya cukup langsung nama file
+    // karena file ada di folder yang sama (global/)
     video.src = isMobile() ? "video-hp.mp4" : "video-pc.mp4";
 
-    // saat siap play, tampilkan
-    video.addEventListener("canplay", function() {
+    // Saat video siap diputar → tampilkan dan hilangkan loader
+    video.addEventListener("canplay", () => {
       document.getElementById("loader").style.display = "none";
       video.style.display = "block";
+    });
+
+    // Kalau video selesai → redirect ke global.html
+    video.addEventListener("ended", () => {
+      window.location.href = "global.html";
     });
   </script>
 </body>
