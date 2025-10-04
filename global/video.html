@@ -5,24 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Video Player</title>
   <style>
-    /* Reset */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
     body {
+      margin: 0;
       background: #000;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      font-family: Arial, sans-serif;
       overflow: hidden;
+      font-family: Arial, sans-serif;
     }
 
-    /* Loader */
     #loader {
       color: #00ff88;
       font-size: 20px;
@@ -36,33 +29,32 @@
       50% { opacity: 0.3; }
     }
 
-    /* Video styling */
     video {
       max-width: 100%;
       max-height: 100%;
       border-radius: 10px;
       box-shadow: 0 0 15px rgba(0,255,136,0.6);
-      display: none; /* disembunyikan dulu */
+      display: none;
     }
   </style>
 </head>
 <body>
   <div id="loader">Loading video...</div>
-  <video id="myVideo" controls autoplay></video>
+  <video id="myVideo" controls autoplay muted playsinline></video>
 
   <script>
-    // Fungsi cek perangkat
+    // cek HP atau PC
     function isMobile() {
       return /Mobi|Android/i.test(navigator.userAgent);
     }
 
-    // Ambil elemen video
     const video = document.getElementById("myVideo");
 
-    // Pilih video sesuai perangkat
-    video.src = isMobile() ? "global/video-hp.mp4" : "global/video-pc.mp4";
+    // Karena file video.html ada di folder "global",
+    // path videonya cukup langsung nama file
+    video.src = isMobile() ? "video-hp.mp4" : "video-pc.mp4";
 
-    // Saat video siap diputar, tampilkan
+    // saat siap play, tampilkan
     video.addEventListener("canplay", function() {
       document.getElementById("loader").style.display = "none";
       video.style.display = "block";
