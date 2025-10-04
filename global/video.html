@@ -40,9 +40,9 @@
     video {
       max-width: 100%;
       max-height: 100%;
-      display: none;
       border-radius: 10px;
       box-shadow: 0 0 15px rgba(0,255,136,0.6);
+      display: none; /* disembunyikan dulu */
     }
   </style>
 </head>
@@ -56,11 +56,13 @@
       return /Mobi|Android/i.test(navigator.userAgent);
     }
 
-    // Pilih video sesuai perangkat
+    // Ambil elemen video
     const video = document.getElementById("myVideo");
+
+    // Pilih video sesuai perangkat
     video.src = isMobile() ? "global/video-hp.mp4" : "global/video-pc.mp4";
 
-    // Saat video siap → hilangkan loader
+    // Saat video siap diputar, tampilkan
     video.addEventListener("canplay", function() {
       document.getElementById("loader").style.display = "none";
       video.style.display = "block";
