@@ -50,27 +50,24 @@
   <div id="loader">Loading video...</div>
   <video id="myVideo" controls autoplay></video>
 
+  <body>
+  <div id="loader">Loading video...</div>
+  <video id="myVideo" controls autoplay></video>
+
   <script>
-    // Deteksi perangkat
     function isMobile() {
       return /Mobi|Android/i.test(navigator.userAgent);
     }
 
-    // Pilih video sesuai perangkat
     const video = document.getElementById("myVideo");
-<script>
-  function isMobile() {
-    return /Mobi|Android/i.test(navigator.userAgent);
-  }
+    video.src = isMobile() ? "global/video-hp.mp4" : "global/video-pc.mp4";
 
-  const video = document.getElementById("myVideo");
-  video.src = isMobile() ? "global/video-hp.mp4" : "global/video-pc.mp4";
-
-  video.addEventListener("canplay", function() {
-    document.getElementById("loader").style.display = "none";
-    video.style.display = "block";
-  });
-</script>
+    video.addEventListener("canplay", function() {
+      document.getElementById("loader").style.display = "none";
+      video.style.display = "block";
+    });
+  </script>
+  </body>
 
     // Saat video siap → hilangkan loader
     video.addEventListener("canplay", function() {
