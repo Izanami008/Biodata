@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Loading Video...</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Memuat Data...</title>
+  <link rel="stylesheet" href="style.css" />
   <style>
     body {
       margin: 0;
@@ -12,50 +13,50 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
-      overflow: hidden;
-      font-family: Arial, sans-serif;
-      color: white;
     }
-
-    #loader {
-      position: absolute;
-      bottom: 40px;
+    #introVideo {
+      display: none;
+      width: 100%;
+      height: auto;
+    }
+    #loading {
+      color: #00ff88;
+      font-family: Arial, sans-serif;
       font-size: 18px;
       animation: blink 1.2s infinite;
     }
-
     @keyframes blink {
       50% { opacity: 0.3; }
-    }
-
-    video {
-      max-width: 100%;
-      max-height: 100%;
-      display: none; /* disembunyikan sampai siap */
     }
   </style>
 </head>
 <body>
-  <div id="loader">Loading video...</div>
-  <video id="myVideo" autoplay muted playsinline></video>
+  <div id="loading">
+    <div class="loader"></div>
+    <p>Mendeteksi perangkat...</p>
+  </div>
+
+  <video id="introVideo" autoplay muted playsinline>
+    <source id="videoSource" src="" type="video/mp4" />
+    Browser Anda tidak mendukung video.
+  </video>
 
   <script>
-    // Deteksi perangkat
-    function isMobile() {
-      return /Mobi|Android/i.test(navigator.userAgent);
-    }
+    const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+    const video = document.getElementById("introVideo");
+    const source = document.getElementById("videoSource");
 
-    const video = document.getElementById("myVideo");
-    // karena file ada di folder yang sama (global/)
-    video.src = isMobile() ? "video-hp.mp4" : "video-pc.mp4";
+    // Pilih video sesuai perangkat
+    source.src = isMobile ? "video-hp.mp4" : "video-pc.mp4";
+    video.load();
 
-    // Saat video siap diputar → tampilkan dan hilangkan loader
+    // Saat video siap → tampilkan, hilangkan loading
     video.addEventListener("canplay", () => {
-      document.getElementById("loader").style.display = "none";
+      document.getElementById("loading").style.display = "none";
       video.style.display = "block";
     });
 
-    // Kalau video selesai → redirect ke global.html
+    // Saat video selesai → redirect ke global.html
     video.addEventListener("ended", () => {
       window.location.href = "global.html";
     });
