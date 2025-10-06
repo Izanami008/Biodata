@@ -1,65 +1,152 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Memuat Data...</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    body {
-      margin: 0;
-      background: #000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+    /* full reset */
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      background:#000;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
     }
-    #introVideo {
-      display: none;
-      width: 100%;
-      height: auto;
+
+    /* Container supaya kita bisa fade-out seluruh layar */
+    .stage{
+      position:relative;
+      width:100%;
+      height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:#000;
+      transition:opacity 700ms ease, transform 700ms ease;
+      will-change:opacity,transform;
     }
+    .stage.hidden{
+      opacity:0;
+      transform:scale(0.98);
+      pointer-events:none;
+    }
+
+    /* Loader teks + anim */
     #loading {
-      color: #00ff88;
-      font-family: Arial, sans-serif;
-      font-size: 18px;
-      animation: blink 1.2s infinite;
+      position:absolute;
+      bottom:36px;
+      left:50%;
+      transform:translateX(-50%);
+      color:#9ef7c7;
+      font-size:16px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      z-index:30;
+      text-shadow:0 1px 8px rgba(0,0,0,0.6);
+      letter-spacing:0.2px;
     }
-    @keyframes blink {
-      50% { opacity: 0.3; }
+    .dot {
+      width:8px;height:8px;border-radius:50%;background:#9ef7c7;
+      animation:blink 1s infinite;
+    }
+    .dot:nth-child(2){animation-delay:0.18s}
+    .dot:nth-child(3){animation-delay:0.36s}
+    @keyframes blink{0%{opacity:0.15}50%{opacity:1}100%{opacity:0.15}}
+
+    /* Video styling: cover fullscreen but preserve ratio */
+    #introVideo{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      background:#000;
+    }
+
+    /* fallback message when not supported */
+    .no-support{
+      color:#fff;
+      text-align:center;
+      padding:12px;
     }
   </style>
 </head>
 <body>
-  <div id="loading">
-    <div class="loader"></div>
-    <p>Mendeteksi perangkat...</p>
+  <div class="stage" id="stage">
+    <div id="loading" aria-hidden="true">
+      <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      <div style="margin-left:8px">Memuat video...</div>
+    </div>
+
+    <video id="introVideo" autoplay muted playsinline preload="auto">
+      <!-- source akan di-set lewat JS -->
+      <source id="videoSource" src="" type="video/mp4">
+      <div class="no-support">Browser Anda tidak mendukung pemutaran video.</div>
+    </video>
   </div>
 
-  <video id="introVideo" autoplay muted playsinline>
-    <source id="videoSource" src="" type="video/mp4" />
-    Browser Anda tidak mendukung video.
-  </video>
+<script>
+(function(){
+  // deteksi mobile
+  const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+  const video = document.getElementById('introVideo');
+  const source = document.getElementById('videoSource');
+  const stage = document.getElementById('stage');
+  const loading = document.getElementById('loading');
 
-  <script>
-    const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
-    const video = document.getElementById("introVideo");
-    const source = document.getElementById("videoSource");
+  // Karena file ada di folder yang sama (global/), cukup nama file
+  source.src = isMobile ? "video-hp.mp4" : "video-pc.mp4";
 
-    // Pilih video sesuai perangkat
-    source.src = isMobile ? "video-hp.mp4" : "video-pc.mp4";
-    video.load();
+  // muat ulang sumber baru
+  video.load();
 
-    // Saat video siap → tampilkan, hilangkan loading
-    video.addEventListener("canplay", () => {
-      document.getElementById("loading").style.display = "none";
-      video.style.display = "block";
-    });
+  // jika video bisa dimainkan (cukup buffer), hide loader & play (autoplay muted is set)
+  video.addEventListener('canplay', () => {
+    loading.style.display = 'none';
+    // pastikan video tampil (seandainya kita sembunyikan dulu)
+    video.style.visibility = 'visible';
+    // jika browser kebijakan autoplay mencegah play, coba play() paksa dikarenakan sudah muted
+    video.play().catch(()=>{ /* ignore */ });
+  });
 
-    // Saat video selesai → redirect ke global.html
-    video.addEventListener("ended", () => {
+  // Jika terjadi error (file tidak ditemukan / format), tampil notifikasi di console + hide loader
+  video.addEventListener('error', (e) => {
+    console.error('Video error:', e);
+    loading.textContent = 'Gagal memuat video — periksa file video.';
+  });
+
+  // Saat video selesai, lakukan transisi halus lalu redirect
+  video.addEventListener('ended', () => {
+    // Tambah sedikit delay agar transisi terasa halus
+    stage.classList.add('hidden');
+    // setelah durasi transition selesai (sesuaikan 700ms)
+    setTimeout(() => {
+      // pindah ke global.html (file di folder yang sama)
       window.location.href = "global.html";
-    });
-  </script>
+    }, 750);
+  });
+
+  // Fallback: kalau user melewatkan / skip video (mis. klik tombol control 'ended' tidak terpanggil),
+  // kita set timeout maksimum (opsional) untuk pindah juga. Misal 30 detik.
+  const MAX_WAIT_MS = 30 * 1000;
+  const redirectTimeout = setTimeout(() => {
+    if (!stage.classList.contains('hidden')) {
+      try{ stage.classList.add('hidden'); }catch(e){}
+      setTimeout(()=> window.location.href = "global.html", 500);
+    }
+  }, MAX_WAIT_MS);
+
+  // Jika video berhasil end sebelum timeout, clear timeout
+  video.addEventListener('ended', () => clearTimeout(redirectTimeout));
+
+  // Debug helper (tampilkan di console)
+  console.log('Device isMobile:', isMobile, '-> using', source.src);
+})();
+</script>
 </body>
 </html>
