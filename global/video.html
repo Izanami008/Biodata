@@ -37,11 +37,9 @@
     <p>Mendeteksi perangkat...</p>
   </div>
 
-  <video id="introVideo" autoplay muted playsinline preload="auto">
-    <source id="videoSource" src="" type="video/mp4" />
-    Browser Anda tidak mendukung video.
+  <video autoplay controls width="100%">
+    <source src="video-hp.mp4">
   </video>
-
   <script>
     const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
     const video = document.getElementById("introVideo");
