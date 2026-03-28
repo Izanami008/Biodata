@@ -19,13 +19,29 @@ $conn = new mysqli($host, $user, $pass, $db);
 
 $result = $conn->query("SELECT * FROM pengunjung ORDER BY id DESC");
 
+// ambil semua data untuk map
+$mapData = $conn->query("SELECT lokasi FROM pengunjung");
+
+$locations = [];
+
+while($row = $mapData->fetch_assoc()) {
+    if(strpos($row['lokasi'], ",") !== false) {
+        $locations[] = $row['lokasi'];
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
 <html>
 
 <head>
+
     <title>Admin Panel</title>
+
+    <link 
+    rel="stylesheet" 
+    href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 
     <style>
 
@@ -73,6 +89,12 @@ $result = $conn->query("SELECT * FROM pengunjung ORDER BY id DESC");
         img {
             width: 80px;
             border-radius: 5px;
+        }
+
+        #map {
+            height: 400px;
+            margin-top: 30px;
+            border-radius: 10px;
         }
 
     </style>
@@ -130,8 +152,42 @@ $result = $conn->query("SELECT * FROM pengunjung ORDER BY id DESC");
 
     </table>
 
+    <h2>Peta Lokasi Pengunjung</h2>
+
+    <div id="map"></div>
+
 </div>
 
-</body>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
+<script>
+
+var map = L.map('map').setView([-6.2, 106.8], 5);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: 'OpenStreetMap'
+}).addTo(map);
+
+var locations = <?php echo json_encode($locations); ?>;
+
+locations.forEach(function(loc) {
+
+    var parts = loc.split(",");
+
+    var lat = parseFloat(parts[0]);
+    var lng = parseFloat(parts[1]);
+
+    if(!isNaN(lat) && !isNaN(lng)) {
+
+        L.marker([lat, lng])
+        .addTo(map)
+        .bindPopup("Lokasi Pengunjung");
+
+    }
+
+});
+
+</script>
+
+</body>
 </html>
