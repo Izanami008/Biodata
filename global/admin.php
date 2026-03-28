@@ -19,14 +19,21 @@ $conn = new mysqli($host, $user, $pass, $db);
 
 $result = $conn->query("SELECT * FROM pengunjung ORDER BY id DESC");
 
-// ambil semua data untuk map
-$mapData = $conn->query("SELECT lokasi FROM pengunjung");
+$mapData = $conn->query("SELECT * FROM pengunjung");
 
 $locations = [];
 
 while($row = $mapData->fetch_assoc()) {
+
     if(strpos($row['lokasi'], ",") !== false) {
-        $locations[] = $row['lokasi'];
+
+        $locations[] = [
+            "ip" => $row['ip_address'],
+            "lokasi" => $row['lokasi'],
+            "perangkat" => $row['perangkat'],
+            "foto" => $row['foto'],
+            "waktu" => $row['waktu']
+        ];
     }
 }
 
@@ -37,67 +44,70 @@ while($row = $mapData->fetch_assoc()) {
 
 <head>
 
-    <title>Admin Panel</title>
+<title>Admin Panel</title>
 
-    <link 
-    rel="stylesheet" 
-    href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 
-    <style>
+<style>
 
-        body {
-            margin: 0;
-            background: #0a0a0a;
-            color: white;
-            font-family: Arial;
-        }
+body {
+    margin:0;
+    background:#0a0a0a;
+    color:white;
+    font-family:Arial;
+}
 
-        header {
-            background: black;
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-        }
+header {
+    background:black;
+    padding:15px;
+    display:flex;
+    justify-content:space-between;
+}
 
-        .logout {
-            background: red;
-            padding: 8px 15px;
-            color: white;
-            text-decoration: none;
-        }
+.logout {
+    background:red;
+    padding:8px 15px;
+    color:white;
+    text-decoration:none;
+}
 
-        .container {
-            padding: 20px;
-        }
+.container {
+    padding:20px;
+}
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: #111;
-        }
+table {
+    width:100%;
+    border-collapse:collapse;
+    background:#111;
+}
 
-        th, td {
-            border: 1px solid #333;
-            padding: 10px;
-            text-align: center;
-        }
+th, td {
+    border:1px solid #333;
+    padding:10px;
+    text-align:center;
+}
 
-        th {
-            background: #222;
-        }
+th {
+    background:#222;
+}
 
-        img {
-            width: 80px;
-            border-radius: 5px;
-        }
+img {
+    width:80px;
+    border-radius:5px;
+}
 
-        #map {
-            height: 400px;
-            margin-top: 30px;
-            border-radius: 10px;
-        }
+#map {
+    height:450px;
+    margin-top:30px;
+    border-radius:10px;
+}
 
-    </style>
+.popup-img {
+    width:120px;
+    border-radius:5px;
+}
+
+</style>
 
 </head>
 
@@ -105,56 +115,56 @@ while($row = $mapData->fetch_assoc()) {
 
 <header>
 
-    <div>ADMIN PANEL</div>
+<div>ADMIN PANEL</div>
 
-    <a class="logout" href="logout.php">Logout</a>
+<a class="logout" href="logout.php">Logout</a>
 
 </header>
 
 <div class="container">
 
-    <h2>Data Pengunjung</h2>
+<h2>Data Pengunjung</h2>
 
-    <table>
+<table>
 
-        <tr>
-            <th>ID</th>
-            <th>IP</th>
-            <th>Lokasi</th>
-            <th>Perangkat</th>
-            <th>Foto</th>
-            <th>Waktu</th>
-        </tr>
+<tr>
+<th>ID</th>
+<th>IP</th>
+<th>Lokasi</th>
+<th>Perangkat</th>
+<th>Foto</th>
+<th>Waktu</th>
+</tr>
 
-        <?php while($row = $result->fetch_assoc()) { ?>
+<?php while($row = $result->fetch_assoc()) { ?>
 
-        <tr>
+<tr>
 
-            <td><?php echo $row['id']; ?></td>
+<td><?php echo $row['id']; ?></td>
 
-            <td><?php echo $row['ip_address']; ?></td>
+<td><?php echo $row['ip_address']; ?></td>
 
-            <td><?php echo $row['lokasi']; ?></td>
+<td><?php echo $row['lokasi']; ?></td>
 
-            <td style="font-size:12px">
-                <?php echo $row['perangkat']; ?>
-            </td>
+<td style="font-size:12px">
+<?php echo $row['perangkat']; ?>
+</td>
 
-            <td>
-                <img src="foto/<?php echo $row['foto']; ?>">
-            </td>
+<td>
+<img src="foto/<?php echo $row['foto']; ?>">
+</td>
 
-            <td><?php echo $row['waktu']; ?></td>
+<td><?php echo $row['waktu']; ?></td>
 
-        </tr>
+</tr>
 
-        <?php } ?>
+<?php } ?>
 
-    </table>
+</table>
 
-    <h2>Peta Lokasi Pengunjung</h2>
+<h2>Peta Lokasi Pengunjung</h2>
 
-    <div id="map"></div>
+<div id="map"></div>
 
 </div>
 
@@ -162,26 +172,35 @@ while($row = $mapData->fetch_assoc()) {
 
 <script>
 
-var map = L.map('map').setView([-6.2, 106.8], 5);
+var map = L.map('map').setView([-2.5, 118], 5);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: 'OpenStreetMap'
 }).addTo(map);
 
-var locations = <?php echo json_encode($locations); ?>;
+var data = <?php echo json_encode($locations); ?>;
 
-locations.forEach(function(loc) {
+data.forEach(function(user){
 
-    var parts = loc.split(",");
+    var parts = user.lokasi.split(",");
 
     var lat = parseFloat(parts[0]);
     var lng = parseFloat(parts[1]);
 
     if(!isNaN(lat) && !isNaN(lng)) {
 
+        var popup = `
+            <b>IP:</b> ${user.ip}<br>
+            <b>Lokasi:</b> ${user.lokasi}<br>
+            <b>Perangkat:</b><br>
+            <small>${user.perangkat}</small><br>
+            <b>Waktu:</b> ${user.waktu}<br><br>
+            <img class="popup-img" src="foto/${user.foto}">
+        `;
+
         L.marker([lat, lng])
         .addTo(map)
-        .bindPopup("Lokasi Pengunjung");
+        .bindPopup(popup);
 
     }
 
