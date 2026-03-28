@@ -1,7 +1,14 @@
 <?php
 
+session_start();
+
+if(!isset($_SESSION['admin'])) {
+    header("Location: login.php");
+    exit();
+}
+
 // ===============================
-// KONEKSI DATABASE
+// DATABASE
 // ===============================
 $host = "localhost";
 $user = "root";
@@ -10,40 +17,37 @@ $db   = "lacak_hp";
 
 $conn = new mysqli($host, $user, $pass, $db);
 
-if ($conn->connect_error) {
-    die("Koneksi gagal: " . $conn->connect_error);
-}
-
-// ===============================
-// AMBIL DATA
-// ===============================
 $result = $conn->query("SELECT * FROM pengunjung ORDER BY id DESC");
 
 ?>
 
 <!DOCTYPE html>
-<html lang="id">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel</title>
 
     <style>
 
         body {
             margin: 0;
-            font-family: Arial;
             background: #0a0a0a;
             color: white;
+            font-family: Arial;
         }
 
         header {
             background: black;
             padding: 15px;
-            text-align: center;
-            font-size: 20px;
-            border-bottom: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .logout {
+            background: red;
+            padding: 8px 15px;
+            color: white;
+            text-decoration: none;
         }
 
         .container {
@@ -57,8 +61,8 @@ $result = $conn->query("SELECT * FROM pengunjung ORDER BY id DESC");
         }
 
         th, td {
-            padding: 10px;
             border: 1px solid #333;
+            padding: 10px;
             text-align: center;
         }
 
@@ -71,27 +75,23 @@ $result = $conn->query("SELECT * FROM pengunjung ORDER BY id DESC");
             border-radius: 5px;
         }
 
-        .btn {
-            padding: 8px 15px;
-            background: #00ffcc;
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn:hover {
-            background: #00ccaa;
-        }
-
     </style>
+
 </head>
 
 <body>
 
 <header>
-    ADMIN PANEL - DATA PENGUNJUNG
+
+    <div>ADMIN PANEL</div>
+
+    <a class="logout" href="logout.php">Logout</a>
+
 </header>
 
 <div class="container">
+
+    <h2>Data Pengunjung</h2>
 
     <table>
 
@@ -133,4 +133,5 @@ $result = $conn->query("SELECT * FROM pengunjung ORDER BY id DESC");
 </div>
 
 </body>
+
 </html>
