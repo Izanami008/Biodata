@@ -188,3 +188,36 @@ span{
     background:white;
     color:black;
     }
+/* SETTINGS MENU ANIMATION */
+
+.settings-menu{
+    position:absolute;
+    top:60px;
+    left:0;
+    background:#161616;
+    padding:15px;
+    border-radius:10px;
+    flex-direction:column;
+    gap:10px;
+    box-shadow:0 0 15px #b74b4b;
+
+    opacity:0;
+    transform:translateY(-10px);
+    pointer-events:none;
+    transition:0.3s ease;
+}
+
+.settings-menu.show{
+    opacity:1;
+    transform:translateY(0);
+    pointer-events:auto;
+}
+
+/* HOVER EFFECT */
+
+.settings-menu button:hover,
+.settings-menu a:hover{
+    color:#b74b4b;
+    transform:translateX(5px);
+    transition:0.3s;
+}
