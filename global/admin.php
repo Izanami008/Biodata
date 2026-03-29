@@ -5,40 +5,26 @@ if (!isset($_SESSION['login'])) {
     header("Location: login.php");
     exit;
 }
-
-// koneksi database
-$conn = new mysqli("localhost", "root", "", "global");
-
-if ($conn->connect_error) {
-    die("Koneksi gagal");
-}
-
-// ambil data
-$data = $conn->query("SELECT * FROM perangkat ORDER BY id DESC");
-$total = $conn->query("SELECT COUNT(*) as jumlah FROM perangkat")->fetch_assoc()['jumlah'];
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
 
-<title>GLOBAL ADMIN</title>
-
+<title>Admin Dashboard</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<link rel="stylesheet" href="style.css">
 
 <style>
 
-body {
+body{
     margin:0;
-    font-family: Arial;
+    font-family:Arial;
     background:#0f172a;
     color:white;
 }
 
-header {
+.header{
     background:#020617;
     padding:15px;
     display:flex;
@@ -46,77 +32,58 @@ header {
     align-items:center;
 }
 
-.container {
+.sidebar{
+    width:200px;
+    background:#1e293b;
+    height:100vh;
+    position:fixed;
     padding:20px;
 }
 
-.card {
+.sidebar a{
+    display:block;
+    color:white;
+    padding:10px;
+    text-decoration:none;
+    margin-bottom:10px;
+    background:#334155;
+    border-radius:5px;
+}
+
+.sidebar a:hover{
+    background:#00ffcc;
+    color:black;
+}
+
+.main{
+    margin-left:220px;
+    padding:20px;
+}
+
+.card{
     background:#1e293b;
     padding:20px;
     border-radius:10px;
     margin-bottom:20px;
 }
 
-table {
-    width:100%;
-    border-collapse:collapse;
-}
-
-th {
-    background:#020617;
-    padding:10px;
-}
-
-td {
-    padding:10px;
-    border-bottom:1px solid #334155;
-}
-
-img {
-    width:80px;
-    border-radius:5px;
-}
-
-button {
-    padding:6px 12px;
+.logout{
+    background:orange;
+    padding:8px 15px;
     border:none;
     border-radius:5px;
     cursor:pointer;
 }
 
-.hapus {
-    background:red;
-    color:white;
-}
-
-.logout {
-    background:orange;
-}
-
-.hapus-semua {
-    background:crimson;
-    color:white;
-}
-
-#map {
-    height:400px;
-    border-radius:10px;
-}
-
 </style>
 
 </head>
+
 <body>
 
-<header>
+<div class="header">
 
 <h2>GLOBAL ADMIN</h2>
-
-<div>
-
-<a href="hapus_semua.php">
-<button class="hapus-semua">Hapus Semua</button>
-</a>
 
 <a href="logout.php">
 <button class="logout">Logout</button>
@@ -124,141 +91,38 @@ button {
 
 </div>
 
-</header>
+<div class="sidebar">
 
+<h3>Menu</h3>
 
-<div class="container">
+<a href="#">Dashboard</a>
+<a href="#">Data</a>
+<a href="#">Users</a>
+<a href="#">Settings</a>
 
-<!-- TOTAL -->
+</div>
+
+<div class="main">
+
 <div class="card">
-
-<h3>Total Perangkat</h3>
-<h1><?php echo $total; ?></h1>
-
+<h2>Selamat Datang Admin</h2>
+<p>Sistem dashboard siap digunakan.</p>
 </div>
 
-
-<!-- MAP -->
 <div class="card">
-
-<h3>Peta Lokasi Perangkat</h3>
-
-<div id="map"></div>
-
+<h3>Status Sistem</h3>
+<p>Server berjalan normal</p>
+<p>Database siap digunakan</p>
+<p>Project sedang dikembangkan</p>
 </div>
 
-
-<!-- TABEL -->
 <div class="card">
-
-<h3>Data Perangkat</h3>
-
-<table>
-
-<tr>
-<th>ID</th>
-<th>IP</th>
-<th>Device</th>
-<th>Platform</th>
-<th>Bahasa</th>
-<th>Waktu</th>
-<th>Lokasi</th>
-<th>Foto</th>
-<th>Aksi</th>
-</tr>
-
-<?php while($row = $data->fetch_assoc()) { ?>
-
-<tr>
-
-<td><?php echo $row['id']; ?></td>
-
-<td><?php echo $row['ip']; ?></td>
-
-<td><?php echo $row['device']; ?></td>
-
-<td><?php echo $row['platform']; ?></td>
-
-<td><?php echo $row['bahasa']; ?></td>
-
-<td><?php echo $row['waktu_server']; ?></td>
-
-<td>
-
-<?php echo $row['latitude']; ?> ,
-<?php echo $row['longitude']; ?>
-
-<br>
-
-<a target="_blank"
-href="https://www.google.com/maps?q=<?php echo $row['latitude']; ?>,<?php echo $row['longitude']; ?>">
-Lihat Map
-</a>
-
-</td>
-
-<td>
-
-<?php if($row['foto']!=""){ ?>
-
-<img src="foto/<?php echo $row['foto']; ?>">
-
-<?php } ?>
-
-</td>
-
-<td>
-
-<a href="hapus.php?id=<?php echo $row['id']; ?>">
-<button class="hapus">Hapus</button>
-</a>
-
-</td>
-
-</tr>
-
-<?php } ?>
-
-</table>
-
+<h3>Informasi</h3>
+<p>Ini adalah dashboard utama.</p>
+<p>Silakan tambahkan fitur sesuai kebutuhan.</p>
 </div>
 
 </div>
-
-
-<!-- MAP SCRIPT -->
-<script>
-
-var map = L.map('map').setView([-2.5,118],5);
-
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
-    attribution:'Map'
-}).addTo(map);
-
-<?php
-
-$dataMap = $conn->query("SELECT * FROM perangkat");
-
-while($m = $dataMap->fetch_assoc()){
-
-    if($m['latitude'] != "-" && $m['longitude'] != "-"){
-
-        echo "
-        L.marker([".$m['latitude'].", ".$m['longitude']."])
-        .addTo(map)
-        .bindPopup(
-        'IP: ".$m['ip']."<br>
-         Device: ".$m['platform']."<br>
-         Waktu: ".$m['waktu_server']."'
-        );
-        ";
-
-    }
-
-}
-?>
-
-</script>
 
 </body>
 </html>
