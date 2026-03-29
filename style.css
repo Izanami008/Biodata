@@ -385,3 +385,39 @@ header{
 .light-mode .settings-menu{
     background:white;
     }
+.contact{
+    padding-top:120px;
+    text-align:center;
+}
+
+.title{
+    font-size:3rem;
+    margin-bottom:40px;
+}
+
+.contact-container{
+    display:flex;
+    justify-content:center;
+    gap:40px;
+    flex-wrap:wrap;
+}
+
+.contact-form{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+    width:300px;
+}
+
+.contact-form input,
+.contact-form textarea{
+    padding:10px;
+    border-radius:8px;
+    border:1px solid #b74b4b;
+    background:#111;
+    color:white;
+}
+
+.contact-info{
+    margin-top:20px;
+    }
