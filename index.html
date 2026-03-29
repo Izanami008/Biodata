@@ -36,7 +36,7 @@
     <!-- SETTINGS -->
     <div class="settings">
 
-        <button onclick="toggleTheme()">🌙</button>
+        <button class="theme-btn" onclick="toggleTheme()">🌙</button>
 
         <a href="global/login.html" class="admin-btn">
             Login Admin
@@ -50,11 +50,10 @@
 
     <!-- VIDEO -->
     <video class="bg-video" autoplay muted loop playsinline>
-    <source src="video/video-pc.mp4" type="video/mp4">
-</video>
+        <source src="video/video-pc.mp4" type="video/mp4">
+    </video>
 
-<div class="overlay"></div>
-    </div>
+    <div class="overlay"></div>
 
     <!-- GAMBAR -->
     <div class="home-img">
@@ -75,11 +74,8 @@
         <div class="social-icons">
 
             <a href="#"><i class="fa-brands fa-linkedin"></i></a>
-
             <a href="#"><i class="fa-brands fa-github"></i></a>
-
             <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
-
             <a href="#"><i class="fa-brands fa-instagram"></i></a>
 
         </div>
@@ -92,6 +88,7 @@
 
 </section>
 
+<!-- typed.js -->
 <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
 
 <script>
@@ -110,7 +107,23 @@ var typed = new Typed(".typing", {
 
 });
 
+/* DARK LIGHT MODE */
+
+function toggleTheme() {
+
+    document.body.classList.toggle("light-mode");
+
+    let btn = document.querySelector(".theme-btn");
+
+    if(document.body.classList.contains("light-mode")){
+        btn.innerHTML = "☀️";
+    } else {
+        btn.innerHTML = "🌙";
+    }
+
+}
+
 </script>
 
 </body>
-    </html>
+            </html>
