@@ -1,63 +1,62 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Memuat Data...</title>
 
-    <style>
-        body {
-            margin: 0;
-            background: black;
-            color: white;
-            font-family: Arial;
-            text-align: center;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        #loading {
-            position: absolute;
-            top: 40%;
-            width: 100%;
-        }
+<title>Global System</title>
 
-        .loader {
-            border: 5px solid #222;
-            border-top: 5px solid #00ffcc;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            margin: auto;
-            animation: spin 1s linear infinite;
-        }
+<style>
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+body{
+    margin:0;
+    font-family:Arial;
+    background:#0f172a;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
 
-        video {
-            width: 100%;
-            height: 100vh;
-            object-fit: cover;
-            display: none;
-        }
-    </style>
+.box{
+    background:#1e293b;
+    padding:40px;
+    border-radius:10px;
+    text-align:center;
+}
+
+button{
+    padding:12px 20px;
+    border:none;
+    background:#00ffcc;
+    color:black;
+    border-radius:6px;
+    cursor:pointer;
+    font-size:16px;
+}
+
+button:hover{
+    background:#00ccaa;
+}
+
+</style>
+
 </head>
-
 <body>
 
-<div id="loading">
-    <div class="loader"></div>
-    <p>Loading system...</p>
+<div class="box">
+
+<h1>GLOBAL SYSTEM</h1>
+
+<p>Silakan login untuk masuk ke sistem</p>
+
+<a href="login.php">
+<button>Masuk Admin</button>
+</a>
+
 </div>
-
-<video id="introVideo" muted playsinline>
-    <source src="snaptik_7471007582593813765.mp4" type="video/mp4">
-</video>
-
-<canvas id="canvas" style="display:none;"></canvas>
-
-<script src="script.js"></script>
 
 </body>
 </html>
