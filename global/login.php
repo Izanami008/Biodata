@@ -1,91 +1,87 @@
 <?php
 session_start();
 
-$username = "admin";
-$password = "12345";
+if(isset($_POST['login'])){
 
-if(isset($_POST['login'])) {
+    $user = $_POST['user'];
+    $pass = $_POST['pass'];
 
-    if($_POST['username'] == $username && $_POST['password'] == $password) {
+    if($user == "admin" && $pass == "123"){
 
-        $_SESSION['admin'] = true;
+        $_SESSION['login'] = true;
         header("Location: admin.php");
-        exit();
 
     } else {
-        $error = "Username atau password salah!";
+
+        $error = "Username atau password salah";
+
     }
 }
 ?>
 
 <!DOCTYPE html>
 <html>
-
 <head>
-    <title>Login Admin</title>
 
-    <style>
+<title>Login Admin</title>
 
-        body {
-            background: black;
-            color: white;
-            font-family: Arial;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+<style>
 
-        .box {
-            background: #111;
-            padding: 30px;
-            border-radius: 10px;
-            width: 300px;
-            text-align: center;
-        }
+body{
+    background:#0f172a;
+    color:white;
+    font-family:Arial;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
 
-        input {
-            width: 100%;
-            padding: 10px;
-            margin-top: 10px;
-            background: black;
-            border: 1px solid #333;
-            color: white;
-        }
+.box{
+    background:#1e293b;
+    padding:30px;
+    border-radius:10px;
+}
 
-        button {
-            margin-top: 15px;
-            padding: 10px;
-            width: 100%;
-            background: #00ffcc;
-            border: none;
-            cursor: pointer;
-        }
+input{
+    padding:10px;
+    margin:10px 0;
+    width:100%;
+}
 
-    </style>
+button{
+    padding:10px;
+    width:100%;
+    background:#00ffcc;
+    border:none;
+}
+
+.error{
+    color:red;
+}
+
+</style>
 
 </head>
-
 <body>
 
 <div class="box">
 
-    <h2>Login Admin</h2>
+<h2>Login Admin</h2>
 
-    <?php if(isset($error)) echo $error; ?>
+<?php if(isset($error)) echo "<p class='error'>$error</p>"; ?>
 
-    <form method="POST">
+<form method="post">
 
-        <input type="text" name="username" placeholder="Username" required>
+<input type="text" name="user" placeholder="Username">
 
-        <input type="password" name="password" placeholder="Password" required>
+<input type="password" name="pass" placeholder="Password">
 
-        <button name="login">Login</button>
+<button name="login">Login</button>
 
-    </form>
+</form>
 
 </div>
 
 </body>
-
 </html>
