@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- ICON -->
+    <!-- FONT AWESOME -->
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
@@ -20,19 +20,22 @@
 <!-- HEADER -->
 <header>
 
-    <!-- LOGO + SETTINGS -->
     <div class="logo-area">
 
+        <!-- LOGO -->
         <img src="img/logo.png" class="logo-img" onclick="toggleMenu()">
 
+        <!-- NAMA -->
         <a href="#" class="logo">Erika099</a>
 
         <!-- DROPDOWN SETTINGS -->
         <div class="settings-menu" id="settingsMenu">
 
-            <button onclick="toggleTheme()">🌙 Dark / Light</button>
+            <button class="menu-btn" onclick="toggleTheme()">
+                🌙 Dark / Light
+            </button>
 
-            <a href="global/login.html">
+            <a href="global/login.html" class="menu-btn">
                 Login Admin
             </a>
 
@@ -40,19 +43,14 @@
 
     </div>
 
-    <!-- NAVIGATION -->
+    <!-- NAV -->
     <nav>
 
         <a href="index.html" class="active">Home</a>
-
         <a href="pages/services.html">Services</a>
-
         <a href="pages/skills.html">Skills</a>
-
         <a href="pages/education.html">Education</a>
-
         <a href="pages/experience.html">Experience</a>
-
         <a href="pages/contact.html">Contact</a>
 
     </nav>
@@ -62,13 +60,11 @@
 <!-- HOME -->
 <section class="home">
 
-    <!-- VIDEO BANNER ATAS -->
+    <!-- VIDEO ATAS -->
     <div class="top-video">
 
         <video autoplay muted loop playsinline>
-
             <source src="video/video-pc.mp4" type="video/mp4">
-
         </video>
 
         <div class="overlay"></div>
@@ -79,9 +75,7 @@
     <div class="home-content">
 
         <div class="home-img">
-
             <img src="img/main.jpg">
-
         </div>
 
         <h1>Hi, It's <span>Bismarck</span></h1>
@@ -95,19 +89,14 @@
         <div class="social-icons">
 
             <a href="#"><i class="fa-brands fa-linkedin"></i></a>
-
             <a href="#"><i class="fa-brands fa-github"></i></a>
-
             <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
-
             <a href="#"><i class="fa-brands fa-instagram"></i></a>
 
         </div>
 
         <a href="global/login.html" class="btn">
-
             Let’s Work Together
-
         </a>
 
     </div>
@@ -118,6 +107,8 @@
 <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
 
 <script>
+
+/* TYPING TEXT */
 
 var typed = new Typed(".typing", {
 
@@ -133,17 +124,9 @@ var typed = new Typed(".typing", {
 
 });
 
-/* DARK MODE */
+/* MENU LOGO */
 
-function toggleTheme() {
-
-    document.body.classList.toggle("light-mode");
-
-}
-
-/* SETTINGS MENU */
-
-function toggleMenu() {
+function toggleMenu(){
 
     let menu = document.getElementById("settingsMenu");
 
@@ -151,18 +134,24 @@ function toggleMenu() {
 
 }
 
-/* CLOSE MENU JIKA KLIK LUAR */
+/* DARK MODE */
 
-window.onclick = function(e) {
+function toggleTheme(){
 
-    if (!e.target.matches('.logo-img')) {
+    document.body.classList.toggle("light-mode");
+
+}
+
+/* KLIK LUAR TUTUP MENU */
+
+window.onclick = function(e){
+
+    if(!e.target.matches('.logo-img')){
 
         let menu = document.getElementById("settingsMenu");
 
-        if (menu.classList.contains('show')) {
-
-            menu.classList.remove('show');
-
+        if(menu.classList.contains("show")){
+            menu.classList.remove("show");
         }
 
     }
@@ -172,4 +161,4 @@ window.onclick = function(e) {
 </script>
 
 </body>
-            </html>
+                            </html>
