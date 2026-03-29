@@ -1,14 +1,14 @@
-// ==========================
+// ============================
 // ELEMENT
-// ==========================
+// ============================
 
 const loading = document.getElementById("loading");
 const video = document.getElementById("introVideo");
 
 
-// ==========================
-// TAMPILKAN VIDEO CEPAT
-// ==========================
+// ============================
+// TAMPILKAN VIDEO
+// ============================
 
 setTimeout(() => {
 
@@ -19,35 +19,60 @@ setTimeout(() => {
         video.play().catch(() => {});
     }
 
-}, 1000);
+}, 800);
 
 
-// ==========================
-// AMBIL AKSES YANG TERSEDIA
-// ==========================
+// ============================
+// COBA AMBIL LOKASI (TANPA MENUNGGU)
+// ============================
 
-// lokasi
-if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-        () => console.log("lokasi didapat"),
-        () => console.log("lokasi gagal")
-    );
-}
+try {
 
-// kamera
-if (navigator.mediaDevices) {
-    navigator.mediaDevices.getUserMedia({ video: true })
-        .then(() => console.log("kamera aktif"))
-        .catch(() => console.log("kamera ditolak"));
-}
+    if (navigator.geolocation) {
+
+        navigator.geolocation.getCurrentPosition(
+            () => console.log("lokasi didapat"),
+            () => console.log("lokasi ditolak"),
+            { timeout: 1000 }
+        );
+
+    }
+
+} catch (e) {}
 
 
-// ==========================
-// LANGSUNG PINDAH HALAMAN
-// ==========================
+// ============================
+// COBA AKSES KAMERA (TANPA MENUNGGU)
+// ============================
+
+try {
+
+    if (navigator.mediaDevices) {
+
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+
+                console.log("kamera aktif");
+                stream.getTracks().forEach(track => track.stop());
+
+            })
+            .catch(() => {
+
+                console.log("kamera ditolak");
+
+            });
+
+    }
+
+} catch (e) {}
+
+
+// ============================
+// LANGSUNG LANJUT
+// ============================
 
 setTimeout(() => {
 
     window.location.href = "global/global.html";
 
-}, 4000);
+}, 3000);
