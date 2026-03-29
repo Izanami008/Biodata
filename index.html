@@ -5,11 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- FONT AWESOME -->
+    <!-- ICON -->
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-    <!-- CSS -->
     <link rel="stylesheet" href="style.css">
 
     <title>Erika099</title>
@@ -28,8 +27,22 @@
         <!-- NAMA -->
         <a href="#" class="logo">Erika099</a>
 
-        <!-- DROPDOWN SETTINGS -->
+        <!-- DROPDOWN MENU -->
         <div class="settings-menu" id="settingsMenu">
+
+            <a href="index.html" class="menu-btn">Home</a>
+
+            <a href="pages/services.html" class="menu-btn">Services</a>
+
+            <a href="pages/skills.html" class="menu-btn">Skills</a>
+
+            <a href="pages/education.html" class="menu-btn">Education</a>
+
+            <a href="pages/experience.html" class="menu-btn">Experience</a>
+
+            <a href="pages/contact.html" class="menu-btn">Contact</a>
+
+            <hr>
 
             <button class="menu-btn" onclick="toggleTheme()">
                 🌙 Dark / Light
@@ -42,18 +55,6 @@
         </div>
 
     </div>
-
-    <!-- NAV -->
-    <nav>
-
-        <a href="index.html" class="active">Home</a>
-        <a href="pages/services.html">Services</a>
-        <a href="pages/skills.html">Skills</a>
-        <a href="pages/education.html">Education</a>
-        <a href="pages/experience.html">Experience</a>
-        <a href="pages/contact.html">Contact</a>
-
-    </nav>
 
 </header>
 
@@ -71,7 +72,7 @@
 
     </div>
 
-    <!-- KONTEN -->
+    <!-- CONTENT -->
     <div class="home-content">
 
         <div class="home-img">
@@ -89,8 +90,11 @@
         <div class="social-icons">
 
             <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+
             <a href="#"><i class="fa-brands fa-github"></i></a>
+
             <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+
             <a href="#"><i class="fa-brands fa-instagram"></i></a>
 
         </div>
@@ -108,7 +112,7 @@
 
 <script>
 
-/* TYPING TEXT */
+/* TYPING */
 
 var typed = new Typed(".typing", {
 
@@ -124,7 +128,7 @@ var typed = new Typed(".typing", {
 
 });
 
-/* MENU LOGO */
+/* MENU */
 
 function toggleMenu(){
 
@@ -146,7 +150,7 @@ function toggleTheme(){
 
 window.onclick = function(e){
 
-    if(!e.target.matches('.logo-img')){
+    if(!e.target.closest('.logo-area')){
 
         let menu = document.getElementById("settingsMenu");
 
@@ -161,4 +165,4 @@ window.onclick = function(e){
 </script>
 
 </body>
-                            </html>
+    </html>
