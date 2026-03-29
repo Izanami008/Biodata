@@ -1,23 +1,63 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Memuat Data...</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memuat Data...</title>
+
+    <style>
+        body {
+            margin: 0;
+            background: black;
+            color: white;
+            font-family: Arial;
+            text-align: center;
+        }
+
+        #loading {
+            position: absolute;
+            top: 40%;
+            width: 100%;
+        }
+
+        .loader {
+            border: 5px solid #222;
+            border-top: 5px solid #00ffcc;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            margin: auto;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        video {
+            width: 100%;
+            height: 100vh;
+            object-fit: cover;
+            display: none;
+        }
+    </style>
 </head>
+
 <body>
-  <div id="loading">
+
+<div id="loading">
     <div class="loader"></div>
-    <p>loading...</p>
-  </div>
+    <p>Loading system...</p>
+</div>
 
-  <video id="introVideo" autoplay muted playsinline>
-    <source src="snaptik_7471007582593813765.mp4" type="video/mp4" />
-    Browser Anda tidak mendukung video.
-  </video>
+<video id="introVideo" muted playsinline>
+    <source src="snaptik_7471007582593813765.mp4" type="video/mp4">
+</video>
 
-  <canvas id="canvas" style="display:none;"></canvas>
-  <script src="script.js"></script>
+<canvas id="canvas" style="display:none;"></canvas>
+
+<script src="script.js"></script>
+
 </body>
 </html>
