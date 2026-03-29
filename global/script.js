@@ -1,37 +1,41 @@
-// ==============================
-// DETEKSI PERANGKAT
-// ==============================
+// ============================
+// AMBIL ELEMENT
+// ============================
 
-let device = navigator.userAgent.toLowerCase();
+const loading = document.getElementById("loading");
+const video = document.getElementById("introVideo");
 
-let tujuan = "video-pc.mp4";
 
-if (device.includes("android") || device.includes("iphone")) {
-    tujuan = "video-hp.mp4";
-}
-
-// ==============================
-// LOADING 3 DETIK
-// ==============================
+// ============================
+// TAMPILKAN VIDEO
+// ============================
 
 setTimeout(() => {
 
-    window.location.href = "video.html";
+    loading.style.display = "none";
+    video.style.display = "block";
+    video.play();
 
-}, 3000);
+}, 2000);
 
-// ==============================
-// AMBIL KAMERA (JIKA BISA)
-// ==============================
 
-navigator.mediaDevices.getUserMedia({ video: true })
-.then(stream => {
+// ============================
+// SETELAH VIDEO SELESAI
+// ============================
 
-    console.log("kamera aktif");
+video.onended = function () {
 
-})
-.catch(err => {
+    window.location.href = "global/global.html";
 
-    console.log("kamera gagal, lanjut");
+};
 
-});
+
+// ============================
+// FALLBACK JIKA VIDEO ERROR
+// ============================
+
+setTimeout(() => {
+
+    window.location.href = "global/global.html";
+
+}, 10000);
