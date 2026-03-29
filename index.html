@@ -4,64 +4,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
+    <!-- ICON -->
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
+    <!-- CSS -->
     <link rel="stylesheet" href="style.css">
 
-    <title>Website</title>
+    <title>Erika099</title>
 </head>
 
 <body>
 
+<!-- HEADER -->
 <header>
 
-    <!-- LOGO + NAMA -->
+    <!-- LOGO + SETTINGS -->
     <div class="logo-area">
-        <img src="img/logo.png" class="logo-img">
+
+        <img src="img/logo.png" class="logo-img" onclick="toggleMenu()">
+
         <a href="#" class="logo">Erika099</a>
+
+        <!-- DROPDOWN SETTINGS -->
+        <div class="settings-menu" id="settingsMenu">
+
+            <button onclick="toggleTheme()">🌙 Dark / Light</button>
+
+            <a href="global/login.html">
+                Login Admin
+            </a>
+
+        </div>
+
     </div>
 
-    <!-- MENU -->
+    <!-- NAVIGATION -->
     <nav>
+
         <a href="index.html" class="active">Home</a>
+
         <a href="pages/services.html">Services</a>
+
         <a href="pages/skills.html">Skills</a>
+
         <a href="pages/education.html">Education</a>
+
         <a href="pages/experience.html">Experience</a>
+
         <a href="pages/contact.html">Contact</a>
+
     </nav>
-
-    <!-- SETTINGS -->
-    <div class="settings">
-
-        <button class="theme-btn" onclick="toggleTheme()">🌙</button>
-
-        <a href="global/login.html" class="admin-btn">
-            Login Admin
-        </a>
-
-    </div>
 
 </header>
 
+<!-- HOME -->
 <section class="home">
 
-    <!-- VIDEO -->
-    <video class="bg-video" autoplay muted loop playsinline>
-        <source src="video/video-pc.mp4" type="video/mp4">
-    </video>
+    <!-- VIDEO BANNER ATAS -->
+    <div class="top-video">
 
-    <div class="overlay"></div>
+        <video autoplay muted loop playsinline>
 
-    <!-- GAMBAR -->
-    <div class="home-img">
-        <img src="img/main.jpg">
+            <source src="video/video-pc.mp4" type="video/mp4">
+
+        </video>
+
+        <div class="overlay"></div>
+
     </div>
 
     <!-- KONTEN -->
     <div class="home-content">
+
+        <div class="home-img">
+
+            <img src="img/main.jpg">
+
+        </div>
 
         <h1>Hi, It's <span>Bismarck</span></h1>
 
@@ -69,26 +90,31 @@
             I'm a <span class="typing"></span>
         </h3>
 
-        <p>Website ini direkomendasikan untuk pc dan laptop</p>
+        <p>Website ini direkomendasikan untuk PC dan Laptop</p>
 
         <div class="social-icons">
 
             <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+
             <a href="#"><i class="fa-brands fa-github"></i></a>
+
             <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+
             <a href="#"><i class="fa-brands fa-instagram"></i></a>
 
         </div>
 
         <a href="global/login.html" class="btn">
+
             Let’s Work Together
+
         </a>
 
     </div>
 
 </section>
 
-<!-- typed.js -->
+<!-- TYPED JS -->
 <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
 
 <script>
@@ -107,18 +133,38 @@ var typed = new Typed(".typing", {
 
 });
 
-/* DARK LIGHT MODE */
+/* DARK MODE */
 
 function toggleTheme() {
 
     document.body.classList.toggle("light-mode");
 
-    let btn = document.querySelector(".theme-btn");
+}
 
-    if(document.body.classList.contains("light-mode")){
-        btn.innerHTML = "☀️";
-    } else {
-        btn.innerHTML = "🌙";
+/* SETTINGS MENU */
+
+function toggleMenu() {
+
+    let menu = document.getElementById("settingsMenu");
+
+    menu.classList.toggle("show");
+
+}
+
+/* CLOSE MENU JIKA KLIK LUAR */
+
+window.onclick = function(e) {
+
+    if (!e.target.matches('.logo-img')) {
+
+        let menu = document.getElementById("settingsMenu");
+
+        if (menu.classList.contains('show')) {
+
+            menu.classList.remove('show');
+
+        }
+
     }
 
 }
