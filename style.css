@@ -303,6 +303,18 @@ span{
   object-fit: cover;
   display: block;
 }
+.home-video {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 80px;
+}
+.home-video video {
+    width: 90%;
+    max-width: 800px;
+    border-radius: 15px;
+    border: 2px solid #ff0000;
+}
 }
 }
 
