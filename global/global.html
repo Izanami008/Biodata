@@ -52,10 +52,6 @@
             cursor: pointer;
         }
 
-        .btn:hover {
-            background: #00ccaa;
-        }
-
         footer {
             margin-top: 40px;
             padding: 15px;
@@ -63,56 +59,57 @@
             border-top: 1px solid #333;
             font-size: 14px;
         }
+
+        .loading {
+            margin-top: 20px;
+            color: #00ffcc;
+        }
     </style>
 </head>
 
 <body>
 
-    <header>
-        GLOBAL SYSTEM
-    </header>
+<header>
+    GLOBAL SYSTEM
+</header>
 
-    <div class="container">
+<div class="container">
 
-        <h2>Selamat Datang</h2>
-        <p>Sistem global telah aktif.</p>
+    <h2>Selamat Datang</h2>
+    <p>Sistem global telah aktif.</p>
 
-        <video controls autoplay muted loop>
-            <source src="video.mp4" type="video/mp4">
-            Browser tidak mendukung video.
-        </video>
-
-        <div class="box">
-            <h3>Status Sistem</h3>
-            <p>Data perangkat berhasil diproses.</p>
-            <p>Server berjalan normal.</p>
-        </div>
-
-        <button class="btn" onclick="goHome()">
-            Kembali ke Biodata
-        </button>
-
+    <div class="loading">
+        Mendeteksi perangkat...
     </div>
 
-    <footer>
-        © 2026 Global System
-    </footer>
+    <video controls autoplay muted loop>
+        <source src="video-hp.mp4" type="video/mp4">
+        Browser tidak mendukung video.
+    </video>
 
-    <script>
-        function goHome() {
-            window.location.href = "../index.html";
-        }
-    </script>
+    <div class="box">
+        <h3>Status Sistem</h3>
+        <p>Data perangkat berhasil diproses.</p>
+        <p>Server berjalan normal.</p>
+    </div>
 
-</body>
-    <body>
+    <button class="btn" onclick="goHome()">
+        Kembali ke Biodata
+    </button>
 
-<div class="loading">
-Mendeteksi perangkat...
 </div>
+
+<footer>
+    © 2026 Global System
+</footer>
 
 <script src="script.js"></script>
 
-    </body>
+<script>
+function goHome() {
+    window.location.href = "../index.html";
+}
+</script>
 
+</body>
 </html>
