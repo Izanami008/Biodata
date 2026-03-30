@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- ICON -->
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<title>VELR ZARTX</title>
 
-    <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css">
 
-    <title>Erika099</title>
+<!-- THREE JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/controls/OrbitControls.js"></script>
+
 </head>
 
 <body>
@@ -21,82 +21,62 @@
 
     <div class="logo-area">
 
-        <img src="img/logo.png" class="logo-img" onclick="toggleMenu()">
+        <img src="profil.jpg" class="logo-img" onclick="toggleMenu()">
 
-        <a href="#" class="logo">Erika099</a>
+        <h2 class="logo">VELR</h2>
 
-        <div class="settings-menu" id="settingsMenu">
+        <div class="settings-menu" id="menu">
 
-            <a href="index.html" class="menu-btn">Home</a>
-            <a href="pages/services.html" class="menu-btn">Services</a>
-            <a href="pages/skills.html" class="menu-btn">Skills</a>
-            <a href="pages/education.html" class="menu-btn">Education</a>
-            <a href="pages/experience.html" class="menu-btn">Experience</a>
-            <a href="pages/contact.html" class="menu-btn">Contact</a>
+            <a href="#home" class="menu-btn">Home</a>
+            <a href="#contact" class="menu-btn">Contact</a>
 
-            <hr>
-
-            <button class="menu-btn" onclick="toggleTheme()">
-                🌙 Dark / Light
+            <button onclick="toggleMode()" class="menu-btn">
+                Light / Dark Mode
             </button>
 
-            <a href="global/login.html" class="menu-btn">
-                Login Admin
+            <a href="login.html" class="menu-btn">
+                Logout
             </a>
 
         </div>
 
     </div>
 
+    <nav>
+
+        <a href="#home">Home</a>
+        <a href="#contact">Contact</a>
+
+    </nav>
+
 </header>
 
 <!-- HOME -->
-<section class="home">
+<section class="home" id="home">
 
     <!-- VIDEO -->
     <div class="top-video">
-
-        <video autoplay muted loop playsinline>
-            <source src="video/video-pc.mp4" type="video/mp4">
+        <video autoplay muted loop>
+            <source src="video.mp4" type="video/mp4">
         </video>
-
         <div class="overlay"></div>
-
     </div>
 
     <!-- CONTENT -->
     <div class="home-content">
 
         <div class="home-img">
-            <img src="img/main.jpg">
+            <img src="profil.jpg">
         </div>
 
-        <h1>Hi, It's <span>Bismarck</span></h1>
+        <h1>Hello, I'm <span>VELR ZARTX</span></h1>
 
-        <h3 class="typing-text">
-            I'm a <span class="typing"></span>
-        </h3>
+        <p class="typing-text">
+            Web Developer | Cyber Security | Programmer
+        </p>
 
-        <p>Website ini direkomendasikan untuk PC dan Laptop</p>
-
-        <div class="social-icons">
-
-            <a href="https://youtube.com/@kingofbismarck" target="_blank">
-                <i class="fa-brands fa-youtube"></i>
-            </a>
-
-            <a href="https://x.com/I443570I" target="_blank">
-                <i class="fa-brands fa-x-twitter"></i>
-            </a>
-
-            <a href="https://www.instagram.com/izanami_8888" target="_blank">
-                <i class="fa-brands fa-instagram"></i>
-            </a>
-
-        </div>
-
-        <a href="global/login.html" class="btn">
-            Let’s Work Together
+        <a href="#contact" class="btn">
+            Contact Me
         </a>
 
         <!-- GLOBE -->
@@ -106,85 +86,275 @@
 
 </section>
 
-<!-- TYPED JS -->
-<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+<!-- CONTACT -->
+<section class="contact" id="contact">
+
+    <h1 class="title">Contact <span>Me</span></h1>
+
+    <div class="contact-container">
+
+        <form class="contact-form"
+        action="https://api.whatsapp.com/send"
+        method="get"
+        target="_blank">
+
+            <input
+            type="text"
+            name="text"
+            placeholder="Nama Anda"
+            required>
+
+            <input
+            type="text"
+            placeholder="Pesan"
+            required
+            oninput="this.form.text.value=this.value">
+
+            <button class="send-btn">
+                Kirim WhatsApp
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+<!-- ================= SCRIPT ================= -->
 
 <script>
-var typed = new Typed(".typing", {
-    strings: [
-        "Script Writer",
-        "Web Developer",
-        "Designer"
-    ],
-    typeSpeed: 100,
-    backSpeed: 50,
-    loop: true
-});
 
 /* MENU */
+
 function toggleMenu(){
-    let menu = document.getElementById("settingsMenu");
-    menu.classList.toggle("show");
+
+    document
+    .getElementById("menu")
+    .classList.toggle("show");
 }
 
-/* DARK MODE */
-function toggleTheme(){
-    document.body.classList.toggle("light-mode");
+/* LIGHT MODE */
+
+function toggleMode(){
+
+    document.body
+    .classList.toggle("light-mode");
 }
 
-/* KLIK LUAR */
-window.onclick = function(e){
-    if(!e.target.closest('.logo-area')){
-        let menu = document.getElementById("settingsMenu");
-        if(menu.classList.contains("show")){
-            menu.classList.remove("show");
-        }
-    }
-}
-</script>
-
-<!-- THREE JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
-<script>
+/* ================= GLOBE ================= */
 
 const scene = new THREE.Scene();
 
 const camera = new THREE.PerspectiveCamera(
-  75,
-  300 / 300,
-  0.1,
-  1000
+75,
+300/300,
+0.1,
+1000
 );
 
-const renderer = new THREE.WebGLRenderer({ alpha: true });
-renderer.setSize(300, 300);
+const renderer = new THREE.WebGLRenderer({alpha:true});
+renderer.setSize(300,300);
+renderer.setPixelRatio(window.devicePixelRatio);
 
 document
-  .getElementById("globe-container")
-  .appendChild(renderer.domElement);
+.getElementById("globe-container")
+.appendChild(renderer.domElement);
 
-const geometry = new THREE.SphereGeometry(2, 32, 32);
+/* CONTROL */
 
-const material = new THREE.MeshBasicMaterial({
-  color: 0x00aaff,
-  wireframe: true
-});
+const controls =
+new THREE.OrbitControls(
+camera,
+renderer.domElement
+);
 
-const globe = new THREE.Mesh(geometry, material);
+controls.enableZoom = true;
+controls.enablePan = false;
+controls.autoRotate = true;
+controls.autoRotateSpeed = 1.2;
+
+/* LIGHT */
+
+const light =
+new THREE.PointLight(0xff0000,2);
+
+light.position.set(5,5,5);
+scene.add(light);
+
+const ambient =
+new THREE.AmbientLight(0xff4d4d,1);
+
+scene.add(ambient);
+
+/* EARTH */
+
+const loader =
+new THREE.TextureLoader();
+
+const earthTexture =
+loader.load(
+"https://threejsfundamentals.org/threejs/resources/images/earth-day.jpg"
+);
+
+const globe =
+new THREE.Mesh(
+
+new THREE.SphereGeometry(2,64,64),
+
+new THREE.MeshStandardMaterial({
+
+map:earthTexture,
+emissive:0xb74b4b,
+emissiveIntensity:0.3
+
+})
+
+);
 
 scene.add(globe);
 
-camera.position.z = 5;
+/* GLOW */
 
-function animate() {
+const glow =
+new THREE.Mesh(
 
-  requestAnimationFrame(animate);
+new THREE.SphereGeometry(2.15,64,64),
 
-  globe.rotation.y += 0.01;
-  globe.rotation.x += 0.005;
+new THREE.MeshBasicMaterial({
 
-  renderer.render(scene, camera);
+color:0xff0000,
+transparent:true,
+opacity:0.15
+
+})
+
+);
+
+scene.add(glow);
+
+/* STARS */
+
+const starsGeometry =
+new THREE.BufferGeometry();
+
+const starsMaterial =
+new THREE.PointsMaterial({color:0xffffff});
+
+const starsVertices = [];
+
+for(let i=0;i<2000;i++){
+
+starsVertices.push(
+(Math.random()-0.5)*2000,
+(Math.random()-0.5)*2000,
+(Math.random()-0.5)*2000
+);
+
+}
+
+starsGeometry.setAttribute(
+'position',
+new THREE.Float32BufferAttribute(
+starsVertices,
+3
+)
+);
+
+const stars =
+new THREE.Points(
+starsGeometry,
+starsMaterial
+);
+
+scene.add(stars);
+
+/* CITY */
+
+function createCity(lat,lon){
+
+const r = 2;
+
+const phi = (90-lat)*(Math.PI/180);
+const theta = (lon+180)*(Math.PI/180);
+
+const x = -(r*Math.sin(phi)*Math.cos(theta));
+const y = r*Math.cos(phi);
+const z = r*Math.sin(phi)*Math.sin(theta);
+
+const city =
+new THREE.Mesh(
+
+new THREE.SphereGeometry(0.05,16,16),
+
+new THREE.MeshBasicMaterial({color:0xff0000})
+
+);
+
+city.position.set(x,y,z);
+
+scene.add(city);
+
+return city.position;
+
+}
+
+const jakarta = createCity(-6.2,106.8);
+const tokyo = createCity(35.6,139.6);
+const london = createCity(51.5,-0.1);
+
+/* CURVE */
+
+function createCurve(a,b){
+
+const curve =
+new THREE.QuadraticBezierCurve3(
+a,
+new THREE.Vector3(0,3,0),
+b
+);
+
+const points =
+curve.getPoints(50);
+
+const geometry =
+new THREE.BufferGeometry()
+.setFromPoints(points);
+
+const material =
+new THREE.LineBasicMaterial({
+color:0xff0000
+});
+
+const line =
+new THREE.Line(
+geometry,
+material
+);
+
+scene.add(line);
+
+}
+
+createCurve(jakarta,tokyo);
+createCurve(jakarta,london);
+
+/* CAMERA */
+
+camera.position.z = 6;
+
+/* ANIMATE */
+
+function animate(){
+
+requestAnimationFrame(animate);
+
+glow.rotation.y += 0.002;
+stars.rotation.y += 0.0005;
+
+controls.update();
+
+renderer.render(scene,camera);
+
 }
 
 animate();
