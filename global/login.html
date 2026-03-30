@@ -11,8 +11,9 @@ body{background:#0f172a;color:white;font-family:Arial;display:flex;justify-conte
 input[type="text"], input[type="password"]{padding:12px;margin:10px 0;width:100%;border-radius:8px;border:none;outline:none;}
 button{padding:12px;width:100%;margin-top:10px;background:#00ffcc;border:none;border-radius:8px;font-weight:bold;cursor:pointer;}
 .error{color:red;margin-bottom:10px;}
-p.register-text, p.home-text{margin-top:15px;}
-p.register-text a, p.home-text a{color:#00ffcc;text-decoration:none;font-weight:bold;}
+p.register-text{margin-top:15px;}
+p.register-text a{color:#00ffcc;text-decoration:none;font-weight:bold;}
+.home-icon{display:block;margin:20px auto 0;font-size:30px;color:#00ffcc;text-decoration:none;}
 .profile-img{width:80px;height:80px;border-radius:50%;object-fit:cover;margin-bottom:15px;border:2px solid #00ffcc;}
 </style>
 </head>
@@ -30,7 +31,10 @@ p.register-text a, p.home-text a{color:#00ffcc;text-decoration:none;font-weight:
 </form>
 
 <p class="register-text">Belum punya akun? <a href="register.html">Register</a></p>
-<p class="home-text"><a href="../index.html">Kembali ke Halaman Utama</a></p>
+
+<!-- Home icon -->
+<a href="../index.html" class="home-icon" title="Halaman Utama">🏠</a>
+
 </div>
 
 <script>
