@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login Admin</title>
+<title>Login</title>
 <style>
 body{
     background:#0f172a;
@@ -16,30 +16,52 @@ body{
 }
 .box{
     background:#1e293b;
-    padding:30px;
-    border-radius:10px;
-    width:300px;
+    padding:40px;
+    border-radius:15px;
+    width:350px;
+    box-shadow:0 0 20px rgba(0,255,204,0.3);
+    text-align:center;
 }
-input{
-    padding:10px;
+.box h2{
+    margin-bottom:20px;
+}
+input[type="text"], input[type="password"]{
+    padding:12px;
     margin:10px 0;
     width:100%;
-    border-radius:5px;
+    border-radius:8px;
     border:none;
+    outline:none;
 }
 button{
-    padding:10px;
+    padding:12px;
     width:100%;
+    margin-top:10px;
     background:#00ffcc;
     border:none;
-    cursor:pointer;
-    border-radius:5px;
+    border-radius:8px;
     font-weight:bold;
+    cursor:pointer;
 }
 .error{
     color:red;
     margin-bottom:10px;
-    text-align:center;
+}
+p.register-text{
+    margin-top:15px;
+}
+p.register-text a{
+    color:#00ffcc;
+    text-decoration:none;
+    font-weight:bold;
+}
+.profile-img{
+    width:80px;
+    height:80px;
+    border-radius:50%;
+    object-fit:cover;
+    margin-bottom:15px;
+    border:2px solid #00ffcc;
 }
 </style>
 </head>
@@ -47,34 +69,52 @@ button{
 
 <div class="box">
 
-<h2>Login Admin</h2>
+<h2>Login</h2>
+
+<img src="../img/default-profile.png" alt="Profile" class="profile-img" id="profilePreview">
 
 <p class="error" id="errorMsg"></p>
 
 <form id="loginForm">
-<input type="text" id="user" placeholder="Username" required>
-<input type="password" id="pass" placeholder="Password" required>
+<input type="text" id="username" placeholder="Username" required>
+<input type="password" id="password" placeholder="Password" required>
 <button type="submit">Login</button>
 </form>
+
+<p class="register-text">Belum punya akun? <a href="register.html">Register</a></p>
 
 </div>
 
 <script>
-// Hardcode username & password
-const validUser = "admin";
-const validPass = "123";
+// Hardcode admin
+const adminUser = "admin";
+const adminPass = "123";
+
+// Ambil data user dari localStorage
+function getUsers(){
+    return JSON.parse(localStorage.getItem("users") || "[]");
+}
 
 document.getElementById("loginForm").addEventListener("submit", function(e){
     e.preventDefault();
 
-    const user = document.getElementById("user").value;
-    const pass = document.getElementById("pass").value;
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
     const errorMsg = document.getElementById("errorMsg");
 
-    if(user === validUser && pass === validPass){
-        alert("Login berhasil!");
-        // redirect ke halaman admin (HTML)
-        window.location.href = "admin.php"; 
+    // cek admin dulu
+    if(username === adminUser && password === adminPass){
+        alert("Login Admin berhasil!");
+        window.location.href = "admin.html";
+        return;
+    }
+
+    // cek user biasa
+    const users = getUsers();
+    const user = users.find(u => u.username === username && u.password === password);
+    if(user){
+        alert(`Login berhasil, selamat datang ${user.username}!`);
+        window.location.href = "user.html";
     } else {
         errorMsg.textContent = "Username atau password salah!";
     }
