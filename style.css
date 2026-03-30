@@ -1,285 +1,567 @@
 /* ================= RESET ================= */
 
+
+
 *{
+
     margin:0;
+
     padding:0;
+
     box-sizing:border-box;
+
     font-family:Arial, sans-serif;
+
 }
 
+
+
 body{
+
     background:#000;
+
     color:#fff;
+
     overflow-x:hidden;
+
 }
+
+
 
 /* ================= HEADER ================= */
 
+
+
 header{
+
     position:fixed;
+
     top:0;
+
     left:0;
+
     width:100%;
+
     background:#000;
+
     padding:15px 20px;
+
     display:flex;
+
     align-items:center;
+
     z-index:1000;
+
     border-bottom:1px solid #111;
+
 }
+
+
 
 /* ================= LOGO AREA ================= */
 
+
+
 .logo-area{
+
     display:flex;
+
     align-items:center;
+
     gap:10px;
+
     position:relative;
+
 }
+
+
 
 .logo-img{
+
     width:40px;
+
     height:40px;
+
     object-fit:cover;
+
     cursor:pointer;
+
     border-radius:50%;
+
     transition:0.3s;
+
 }
+
+
 
 .logo-img:hover{
+
     transform:scale(1.1);
+
 }
 
+
+
 .logo{
+
     color:#b74b4b;
+
     font-size:22px;
+
     text-decoration:none;
+
     font-weight:bold;
+
 }
+
+
 
 /* ================= DROPDOWN ================= */
 
+
+
 .settings-menu{
+
     position:absolute;
+
     top:55px;
+
     left:0;
+
     background:#111;
+
     border-radius:10px;
+
     padding:10px;
+
     display:none;
+
     flex-direction:column;
+
     min-width:180px;
+
     box-shadow:0 0 15px rgba(255,0,0,0.3);
+
 }
+
+
 
 .settings-menu.show{
+
     display:flex;
+
 }
+
+
 
 .menu-btn{
+
     padding:10px;
+
     text-decoration:none;
+
     color:white;
+
     border:none;
+
     background:none;
+
     text-align:left;
+
     cursor:pointer;
+
     transition:0.3s;
+
     border-radius:5px;
+
 }
+
+
 
 .menu-btn:hover{
+
     background:#b74b4b;
+
 }
 
-/* ================= VIDEO ================= */
+
+
+/* ================= VIDEO HERO ================= */
+
+
 
 .hero-video{
+
     width:100%;
+
     height:220px;
+
     margin-top:70px;
+
     position:relative;
+
     overflow:hidden;
+
 }
+
+
 
 .hero-video video{
+
     width:100%;
+
     height:100%;
+
     object-fit:cover;
+
 }
 
+
+
 .video-overlay{
+
     position:absolute;
+
     top:0;
+
     left:0;
+
     width:100%;
+
     height:100%;
+
     background:rgba(0,0,0,0.4);
+
 }
+
+
 
 /* ================= HOME ================= */
 
+
+
 .home{
+
     display:flex;
+
     flex-direction:column;
+
     align-items:center;
+
     justify-content:center;
+
     text-align:center;
+
     padding:40px 20px;
+
 }
 
-/* FOTO */
+
+
+/* FOTO BULAT */
+
+
 
 .home-img{
+
     margin-top:-70px;
+
 }
 
+
+
 .home-img img{
+
     width:140px;
+
     height:140px;
+
     border-radius:50%;
+
     object-fit:cover;
+
     box-shadow:0 0 20px red;
+
 }
+
+
 
 /* ================= CONTENT ================= */
 
+
+
 .home-content{
+
     margin-top:20px;
+
     max-width:400px;
+
 }
+
+
 
 .home-content h1{
+
     font-size:28px;
+
     margin-bottom:10px;
+
 }
+
+
 
 .home-content span{
+
     color:#b74b4b;
+
 }
+
+
 
 .typing-text{
+
     font-size:20px;
+
     margin-bottom:10px;
+
 }
 
+
+
 .home-content p{
+
     color:#aaa;
+
     margin-bottom:15px;
+
 }
+
+
 
 /* ================= SOCIAL ================= */
 
+
+
 .social-icons{
+
     display:flex;
+
     justify-content:center;
+
     gap:15px;
+
     margin:15px 0;
+
 }
+
+
 
 .social-icons a{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    width:45px;
-    height:45px;
-    border-radius:50%;
-    border:2px solid #b74b4b;
+
     color:white;
-    font-size:20px;
+
+    font-size:22px;
+
     transition:0.3s;
+
 }
 
+
+
 .social-icons a:hover{
-    background:#b74b4b;
-    color:black;
+
+    color:#b74b4b;
+
     transform:scale(1.2);
-    box-shadow:0 0 15px red;
+
 }
+
+
 
 /* ================= BUTTON ================= */
 
+
+
 .btn{
+
     display:inline-block;
+
     padding:10px 20px;
+
     border-radius:20px;
+
     border:1px solid #b74b4b;
+
     color:#b74b4b;
+
     text-decoration:none;
+
     transition:0.3s;
+
 }
 
+
+
 .btn:hover{
+
     background:#b74b4b;
+
     color:black;
+
     box-shadow:0 0 10px red;
+
 }
+
+
 
 /* ================= DARK MODE ================= */
 
+
+
 .light-mode{
+
     background:white;
+
     color:black;
+
 }
+
+
 
 .light-mode header{
+
     background:white;
+
 }
+
+
+
+.light-mode .logo{
+
+    color:#b74b4b;
+
+}
+
+
 
 .light-mode .settings-menu{
+
     background:#eee;
+
 }
+
+
 
 .light-mode .menu-btn{
+
     color:black;
+
 }
+
+
 
 .light-mode .social-icons a{
+
     color:black;
+
 }
 
+
+
 .light-mode .home-content p{
+
     color:#444;
+
 }
+
+
 
 /* ================= MOBILE ================= */
 
+
+
 @media(max-width:768px){
 
+
+
     .hero-video{
+
         height:180px;
+
     }
+
+
+
+    .logo{
+
+        font-size:20px;
+
+    }
+
+
 
     .home-img img{
+
         width:120px;
+
         height:120px;
+
     }
+
+
 
     .home-content h1{
+
         font-size:24px;
+
     }
 
+
+
     .typing-text{
+
         font-size:18px;
+
     }
+
+
 
 }
 
+
+
 /* ================= SMALL MOBILE ================= */
+
+
 
 @media(max-width:480px){
 
+
+
     .hero-video{
+
         height:160px;
+
     }
+
+
 
     .logo-img{
+
         width:35px;
+
         height:35px;
+
     }
 
+
+
     .logo{
+
         font-size:18px;
+
     }
+
+
 
     }
