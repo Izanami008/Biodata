@@ -111,7 +111,7 @@ nav a:hover{
 
 .top-video{
     width:100%;
-    height:300px;
+    height:400px;
     position:relative;
     overflow:hidden;
 }
@@ -131,13 +131,13 @@ nav a:hover{
 
 .home-content{
     text-align:center;
-    margin-top:40px;
+    margin-top:25px;
 }
 
 .home-img img{
-    width:200px;
+    width:235px;
     border-radius:50%;
-    margin-bottom:20px;
+    margin-bottom:23px;
 }
 
 h1{
