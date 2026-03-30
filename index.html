@@ -1,185 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
-    
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- Style -->
     <link rel="stylesheet" href="style.css">
-    
+
     <title>Website</title>
 </head>
 
 <body>
 
-<header>
+    <!-- Header -->
+    <header>
+        <a href="#" class="logo">Erika099</a>
 
-    <a href="#" class="logo"> Erika099</a>
+        <nav>
+            <a href="index.html" class="active">Home</a>
+            <a href="pages/services.html">Services</a>
+            <a href="pages/skills.html">Skills</a>
+            <a href="pages/education.html">Education</a>
+            <a href="pages/experience.html">Experience</a>
+            <a href="pages/contact.html">Contact</a>
+        </nav>
+    </header>
 
-<nav>
+    <!-- Home Section -->
+    <section class="home">
 
-  <a href="index.html" class="active">Home</a>
-  <a href="pages/services.html">Services</a>
-  <a href="pages/skills.html">Skills</a>
-  <a href="pages/education.html">Education</a>
-  <a href="pages/experience.html">Experience</a>
-  <a href="pages/contact.html">Contact</a>
-
-</nav>
-
-</header>
-
-<section class="home">
-
-    <div class="home-img">
-        <img src="img/main.jpg" alt="">
-    </div>
-
-    <div class="home-content">
-
-        <h1>Hi, It's <span>Bismarck</span></h1>
-
-        <h3 class="typing-text">
-            I'm a <span class="typing"></span>
-        </h3>
-
-        <p>Websate ini direkomendasikan untuk pc dan laptop</p>
-
-        <div class="social-icons">
-
-            <a href="#"><i class="fa-brands fa-linkedin"></i></a>
-
-            <a href="#"><i class="fa-brands fa-github"></i></a>
-
-            <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
-
-            <a href="#"><i class="fa-brands fa-instagram"></i></a>
-
+        <div class="home-img">
+            <img src="img/main.jpg" alt="profile">
         </div>
 
-        <a href="global/video.html" class="btn">
-            Let’s Work Together
-        </a>
+        <div class="home-content">
+            <h1>Hi, It's <span>Bismarck</span></h1>
 
-    </div>
+            <h3 class="typing-text">
+                I'm a <span class="typing"></span>
+            </h3>
 
-</section>
+            <p>Websate ini direkomendasikan untuk pc dan laptop</p>
 
-<!-- TYPED -->
-<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+            <div class="social-icons">
+                <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="#"><i class="fa-brands fa-github"></i></a>
+                <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+            </div>
 
-<script>
+            <a href="global/video.html" class="btn">
+                Let’s Work Together
+            </a>
 
-var typed = new Typed(".typing", {
+        </div>
+    </section>
 
-    strings: [
-        "Script Writer",
-        "Web Developer",
-        "Designer"
-    ],
+    <!-- Typed JS -->
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
 
-    typeSpeed: 100,
-    backSpeed: 50,
-    loop: true
-
-});
-
-</script>
-
-<!-- ================= GLOBAL (GLOBE DI BAWAH) ================= -->
-
-<div id="globe-container"></div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/controls/OrbitControls.js"></script>
-
-<script>
-
-const scene = new THREE.Scene();
-
-const camera = new THREE.PerspectiveCamera(
-75,
-300/300,
-0.1,
-1000
-);
-
-const renderer = new THREE.WebGLRenderer({alpha:true});
-renderer.setSize(300,300);
-
-document
-.getElementById("globe-container")
-.appendChild(renderer.domElement);
-
-/* CONTROL */
-
-const controls =
-new THREE.OrbitControls(
-camera,
-renderer.domElement
-);
-
-controls.autoRotate = true;
-
-/* LIGHT */
-
-const light =
-new THREE.PointLight(0xff0000,2);
-
-light.position.set(5,5,5);
-scene.add(light);
-
-const ambient =
-new THREE.AmbientLight(0xff4d4d,1);
-
-scene.add(ambient);
-
-/* EARTH */
-
-const loader =
-new THREE.TextureLoader();
-
-const earthTexture =
-loader.load(
-"https://threejsfundamentals.org/threejs/resources/images/earth-day.jpg"
-);
-
-const globe =
-new THREE.Mesh(
-
-new THREE.SphereGeometry(2,64,64),
-
-new THREE.MeshStandardMaterial({
-map:earthTexture
-})
-
-);
-
-scene.add(globe);
-
-/* CAMERA */
-
-camera.position.z = 6;
-
-/* ANIMATE */
-
-function animate(){
-
-requestAnimationFrame(animate);
-
-globe.rotation.y += 0.003;
-
-controls.update();
-
-renderer.render(scene,camera);
-
-}
-
-animate();
-
-</script>
+    <script>
+        var typed = new Typed(".typing", {
+            strings: ["Script Writer", "Web Developer", "Designer"],
+            typeSpeed: 100,
+            backSpeed: 50,
+            loop: true
+        });
+    </script>
 
 </body>
-            </html>
+                                                                     </html>
