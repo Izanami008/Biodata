@@ -48,19 +48,18 @@ button{padding:5px 10px;border:none;border-radius:5px;background:#2980b9;color:w
 <h1>Dashboard</h1>
 <div>
 <button class="toggle-btn" id="themeToggle">Dark/Light</button>
-<!-- Logout terhubung ke logout.php -->
-<button class="logout-btn" onclick="window.location.href='logout.html'">Logout</button>
+<button class="logout-btn" onclick="window.location.href='login.html'">Logout</button>
 </div>
 </div>
 
 <div class="cards">
 <div class="card">
 <h3>Total User</h3>
-<p>12</p>
+<p id="totalUser">0</p>
 </div>
 <div class="card">
 <h3>Total Foto</h3>
-<p>8</p>
+<p id="totalFoto">0</p>
 </div>
 </div>
 
@@ -70,24 +69,7 @@ button{padding:5px 10px;border:none;border-radius:5px;background:#2980b9;color:w
 <thead>
 <tr><th>No</th><th>Nama</th><th>Email</th><th>Foto</th><th>Role</th><th>Aksi</th></tr>
 </thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>John Doe</td>
-<td>john@example.com</td>
-<td><img src="https://via.placeholder.com/40" class="photo"></td>
-<td>Admin</td>
-<td><button>Edit</button><button>Hapus</button></td>
-</tr>
-<tr>
-<td>2</td>
-<td>Jane Smith</td>
-<td>jane@example.com</td>
-<td><img src="https://via.placeholder.com/40" class="photo"></td>
-<td>User</td>
-<td><button>Edit</button><button>Hapus</button></td>
-</tr>
-</tbody>
+<tbody id="userTableBody"></tbody>
 </table>
 </div>
 </div>
@@ -95,13 +77,13 @@ button{padding:5px 10px;border:none;border-radius:5px;background:#2980b9;color:w
 <div class="modal" id="userModal">
 <div class="modal-content">
 <span class="close" id="closeModal">&times;</span>
-<h3>Tambah/Edit User</h3>
-<form>
+<h3 id="modalTitle">Tambah User</h3>
+<form id="userForm">
 <label>Nama</label><input type="text" name="nama" required>
 <label>Email</label><input type="email" name="email" required>
 <label>Role</label><select name="role"><option value="Admin">Admin</option><option value="User">User</option></select>
 <label>Password</label><input type="password" name="password">
-<label>Foto</label><input type="file" name="foto">
+<label>Foto (URL)</label><input type="text" name="foto" placeholder="https://example.com/photo.jpg">
 <button type="submit">Simpan</button>
 </form>
 </div>
@@ -109,13 +91,94 @@ button{padding:5px 10px;border:none;border-radius:5px;background:#2980b9;color:w
 
 <script>
 const body = document.body;
-document.getElementById('themeToggle').onclick = () => body.classList.toggle('light-mode');
-
+const themeToggle = document.getElementById('themeToggle');
 const modal = document.getElementById('userModal');
-document.getElementById('addUserBtn').onclick = () => modal.style.display='flex';
-document.getElementById('closeModal').onclick = () => modal.style.display='none';
-window.onclick = e => { if(e.target==modal) modal.style.display='none'; };
+const addUserBtn = document.getElementById('addUserBtn');
+const closeModal = document.getElementById('closeModal');
+const userForm = document.getElementById('userForm');
+const userTableBody = document.getElementById('userTableBody');
+const totalUser = document.getElementById('totalUser');
+const totalFoto = document.getElementById('totalFoto');
+
+let editIndex = null;
+
+// Toggle Dark/Light
+themeToggle.onclick = () => body.classList.toggle('light-mode');
+
+// Modal open/close
+addUserBtn.onclick = () => { editIndex = null; document.getElementById('modalTitle').innerText='Tambah User'; userForm.reset(); modal.style.display='flex'; }
+closeModal.onclick = () => modal.style.display='none';
+window.onclick = e => { if(e.target==modal) modal.style.display='none'; }
+
+// Load data from localStorage or default
+let users = JSON.parse(localStorage.getItem('users')) || [
+    {nama:'John Doe',email:'john@example.com',role:'Admin',foto:'https://via.placeholder.com/40'},
+    {nama:'Jane Smith',email:'jane@example.com',role:'User',foto:'https://via.placeholder.com/40'}
+];
+
+function renderTable(){
+    userTableBody.innerHTML = '';
+    users.forEach((u,i)=>{
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+        <td>${i+1}</td>
+        <td>${u.nama}</td>
+        <td>${u.email}</td>
+        <td>${u.foto ? `<img src="${u.foto}" class="photo">` : ''}</td>
+        <td>${u.role}</td>
+        <td>
+        <button onclick="editUser(${i})">Edit</button>
+        <button onclick="deleteUser(${i})">Hapus</button>
+        </td>`;
+        userTableBody.appendChild(tr);
+    });
+    totalUser.innerText = users.length;
+    totalFoto.innerText = users.filter(u=>u.foto).length;
+    localStorage.setItem('users',JSON.stringify(users));
+}
+
+// Add/Edit User
+userForm.onsubmit = function(e){
+    e.preventDefault();
+    const formData = new FormData(userForm);
+    const newUser = {
+        nama: formData.get('nama'),
+        email: formData.get('email'),
+        role: formData.get('role'),
+        foto: formData.get('foto')
+    };
+    if(editIndex!==null){
+        users[editIndex] = newUser;
+    } else {
+        users.push(newUser);
+    }
+    renderTable();
+    modal.style.display='none';
+}
+
+// Edit user
+function editUser(i){
+    editIndex = i;
+    const u = users[i];
+    document.getElementById('modalTitle').innerText='Edit User';
+    userForm.nama.value = u.nama;
+    userForm.email.value = u.email;
+    userForm.role.value = u.role;
+    userForm.foto.value = u.foto;
+    modal.style.display='flex';
+}
+
+// Delete user
+function deleteUser(i){
+    if(confirm(`Hapus user ${users[i].nama}?`)){
+        users.splice(i,1);
+        renderTable();
+    }
+}
+
+// Initial render
+renderTable();
 </script>
 
 </body>
-</html>
+  </html>
