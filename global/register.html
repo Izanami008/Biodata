@@ -1,46 +1,107 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Register</title>
-<link rel="stylesheet" href="../style.css">
+<title>Register User</title>
+<style>
+body{margin:0;font-family:Arial,sans-serif;background:#f4f4f4;display:flex;justify-content:center;align-items:center;height:100vh;}
+.container{background:#fff;padding:30px;border-radius:10px;box-shadow:0 4px 15px rgba(0,0,0,0.2);width:100%;max-width:400px;}
+h2{text-align:center;color:#2c3e50;margin-bottom:20px;}
+form{display:flex;flex-direction:column;}
+label{margin-top:10px;margin-bottom:5px;font-weight:bold;}
+input{padding:10px;border-radius:5px;border:1px solid #ccc;font-size:14px;}
+input:focus{outline:none;border-color:#2980b9;}
+button{margin-top:20px;padding:10px;background:#2980b9;color:#fff;border:none;border-radius:5px;font-size:16px;cursor:pointer;transition:0.3s;}
+button:hover{background:#1f6391;}
+.success-msg{color:green;text-align:center;margin-top:10px;}
+.error-msg{color:red;text-align:center;margin-top:10px;}
+img.preview{width:80px;height:80px;border-radius:50%;margin-top:10px;object-fit:cover;border:1px solid #ccc;}
+</style>
 </head>
 <body>
 
-<div class="box">
-<h2>Register</h2>
-<img src="../img/default-profile.png" class="profile-img" id="profilePreview">
-
+<div class="container">
+<h2>Register User</h2>
 <form id="registerForm">
-<input type="text" id="username" placeholder="Username" required>
-<input type="password" id="password" placeholder="Password" required>
-<input type="file" id="profilePic" accept="image/*">
-<button type="submit">Register</button>
-</form>
+<label>Nama</label>
+<input type="text" name="nama" placeholder="Nama lengkap" required>
 
-<p class="login-text">Sudah punya akun? <a href="login.html">Login</a></p>
+<label>Email</label>
+<input type="email" name="email" placeholder="Email aktif" required>
+
+<label>Password</label>
+<input type="password" name="password" placeholder="Password minimal 6 karakter" required>
+
+<label>Foto</label>
+<input type="file" id="fotoInput" accept="image/*">
+<img id="fotoPreview" class="preview" style="display:none;">
+
+<button type="submit">Register</button>
+<p class="success-msg" id="successMsg"></p>
+<p class="error-msg" id="errorMsg"></p>
+</form>
 </div>
 
 <script>
-document.getElementById("profilePic").addEventListener("change", function(e){
-    const file = e.target.files[0];
-    if(file){ document.getElementById("profilePreview").src = URL.createObjectURL(file); }
-});
+const registerForm = document.getElementById('registerForm');
+const successMsg = document.getElementById('successMsg');
+const errorMsg = document.getElementById('errorMsg');
+const fotoInput = document.getElementById('fotoInput');
+const fotoPreview = document.getElementById('fotoPreview');
 
-document.getElementById("registerForm").addEventListener("submit", function(e){
+let users = JSON.parse(localStorage.getItem('users')) || [];
+
+// Preview foto sebelum submit
+fotoInput.onchange = function(){
+    const file = this.files[0];
+    if(file){
+        const reader = new FileReader();
+        reader.onload = function(e){
+            fotoPreview.src = e.target.result;
+            fotoPreview.style.display = 'block';
+        }
+        reader.readAsDataURL(file);
+    }
+}
+
+// Register form submit
+registerForm.onsubmit = function(e){
     e.preventDefault();
-    const username=document.getElementById("username").value;
-    const password=document.getElementById("password").value;
-    const profile=document.getElementById("profilePreview").src;
+    successMsg.innerText='';
+    errorMsg.innerText='';
 
-    const users = JSON.parse(localStorage.getItem("users") || "[]");
-    if(users.find(u=>u.username===username)){ alert("Username sudah ada!"); return; }
-    users.push({username,password,profile});
-    localStorage.setItem("users", JSON.stringify(users));
-    alert("Register berhasil! Silahkan login.");
-    window.location.href="login.html";
-});
+    const formData = new FormData(registerForm);
+    const nama = formData.get('nama').trim();
+    const email = formData.get('email').trim();
+    const password = formData.get('password').trim();
+    const foto = fotoPreview.src || '';
+
+    // Validasi password minimal 6 karakter
+    if(password.length < 6){
+        errorMsg.innerText = 'Password minimal 6 karakter!';
+        return;
+    }
+
+    // Cek email sudah terdaftar
+    if(users.some(u=>u.email.toLowerCase()===email.toLowerCase())){
+        errorMsg.innerText = 'Email sudah terdaftar!';
+        return;
+    }
+
+    // Role otomatis User
+    const newUser = {nama,email,password,role:'User',foto};
+    users.push(newUser);
+    localStorage.setItem('users',JSON.stringify(users));
+
+    registerForm.reset();
+    fotoPreview.style.display='none';
+    successMsg.innerText='Registrasi berhasil! Data tersimpan.';
+
+    // Opsional redirect ke login
+    // setTimeout(()=>window.location.href='login.html',1500);
+}
 </script>
+
 </body>
 </html>
