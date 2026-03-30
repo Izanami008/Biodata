@@ -12,8 +12,7 @@
       padding: 0;
       height: 100%;
       overflow: hidden;
-      background-color: #000;
-      font-family: sans-serif;
+      background: #000;
     }
     header {
       position: fixed;
@@ -38,9 +37,7 @@
       position: absolute;
       top: 0;
       left: 0;
-      z-index: 0; /* pastikan canvas dibawah header */
-      width: 100%;
-      height: 100%;
+      z-index: 0;
     }
   </style>
 </head>
@@ -59,66 +56,58 @@
 
   <script src="https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.min.js"></script>
   <script>
-    // --- Scene, camera, renderer ---
+    // --- Scene + Camera + Renderer ---
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 5;
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 100);
+    camera.position.z = 6;
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
 
     // --- Partikel Jupiter ---
-    const particleCount = 2000;
+    const particleCount = 1500;
     const radius = 2;
     const thickness = 0.5;
+    const geometry = new THREE.BufferGeometry();
     const positions = [];
     const colors = [];
-    const sizes = [];
 
-    for (let j = 0; j < particleCount; j++) {
-      const angle = (j / particleCount) * Math.PI * 2;
-      const radiusVariation = radius + (Math.random() - 0.5) * thickness;
+    for(let i=0; i<particleCount; i++){
+      const angle = (i / particleCount) * Math.PI * 2;
+      const r = radius + (Math.random()-0.5)*thickness;
+      const x = Math.cos(angle)*r;
+      const y = (Math.random()-0.5)*thickness;
+      const z = Math.sin(angle)*r;
+      positions.push(x,y,z);
 
-      const x = Math.cos(angle) * radiusVariation;
-      const y = (Math.random() - 0.5) * thickness;
-      const z = Math.sin(angle) * radiusVariation;
-
-      positions.push(x, y, z);
-
-      const hue = (j / particleCount) * 0.3 + 0.7;
-      const color = new THREE.Color().setHSL(hue, 1, 0.6);
-      color.multiplyScalar(1.2);
+      const hue = 0.1 + (i/particleCount)*0.3;
+      const color = new THREE.Color().setHSL(hue,1,0.6);
       colors.push(color.r, color.g, color.b);
-
-      sizes.push(Math.random() * 0.12 + 0.06);
     }
 
-    const geometry = new THREE.BufferGeometry();
-    geometry.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
-    geometry.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
-    geometry.setAttribute("size", new THREE.Float32BufferAttribute(sizes, 1));
+    geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions,3));
+    geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors,3));
 
     const material = new THREE.PointsMaterial({
       vertexColors: true,
       size: 0.05,
-      sizeAttenuation: true,
+      sizeAttenuation: true
     });
 
     const particles = new THREE.Points(geometry, material);
     scene.add(particles);
 
-    // --- Animasi rotasi ---
-    function animate() {
+    // --- Animasi ---
+    function animate(){
       requestAnimationFrame(animate);
       particles.rotation.y += 0.002;
-      particles.rotation.x += 0.0005;
       renderer.render(scene, camera);
     }
     animate();
 
-    // --- Resize handling ---
-    window.addEventListener("resize", () => {
+    // --- Resize ---
+    window.addEventListener('resize', ()=>{
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
