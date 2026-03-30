@@ -1,29 +1,18 @@
-<?php
-session_start();
-
-if (!isset($_SESSION['login'])) {
-    header("Location: login.html");
-    exit;
-}
-?>
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-
-<title>Admin Dashboard</title>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="style.css">
+<title>Admin Dashboard</title>
+<link rel="stylesheet" href="../style.css">
 
 <style>
-
 body{
     margin:0;
-    font-family:Arial;
+    font-family:Arial, sans-serif;
     background:#0f172a;
     color:white;
 }
-
 .header{
     background:#020617;
     padding:15px;
@@ -31,7 +20,6 @@ body{
     justify-content:space-between;
     align-items:center;
 }
-
 .sidebar{
     width:200px;
     background:#1e293b;
@@ -39,7 +27,6 @@ body{
     position:fixed;
     padding:20px;
 }
-
 .sidebar a{
     display:block;
     color:white;
@@ -49,24 +36,20 @@ body{
     background:#334155;
     border-radius:5px;
 }
-
 .sidebar a:hover{
     background:#00ffcc;
     color:black;
 }
-
 .main{
     margin-left:220px;
     padding:20px;
 }
-
 .card{
     background:#1e293b;
     padding:20px;
     border-radius:10px;
     margin-bottom:20px;
 }
-
 .logout{
     background:orange;
     padding:8px 15px;
@@ -74,36 +57,25 @@ body{
     border-radius:5px;
     cursor:pointer;
 }
-
 </style>
-
 </head>
 
 <body>
 
 <div class="header">
-
 <h2>GLOBAL ADMIN</h2>
-
-<a href="logout.php">
-<button class="logout">Logout</button>
-</a>
-
+<button class="logout" id="logoutBtn">Logout</button>
 </div>
 
 <div class="sidebar">
-
 <h3>Menu</h3>
-
 <a href="#">Dashboard</a>
 <a href="#">Data</a>
 <a href="#">Users</a>
 <a href="#">Settings</a>
-
 </div>
 
 <div class="main">
-
 <div class="card">
 <h2>Selamat Datang Admin</h2>
 <p>Sistem dashboard siap digunakan.</p>
@@ -121,8 +93,24 @@ body{
 <p>Ini adalah dashboard utama.</p>
 <p>Silakan tambahkan fitur sesuai kebutuhan.</p>
 </div>
-
 </div>
+
+<script>
+// Cek apakah admin login
+const loggedIn = localStorage.getItem("adminLoggedIn");
+
+if(!loggedIn){
+    alert("Silahkan login admin terlebih dahulu!");
+    window.location.href = "login.html"; // arahkan ke login
+}
+
+// Tombol logout
+document.getElementById("logoutBtn").addEventListener("click", function(){
+    localStorage.removeItem("adminLoggedIn");
+    alert("Logout berhasil!");
+    window.location.href = "login.html";
+});
+</script>
 
 </body>
 </html>
