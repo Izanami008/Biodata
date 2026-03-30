@@ -6,61 +6,79 @@
 <title>Register</title>
 <style>
 body{background:#0f172a;color:white;font-family:Arial;display:flex;justify-content:center;align-items:center;height:100vh;}
-.box{background:#1e293b;padding:40px;border-radius:15px;width:350px;box-shadow:0 0 20px rgba(0,255,204,0.3);text-align:center;}
+.box{background:#1e293b;padding:40px;border-radius:15px;width:400px;box-shadow:0 0 20px rgba(0,255,204,0.3);text-align:center;}
 .box h2{margin-bottom:20px;}
-input[type="text"], input[type="email"], input[type="password"]{padding:12px;margin:10px 0;width:100%;border-radius:8px;border:none;outline:none;}
+input[type="text"], input[type="email"], input[type="password"], input[type="file"]{padding:12px;margin:10px 0;width:100%;border-radius:8px;border:none;outline:none;}
 button{padding:12px;width:100%;margin-top:10px;background:#00ffcc;border:none;border-radius:8px;font-weight:bold;cursor:pointer;}
 .error{color:red;margin-bottom:10px;}
 p.login-text{margin-top:15px;}
 p.login-text a{color:#00ffcc;text-decoration:none;font-weight:bold;}
 .home-icon{display:block;margin:20px auto 0;font-size:30px;color:#00ffcc;text-decoration:none;}
-.profile-img{width:80px;height:80px;border-radius:50%;object-fit:cover;margin-bottom:15px;border:2px solid #00ffcc;}
+.profile-preview{width:80px;height:80px;border-radius:50%;object-fit:cover;margin-bottom:15px;border:2px solid #00ffcc;}
 </style>
 </head>
 <body>
 
 <div class="box">
 <h2>Register</h2>
-<img src="../img/default-profile.png" alt="Profile" class="profile-img" id="profilePreview">
+<img src="../img/default-profile.png" alt="Profile" class="profile-preview" id="profilePreview">
 <p class="error" id="errorMsg"></p>
 
 <form id="registerForm">
+<input type="text" id="fullname" placeholder="Nama Lengkap" required>
 <input type="text" id="username" placeholder="Username" required>
 <input type="email" id="email" placeholder="Email" required>
 <input type="password" id="password" placeholder="Password" required>
+<input type="file" id="foto" accept="image/*">
 <button type="submit">Register</button>
 </form>
 
 <p class="login-text">Sudah punya akun? <a href="login.html">Login</a></p>
-
-<!-- Home icon -->
 <a href="../index.html" class="home-icon" title="Halaman Utama">🏠</a>
-
 </div>
 
 <script>
+const profilePreview = document.getElementById('profilePreview');
+const fotoInput = document.getElementById('foto');
+
+// Preview foto saat dipilih
+fotoInput.addEventListener('change', function(){
+    const file = this.files[0];
+    if(file){
+        const reader = new FileReader();
+        reader.onload = function(e){
+            profilePreview.src = e.target.result;
+        }
+        reader.readAsDataURL(file);
+    } else {
+        profilePreview.src = "../img/default-profile.png";
+    }
+});
+
 // Ambil data user dari localStorage
 function getUsers(){ return JSON.parse(localStorage.getItem("users")||"[]"); }
 
 document.getElementById("registerForm").addEventListener("submit", function(e){
     e.preventDefault();
+    const fullname = document.getElementById("fullname").value;
     const username = document.getElementById("username").value;
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
     const errorMsg = document.getElementById("errorMsg");
 
     let users = getUsers();
-    // cek username unik
-    if(users.find(u => u.username===username)){
+    if(users.find(u=>u.username===username)){
         errorMsg.textContent = "Username sudah digunakan!";
         return;
     }
 
-    // Simpan user baru
-    users.push({username,email,password,foto:"../img/default-profile.png",role:"User"});
+    // Foto base64
+    let fotoData = profilePreview.src || "../img/default-profile.png";
+
+    // Simpan user
+    users.push({fullname, username, email, password, foto: fotoData, role:"User"});
     localStorage.setItem("users", JSON.stringify(users));
 
-    // Reset form dan arahkan ke login
     alert("Registrasi berhasil! Silakan login.");
     window.location.href = "login.html";
 });
