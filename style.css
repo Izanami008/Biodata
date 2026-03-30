@@ -21,7 +21,7 @@ header{
     left:0;
     width:100%;
     background:#000;
-    padding:15px 30px;
+    padding:15px 20px;
     display:flex;
     align-items:center;
     z-index:1000;
@@ -96,7 +96,7 @@ header{
 
 .hero-video{
     width:100%;
-    height:280px;
+    height:220px;
     margin-top:70px;
     position:relative;
     overflow:hidden;
@@ -121,29 +121,36 @@ header{
 
 .home{
     display:flex;
-    justify-content:center;
+    flex-direction:column;
     align-items:center;
-    gap:60px;
-    padding:60px 20px;
-    flex-wrap:wrap;
+    justify-content:center;
+    text-align:center;
+    padding:40px 20px;
 }
 
-/* FOTO */
+/* FOTO BULAT */
+
+.home-img{
+    margin-top:-70px;
+}
 
 .home-img img{
-    width:280px;
-    border-radius:15px;
-    box-shadow:0 0 20px rgba(255,0,0,0.3);
+    width:140px;
+    height:140px;
+    border-radius:50%;
+    object-fit:cover;
+    box-shadow:0 0 20px red;
 }
 
-/* KONTEN */
+/* ================= CONTENT ================= */
 
 .home-content{
+    margin-top:20px;
     max-width:400px;
 }
 
 .home-content h1{
-    font-size:35px;
+    font-size:28px;
     margin-bottom:10px;
 }
 
@@ -153,24 +160,26 @@ header{
 
 .typing-text{
     font-size:20px;
-    margin-bottom:15px;
+    margin-bottom:10px;
 }
 
 .home-content p{
-    color:#ccc;
-    margin-bottom:20px;
+    color:#aaa;
+    margin-bottom:15px;
 }
 
 /* ================= SOCIAL ================= */
 
 .social-icons{
-    margin:20px 0;
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    margin:15px 0;
 }
 
 .social-icons a{
     color:white;
-    font-size:24px;
-    margin-right:15px;
+    font-size:22px;
     transition:0.3s;
 }
 
@@ -183,28 +192,29 @@ header{
 
 .btn{
     display:inline-block;
-    background:#b74b4b;
     padding:10px 20px;
-    border-radius:10px;
-    color:white;
+    border-radius:20px;
+    border:1px solid #b74b4b;
+    color:#b74b4b;
     text-decoration:none;
     transition:0.3s;
 }
 
 .btn:hover{
-    background:red;
+    background:#b74b4b;
+    color:black;
     box-shadow:0 0 10px red;
 }
 
 /* ================= DARK MODE ================= */
 
 .light-mode{
-    background:#fff;
-    color:#000;
+    background:white;
+    color:black;
 }
 
 .light-mode header{
-    background:#fff;
+    background:white;
 }
 
 .light-mode .logo{
@@ -216,45 +226,36 @@ header{
 }
 
 .light-mode .menu-btn{
-    color:#000;
-}
-
-.light-mode .home-content p{
-    color:#333;
+    color:black;
 }
 
 .light-mode .social-icons a{
-    color:#000;
+    color:black;
+}
+
+.light-mode .home-content p{
+    color:#444;
 }
 
 /* ================= MOBILE ================= */
 
 @media(max-width:768px){
 
-    header{
-        padding:10px 20px;
-    }
-
     .hero-video{
-        height:200px;
+        height:180px;
     }
 
-    .home{
-        padding:40px 20px;
-        text-align:center;
-        gap:30px;
+    .logo{
+        font-size:20px;
     }
 
     .home-img img{
-        width:200px;
-    }
-
-    .home-content{
-        max-width:100%;
+        width:120px;
+        height:120px;
     }
 
     .home-content h1{
-        font-size:28px;
+        font-size:24px;
     }
 
     .typing-text{
@@ -271,13 +272,13 @@ header{
         height:160px;
     }
 
-    .logo{
-        font-size:18px;
-    }
-
     .logo-img{
         width:35px;
         height:35px;
+    }
+
+    .logo{
+        font-size:18px;
     }
 
 }
