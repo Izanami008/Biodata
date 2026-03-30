@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Dashboard</title>
+<style>
+body{background:#0f172a;color:white;font-family:Arial;padding:30px;}
+.profile-img{width:100px;height:100px;border-radius:50%;border:2px solid #00ffcc;object-fit:cover;}
+h1{margin-top:20px;}
+button{padding:10px 20px;background:#00ffcc;border:none;border-radius:8px;cursor:pointer;margin-top:10px;}
+</style>
+</head>
+<body>
+
+<img src="../img/default-profile.png" alt="Profile" class="profile-img" id="profileImg">
+<h1 id="welcome">Welcome!</h1>
+<button onclick="logout()">Logout</button>
+
+<script>
+const users = JSON.parse(localStorage.getItem("users") || "[]");
+const lastUser = users[users.length-1];
+if(lastUser){
+    document.getElementById("welcome").textContent = `Selamat datang, ${lastUser.username}!`;
+    document.getElementById("profileImg").src = lastUser.profile;
+}
+
+function logout(){
+    alert("Logout berhasil!");
+    window.location.href = "../index.html";
+}
+</script>
+
+</body>
+</html>
