@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Register</title>
 <style>
-body{background:#0f172a;color:white;font-family:Arial;display:flex;justify-content:center;align-items:center;height:100vh;}
+body{background:#0f172a;color:white;font-family:Arial;display:flex;justify-content:center;align-items:center;height:100vh;margin:0;}
 .box{background:#1e293b;padding:40px;border-radius:15px;width:350px;box-shadow:0 0 20px rgba(0,255,204,0.3);text-align:center;}
 .box h2{margin-bottom:20px;}
 input[type="text"], input[type="password"], input[type="email"]{padding:12px;margin:10px 0;width:100%;border-radius:8px;border:none;outline:none;}
@@ -20,7 +20,7 @@ p.login-text a{color:#00ffcc;text-decoration:none;font-weight:bold;}
 
 <div class="box">
 <h2>Register</h2>
-<img src="../img/default-profile.png" alt="Profile" class="profile-img" id="profilePreview">
+<img src="../img/default-profile.png" class="profile-img" id="profilePreview">
 <p class="error" id="errorMsg"></p>
 
 <form id="registerForm">
@@ -36,33 +36,29 @@ p.login-text a{color:#00ffcc;text-decoration:none;font-weight:bold;}
 </div>
 
 <script>
-const registerForm = document.getElementById('registerForm');
-const profilePreview = document.getElementById('profilePreview');
-const fotoInput = document.getElementById('fotoInput');
-const errorMsg = document.getElementById('errorMsg');
+const registerForm = document.getElementById("registerForm");
+const profilePreview = document.getElementById("profilePreview");
+const fotoInput = document.getElementById("fotoInput");
+const errorMsg = document.getElementById("errorMsg");
 
-// Preview foto sebelum submit
-fotoInput.onchange = function(){
+// Preview foto
+fotoInput.addEventListener("change", function(){
     const file = this.files[0];
     if(file){
         const reader = new FileReader();
-        reader.onload = function(e){
-            profilePreview.src = e.target.result;
-        }
+        reader.onload = e => profilePreview.src = e.target.result;
         reader.readAsDataURL(file);
     } else {
         profilePreview.src = "../img/default-profile.png";
     }
-}
+});
 
 // Ambil data user dari localStorage
-function getUsers(){
-    return JSON.parse(localStorage.getItem("users") || "[]");
-}
+function getUsers(){ return JSON.parse(localStorage.getItem("users") || "[]"); }
 
-// Form submit
+// Submit form
 registerForm.addEventListener("submit", function(e){
-    e.preventDefault(); // penting supaya form tidak reload page
+    e.preventDefault(); // wajib supaya tidak reload
     errorMsg.textContent = "";
 
     const username = document.getElementById("username").value.trim();
@@ -71,27 +67,17 @@ registerForm.addEventListener("submit", function(e){
     const password = document.getElementById("password").value.trim();
     const foto = profilePreview.src;
 
-    if(password.length < 6){
-        errorMsg.textContent = "Password minimal 6 karakter!";
-        return;
-    }
+    if(password.length < 6){ errorMsg.textContent = "Password minimal 6 karakter!"; return; }
 
     const users = getUsers();
-    if(users.some(u=>u.username.toLowerCase()===username.toLowerCase())){
-        errorMsg.textContent = "Username sudah terdaftar!";
-        return;
-    }
-    if(users.some(u=>u.email.toLowerCase()===email.toLowerCase())){
-        errorMsg.textContent = "Email sudah terdaftar!";
-        return;
-    }
+    if(users.some(u=>u.username.toLowerCase()===username.toLowerCase())){ errorMsg.textContent = "Username sudah terdaftar!"; return; }
+    if(users.some(u=>u.email.toLowerCase()===email.toLowerCase())){ errorMsg.textContent = "Email sudah terdaftar!"; return; }
 
-    // Role otomatis User
     const newUser = {username,nama,email,password,foto,role:"User"};
     users.push(newUser);
     localStorage.setItem("users",JSON.stringify(users));
 
-    // Redirect langsung ke login.html
+    // Redirect ke login.html
     window.location.href = "login.html";
 });
 </script>
