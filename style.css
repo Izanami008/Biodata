@@ -457,5 +457,10 @@ header{
     .title{
         font-size:2.2rem;
     }
-
+#globe-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+        }
     }
