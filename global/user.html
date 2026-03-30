@@ -1,34 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>User Dashboard</title>
+<title>User</title>
 <style>
-body{background:#0f172a;color:white;font-family:Arial;padding:30px;}
-.profile-img{width:100px;height:100px;border-radius:50%;border:2px solid #00ffcc;object-fit:cover;}
-h1{margin-top:20px;}
-button{padding:10px 20px;background:#00ffcc;border:none;border-radius:8px;cursor:pointer;margin-top:10px;}
+body{background:#0f172a;color:white;font-family:Arial;text-align:center;padding-top:50px;}
+img{width:100px;height:100px;border-radius:50%;}
+button{padding:10px 20px;background:red;color:white;border:none;border-radius:5px;margin-top:20px;}
 </style>
 </head>
+
 <body>
 
-<img src="../img/default-profile.png" alt="Profile" class="profile-img" id="profileImg">
-<h1 id="welcome">Welcome!</h1>
+<img id="foto">
+
+<h2 id="nama"></h2>
+
+<p id="email"></p>
+
 <button onclick="logout()">Logout</button>
 
 <script>
-const users = JSON.parse(localStorage.getItem("users") || "[]");
-const lastUser = users[users.length-1];
-if(lastUser){
-    document.getElementById("welcome").textContent = `Selamat datang, ${lastUser.username}!`;
-    document.getElementById("profileImg").src = lastUser.profile;
+
+const user=JSON.parse(localStorage.getItem("currentUser"));
+
+if(!user){
+window.location.href="login.html";
 }
 
+document.getElementById("foto").src=user.foto;
+document.getElementById("nama").innerText=user.nama;
+document.getElementById("email").innerText=user.email;
+
 function logout(){
-    alert("Logout berhasil!");
-    window.location.href = "../index.html";
+localStorage.removeItem("currentUser");
+window.location.href="login.html";
 }
+
 </script>
 
 </body>
