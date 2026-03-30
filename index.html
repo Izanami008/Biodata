@@ -21,25 +21,17 @@
 
     <div class="logo-area">
 
-        <!-- LOGO -->
         <img src="img/logo.png" class="logo-img" onclick="toggleMenu()">
 
-        <!-- NAMA -->
         <a href="#" class="logo">Erika099</a>
 
-        <!-- DROPDOWN MENU -->
         <div class="settings-menu" id="settingsMenu">
 
             <a href="index.html" class="menu-btn">Home</a>
-
             <a href="pages/services.html" class="menu-btn">Services</a>
-
             <a href="pages/skills.html" class="menu-btn">Skills</a>
-
             <a href="pages/education.html" class="menu-btn">Education</a>
-
             <a href="pages/experience.html" class="menu-btn">Experience</a>
-
             <a href="pages/contact.html" class="menu-btn">Contact</a>
 
             <hr>
@@ -61,7 +53,7 @@
 <!-- HOME -->
 <section class="home">
 
-    <!-- VIDEO ATAS -->
+    <!-- VIDEO -->
     <div class="top-video">
 
         <video autoplay muted loop playsinline>
@@ -89,26 +81,26 @@
 
         <div class="social-icons">
 
-    <!-- YOUTUBE -->
-    <a href="https://youtube.com/@kingofbismarck?si=Lk5sX_Zd46cvmSvu" target="_blank">
-        <i class="fa-brands fa-youtube"></i>
-    </a>
+            <a href="https://youtube.com/@kingofbismarck" target="_blank">
+                <i class="fa-brands fa-youtube"></i>
+            </a>
 
-    <!-- X -->
-    <a href="https://x.com/I443570I" target="_blank">
-        <i class="fa-brands fa-x-twitter"></i>
-    </a>
+            <a href="https://x.com/I443570I" target="_blank">
+                <i class="fa-brands fa-x-twitter"></i>
+            </a>
 
-    <!-- INSTAGRAM -->
-    <a href="https://www.instagram.com/izanami_8888?igsh=MXN3N2t2NTlmYTZwMw==" target="_blank">
-        <i class="fa-brands fa-instagram"></i>
-    </a>
+            <a href="https://www.instagram.com/izanami_8888" target="_blank">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
 
         </div>
 
-        <a href="global/login.html" class="btn">Let’s Work Together</a>
-            
+        <a href="global/login.html" class="btn">
+            Let’s Work Together
         </a>
+
+        <!-- GLOBE -->
+        <div id="globe-container"></div>
 
     </div>
 
@@ -118,89 +110,75 @@
 <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
 
 <script>
-
-/* TYPING */
-
 var typed = new Typed(".typing", {
-
     strings: [
         "Script Writer",
         "Web Developer",
         "Designer"
     ],
-
     typeSpeed: 100,
     backSpeed: 50,
     loop: true
-
 });
 
 /* MENU */
-
 function toggleMenu(){
-
     let menu = document.getElementById("settingsMenu");
-
     menu.classList.toggle("show");
-
 }
 
 /* DARK MODE */
-
 function toggleTheme(){
-
     document.body.classList.toggle("light-mode");
-
 }
 
-/* KLIK LUAR TUTUP MENU */
-
+/* KLIK LUAR */
 window.onclick = function(e){
-
     if(!e.target.closest('.logo-area')){
-
         let menu = document.getElementById("settingsMenu");
-
         if(menu.classList.contains("show")){
             menu.classList.remove("show");
         }
-
     }
-
 }
-
 </script>
+
+<!-- THREE JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
 <script>
+
 const scene = new THREE.Scene();
 
 const camera = new THREE.PerspectiveCamera(
   75,
-  400 / 400,
+  300 / 300,
   0.1,
   1000
 );
 
 const renderer = new THREE.WebGLRenderer({ alpha: true });
-renderer.setSize(400, 400);
+renderer.setSize(300, 300);
 
 document
   .getElementById("globe-container")
   .appendChild(renderer.domElement);
 
 const geometry = new THREE.SphereGeometry(2, 32, 32);
+
 const material = new THREE.MeshBasicMaterial({
   color: 0x00aaff,
   wireframe: true
 });
 
 const globe = new THREE.Mesh(geometry, material);
+
 scene.add(globe);
 
 camera.position.z = 5;
 
 function animate() {
+
   requestAnimationFrame(animate);
 
   globe.rotation.y += 0.01;
@@ -210,6 +188,8 @@ function animate() {
 }
 
 animate();
-                 </script>
+
+</script>
+
 </body>
-    </html>
+</html>
