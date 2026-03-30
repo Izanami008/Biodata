@@ -6,6 +6,27 @@
   <title>Experience - Bismarck</title>
   <link rel="stylesheet" href="../style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background-color: #000; /* latar gelap untuk partikel */
+      font-family: sans-serif;
+    }
+    header {
+      position: fixed;
+      width: 100%;
+      z-index: 10;
+      background: rgba(0,0,0,0.6);
+    }
+    canvas {
+      display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 0; /* di bawah header */
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -20,20 +41,81 @@
     </nav>
   </header>
 
-  <section class="experience">
-    <h2 class="section-title">Experience</h2>
-    <div class="exp-timeline">
-      <div class="exp-entry">
-        <h3>Freelance Web Developer</h3>
-        <span>2022 - Sekarang</span>
-        <p>Mengerjakan berbagai proyek pribadi dan freelance untuk klien kecil.</p>
-      </div>
-      <div class="exp-entry">
-        <h3>Internship at Tech Startup</h3>
-        <span>Jan 2024 - Jun 2024</span>
-        <p>Magang sebagai Frontend Developer menggunakan React dan Tailwind.</p>
-      </div>
-    </div>
-  </section>
+  <!-- Three.js -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.min.js"></script>
+  <script>
+    // --- Scene, camera, renderer ---
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(
+        75,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000
+    );
+    camera.position.z = 5;
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    // --- Partikel Jupiter ---
+    const particleCount = 2000;
+    const radius = 2;
+    const thickness = 0.5;
+
+    const positions = [];
+    const colors = [];
+    const sizes = [];
+
+    for (let j = 0; j < particleCount; j++) {
+        const angle = (j / particleCount) * Math.PI * 2;
+        const radiusVariation = radius + (Math.random() - 0.5) * thickness;
+
+        const x = Math.cos(angle) * radiusVariation;
+        const y = (Math.random() - 0.5) * thickness;
+        const z = Math.sin(angle) * radiusVariation;
+
+        positions.push(x, y, z);
+
+        const hue = (j / particleCount) * 0.3 + 0.7;
+        const color = new THREE.Color().setHSL(hue, 1, 0.6);
+        color.multiplyScalar(1.2);
+        colors.push(color.r, color.g, color.b);
+
+        sizes.push(Math.random() * 0.12 + 0.06);
+    }
+
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
+    geometry.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
+    geometry.setAttribute("size", new THREE.Float32BufferAttribute(sizes, 1));
+
+    const material = new THREE.PointsMaterial({
+        vertexColors: true,
+        size: 0.05,
+        sizeAttenuation: true,
+    });
+
+    const particles = new THREE.Points(geometry, material);
+    scene.add(particles);
+
+    // --- Animasi ---
+    function animate() {
+        requestAnimationFrame(animate);
+
+        particles.rotation.y += 0.002; // rotasi horizontal
+        particles.rotation.x += 0.0005; // sedikit tilt
+
+        renderer.render(scene, camera);
+    }
+    animate();
+
+    // --- Resize handling ---
+    window.addEventListener("resize", () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  </script>
 </body>
-</html>
+  </html>
