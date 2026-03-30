@@ -1,147 +1,101 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
+    
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>VELR ZARTX</title>
-
-<link rel="stylesheet" href="style.css">
-
-<!-- THREE JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/controls/OrbitControls.js"></script>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <link rel="stylesheet" href="style.css">
+    
+    <title>Website</title>
 </head>
 
 <body>
 
-<!-- HEADER -->
 <header>
 
-    <div class="logo-area">
+    <a href="#" class="logo"> Erika099</a>
 
-        <img src="profil.jpg" class="logo-img" onclick="toggleMenu()">
+<nav>
 
-        <h2 class="logo">VELR</h2>
+  <a href="index.html" class="active">Home</a>
+  <a href="pages/services.html">Services</a>
+  <a href="pages/skills.html">Skills</a>
+  <a href="pages/education.html">Education</a>
+  <a href="pages/experience.html">Experience</a>
+  <a href="pages/contact.html">Contact</a>
 
-        <div class="settings-menu" id="menu">
-
-            <a href="#home" class="menu-btn">Home</a>
-            <a href="#contact" class="menu-btn">Contact</a>
-
-            <button onclick="toggleMode()" class="menu-btn">
-                Light / Dark Mode
-            </button>
-
-            <a href="login.html" class="menu-btn">
-                Logout
-            </a>
-
-        </div>
-
-    </div>
-
-    <nav>
-
-        <a href="#home">Home</a>
-        <a href="#contact">Contact</a>
-
-    </nav>
+</nav>
 
 </header>
 
-<!-- HOME -->
-<section class="home" id="home">
+<section class="home">
 
-    <!-- VIDEO -->
-    <div class="top-video">
-        <video autoplay muted loop>
-            <source src="video.mp4" type="video/mp4">
-        </video>
-        <div class="overlay"></div>
+    <div class="home-img">
+        <img src="img/main.jpg" alt="">
     </div>
 
-    <!-- CONTENT -->
     <div class="home-content">
 
-        <div class="home-img">
-            <img src="profil.jpg">
+        <h1>Hi, It's <span>Bismarck</span></h1>
+
+        <h3 class="typing-text">
+            I'm a <span class="typing"></span>
+        </h3>
+
+        <p>Websate ini direkomendasikan untuk pc dan laptop</p>
+
+        <div class="social-icons">
+
+            <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+
+            <a href="#"><i class="fa-brands fa-github"></i></a>
+
+            <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+
+            <a href="#"><i class="fa-brands fa-instagram"></i></a>
+
         </div>
 
-        <h1>Hello, I'm <span>VELR ZARTX</span></h1>
-
-        <p class="typing-text">
-            Web Developer | Cyber Security | Programmer
-        </p>
-
-        <a href="#contact" class="btn">
-            Contact Me
+        <a href="global/video.html" class="btn">
+            Let’s Work Together
         </a>
 
-        <!-- GLOBE -->
-        <div id="globe-container"></div>
-
     </div>
 
 </section>
 
-<!-- CONTACT -->
-<section class="contact" id="contact">
-
-    <h1 class="title">Contact <span>Me</span></h1>
-
-    <div class="contact-container">
-
-        <form class="contact-form"
-        action="https://api.whatsapp.com/send"
-        method="get"
-        target="_blank">
-
-            <input
-            type="text"
-            name="text"
-            placeholder="Nama Anda"
-            required>
-
-            <input
-            type="text"
-            placeholder="Pesan"
-            required
-            oninput="this.form.text.value=this.value">
-
-            <button class="send-btn">
-                Kirim WhatsApp
-            </button>
-
-        </form>
-
-    </div>
-
-</section>
-
-<!-- ================= SCRIPT ================= -->
+<!-- TYPED -->
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
 
 <script>
 
-/* MENU */
+var typed = new Typed(".typing", {
 
-function toggleMenu(){
+    strings: [
+        "Script Writer",
+        "Web Developer",
+        "Designer"
+    ],
 
-    document
-    .getElementById("menu")
-    .classList.toggle("show");
-}
+    typeSpeed: 100,
+    backSpeed: 50,
+    loop: true
 
-/* LIGHT MODE */
+});
 
-function toggleMode(){
+</script>
 
-    document.body
-    .classList.toggle("light-mode");
-}
+<!-- ================= GLOBAL (GLOBE DI BAWAH) ================= -->
 
-/* ================= GLOBE ================= */
+<div id="globe-container"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/controls/OrbitControls.js"></script>
+
+<script>
 
 const scene = new THREE.Scene();
 
@@ -154,7 +108,6 @@ const camera = new THREE.PerspectiveCamera(
 
 const renderer = new THREE.WebGLRenderer({alpha:true});
 renderer.setSize(300,300);
-renderer.setPixelRatio(window.devicePixelRatio);
 
 document
 .getElementById("globe-container")
@@ -168,10 +121,7 @@ camera,
 renderer.domElement
 );
 
-controls.enableZoom = true;
-controls.enablePan = false;
 controls.autoRotate = true;
-controls.autoRotateSpeed = 1.2;
 
 /* LIGHT */
 
@@ -202,141 +152,12 @@ new THREE.Mesh(
 new THREE.SphereGeometry(2,64,64),
 
 new THREE.MeshStandardMaterial({
-
-map:earthTexture,
-emissive:0xb74b4b,
-emissiveIntensity:0.3
-
+map:earthTexture
 })
 
 );
 
 scene.add(globe);
-
-/* GLOW */
-
-const glow =
-new THREE.Mesh(
-
-new THREE.SphereGeometry(2.15,64,64),
-
-new THREE.MeshBasicMaterial({
-
-color:0xff0000,
-transparent:true,
-opacity:0.15
-
-})
-
-);
-
-scene.add(glow);
-
-/* STARS */
-
-const starsGeometry =
-new THREE.BufferGeometry();
-
-const starsMaterial =
-new THREE.PointsMaterial({color:0xffffff});
-
-const starsVertices = [];
-
-for(let i=0;i<2000;i++){
-
-starsVertices.push(
-(Math.random()-0.5)*2000,
-(Math.random()-0.5)*2000,
-(Math.random()-0.5)*2000
-);
-
-}
-
-starsGeometry.setAttribute(
-'position',
-new THREE.Float32BufferAttribute(
-starsVertices,
-3
-)
-);
-
-const stars =
-new THREE.Points(
-starsGeometry,
-starsMaterial
-);
-
-scene.add(stars);
-
-/* CITY */
-
-function createCity(lat,lon){
-
-const r = 2;
-
-const phi = (90-lat)*(Math.PI/180);
-const theta = (lon+180)*(Math.PI/180);
-
-const x = -(r*Math.sin(phi)*Math.cos(theta));
-const y = r*Math.cos(phi);
-const z = r*Math.sin(phi)*Math.sin(theta);
-
-const city =
-new THREE.Mesh(
-
-new THREE.SphereGeometry(0.05,16,16),
-
-new THREE.MeshBasicMaterial({color:0xff0000})
-
-);
-
-city.position.set(x,y,z);
-
-scene.add(city);
-
-return city.position;
-
-}
-
-const jakarta = createCity(-6.2,106.8);
-const tokyo = createCity(35.6,139.6);
-const london = createCity(51.5,-0.1);
-
-/* CURVE */
-
-function createCurve(a,b){
-
-const curve =
-new THREE.QuadraticBezierCurve3(
-a,
-new THREE.Vector3(0,3,0),
-b
-);
-
-const points =
-curve.getPoints(50);
-
-const geometry =
-new THREE.BufferGeometry()
-.setFromPoints(points);
-
-const material =
-new THREE.LineBasicMaterial({
-color:0xff0000
-});
-
-const line =
-new THREE.Line(
-geometry,
-material
-);
-
-scene.add(line);
-
-}
-
-createCurve(jakarta,tokyo);
-createCurve(jakarta,london);
 
 /* CAMERA */
 
@@ -348,8 +169,7 @@ function animate(){
 
 requestAnimationFrame(animate);
 
-glow.rotation.y += 0.002;
-stars.rotation.y += 0.0005;
+globe.rotation.y += 0.003;
 
 controls.update();
 
@@ -362,4 +182,4 @@ animate();
 </script>
 
 </body>
-</html>
+            </html>
