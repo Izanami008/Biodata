@@ -1,4 +1,3 @@
-/* ========== GOOGLE FONT ========== */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 
 /* ================= GLOBAL ================= */
@@ -27,7 +26,7 @@ header{
     z-index:1000;
 }
 
-/* LOGO AREA */
+/* ================= LOGO AREA ================= */
 .logo-area{
     display:flex;
     align-items:center;
@@ -48,7 +47,19 @@ header{
     font-weight:600;
 }
 
-/* SETTINGS MENU */
+/* ================= NAV ================= */
+nav a{
+    margin-left:30px;
+    color:white;
+    text-decoration:none;
+    font-size:1.6rem;
+}
+
+nav a:hover{
+    color:#b74b4b;
+}
+
+/* ================= SETTINGS MENU ================= */
 .settings-menu{
     position:absolute;
     top:60px;
@@ -96,16 +107,13 @@ header{
 /* ================= HOME ================= */
 .home{
     padding-top:90px;
-    text-align:center;
 }
 
-/* VIDEO ATAS */
 .top-video{
     width:100%;
-    height:400px; /* default PC */
+    height:300px;
     position:relative;
     overflow:hidden;
-    margin-top:40px;
 }
 
 .top-video video{
@@ -121,38 +129,38 @@ header{
     background:rgba(0,0,0,0.4);
 }
 
-/* FOTO PROFIL */
+.home-content{
+    text-align:center;
+    margin-top:40px;
+}
+
 .home-img img{
-    width:250px; /* diperbesar PC */
-    height:250px;
+    width:200px;
     border-radius:50%;
-    margin-bottom:25px;
-}
-
-/* NAMA DAN DESKRIPSI */
-.home-content h1{
-    font-size:3.5rem;
-    margin-bottom:10px;
-}
-
-.home-content .typing-text{
-    font-size:2.5rem;
-    margin:15px 0;
-}
-
-.home-content p{
-    font-size:1.6rem;
     margin-bottom:20px;
 }
 
-/* SOCIAL ICONS */
+h1{
+    font-size:3rem;
+}
+
+span{
+    color:#b74b4b;
+}
+
+.typing-text{
+    font-size:2rem;
+    margin:10px 0;
+}
+
+/* ================= SOCIAL ICONS ================= */
 .social-icons a{
     margin:10px;
     color:#b74b4b;
     font-size:20px;
 }
 
-/* BUTTON */
+/* ================= BUTTON ================= */
 .btn{
     display:inline-block;
     margin-top:20px;
@@ -256,47 +264,21 @@ header{
     box-shadow:0 0 20px rgba(255,0,0,0.6);
 }
 
-/* ================= RESPONSIVE ================= */
-/* Tablet */
-@media (max-width:1024px){
-    .top-video{
-        height:320px;
-        margin-top:30px;
+/* ================= MOBILE ================= */
+@media (max-width:768px){
+    .contact-form{
+        width:90%;
+        padding:30px;
     }
-    .home-img img{
-        width:200px;
-        height:200px;
-        margin-bottom:20px;
+
+    .title{
+        font-size:2.2rem;
     }
-    .home-content h1{
-        font-size:2.8rem;
-    }
-    .home-content .typing-text{
-        font-size:2rem;
-    }
-    .home-content p{
-        font-size:1.4rem;
+
+    #globe-container{
+        width:100%;
+        display:flex;
+        justify-content:center;
+        margin-top:40px;
     }
 }
-
-/* HP / Mobile */
-@media (max-width:768px){
-    .top-video{
-        height:220px;
-        margin-top:20px;
-    }
-    .home-img img{
-        width:150px;
-        height:150px;
-        margin-bottom:15px;
-    }
-    .home-content h1{
-        font-size:2rem;
-    }
-    .home-content .typing-text{
-        font-size:1.5rem;
-    }
-    .home-content p{
-        font-size:1.2rem;
-    }
-    }
