@@ -1,56 +1,252 @@
+<?php
+session_start();
+if(!isset($_SESSION['login'])){ header("Location: login.html"); exit; }
+
+$host="localhost"; $user="root"; $pass=""; $db="cms_db";
+$conn=new mysqli($host,$user,$pass,$db);
+if($conn->connect_error) die("DB error: ".$conn->connect_error);
+
+// Handle AJAX requests
+if(isset($_POST['action'])){
+    $action=$_POST['action'];
+    $id=$_POST['id']??0;
+    $nama=$_POST['nama']??'';
+    $email=$_POST['email']??'';
+    $role=$_POST['role']??'';
+    $password=$_POST['password']??'';
+    $foto=$_FILES['foto']['name']??'';
+
+    if($action=='add'){
+        $fotoPath='';
+        if($foto){ $fotoPath='uploads/'.basename($foto); move_uploaded_file($_FILES['foto']['tmp_name'],$fotoPath); }
+        $pass_hash=password_hash($password,PASSWORD_DEFAULT);
+        $conn->query("INSERT INTO users (nama,email,role,password,foto) VALUES ('$nama','$email','$role','$pass_hash','$fotoPath')");
+    }
+    elseif($action=='edit'){
+        if($foto){ $fotoPath='uploads/'.basename($foto); move_uploaded_file($_FILES['foto']['tmp_name'],$fotoPath); $conn->query("UPDATE users SET nama='$nama',email='$email',role='$role',foto='$fotoPath' WHERE id=$id"); }
+        else{ $conn->query("UPDATE users SET nama='$nama',email='$email',role='$role' WHERE id=$id"); }
+    }
+    elseif($action=='delete'){ $conn->query("DELETE FROM users WHERE id=$id"); }
+    elseif($action=='reset_pass'){ $pass_hash=password_hash($password,PASSWORD_DEFAULT); $conn->query("UPDATE users SET password='$pass_hash' WHERE id=$id"); }
+
+    // Return updated data for chart & table
+    $res=$conn->query("SELECT * FROM users ORDER BY id ASC");
+    $users=[];
+    while($r=$res->fetch_assoc()) $users[]=$r;
+    echo json_encode($users);
+    exit;
+}
+
+// Fetch all users for initial render
+$res=$conn->query("SELECT * FROM users ORDER BY id ASC");
+$users=[];
+while($r=$res->fetch_assoc()) $users[]=$r;
+?>
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Dashboard</title>
-<link rel="stylesheet" href="../style.css">
+<title>Admin Dashboard Live Premium</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+/* --- CSS seperti versi premium sebelumnya, termasuk dark/light, sidebar, cards, table, modal --- */
+/* Bisa menggunakan CSS versi sebelumnya untuk konsistensi */
+</style>
 </head>
 <body>
 
-<div class="header">
-<h2>GLOBAL ADMIN</h2>
-<button class="logout" id="logoutBtn">Logout</button>
-</div>
-
 <div class="sidebar">
-<h3>Menu</h3>
+<h2>Admin</h2>
 <a href="#">Dashboard</a>
-<a href="#">Data</a>
-<a href="#">Users</a>
-<a href="#">Settings</a>
+<a href="#">Data User</a>
+<a href="#">Foto</a>
+<a href="#">Statistik</a>
+<a href="#">Pengaturan</a>
+<a href="#" class="logout">Logout</a>
 </div>
 
-<div class="main">
-<div class="card"><h2>Selamat Datang Admin</h2></div>
+<div class="main-content">
+<div class="header">
+<h1>Dashboard Live Premium</h1>
+<button class="toggle-btn" id="themeToggle">Toggle Dark/Light</button>
+</div>
 
-<div class="card">
-<h3>Daftar User Terdaftar</h3>
+<div class="cards">
+<div class="card"><h3>Total User</h3><p id="totalUser"></p></div>
+<div class="card"><h3>Total Admin</h3><p id="totalAdmin"></p></div>
+<div class="card"><h3>Total Foto</h3><p id="totalFoto"></p></div>
+</div>
+
+<div class="chart-container">
+<canvas id="userChart" height="100"></canvas>
+</div>
+
+<div class="table-container">
+<div class="controls">
+<input type="text" id="searchInput" placeholder="Cari user...">
+<select id="roleFilter"><option value="">Semua Role</option><option value="Admin">Admin</option><option value="User">User</option></select>
+<button id="addUserBtn">Tambah User</button>
+</div>
 <table id="userTable">
-<thead>
-<tr><th>Foto Profil</th><th>Username</th><th>Password</th></tr>
-</thead>
-<tbody></tbody>
+<thead><tr><th>No</th><th>Nama</th><th>Email</th><th>Foto</th><th>Role</th><th>Aksi</th></tr></thead>
+<tbody id="tableBody"></tbody>
 </table>
+<div class="pagination" id="pagination"></div>
+</div>
+</div>
+
+<!-- Modal -->
+<div class="modal" id="userModal">
+<div class="modal-content">
+<span class="close" id="closeModal">&times;</span>
+<h3 id="modalTitle">Tambah/Edit User</h3>
+<form id="userForm" enctype="multipart/form-data">
+<input type="hidden" name="id" id="userId">
+<input type="hidden" name="action" id="userAction" value="edit">
+<label>Nama</label><input type="text" name="nama" id="editName" required>
+<label>Email</label><input type="email" name="email" id="editEmail" required>
+<label>Role</label><select name="role" id="editRole"><option value="Admin">Admin</option><option value="User">User</option></select>
+<label>Password <small>(untuk reset/new user)</small></label><input type="password" name="password" id="editPassword">
+<label>Foto</label><input type="file" name="foto" id="editFoto">
+<button type="submit">Simpan</button>
+</form>
 </div>
 </div>
 
 <script>
-const loggedIn = localStorage.getItem("adminLoggedIn");
-if(!loggedIn){ alert("Silahkan login admin!"); window.location.href="login.html"; }
+// Dark/Light toggle
+const body=document.body;
+document.getElementById('themeToggle').onclick=()=>body.classList.toggle('light-mode');
 
-document.getElementById("logoutBtn").addEventListener("click",function(){
-    localStorage.removeItem("adminLoggedIn");
-    alert("Logout berhasil!"); window.location.href="login.html";
+// Initialize users from PHP
+let users=<?=json_encode($users)?>;
+let filteredUsers=[...users];
+let currentPage=1, rowsPerPage=5;
+const tableBody=document.getElementById('tableBody');
+const paginationDiv=document.getElementById('pagination');
+
+// Chart
+const ctx=document.getElementById('userChart').getContext('2d');
+let chart=new Chart(ctx,{type:'bar',data:{labels:['Admin','User'],datasets:[{label:'Jumlah User',data:[0,0],backgroundColor:['#4A90E2','#50E3C2']}]}});
+function updateChart(){ 
+    const admin=users.filter(u=>u.role==='Admin').length;
+    const user=users.filter(u=>u.role==='User').length;
+    chart.data.datasets[0].data=[admin,user];
+    chart.update();
+}
+
+// Cards
+function updateCards(){
+    document.getElementById('totalUser').innerText=users.length;
+    document.getElementById('totalAdmin').innerText=users.filter(u=>u.role==='Admin').length;
+    document.getElementById('totalFoto').innerText=users.filter(u=>u.foto!='').length;
+}
+
+// Render table
+function renderTable(){
+    tableBody.innerHTML='';
+    const start=(currentPage-1)*rowsPerPage;
+    const pageUsers=filteredUsers.slice(start,start+rowsPerPage);
+    pageUsers.forEach((u,i)=>{
+        const tr=document.createElement('tr');
+        tr.innerHTML=`<td>${start+i+1}</td><td>${u.nama}</td><td>${u.email}</td><td><img src='${u.foto}' class='photo'></td><td>${u.role}</td>
+        <td><button class='editBtn' data-id='${u.id}'>Edit</button> <button class='deleteBtn' data-id='${u.id}'>Hapus</button>
+        <button class='resetBtn' data-id='${u.id}'>Reset Password</button></td>`;
+        tableBody.appendChild(tr);
+    });
+    renderPagination();
+}
+
+// Pagination
+function renderPagination(){
+    paginationDiv.innerHTML='';
+    const pageCount=Math.ceil(filteredUsers.length/rowsPerPage);
+    for(let i=1;i<=pageCount;i++){
+        const btn=document.createElement('button');
+        btn.textContent=i;
+        if(i===currentPage) btn.disabled=true;
+        btn.addEventListener('click',()=>{currentPage=i; renderTable();});
+        paginationDiv.appendChild(btn);
+    }
+}
+
+// Search & Filter
+document.getElementById('searchInput').addEventListener('input',e=>{
+    const val=e.target.value.toLowerCase();
+    filteredUsers=users.filter(u=>u.nama.toLowerCase().includes(val));
+    currentPage=1; renderTable();
+});
+document.getElementById('roleFilter').addEventListener('change',e=>{
+    const val=e.target.value;
+    filteredUsers=val?users.filter(u=>u.role===val):[...users];
+    currentPage=1; renderTable();
 });
 
-const users = JSON.parse(localStorage.getItem("users") || "[]");
-const tbody = document.querySelector("#userTable tbody");
-users.forEach(u=>{
-    const tr=document.createElement("tr");
-    tr.innerHTML=`<td><img src="${u.profile}" alt="Profil"></td><td>${u.username}</td><td>${u.password}</td>`;
-    tbody.appendChild(tr);
+// Modal handling
+const userModal=document.getElementById('userModal');
+const closeModal=document.getElementById('closeModal');
+const addBtn=document.getElementById('addUserBtn');
+const userForm=document.getElementById('userForm');
+closeModal.onclick=()=>userModal.style.display='none';
+addBtn.onclick=()=>{
+    userForm.reset();
+    document.getElementById('modalTitle').innerText='Tambah User';
+    document.getElementById('userAction').value='add';
+    userModal.style.display='flex';
+};
+
+// Edit/Delete/Reset Password
+tableBody.addEventListener('click',e=>{
+    const id=e.target.dataset.id;
+    const user=users.find(u=>u.id==id);
+    if(e.target.classList.contains('editBtn')){
+        document.getElementById('modalTitle').innerText='Edit User';
+        document.getElementById('userAction').value='edit';
+        document.getElementById('userId').value=id;
+        document.getElementById('editName').value=user.nama;
+        document.getElementById('editEmail').value=user.email;
+        document.getElementById('editRole').value=user.role;
+        userModal.style.display='flex';
+    }
+    if(e.target.classList.contains('deleteBtn')){
+        if(confirm('Yakin hapus user?')){ sendAction('delete',id); }
+    }
+    if(e.target.classList.contains('resetBtn')){
+        const pw=prompt('Masukkan password baru:');
+        if(pw){ sendAction('reset_pass',id,pw); }
+    }
 });
+
+// Submit form
+userForm.addEventListener('submit',e=>{
+    e.preventDefault();
+    const fd=new FormData(userForm);
+    const action=fd.get('action');
+    const id=fd.get('id');
+    const pw=fd.get('password');
+    sendAction(action,id,pw,fd);
+});
+
+// Send AJAX
+function sendAction(action,id='',pw='',fd=null){
+    if(!fd) fd=new FormData();
+    fd.append('action',action);
+    fd.append('id',id);
+    if(pw) fd.append('password',pw);
+    fetch('<?=basename(__FILE__)?>',{method:'POST',body:fd})
+    .then(res=>res.json())
+    .then(data=>{
+        users=data; filteredUsers=[...users]; updateCards(); renderTable(); updateChart();
+    });
+}
+
+// Initial render
+updateCards();
+renderTable();
+updateChart();
 </script>
+
 </body>
-</html>
+    </html>
