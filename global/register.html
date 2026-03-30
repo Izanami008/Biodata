@@ -4,82 +4,104 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Register</title>
+
 <style>
 body{background:#0f172a;color:white;font-family:Arial;display:flex;justify-content:center;align-items:center;height:100vh;margin:0;}
 .box{background:#1e293b;padding:40px;border-radius:15px;width:350px;box-shadow:0 0 20px rgba(0,255,204,0.3);text-align:center;}
 .box h2{margin-bottom:20px;}
-input[type="text"], input[type="password"], input[type="email"]{padding:12px;margin:10px 0;width:100%;border-radius:8px;border:none;outline:none;}
+input{padding:12px;margin:10px 0;width:100%;border-radius:8px;border:none;outline:none;}
 button{padding:12px;width:100%;margin-top:10px;background:#00ffcc;border:none;border-radius:8px;font-weight:bold;cursor:pointer;}
 .error{color:red;margin-bottom:10px;}
 .profile-img{width:80px;height:80px;border-radius:50%;object-fit:cover;margin-bottom:15px;border:2px solid #00ffcc;}
-p.login-text{margin-top:15px;}
-p.login-text a{color:#00ffcc;text-decoration:none;font-weight:bold;}
 </style>
 </head>
+
 <body>
 
 <div class="box">
+
 <h2>Register</h2>
+
 <img src="../img/default-profile.png" class="profile-img" id="profilePreview">
+
 <p class="error" id="errorMsg"></p>
 
 <form id="registerForm">
+
 <input type="text" id="username" placeholder="Username" required>
 <input type="text" id="nama" placeholder="Nama Lengkap" required>
 <input type="email" id="email" placeholder="Email" required>
 <input type="password" id="password" placeholder="Password minimal 6 karakter" required>
 <input type="file" id="fotoInput" accept="image/*">
+
 <button type="submit">Register</button>
+
 </form>
 
-<p class="login-text">Sudah punya akun? <a href="login.html">Login</a></p>
 </div>
 
 <script>
-const registerForm = document.getElementById("registerForm");
-const profilePreview = document.getElementById("profilePreview");
-const fotoInput = document.getElementById("fotoInput");
-const errorMsg = document.getElementById("errorMsg");
 
-// Preview foto
-fotoInput.addEventListener("change", function(){
-    const file = this.files[0];
-    if(file){
-        const reader = new FileReader();
-        reader.onload = e => profilePreview.src = e.target.result;
-        reader.readAsDataURL(file);
-    } else {
-        profilePreview.src = "../img/default-profile.png";
-    }
+const form=document.getElementById("registerForm");
+const preview=document.getElementById("profilePreview");
+const fotoInput=document.getElementById("fotoInput");
+const errorMsg=document.getElementById("errorMsg");
+
+fotoInput.onchange=function(){
+
+const file=this.files[0];
+
+if(file){
+const reader=new FileReader();
+reader.onload=e=>preview.src=e.target.result;
+reader.readAsDataURL(file);
+}
+
+};
+
+function getUsers(){
+return JSON.parse(localStorage.getItem("users")||"[]");
+}
+
+form.addEventListener("submit",function(e){
+
+e.preventDefault();
+
+const username=document.getElementById("username").value.trim();
+const nama=document.getElementById("nama").value.trim();
+const email=document.getElementById("email").value.trim();
+const password=document.getElementById("password").value.trim();
+const foto=preview.src;
+
+if(password.length<6){
+errorMsg.textContent="Password minimal 6 karakter";
+return;
+}
+
+let users=getUsers();
+
+if(users.find(u=>u.username===username)){
+errorMsg.textContent="Username sudah ada";
+return;
+}
+
+const newUser={
+username,
+nama,
+email,
+password,
+foto,
+role:"User"
+};
+
+users.push(newUser);
+
+localStorage.setItem("users",JSON.stringify(users));
+
+window.location.href="login.html";
+
 });
 
-// Ambil data user dari localStorage
-function getUsers(){ return JSON.parse(localStorage.getItem("users") || "[]"); }
-
-// Submit form
-registerForm.addEventListener("submit", function(e){
-    e.preventDefault(); // wajib supaya tidak reload
-    errorMsg.textContent = "";
-
-    const username = document.getElementById("username").value.trim();
-    const nama = document.getElementById("nama").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value.trim();
-    const foto = profilePreview.src;
-
-    if(password.length < 6){ errorMsg.textContent = "Password minimal 6 karakter!"; return; }
-
-    const users = getUsers();
-    if(users.some(u=>u.username.toLowerCase()===username.toLowerCase())){ errorMsg.textContent = "Username sudah terdaftar!"; return; }
-    if(users.some(u=>u.email.toLowerCase()===email.toLowerCase())){ errorMsg.textContent = "Email sudah terdaftar!"; return; }
-
-    const newUser = {username,nama,email,password,foto,role:"User"};
-    users.push(newUser);
-    localStorage.setItem("users",JSON.stringify(users));
-
-    // Redirect ke login.html
-    window.location.href = "login.html";
-});
 </script>
 
 </body>
