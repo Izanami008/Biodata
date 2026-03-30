@@ -5,61 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin Dashboard</title>
 <link rel="stylesheet" href="../style.css">
-
-<style>
-body{
-    margin:0;
-    font-family:Arial, sans-serif;
-    background:#0f172a;
-    color:white;
-}
-.header{
-    background:#020617;
-    padding:15px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-.sidebar{
-    width:200px;
-    background:#1e293b;
-    height:100vh;
-    position:fixed;
-    padding:20px;
-}
-.sidebar a{
-    display:block;
-    color:white;
-    padding:10px;
-    text-decoration:none;
-    margin-bottom:10px;
-    background:#334155;
-    border-radius:5px;
-}
-.sidebar a:hover{
-    background:#00ffcc;
-    color:black;
-}
-.main{
-    margin-left:220px;
-    padding:20px;
-}
-.card{
-    background:#1e293b;
-    padding:20px;
-    border-radius:10px;
-    margin-bottom:20px;
-}
-.logout{
-    background:orange;
-    padding:8px 15px;
-    border:none;
-    border-radius:5px;
-    cursor:pointer;
-}
-</style>
 </head>
-
 <body>
 
 <div class="header">
@@ -76,41 +22,35 @@ body{
 </div>
 
 <div class="main">
-<div class="card">
-<h2>Selamat Datang Admin</h2>
-<p>Sistem dashboard siap digunakan.</p>
-</div>
+<div class="card"><h2>Selamat Datang Admin</h2></div>
 
 <div class="card">
-<h3>Status Sistem</h3>
-<p>Server berjalan normal</p>
-<p>Database siap digunakan</p>
-<p>Project sedang dikembangkan</p>
-</div>
-
-<div class="card">
-<h3>Informasi</h3>
-<p>Ini adalah dashboard utama.</p>
-<p>Silakan tambahkan fitur sesuai kebutuhan.</p>
+<h3>Daftar User Terdaftar</h3>
+<table id="userTable">
+<thead>
+<tr><th>Foto Profil</th><th>Username</th><th>Password</th></tr>
+</thead>
+<tbody></tbody>
+</table>
 </div>
 </div>
 
 <script>
-// Cek apakah admin login
 const loggedIn = localStorage.getItem("adminLoggedIn");
+if(!loggedIn){ alert("Silahkan login admin!"); window.location.href="login.html"; }
 
-if(!loggedIn){
-    alert("Silahkan login admin terlebih dahulu!");
-    window.location.href = "login.html"; // arahkan ke login
-}
-
-// Tombol logout
-document.getElementById("logoutBtn").addEventListener("click", function(){
+document.getElementById("logoutBtn").addEventListener("click",function(){
     localStorage.removeItem("adminLoggedIn");
-    alert("Logout berhasil!");
-    window.location.href = "login.html";
+    alert("Logout berhasil!"); window.location.href="login.html";
+});
+
+const users = JSON.parse(localStorage.getItem("users") || "[]");
+const tbody = document.querySelector("#userTable tbody");
+users.forEach(u=>{
+    const tr=document.createElement("tr");
+    tr.innerHTML=`<td><img src="${u.profile}" alt="Profil"></td><td>${u.username}</td><td>${u.password}</td>`;
+    tbody.appendChild(tr);
 });
 </script>
-
 </body>
 </html>
