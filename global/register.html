@@ -11,7 +11,6 @@ body{background:#0f172a;color:white;font-family:Arial;display:flex;justify-conte
 input[type="text"], input[type="password"], input[type="email"]{padding:12px;margin:10px 0;width:100%;border-radius:8px;border:none;outline:none;}
 button{padding:12px;width:100%;margin-top:10px;background:#00ffcc;border:none;border-radius:8px;font-weight:bold;cursor:pointer;}
 .error{color:red;margin-bottom:10px;}
-.success{color:green;margin-bottom:10px;}
 .profile-img{width:80px;height:80px;border-radius:50%;object-fit:cover;margin-bottom:15px;border:2px solid #00ffcc;}
 p.login-text{margin-top:15px;}
 p.login-text a{color:#00ffcc;text-decoration:none;font-weight:bold;}
@@ -23,7 +22,6 @@ p.login-text a{color:#00ffcc;text-decoration:none;font-weight:bold;}
 <h2>Register</h2>
 <img src="../img/default-profile.png" alt="Profile" class="profile-img" id="profilePreview">
 <p class="error" id="errorMsg"></p>
-<p class="success" id="successMsg"></p>
 
 <form id="registerForm">
 <input type="text" id="username" placeholder="Username" required>
@@ -42,7 +40,6 @@ const registerForm = document.getElementById('registerForm');
 const profilePreview = document.getElementById('profilePreview');
 const fotoInput = document.getElementById('fotoInput');
 const errorMsg = document.getElementById('errorMsg');
-const successMsg = document.getElementById('successMsg');
 
 // Preview foto sebelum submit
 fotoInput.onchange = function(){
@@ -65,9 +62,8 @@ function getUsers(){
 
 // Form submit
 registerForm.addEventListener("submit", function(e){
-    e.preventDefault();
+    e.preventDefault(); // penting supaya form tidak reload page
     errorMsg.textContent = "";
-    successMsg.textContent = "";
 
     const username = document.getElementById("username").value.trim();
     const nama = document.getElementById("nama").value.trim();
@@ -95,11 +91,8 @@ registerForm.addEventListener("submit", function(e){
     users.push(newUser);
     localStorage.setItem("users",JSON.stringify(users));
 
-    registerForm.reset();
-    profilePreview.src = "../img/default-profile.png";
-    successMsg.textContent = "Registrasi berhasil! Silakan login.";
-
-    setTimeout(()=>window.location.href='login.html',1500);
+    // Redirect langsung ke login.html
+    window.location.href = "login.html";
 });
 </script>
 
