@@ -1,75 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <!-- ICON -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-    <!-- Style -->
+    <!-- CSS -->
     <link rel="stylesheet" href="style.css">
 
-    <title>Website</title>
+    <title>Erika099</title>
 </head>
 
 <body>
 
-    <!-- Header -->
-    <header>
-        <a href="#" class="logo">Erika099</a>
+<!-- HEADER -->
+<header>
 
-        <nav>
-            <a href="index.html" class="active">Home</a>
-            <a href="pages/services.html">Services</a>
-            <a href="pages/skills.html">Skills</a>
-            <a href="pages/education.html">Education</a>
-            <a href="pages/experience.html">Experience</a>
-            <a href="pages/contact.html">Contact</a>
-        </nav>
-    </header>
+    <div class="logo-area">
 
-    <!-- Home Section -->
-    <section class="home">
+        <!-- LOGO -->
+        <img src="img/logo.png" class="logo-img" onclick="toggleMenu()">
 
-        <div class="home-img">
-            <img src="img/main.jpg" alt="profile">
-        </div>
+        <a href="index.html" class="logo">Erika099</a>
 
-        <div class="home-content">
-            <h1>Hi, It's <span>Bismarck</span></h1>
+        <!-- DROPDOWN MENU -->
+        <div class="settings-menu" id="settingsMenu">
 
-            <h3 class="typing-text">
-                I'm a <span class="typing"></span>
-            </h3>
+            <a href="index.html" class="menu-btn">Home</a>
+            <a href="pages/services.html" class="menu-btn">Services</a>
+            <a href="pages/skills.html" class="menu-btn">Skills</a>
+            <a href="pages/education.html" class="menu-btn">Education</a>
+            <a href="pages/experience.html" class="menu-btn">Experience</a>
+            <a href="pages/contact.html" class="menu-btn">Contact</a>
 
-            <p>Websate ini direkomendasikan untuk pc dan laptop</p>
+            <hr>
 
-            <div class="social-icons">
-                <a href="#"><i class="fa-brands fa-linkedin"></i></a>
-                <a href="#"><i class="fa-brands fa-github"></i></a>
-                <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
-                <a href="#"><i class="fa-brands fa-instagram"></i></a>
-            </div>
+            <button class="menu-btn" onclick="toggleTheme()">
+                🌙 Dark / Light
+            </button>
 
-            <a href="global/video.html" class="btn">
-                Let’s Work Together
+            <a href="global/login.html" class="menu-btn">
+                Login Admin
             </a>
 
         </div>
-    </section>
 
-    <!-- Typed JS -->
-    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    </div>
 
-    <script>
-        var typed = new Typed(".typing", {
-            strings: ["Script Writer", "Web Developer", "Designer"],
-            typeSpeed: 100,
-            backSpeed: 50,
-            loop: true
-        });
-    </script>
+</header>
+
+<!-- VIDEO ATAS -->
+<section class="hero-video">
+
+    <video autoplay muted loop playsinline>
+        <source src="video/video-pc.mp4" type="video/mp4">
+    </video>
+
+    <div class="video-overlay"></div>
+
+</section>
+
+<!-- HOME -->
+<section class="home">
+
+    <div class="home-img">
+        <img src="img/main.jpg">
+    </div>
+
+    <div class="home-content">
+
+        <h1>Hi, It's <span>Bismarck</span></h1>
+
+        <h3 class="typing-text">
+            I'm a <span class="typing"></span>
+        </h3>
+
+        <p>Website ini direkomendasikan untuk PC dan Laptop</p>
+
+        <!-- SOCIAL -->
+        <div class="social-icons">
+
+            <a href="https://youtube.com/@kingofbismarck?si=Lk5sX_Zd46cvmSvu" target="_blank">
+                <i class="fa-brands fa-youtube"></i>
+            </a>
+
+            <a href="https://x.com/I443570I" target="_blank">
+                <i class="fa-brands fa-x-twitter"></i>
+            </a>
+
+            <a href="https://www.instagram.com/izanami_8888?igsh=MXN3N2t2NTlmYTZwMw==" target="_blank">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
+
+        </div>
+
+        <a href="global/login.html" class="btn">
+            Let’s Work Together
+        </a>
+
+    </div>
+
+</section>
+
+<!-- TYPING -->
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+
+<script>
+
+function toggleMenu(){
+    document.getElementById("settingsMenu").classList.toggle("show");
+}
+
+function toggleTheme(){
+    document.body.classList.toggle("light-mode");
+}
+
+window.onclick = function(e){
+    if(!e.target.closest('.logo-area')){
+        document.getElementById("settingsMenu").classList.remove("show");
+    }
+}
+
+var typed = new Typed(".typing", {
+    strings: [
+        "Script Writer",
+        "Web Developer",
+        "Designer"
+    ],
+    typeSpeed: 100,
+    backSpeed: 50,
+    loop: true
+});
+
+</script>
 
 </body>
-                                                                     </html>
+    </html>
