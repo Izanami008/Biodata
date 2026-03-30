@@ -1,216 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- ICON -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <!-- ICON -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-<title>Erika099</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
 
-<style>
-body{
-    margin:0;
-    font-family:Arial, sans-serif;
-    background:#0f172a;
-    color:white;
-}
-a{
-    color:inherit;
-    text-decoration:none;
-}
-header{
-    position:fixed;
-    width:100%;
-    top:0;
-    left:0;
-    background:rgba(15,23,42,0.9);
-    z-index:100;
-}
-.logo-area{
-    display:flex;
-    align-items:center;
-    padding:10px 20px;
-}
-.logo-img{
-    width:40px;
-    cursor:pointer;
-}
-.logo{
-    margin-left:10px;
-    font-weight:bold;
-    font-size:20px;
-}
-.settings-menu{
-    display:none;
-    flex-direction:column;
-    background:#1e293b;
-    position:absolute;
-    top:60px;
-    left:20px;
-    border-radius:8px;
-    overflow:hidden;
-}
-.settings-menu.show{display:flex;}
-.menu-btn{
-    padding:10px 15px;
-    border:none;
-    background:none;
-    color:white;
-    cursor:pointer;
-    text-align:left;
-    width:100%;
-}
-.menu-btn:hover{background:#0f172a;}
-.home{
-    margin-top:70px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    padding:20px;
-}
-.home-img img{
-    width:200px;
-    border-radius:50%;
-    border:3px solid #00ffcc;
-    margin-bottom:15px;
-}
-h1 span{color:#00ffcc;}
-.btn{
-    display:inline-block;
-    margin-top:15px;
-    padding:10px 20px;
-    background:#00ffcc;
-    color:#0f172a;
-    font-weight:bold;
-    border-radius:8px;
-    cursor:pointer;
-}
-.social-icons a{
-    margin:0 5px;
-    color:white;
-    font-size:20px;
-}
-.light-mode body{background:#fff;color:#333;}
-</style>
+    <title>Erika099</title>
 </head>
+
 <body>
+    <!-- HEADER -->
+    <header>
+        <div class="logo-area">
+            <!-- LOGO -->
+            <img src="img/logo.png" class="logo-img" onclick="toggleMenu()" alt="Logo">
 
-<!-- HEADER -->
-<header>
-    <div class="logo-area">
-        <img src="img/logo.png" class="logo-img" onclick="toggleMenu()">
-        <a href="#" class="logo">Erika099</a>
-        <div class="settings-menu" id="settingsMenu">
-            <a href="index.html" class="menu-btn">Home</a>
-            <a href="pages/services.html" class="menu-btn">Services</a>
-            <a href="pages/skills.html" class="menu-btn">Skills</a>
-            <a href="pages/education.html" class="menu-btn">Education</a>
-            <a href="pages/experience.html" class="menu-btn">Experience</a>
-            <a href="pages/contact.html" class="menu-btn">Contact</a>
-            <hr>
-            <button class="menu-btn" onclick="toggleTheme()">🌙 Dark / Light</button>
-            <a href="global/login.html" class="menu-btn">Login Admin</a>
+            <!-- NAMA -->
+            <a href="#" class="logo">Erika099</a>
+
+            <!-- DROPDOWN MENU -->
+            <div class="settings-menu" id="settingsMenu">
+                <a href="index.html" class="menu-btn">Home</a>
+                <a href="pages/services.html" class="menu-btn">Services</a>
+                <a href="pages/skills.html" class="menu-btn">Skills</a>
+                <a href="pages/education.html" class="menu-btn">Education</a>
+                <a href="pages/experience.html" class="menu-btn">Experience</a>
+                <a href="pages/contact.html" class="menu-btn">Contact</a>
+                <hr>
+                <button class="menu-btn" onclick="toggleTheme()">🌙 Dark / Light</button>
+                <a href="global/login.html" class="menu-btn">Login Admin</a>
+            </div>
         </div>
-    </div>
-</header>
+    </header>
 
-<!-- HOME -->
-<section class="home">
-    <div class="home-img">
-        <img src="img/main.jpg" alt="Profile">
-    </div>
-    <h1>Hi, It's <span>Bismarck</span></h1>
-    <h3 class="typing-text">I'm a <span class="typing"></span></h3>
-    <p>Website ini direkomendasikan untuk PC dan Laptop</p>
+    <!-- HOME -->
+    <section class="home">
+        <!-- VIDEO ATAS -->
+        <div class="top-video">
+            <video autoplay muted loop playsinline>
+                <source src="video/video-pc.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="overlay"></div>
+        </div>
 
-    <div class="social-icons">
-        <a href="https://youtube.com/@kingofbismarck?si=Lk5sX_Zd46cvmSvu" target="_blank"><i class="fa-brands fa-youtube"></i></a>
-        <a href="https://x.com/I443570I" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
-        <a href="https://www.instagram.com/izanami_8888?igsh=MXN3N2t2NTlmYTZwMw==" target="_blank"><i class="fa-brands fa-instagram"></i></a>
-    </div>
+        <!-- CONTENT -->
+        <div class="home-content">
+            <div class="home-img">
+                <img src="img/main.jpg" alt="Main Image">
+            </div>
 
-    <a href="global/login.html" class="btn">Let’s Work Together</a>
+            <h1>Hi, It's <span>Bismarck</span></h1>
 
-    <!-- Container 3D Jupiter -->
-    <div id="particle-container" style="width:100%;height:300px;margin-top:30px;"></div>
-</section>
+            <h3 class="typing-text">
+                I'm a <span class="typing"></span>
+            </h3>
 
-<!-- Typed.js -->
-<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+            <p>Website ini direkomendasikan untuk PC dan Laptop</p>
 
-<!-- Three.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r152/three.min.js"></script>
+            <div class="social-icons">
+                <!-- YOUTUBE -->
+                <a href="https://youtube.com/@kingofbismarck?si=Lk5sX_Zd46cvmSvu" target="_blank">
+                    <i class="fa-brands fa-youtube"></i>
+                </a>
 
-<script>
-// ==== TYPED JS ====
-var typed = new Typed(".typing", {
-    strings:["Script Writer","Web Developer","Designer"],
-    typeSpeed:100,
-    backSpeed:50,
-    loop:true
-});
+                <!-- X -->
+                <a href="https://x.com/I443570I" target="_blank">
+                    <i class="fa-brands fa-x-twitter"></i>
+                </a>
 
-// ==== MENU ====
-function toggleMenu(){
-    let menu = document.getElementById("settingsMenu");
-    menu.classList.toggle("show");
-}
+                <!-- INSTAGRAM -->
+                <a href="https://www.instagram.com/izanami_8888?igsh=MXN3N2t2NTlmYTZwMw==" target="_blank">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+            </div>
 
-// ==== DARK MODE ====
-function toggleTheme(){
-    document.body.classList.toggle("light-mode");
-}
+            <a href="global/login.html" class="btn">Let’s Work Together</a>
+        </div>
+    </section>
 
-// ==== KLIK LUAR TUTUP MENU ====
-window.onclick = function(e){
-    if(!e.target.closest('.logo-area')){
-        let menu = document.getElementById("settingsMenu");
-        if(menu.classList.contains("show")) menu.classList.remove("show");
-    }
-}
+    <!-- TYPED JS -->
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <script>
+        // TYPING EFFECT
+        var typed = new Typed(".typing", {
+            strings: ["Script Writer", "Web Developer", "Designer"],
+            typeSpeed: 100,
+            backSpeed: 50,
+            loop: true
+        });
 
-// ==== THREE.JS PLANET JUPITER ====
-const container = document.getElementById('particle-container');
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, container.clientWidth/container.clientHeight, 0.1, 1000);
-camera.position.z = 3;
+        // MENU TOGGLE
+        function toggleMenu() {
+            document.getElementById("settingsMenu").classList.toggle("show");
+        }
 
-const renderer = new THREE.WebGLRenderer({alpha:true, antialias:true});
-renderer.setSize(container.clientWidth, container.clientHeight);
-container.appendChild(renderer.domElement);
+        // DARK/LIGHT MODE TOGGLE
+        function toggleTheme() {
+            document.body.classList.toggle("light-mode");
+        }
 
-// Light
-const light = new THREE.PointLight(0xffffff,1);
-light.position.set(5,5,5);
-scene.add(light);
-
-// Sphere Geometry (Jupiter)
-const geometry = new THREE.SphereGeometry(1,64,64);
-const textureLoader = new THREE.TextureLoader();
-const texture = textureLoader.load('https://threejsfundamentals.org/threejs/resources/images/jupiter.jpg');
-const material = new THREE.MeshStandardMaterial({map: texture});
-const jupiter = new THREE.Mesh(geometry, material);
-scene.add(jupiter);
-
-// Resize
-window.addEventListener('resize', ()=>{
-    camera.aspect = container.clientWidth/container.clientHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(container.clientWidth, container.clientHeight);
-});
-
-// Animate
-function animate(){
-    requestAnimationFrame(animate);
-    jupiter.rotation.y += 0.005;
-    renderer.render(scene,camera);
-}
-animate();
-</script>
-
+        // CLOSE MENU WHEN CLICK OUTSIDE
+        window.addEventListener("click", function (e) {
+            if (!e.target.closest('.logo-area')) {
+                const menu = document.getElementById("settingsMenu");
+                if (menu.classList.contains("show")) {
+                    menu.classList.remove("show");
+                }
+            }
+        });
+    </script>
 </body>
+
 </html>
