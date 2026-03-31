@@ -1,0 +1,21 @@
+for (let j = 0; j < particleCount; j++) {
+
+    const angle = (j / particleCount) * Math.PI * 2;
+
+    const radiusVariation = radius + (Math.random() - 0.5) * thickness;
+
+    const x = Math.cos(angle) * radiusVariation;
+    const y = (Math.random() - 0.5) * thickness;
+    const z = Math.sin(angle) * radiusVariation;
+
+    positions.push(x, y, z);
+
+    const hue = (1 / count) * 0.7 + (j / particleCount) * 0.3;
+
+    const color = new THREE.Color().setHSL(hue, 1, 0.6);
+    color.multiplyScalar(1.2);
+
+    colors.push(color.r, color.g, color.b);
+
+    sizes.push(Math.random() * 0.12 + 0.06);
+}
