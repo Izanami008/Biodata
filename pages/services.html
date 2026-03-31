@@ -1,46 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Services - Bismarck</title>
-  <link rel="stylesheet" href="../style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Services - Erika099</title>
+<style>
+  html, body {
+    margin: 0; padding:0; height:100%; overflow:hidden; background:#000;
+    font-family:sans-serif;
+  }
+  header {
+    position: fixed;
+    width: 100%;
+    z-index: 10;
+    background: rgba(0,0,0,0.6);
+    display:flex;
+    align-items:center;
+    justify-content: space-between;
+    padding:0 20px;
+    height:60px;
+  }
+  .logo {
+    color:#fff;
+    font-weight:bold;
+    font-size:1.2rem;
+    text-decoration:none;
+  }
+  nav a {
+    margin-left:20px;
+    color:#fff;
+    text-decoration:none;
+  }
+  nav a.active {
+    text-decoration:underline;
+  }
+  canvas {
+    position:absolute;
+    top:0;
+    left:0;
+    z-index:0;
+    width:100%;
+    height:100%;
+  }
+</style>
 </head>
 <body>
+<header>
+  <a href="../index.html" class="logo">Erika099</a>
+  <nav>
+    <a href="../index.html">Home</a>
+    <a href="services.html" class="active">Services</a>
+    <a href="skills.html">Skills</a>
+    <a href="education.html">Education</a>
+    <a href="experience.html">Experience</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
 
-  <header>
-    <a href="../index.html" class="logo">Bismarck</a>
-    <nav>
-      <a href="../index.html">Home</a>
-      <a href="services.html" class="active">Services</a>
-      <a href="../index.html#skills">Skills</a>
-      <a href="../index.html#education">Education</a>
-      <a href="../index.html#experience">Experience</a>
-      <a href="../index.html#contact">Contact</a>
-    </nav>
-  </header>
+<script src="https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.min.js"></script>
+<script>
+  // === Scene, Camera, Renderer ===
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 100);
+  camera.position.z = 5;
 
-  <section class="services" id="services">
-    <h2 class="section-title">My Services</h2>
-    <div class="service-boxes">
-      <div class="service-card">
-        <i class="fas fa-code"></i>
-        <h3>Web Development</h3>
-        <p>Membangun website modern, responsive, dan cepat.</p>
-      </div>
-      <div class="service-card">
-        <i class="fas fa-paint-brush"></i>
-        <h3>UI/UX Design</h3>
-        <p>Mendesain tampilan menarik dan user-friendly.</p>
-      </div>
-      <div class="service-card">
-        <i class="fas fa-pen-nib"></i>
-        <h3>Content Writing</h3>
-        <p>Menulis konten berkualitas untuk blog, web, atau media sosial.</p>
-      </div>
-    </div>
-  </section>
+  const renderer = new THREE.WebGLRenderer({antialias:true});
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(renderer.domElement);
 
+  // === Partikel Jupiter ===
+  const particleCount = 1500;
+  const radius = 2;
+  const thickness = 0.5;
+  const positions = [], colors = [];
+
+  for(let i=0;i<particleCount;i++){
+    const angle = (i/particleCount)*Math.PI*2;
+    const r = radius + (Math.random()-0.5)*thickness;
+    const x = Math.cos(angle)*r;
+    const y = (Math.random()-0.5)*thickness;
+    const z = Math.sin(angle)*r;
+    positions.push(x,y,z);
+
+    const hue = 0.1 + (i/particleCount)*0.3;
+    const color = new THREE.Color().setHSL(hue,1,0.6);
+    colors.push(color.r,color.g,color.b);
+  }
+
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions,3));
+  geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors,3));
+
+  const material = new THREE.PointsMaterial({
+    vertexColors:true,
+    size:0.25,
+    sizeAttenuation:true
+  });
+
+  const particles = new THREE.Points(geometry, material);
+  scene.add(particles);
+
+  // === Animasi rotasi ===
+  function animate(){
+    requestAnimationFrame(animate);
+    particles.rotation.y += 0.003;
+    particles.rotation.x += 0.0005;
+    renderer.render(scene,camera);
+  }
+  animate();
+
+  // === Resize Handling ===
+  window.addEventListener('resize',()=>{
+    camera.aspect = window.innerWidth/window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+</script>
 </body>
 </html>
