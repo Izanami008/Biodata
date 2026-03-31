@@ -1,125 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Services - Erika099</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ICON -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="stylesheet" href="style.css">
+
+    <title>Services</title>
+
+    <style>
+        body {
+            background: black;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .video-section {
+            margin-top: 100px;
+            text-align: center;
+            position: relative;
+        }
+
+        .video-container {
+            position: relative;
+            width: 80%;
+            max-width: 900px;
+            margin: auto;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        video {
+            width: 100%;
+            border-radius: 15px;
+            z-index: 2;
+            position: relative;
+        }
+
+        #three-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+    </style>
+
 </head>
+
 <body>
 
-<header>
-  <div class="logo-container" id="logoMenu">
-    <img src="../img/logo.png" alt="Logo Erika">
-    <span>Erika099</span>
-  </div>
-  <nav id="mainNav">
-    <a href="../index.html">Home</a>
-    <a href="services.html" class="active">Services</a>
-    <a href="skills.html">Skills</a>
-    <a href="education.html">Education</a>
-    <a href="experience.html">Experience</a>
-    <a href="contact.html">Contact</a>
-  </nav>
-</header>
+    <!-- HEADER -->
+    <header>
 
-<!-- Video 16:9 tanpa kontrol -->
-<div class="video-container" id="videoContainer">
-  <video src="video/service01.mp4" autoplay muted loop playsinline></video>
-  <canvas class="video-overlay" id="videoOverlay"></canvas>
-</div>
+        <a href="../index.html" class="logo">Erika099</a>
 
-<script src="https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.min.js"></script>
-<script>
-  const logoMenu = document.getElementById('logoMenu');
-  const mainNav = document.getElementById('mainNav');
-  const videoContainer = document.getElementById('videoContainer');
+        <nav>
 
-  // Toggle menu & geser video
-  logoMenu.addEventListener('click', ()=>{
-    mainNav.classList.toggle('expanded');
-    if(mainNav.classList.contains('expanded')){
-      videoContainer.style.marginTop = '180px';
-    } else {
-      videoContainer.style.marginTop = '80px';
-    }
-  });
+            <a href="../index.html">Home</a>
+            <a href="services.html" class="active">Services</a>
+            <a href="skills.html">Skills</a>
+            <a href="education.html">Education</a>
+            <a href="experience.html">Experience</a>
+            <a href="contact.html">Contact</a>
 
-  // Partikel Jupiter background
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 100);
-  camera.position.z = 5;
+        </nav>
 
-  const renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setClearColor(0x000000,0);
-  document.body.appendChild(renderer.domElement);
+    </header>
 
-  const particleCount = 1500;
-  const radius = 2;
-  const thickness = 0.5;
-  const positions = [], colors = [];
 
-  for(let i=0;i<particleCount;i++){
-    const angle = (i/particleCount)*Math.PI*2;
-    const r = radius + (Math.random()-0.5)*thickness;
-    const x = Math.cos(angle)*r;
-    const y = (Math.random()-0.5)*thickness;
-    const z = Math.sin(angle)*r;
-    positions.push(x,y,z);
+    <!-- VIDEO -->
+    <section class="video-section">
 
-    const hue = 0.1 + (i/particleCount)*0.3;
-    const color = new THREE.Color().setHSL(hue,1,0.6);
-    colors.push(color.r,color.g,color.b);
-  }
+        <h1>My Service Video</h1>
 
-  const geometry = new THREE.BufferGeometry();
-  geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions,3));
-  geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors,3));
+        <div class="video-container" id="videoContainer">
 
-  const material = new THREE.PointsMaterial({
-    vertexColors:true,
-    size:0.25,
-    sizeAttenuation:true
-  });
+            <video controls>
+                <source src="video/service01.mp4" type="video/mp4">
+            </video>
 
-  const particles = new THREE.Points(geometry, material);
-  scene.add(particles);
+            <canvas id="three-canvas"></canvas>
 
-  function animate(){
-    requestAnimationFrame(animate);
-    particles.rotation.y += 0.003;
-    particles.rotation.x += 0.0005;
-    renderer.render(scene,camera);
-  }
-  animate();
+        </div>
 
-  window.addEventListener('resize', ()=>{
-    camera.aspect = window.innerWidth/window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-  });
+    </section>
 
-  // Overlay partikel di video
-  const overlayCanvas = document.getElementById('videoOverlay');
-  const overlayRenderer = new THREE.WebGLRenderer({canvas:overlayCanvas, alpha:true});
-  overlayRenderer.setSize(window.innerWidth, window.innerHeight);
 
-  const overlayScene = new THREE.Scene();
-  const overlayCamera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 100);
-  overlayCamera.position.z = 5;
 
-  const overlayParticles = new THREE.Points(geometry, material);
-  overlayScene.add(overlayParticles);
+    <!-- THREE JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
-  function overlayAnimate(){
-    requestAnimationFrame(overlayAnimate);
-    overlayParticles.rotation.y += 0.002;
-    overlayParticles.rotation.x += 0.0005;
-    overlayRenderer.render(overlayScene, overlayCamera);
-  }
-  overlayAnimate();
-</script>
+    <script>
+
+        const container = document.getElementById("videoContainer");
+        const canvas = document.getElementById("three-canvas");
+
+        const scene = new THREE.Scene();
+
+        const camera = new THREE.PerspectiveCamera(
+            75,
+            container.clientWidth / container.clientHeight,
+            0.1,
+            1000
+        );
+
+        const renderer = new THREE.WebGLRenderer({
+            canvas: canvas,
+            alpha: true
+        });
+
+        renderer.setSize(
+            container.clientWidth,
+            container.clientHeight
+        );
+
+        camera.position.z = 5;
+
+        const particlesGeometry = new THREE.BufferGeometry();
+        const particlesCount = 800;
+
+        const posArray = new Float32Array(particlesCount * 3);
+
+        for (let i = 0; i < particlesCount * 3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 10;
+        }
+
+        particlesGeometry.setAttribute(
+            'position',
+            new THREE.BufferAttribute(posArray, 3)
+        );
+
+        const particlesMaterial = new THREE.PointsMaterial({
+            size: 0.02,
+            color: 0xffffff
+        });
+
+        const particlesMesh = new THREE.Points(
+            particlesGeometry,
+            particlesMaterial
+        );
+
+        scene.add(particlesMesh);
+
+        function animate() {
+
+            requestAnimationFrame(animate);
+
+            particlesMesh.rotation.y += 0.0008;
+            particlesMesh.rotation.x += 0.0005;
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+
+        window.addEventListener("resize", () => {
+
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+
+            renderer.setSize(width, height);
+
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+
+        });
+
+    </script>
 
 </body>
-</html>
+
+  </html>
