@@ -21,10 +21,9 @@
     z-index: 10;
     background: rgba(0,0,0,0.7);
     display:flex;
-    align-items:center;
-    justify-content: space-between;
-    padding:0 20px;
-    height:70px;
+    flex-direction: column; /* logo di atas, nav di bawah */
+    align-items: flex-start; /* nav muncul ke kiri */
+    padding:10px 20px;
   }
 
   /* LOGO CONTAINER */
@@ -50,8 +49,13 @@
   /* NAV LINKS */
   nav {
     display:flex;
+    flex-wrap: wrap;
     gap:10px;
+    margin-top:5px;
     transition: max-height 0.3s ease;
+    max-height:0; /* default collapsed */
+    overflow:hidden;
+    width:100%;
   }
 
   nav a {
@@ -75,11 +79,8 @@
     color:#fff;
   }
 
-  /* Collapsible for mobile */
-  nav.collapsed {
-    max-height:0;
-    overflow:hidden;
-    flex-direction: column;
+  nav.expanded {
+    max-height:500px; /* menu muncul */
   }
 
   /* CANVAS */
@@ -94,11 +95,9 @@
 
   /* RESPONSIVE */
   @media (max-width:600px){
-    header { flex-direction:column; height:auto; padding:10px 20px; }
-    nav { width:100%; gap:5px; margin-top:5px; }
-    nav a { font-size:1rem; padding:6px 12px; }
     .logo-container span { font-size:1.4rem; }
     .logo-container img { width:30px; }
+    nav a { font-size:1rem; padding:6px 12px; }
   }
 </style>
 </head>
@@ -109,7 +108,7 @@
     <img src="../img/logo.png" alt="Logo Erika">
     <span>Erika099</span>
   </div>
-  <nav id="mainNav" class="collapsed">
+  <nav id="mainNav">
     <a href="../index.html">Home</a>
     <a href="services.html" class="active">Services</a>
     <a href="skills.html">Skills</a>
@@ -121,11 +120,11 @@
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.min.js"></script>
 <script>
-  // Collapsible menu toggle
+  // Toggle menu collapsible
   const logoMenu = document.getElementById('logoMenu');
   const mainNav = document.getElementById('mainNav');
   logoMenu.addEventListener('click', ()=>{
-    mainNav.classList.toggle('collapsed');
+    mainNav.classList.toggle('expanded');
   });
 
   // Scene + Camera + Renderer
