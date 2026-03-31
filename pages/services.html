@@ -82,10 +82,11 @@
     position: relative;
     width: 100%;
     padding-top: 56.25%; /* 16:9 */
-    margin-top:80px;
+    margin-top:80px; /* jarak awal dari header */
     z-index:1;
     overflow:hidden;
     border-radius:10px;
+    transition: margin-top 0.5s ease; /* animasi geser */
   }
 
   .video-container video {
@@ -94,7 +95,7 @@
     width:100%;
     height:100%;
     object-fit:cover;
-    pointer-events:none; /* biar klik ke logo tetap berfungsi */
+    pointer-events:none;
   }
 
   /* PARTIKEL OVERLAY */
@@ -133,22 +134,29 @@
   </nav>
 </header>
 
-<!-- Video background 16:9 tanpa kontrol -->
-<div class="video-container">
-  <video src="../vidio/service01.mp4" autoplay muted loop></video>
+<!-- Video background 16:9 -->
+<div class="video-container" id="videoContainer">
+  <video src="../vidio/vidio service01.mp4" autoplay muted loop></video>
   <canvas class="video-overlay" id="videoOverlay"></canvas>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.min.js"></script>
 <script>
-  // Toggle menu collapsible
   const logoMenu = document.getElementById('logoMenu');
   const mainNav = document.getElementById('mainNav');
+  const videoContainer = document.getElementById('videoContainer');
+
+  // Toggle menu & geser video
   logoMenu.addEventListener('click', ()=>{
     mainNav.classList.toggle('expanded');
+    if(mainNav.classList.contains('expanded')){
+      videoContainer.style.marginTop = '180px'; // video turun saat menu muncul
+    } else {
+      videoContainer.style.marginTop = '80px'; // posisi awal
+    }
   });
 
-  // Background partikel
+  // Scene + Camera + Renderer
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 100);
   camera.position.z = 5;
