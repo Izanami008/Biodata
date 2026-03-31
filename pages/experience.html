@@ -7,90 +7,31 @@
 <style>
   html, body {
     margin: 0; padding:0; height:100%; overflow:hidden; background:#000;
-    font-family:sans-serif;
-  }
-  header {
-    position: fixed;
-    width: 100%;
-    z-index: 10;
-    background: rgba(0,0,0,0.6);
-    display:flex; align-items:center; padding:0 20px; height:60px;
-  }
-  nav a { margin-left:20px; color:#fff; text-decoration:none; }
-  nav a.active { text-decoration:underline; }
-  canvas { position:absolute; top:0; left:0; z-index:0; width:100%; height:100%; }
-</style>
-</head>
-<body>
-<header>
-  <a href="../index.html" class="logo">Bismarck</a>
-  <nav>
-    <a href="../index.html">Home</a>
-    <a href="services.html">Services</a>
-    <a href="skills.html">Skills</a>
-    <a href="education.html">Education</a>
-    <a href="experience.html" class="active">Experience</a>
-    <a href="contact.html">Contact</a>
-  </nav>
-</header>
+  for (let 10; j < particleCount; j++) {
 
-<script src="https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.min.js"></script>
-<script>
-  // Scene + Camera + Renderer
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 100);
-  camera.position.z = 5;
+const angle() / particleCount) Math.PI 2;
 
-  const renderer = new THREE.WebGLRenderer({antialias:true});
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  document.body.appendChild(renderer.domElement);
+const radiusVariation radius (Math.random() 0.5) thickness;
 
-  // Partikel Jupiter
-  const particleCount = 1500;
-  const radius = 2;
-  const thickness = 0.5;
-  const positions = [], colors = [];
-  for(let i=0;i<particleCount;i++){
-    const angle = (i/particleCount)*Math.PI*2;
-    const r = radius + (Math.random()-0.5)*thickness;
-    const x = Math.cos(angle)*r;
-    const y = (Math.random()-0.5)*thickness;
-    const z = Math.sin(angle)*r;
-    positions.push(x,y,z);
+}
 
-    const hue = 0.1 + (i/particleCount)*0.3;
-    const color = new THREE.Color().setHSL(hue,1,0.6);
-    colors.push(color.r,color.g,color.b);
-  }
+const x Math.cos(angle) radiusVariation;
 
-  const geometry = new THREE.BufferGeometry();
-  geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions,3));
-  geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors,3));
+const y (Math.random() 0.5) thickness;
 
-  const material = new THREE.PointsMaterial({
-    vertexColors:true,
-    size:0.25, // ukuran lebih besar supaya terlihat
-    sizeAttenuation:true
-  });
+const z Math.sin(angle) radiusVariation;
 
-  const particles = new THREE.Points(geometry, material);
-  scene.add(particles);
+positions.push(x, y, z);
 
-  // Animasi rotasi
-  function animate(){
-    requestAnimationFrame(animate);
-    particles.rotation.y += 0.003;
-    particles.rotation.x += 0.0005;
-    renderer.render(scene,camera);
-  }
-  animate();
+const hue (1/ count) 0.7+ (J/particleCount) 0.3;
 
-  // Resize handling
-  window.addEventListener('resize',()=>{
-    camera.aspect = window.innerWidth/window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-  });
+const color new THREE.Color().setHSL (hue, 1, 0.6);
+
+color.multiplyScalar(1.2);
+
+colors.push(color.r, color.g, color.b);
+
+sizes.push(Math.random()* 0.12 0.06);
 </script>
 </body>
 </html>
