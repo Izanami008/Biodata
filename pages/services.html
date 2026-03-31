@@ -6,10 +6,9 @@
 <title>Services - Erika099</title>
 <style>
   html, body {
-    margin: 0;
-    padding:0;
+    margin:0; padding:0;
     height:100%;
-    overflow:hidden;
+    overflow-x:hidden;
     background:#000;
     font-family:sans-serif;
   }
@@ -21,24 +20,24 @@
     z-index: 10;
     background: rgba(0,0,0,0.7);
     display:flex;
-    flex-direction: column; /* logo di atas, nav di bawah */
-    align-items: flex-start; /* nav muncul ke kiri */
+    flex-direction: column;
+    align-items: flex-start;
     padding:10px 20px;
   }
 
-  /* LOGO CONTAINER */
+  /* LOGO */
   .logo-container {
     display:flex;
     align-items:center;
     gap:10px;
     cursor:pointer;
+    transition: all 0.3s ease;
   }
-
-  .logo-container img {
-    width:40px;
-    height:auto;
+  .logo-container:hover {
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 10px red);
   }
-
+  .logo-container img { width:40px; height:auto; }
   .logo-container span {
     color:red;
     font-weight:bold;
@@ -52,12 +51,12 @@
     flex-wrap: wrap;
     gap:10px;
     margin-top:5px;
-    transition: max-height 0.3s ease;
-    max-height:0; /* default collapsed */
     overflow:hidden;
     width:100%;
+    max-height:0;
+    transition: max-height 0.5s ease, opacity 0.5s ease;
+    opacity:0;
   }
-
   nav a {
     color:red;
     text-decoration:none;
@@ -68,33 +67,45 @@
     transition: all 0.3s ease;
     white-space: nowrap;
   }
-
   nav a:hover {
-    background:red;
-    color:#fff;
+    background:red; color:#fff; transform:scale(1.05);
   }
-
-  nav a.active {
-    background:red;
-    color:#fff;
-  }
+  nav a.active { background:red; color:#fff; }
 
   nav.expanded {
-    max-height:500px; /* menu muncul */
+    max-height:500px;
+    opacity:1;
+  }
+
+  /* VIDEO */
+  .video-container {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%; /* 16:9 */
+    margin-top:80px;
+    z-index:1;
+  }
+  .video-container video {
+    position:absolute; top:0; left:0;
+    width:100%; height:100%;
+    object-fit:cover;
+    border-radius:10px;
+    border:2px solid red;
+  }
+
+  /* PARTIKEL OVERLAY di atas video */
+  .video-overlay {
+    position:absolute;
+    top:0; left:0;
+    width:100%; height:100%;
+    pointer-events:none;
+    z-index:2;
   }
 
   /* CANVAS */
-  canvas {
-    position:absolute;
-    top:0;
-    left:0;
-    z-index:0;
-    width:100%;
-    height:100%;
-  }
+  canvas { position:absolute; top:0; left:0; z-index:0; width:100%; height:100%; }
 
-  /* RESPONSIVE */
-  @media (max-width:600px){
+  @media(max-width:600px){
     .logo-container span { font-size:1.4rem; }
     .logo-container img { width:30px; }
     nav a { font-size:1rem; padding:6px 12px; }
@@ -118,22 +129,29 @@
   </nav>
 </header>
 
+<div class="video-container">
+  <video src="../vidio/vidio service01.mp4" controls autoplay muted loop></video>
+  <!-- overlay partikel di atas video -->
+  <canvas class="video-overlay" id="videoOverlay"></canvas>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.min.js"></script>
 <script>
-  // Toggle menu collapsible
+  // Toggle menu collapsible dengan animasi
   const logoMenu = document.getElementById('logoMenu');
   const mainNav = document.getElementById('mainNav');
   logoMenu.addEventListener('click', ()=>{
     mainNav.classList.toggle('expanded');
   });
 
-  // Scene + Camera + Renderer
+  // Scene + Camera + Renderer untuk background
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 100);
   camera.position.z = 5;
 
-  const renderer = new THREE.WebGLRenderer({antialias:true});
+  const renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
   renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setClearColor(0x000000,0); // transparan
   document.body.appendChild(renderer.domElement);
 
   // Partikel Jupiter
@@ -178,11 +196,31 @@
   animate();
 
   // Resize handling
-  window.addEventListener('resize',()=>{
+  window.addEventListener('resize', ()=>{
     camera.aspect = window.innerWidth/window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
   });
+
+  // Partikel overlay untuk video
+  const overlayCanvas = document.getElementById('videoOverlay');
+  const overlayRenderer = new THREE.WebGLRenderer({canvas:overlayCanvas, alpha:true});
+  overlayRenderer.setSize(window.innerWidth, window.innerHeight);
+
+  const overlayScene = new THREE.Scene();
+  const overlayCamera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 100);
+  overlayCamera.position.z = 5;
+
+  const overlayParticles = new THREE.Points(geometry, material);
+  overlayScene.add(overlayParticles);
+
+  function overlayAnimate(){
+    requestAnimationFrame(overlayAnimate);
+    overlayParticles.rotation.y += 0.002;
+    overlayParticles.rotation.x += 0.0005;
+    overlayRenderer.render(overlayScene, overlayCamera);
+  }
+  overlayAnimate();
 </script>
 
 </body>
