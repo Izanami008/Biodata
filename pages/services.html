@@ -6,34 +6,73 @@
 <title>Services - Erika099</title>
 <style>
   html, body {
-    margin: 0; padding:0; height:100%; overflow:hidden; background:#000;
+    margin: 0;
+    padding:0;
+    height:100%;
+    overflow:hidden;
+    background:#000;
     font-family:sans-serif;
   }
+
+  /* HEADER */
   header {
     position: fixed;
     width: 100%;
     z-index: 10;
-    background: rgba(0,0,0,0.6);
+    background: rgba(0,0,0,0.7);
     display:flex;
     align-items:center;
     justify-content: space-between;
     padding:0 20px;
-    height:60px;
+    height:70px;
   }
-  .logo {
-    color:#fff;
+
+  /* LOGO CONTAINER */
+  .logo-container {
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+
+  .logo-container img {
+    width:40px; /* ukuran logo */
+    height:auto;
+  }
+
+  .logo-container a {
+    color:red;
     font-weight:bold;
-    font-size:1.2rem;
+    font-size:1.6rem; /* lebih besar */
     text-decoration:none;
   }
+
+  /* NAV LINKS */
+  nav {
+    display:flex;
+    gap:10px;
+  }
+
   nav a {
-    margin-left:20px;
-    color:#fff;
+    color:red;
     text-decoration:none;
+    font-size:1.1rem;
+    padding:8px 15px;
+    border:2px solid red;
+    border-radius:10px;
+    transition: all 0.3s ease;
   }
+
+  nav a:hover {
+    background:red;
+    color:#fff;
+  }
+
   nav a.active {
-    text-decoration:underline;
+    background:red;
+    color:#fff;
   }
+
+  /* CANVAS */
   canvas {
     position:absolute;
     top:0;
@@ -42,11 +81,24 @@
     width:100%;
     height:100%;
   }
+
+  /* RESPONSIVE */
+  @media (max-width:600px){
+    header { flex-direction:column; height:auto; padding:10px 20px; }
+    nav { flex-wrap: wrap; justify-content:center; gap:5px; margin-top:5px; }
+    nav a { font-size:1rem; padding:6px 12px; }
+    .logo-container a { font-size:1.4rem; }
+    .logo-container img { width:30px; }
+  }
 </style>
 </head>
 <body>
+
 <header>
-  <a href="../index.html" class="logo">Erika099</a>
+  <div class="logo-container">
+    <img src="img/logo.png" alt="Logo Erika">
+    <a href="../index.html">Erika099</a>
+  </div>
   <nav>
     <a href="../index.html">Home</a>
     <a href="services.html" class="active">Services</a>
@@ -59,7 +111,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.min.js"></script>
 <script>
-  // === Scene, Camera, Renderer ===
+  // Scene + Camera + Renderer
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 100);
   camera.position.z = 5;
@@ -68,7 +120,7 @@
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
 
-  // === Partikel Jupiter ===
+  // Partikel Jupiter
   const particleCount = 1500;
   const radius = 2;
   const thickness = 0.5;
@@ -100,7 +152,7 @@
   const particles = new THREE.Points(geometry, material);
   scene.add(particles);
 
-  // === Animasi rotasi ===
+  // Animasi rotasi
   function animate(){
     requestAnimationFrame(animate);
     particles.rotation.y += 0.003;
@@ -109,12 +161,13 @@
   }
   animate();
 
-  // === Resize Handling ===
+  // Resize handling
   window.addEventListener('resize',()=>{
     camera.aspect = window.innerWidth/window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
   });
 </script>
+
 </body>
 </html>
