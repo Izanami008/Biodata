@@ -77,23 +77,27 @@
     opacity:1;
   }
 
-  /* VIDEO */
+  /* VIDEO CONTAINER */
   .video-container {
     position: relative;
     width: 100%;
     padding-top: 56.25%; /* 16:9 */
     margin-top:80px;
     z-index:1;
-  }
-  .video-container video {
-    position:absolute; top:0; left:0;
-    width:100%; height:100%;
-    object-fit:cover;
+    overflow:hidden;
     border-radius:10px;
-    border:2px solid red;
   }
 
-  /* PARTIKEL OVERLAY di atas video */
+  .video-container video {
+    position:absolute;
+    top:0; left:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    pointer-events:none; /* biar klik ke logo tetap berfungsi */
+  }
+
+  /* PARTIKEL OVERLAY */
   .video-overlay {
     position:absolute;
     top:0; left:0;
@@ -129,32 +133,31 @@
   </nav>
 </header>
 
+<!-- Video background 16:9 tanpa kontrol -->
 <div class="video-container">
-  <video src="../vidio/vidio service01.mp4" controls autoplay muted loop></video>
-  <!-- overlay partikel di atas video -->
+  <video src="../vidio/service01.mp4" autoplay muted loop></video>
   <canvas class="video-overlay" id="videoOverlay"></canvas>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.min.js"></script>
 <script>
-  // Toggle menu collapsible dengan animasi
+  // Toggle menu collapsible
   const logoMenu = document.getElementById('logoMenu');
   const mainNav = document.getElementById('mainNav');
   logoMenu.addEventListener('click', ()=>{
     mainNav.classList.toggle('expanded');
   });
 
-  // Scene + Camera + Renderer untuk background
+  // Background partikel
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 100);
   camera.position.z = 5;
 
   const renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
   renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setClearColor(0x000000,0); // transparan
+  renderer.setClearColor(0x000000,0);
   document.body.appendChild(renderer.domElement);
 
-  // Partikel Jupiter
   const particleCount = 1500;
   const radius = 2;
   const thickness = 0.5;
@@ -186,7 +189,6 @@
   const particles = new THREE.Points(geometry, material);
   scene.add(particles);
 
-  // Animasi rotasi
   function animate(){
     requestAnimationFrame(animate);
     particles.rotation.y += 0.003;
@@ -195,14 +197,13 @@
   }
   animate();
 
-  // Resize handling
   window.addEventListener('resize', ()=>{
     camera.aspect = window.innerWidth/window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
   });
 
-  // Partikel overlay untuk video
+  // Overlay partikel di video
   const overlayCanvas = document.getElementById('videoOverlay');
   const overlayRenderer = new THREE.WebGLRenderer({canvas:overlayCanvas, alpha:true});
   overlayRenderer.setSize(window.innerWidth, window.innerHeight);
