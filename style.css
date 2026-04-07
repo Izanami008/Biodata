@@ -287,25 +287,15 @@ span{
 
 .anime-video{
     position:fixed;
-    right:20px;
+    right:10px;
     bottom:0;
-    width:260px;
+    width:220px;
     z-index:9999;
-    pointer-events:none;
 }
 
 .anime-video video{
     width:100%;
     height:auto;
-    object-fit:contain;
-    mix-blend-mode:screen;
-    filter:brightness(1.4) contrast(1.4);
+    display:block;
 }
-
-/* hanya tampil di PC */
-
-@media (max-width:1024px){
-    .anime-video{
-        display:none;
-    }
 }
