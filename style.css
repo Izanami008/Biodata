@@ -283,7 +283,7 @@ span{
     }
 }
 
-/* ================= ANIME VIDEO ================= */
+/* ================= ANIME VIDEO FINAL ================= */
 
 .anime-video{
     position:fixed;
@@ -299,11 +299,16 @@ span{
     height:auto;
     display:block;
     outline:none;
-    mix-blend-mode:screen;
-    filter:brightness(1.2) contrast(1.2);
+
+    /* ubah hijau jadi gelap */
+    filter:
+        brightness(0.75)
+        contrast(1.2)
+        saturate(0.8)
+        hue-rotate(260deg);
 }
 
 .anime-video video:focus{
     outline:none;
-        }
+    }
 }
