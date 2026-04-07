@@ -283,7 +283,7 @@ span{
     }
 }
 
-/* ================= ANIME VIDEO PC ================= */
+/* ================= ANIME VIDEO ================= */
 
 .anime-video{
     position:fixed;
@@ -291,6 +291,7 @@ span{
     bottom:0;
     width:220px;
     z-index:9999;
+    pointer-events:none;
 }
 
 .anime-video video{
