@@ -281,4 +281,29 @@ span{
         justify-content:center;
         margin-top:40px;
     }
+    /* ================= VIDEO PC ONLY ================= */
+
+.pc-video{
+    position:fixed;
+    right:20px;
+    bottom:0;
+    width:420px;
+    z-index:10;
+    pointer-events:none;
+}
+
+.pc-video video{
+    width:100%;
+    opacity:0.9;
+    mix-blend-mode:screen;
+    filter:brightness(1.2) contrast(1.2);
+}
+
+/* hanya tampil di PC */
+
+@media (max-width:1024px){
+    .pc-video{
+        display:none;
+    }
+}
 }
