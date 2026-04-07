@@ -281,14 +281,16 @@ span{
         justify-content:center;
         margin-top:40px;
     }
-/* ================= ANIME VIDEO ================= */
+}
+
+/* ================= ANIME VIDEO PC ================= */
 
 .anime-video{
     position:fixed;
     right:20px;
-    bottom:10px;
+    bottom:0;
     width:260px;
-    z-index:999;
+    z-index:9999;
     pointer-events:none;
 }
 
@@ -306,6 +308,4 @@ span{
     .anime-video{
         display:none;
     }
-        }
-}
 }
