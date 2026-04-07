@@ -281,28 +281,29 @@ span{
         justify-content:center;
         margin-top:40px;
     }
-    /* ================= VIDEO PC ONLY ================= */
+/* ================= CHARACTER VIDEO PC ================= */
 
-.pc-video{
+.character-video{
     position:fixed;
-    right:20px;
+    right:30px;
     bottom:0;
-    width:420px;
-    z-index:10;
+    width:280px;
+    z-index:999;
     pointer-events:none;
 }
 
-.pc-video video{
+.character-video video{
     width:100%;
-    opacity:0.9;
-    mix-blend-mode:screen;
-    filter:brightness(1.2) contrast(1.2);
+    height:auto;
+    object-fit:contain;
+    mix-blend-mode:lighten;
+    filter:contrast(1.3) brightness(1.2);
 }
 
-/* hanya tampil di PC */
+/* hanya PC */
 
-@media (max-width:1024px){
-    .pc-video{
+@media(max-width:1024px){
+    .character-video{
         display:none;
     }
 }
