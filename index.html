@@ -1,128 +1,132 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
+<!DOCTYPE html><html lang="en"><head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"><!-- ICON -->
+<link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-    <!-- ICON -->
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<!-- CSS -->
+<link rel="stylesheet" href="style.css">
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="style.css">
+<title>Erika099</title>
 
-    <title>Erika099</title>
-</head>
+</head><body><!-- HEADER -->
+<header>
+    <div class="logo-area">
 
-<body>
-    <!-- HEADER -->
-    <header>
-        <div class="logo-area">
-            <!-- LOGO -->
-            <img src="img/logo.png" class="logo-img" onclick="toggleMenu()" alt="Logo">
+        <img src="img/logo.png" class="logo-img" onclick="toggleMenu()" alt="Logo">
 
-            <!-- NAMA -->
-            <a href="#" class="logo">Erika099</a>
+        <a href="#" class="logo">Erika099</a>
 
-            <!-- DROPDOWN MENU -->
-            <div class="settings-menu" id="settingsMenu">
-                <a href="index.html" class="menu-btn">Home</a>
-                <a href="pages/services.html" class="menu-btn">Services</a>
-                <a href="pages/skills.html" class="menu-btn">Skills</a>
-                <a href="pages/education.html" class="menu-btn">Education</a>
-                <a href="pages/experience.html" class="menu-btn">Experience</a>
-                <a href="pages/contact.html" class="menu-btn">Contact</a>
-                <hr>
-                <button class="menu-btn" onclick="toggleTheme()">🌙 Dark / Light</button>
-                <a href="global/login.html" class="menu-btn">Login Admin</a>
-            </div>
+        <div class="settings-menu" id="settingsMenu">
+
+            <a href="index.html" class="menu-btn">Home</a>
+            <a href="pages/services.html" class="menu-btn">Services</a>
+            <a href="pages/skills.html" class="menu-btn">Skills</a>
+            <a href="pages/education.html" class="menu-btn">Education</a>
+            <a href="pages/experience.html" class="menu-btn">Experience</a>
+            <a href="pages/contact.html" class="menu-btn">Contact</a>
+
+            <hr>
+
+            <button class="menu-btn" onclick="toggleTheme()">🌙 Dark / Light</button>
+
+            <a href="global/login.html" class="menu-btn">Login Admin</a>
+
         </div>
-    </header>
+    </div>
+</header>
 
-    <!-- HOME -->
-    <section class="home">
-        <!-- VIDEO ATAS -->
-        <div class="top-video">
-    <video autoplay muted loop playsinline disablePictureInPicture controlsList="nodownload nofullscreen noremoteplayback">
+<!-- VIDEO ATAS -->
+<div class="top-video">
+    <video autoplay muted loop playsinline disablePictureInPicture>
         <source src="video/video-pc.mp4" type="video/mp4">
     </video>
     <div class="overlay"></div>
+</div>
+
+<!-- HOME -->
+<section class="home">
+
+    <div class="home-content">
+
+        <div class="home-img">
+            <img src="img/main.jpg" alt="Main Image">
         </div>
 
-        <!-- CONTENT -->
-        <div class="home-content">
-            <div class="home-img">
-                <img src="img/main.jpg" alt="Main Image">
-            </div>
+        <h1>Hi, It's <span>Bismarck</span></h1>
 
-            <h1>Hi, It's <span>Bismarck</span></h1>
+        <h3 class="typing-text">
+            I'm a <span class="typing"></span>
+        </h3>
 
-            <h3 class="typing-text">
-                I'm a <span class="typing"></span>
-            </h3>
+        <p>Website ini direkomendasikan untuk PC dan Laptop</p>
 
-            <p>Website ini direkomendasikan untuk PC dan Laptop</p>
+        <!-- SOCIAL -->
+        <div class="social-icons">
 
-            <div class="social-icons">
-                <!-- YOUTUBE -->
-                <a href="https://youtube.com/@kingofbismarck?si=Lk5sX_Zd46cvmSvu" target="_blank">
-                    <i class="fa-brands fa-youtube"></i>
-                </a>
+            <a href="https://youtube.com/@kingofbismarck" target="_blank">
+                <i class="fa-brands fa-youtube"></i>
+            </a>
 
-                <!-- X -->
-                <a href="https://x.com/I443570I" target="_blank">
-                    <i class="fa-brands fa-x-twitter"></i>
-                </a>
+            <a href="https://x.com/I443570I" target="_blank">
+                <i class="fa-brands fa-x-twitter"></i>
+            </a>
 
-                <!-- INSTAGRAM -->
-                <a href="https://www.instagram.com/izanami_8888?igsh=MXN3N2t2NTlmYTZwMw==" target="_blank">
-                    <i class="fa-brands fa-instagram"></i>
-                </a>
-            </div>
+            <a href="https://www.instagram.com/izanami_8888" target="_blank">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
 
-            <a href="global/login.html" class="btn">Let’s Work Together</a>
         </div>
-    </section>
-    
-<!-- VIDEO ANIME KANAN BAWAH -->
+
+        <a href="global/login.html" class="btn">Let’s Work Together</a>
+
+    </div>
+
+</section>
+
+<!-- ANIME VIDEO KANAN BAWAH -->
 <div class="anime-video">
-    <video autoplay loop muted playsinline disablePictureInPicture tabindex="-1">
+    <video autoplay muted loop playsinline>
         <source src="video/video2.mp4" type="video/mp4">
     </video>
 </div>
 
-    <!-- TYPED JS -->
-    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-    <script>
-        // TYPING EFFECT
-        var typed = new Typed(".typing", {
-            strings: ["Script Writer", "Web Developer", "Designer"],
-            typeSpeed: 100,
-            backSpeed: 50,
-            loop: true
-        });
+<!-- TYPED JS -->
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
 
-        // MENU TOGGLE
-        function toggleMenu() {
-            document.getElementById("settingsMenu").classList.toggle("show");
-        }
+<script>
 
-        // DARK/LIGHT MODE TOGGLE
-        function toggleTheme() {
-            document.body.classList.toggle("light-mode");
-        }
+    // TYPING EFFECT
+    var typed = new Typed(".typing", {
+        strings: ["Script Writer", "Web Developer", "Designer"],
+        typeSpeed: 100,
+        backSpeed: 50,
+        loop: true
+    });
 
-        // CLOSE MENU WHEN CLICK OUTSIDE
-        window.addEventListener("click", function (e) {
-            if (!e.target.closest('.logo-area')) {
-                const menu = document.getElementById("settingsMenu");
-                if (menu.classList.contains("show")) {
-                    menu.classList.remove("show");
-                }
+    // MENU
+    function toggleMenu() {
+        document.getElementById("settingsMenu").classList.toggle("show");
+    }
+
+    // THEME
+    function toggleTheme() {
+        document.body.classList.toggle("light-mode");
+    }
+
+    // CLOSE MENU
+    window.addEventListener("click", function (e) {
+        if (!e.target.closest('.logo-area')) {
+
+            const menu = document.getElementById("settingsMenu");
+
+            if (menu.classList.contains("show")) {
+                menu.classList.remove("show");
             }
-        });
-    </script>
-</body>
+        }
+    });
 
-</html>
+</script>
+
+</body>
+    </html>
