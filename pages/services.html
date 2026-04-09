@@ -49,11 +49,13 @@ body{
 }
 
 /* VIDEO */
-video{
+.service-video{
     width:100%;
     border-radius:15px;
     position:relative;
     z-index:2;
+    pointer-events:none;
+    object-fit:cover;
     background:black;
 }
 
@@ -65,7 +67,7 @@ video{
     z-index:1;
 }
 
-/* CARD SERVICE */
+/* SERVICE CARD */
 .service-info{
     margin-top:40px;
     display:flex;
@@ -144,13 +146,16 @@ video{
 
 <div class="video-container" id="videoContainer">
 
-<video controls>
-<source src="..pages/vidio/snaptik_7577048730625412372_v3(0)(0).mp4" type="video/mp4">
+<video autoplay muted loop playsinline class="service-video">
+
+<source src="../vidio/snaptik_7577048730625412372_v3(0)(0).mp4" type="video/mp4">
+
 </video>
 
 <canvas id="three-canvas"></canvas>
 
 </div>
+
 
 <!-- SERVICE INFO -->
 <div class="service-info">
@@ -202,7 +207,7 @@ document.getElementById("settingsMenu").classList.remove("show");
 }
 
 
-/* THREE PARTICLE */
+/* PARTICLE */
 
 const container=document.getElementById("videoContainer");
 const canvas=document.getElementById("three-canvas");
@@ -228,38 +233,38 @@ container.clientHeight
 
 camera.position.z=5;
 
-const particlesGeometry=new THREE.BufferGeometry();
-const particlesCount=800;
+const geometry=new THREE.BufferGeometry();
+const count=800;
 
-const posArray=new Float32Array(particlesCount*3);
+const posArray=new Float32Array(count*3);
 
-for(let i=0;i<particlesCount*3;i++){
+for(let i=0;i<count*3;i++){
 posArray[i]=(Math.random()-0.5)*10;
 }
 
-particlesGeometry.setAttribute(
+geometry.setAttribute(
 'position',
 new THREE.BufferAttribute(posArray,3)
 );
 
-const particlesMaterial=new THREE.PointsMaterial({
+const material=new THREE.PointsMaterial({
 size:0.02,
 color:0xffffff
 });
 
-const particlesMesh=new THREE.Points(
-particlesGeometry,
-particlesMaterial
+const particles=new THREE.Points(
+geometry,
+material
 );
 
-scene.add(particlesMesh);
+scene.add(particles);
 
 function animate(){
 
 requestAnimationFrame(animate);
 
-particlesMesh.rotation.y+=0.0008;
-particlesMesh.rotation.x+=0.0005;
+particles.rotation.y+=0.0008;
+particles.rotation.x+=0.0005;
 
 renderer.render(scene,camera);
 }
