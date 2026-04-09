@@ -88,29 +88,21 @@ nav a:hover{
 
 /* ================= SETTINGS MENU ================= */
 
+.logo-area{
+    position:relative;
+}
+
 .settings-menu{
     position:absolute;
-    top:60px;
+    top:70px;
     left:0;
     background:#161616;
     padding:15px;
-    border-radius:10px;
+    border-radius:12px;
     display:none;
     flex-direction:column;
-    gap:10px;
-    box-shadow:0 0 15px #b74b4b;
     min-width:200px;
-    opacity:0;
-    transform:translateY(-10px);
-    pointer-events:none;
-    transition:0.3s ease;
-}
-
-.settings-menu.show{
-    display:flex;
-    opacity:1;
-    transform:translateY(0);
-    pointer-events:auto;
+    box-shadow:0 0 15px #b74b4b;
 }
 
 .settings-menu button,
