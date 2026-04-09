@@ -321,5 +321,16 @@ span{
     .anime-video{
         display:none;
     }
+.logo-img{
+    width:45px;
+    height:45px;
+}
 
+.logo{
+    font-size:2rem;
+}
+
+.logo-sub{
+    font-size:10px;
+        }
     }
