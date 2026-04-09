@@ -36,8 +36,8 @@ header{
 
 /* LOGO BESAR */
 .logo-img{
-    width:65px;
-    height:65px;
+    width:70px;
+    height:70px;
     object-fit:contain;
 }
 
@@ -49,7 +49,7 @@ header{
 
 /* ERIKA099 */
 .logo{
-    font-size:2rem;
+    font-size:2.2rem;
     font-weight:600;
     color:#b74b4b;
     text-decoration:none;
@@ -62,7 +62,7 @@ header{
     color:gray;
     letter-spacing:3px;
     border-top:2px solid #b74b4b;
-    padding-top:3px;
+    padding-top:4px;
     width:fit-content;
 }
 
@@ -77,8 +77,8 @@ header{
     border-radius:12px;
     display:none;
     flex-direction:column;
-    min-width:200px;
-    box-shadow:0 0 15px #b74b4b;
+    min-width:220px;
+    box-shadow:0 0 20px #b74b4b;
 }
 
 .settings-menu.show{
@@ -94,6 +94,7 @@ header{
     text-align:left;
     cursor:pointer;
     transition:0.3s;
+    font-size:14px;
 }
 
 .menu-btn:hover{
@@ -156,7 +157,7 @@ header{
 }
 
 .typing-text{
-    font-size:1.5rem;
+    font-size:1.6rem;
     margin:10px 0;
 }
 
@@ -174,6 +175,11 @@ header{
     color:#b74b4b;
     font-size:22px;
     margin:0 10px;
+    transition:0.3s;
+}
+
+.social-icons a:hover{
+    color:white;
 }
 
 /* ================= BUTTON ================= */
@@ -193,13 +199,13 @@ header{
     color:white;
 }
 
-/* ================= ANIME VIDEO KANAN ================= */
+/* ================= ANIME VIDEO ================= */
 
 .anime-video{
     position:fixed;
     bottom:20px;
     right:20px;
-    width:220px;
+    width:230px;
     border-radius:10px;
     overflow:hidden;
     box-shadow:0 0 20px #b74b4b;
@@ -225,6 +231,10 @@ header{
     background:#f5f5f5;
 }
 
+.light-mode .menu-btn{
+    color:black;
+}
+
 /* ================= RESPONSIVE ================= */
 
 @media(max-width:768px){
@@ -235,7 +245,7 @@ header{
     }
 
     .logo{
-        font-size:1.7rem;
+        font-size:1.8rem;
     }
 
     .logo-sub{
@@ -252,9 +262,13 @@ header{
         height:160px;
     }
 
+    .typing-text{
+        font-size:1.3rem;
+    }
+
     /* ANIME VIDEO HILANG DI HP */
     .anime-video{
         display:none;
     }
 
-}
+    }
