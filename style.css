@@ -28,28 +28,51 @@ header{
     z-index:1000;
 }
 
-/* ================= LOGO AREA ================= */
+/* ================= PREMIUM HEADER ================= */
 
 .logo-area{
     display:flex;
     align-items:center;
-    gap:10px;
-    position:relative;
+    gap:15px;
 }
 
 .logo-img{
-    width:45px;
-    height:45px;
+    width:60px;
+    height:60px;
     border-radius:50%;
     cursor:pointer;
+    transition:0.3s;
+}
+
+.logo-img:hover{
+    transform:scale(1.1);
+}
+
+.logo-text{
+    display:flex;
+    flex-direction:column;
 }
 
 .logo{
-    font-size:2.5rem;
-    color:#b74b4b;
-    font-weight:600;
+    font-size:2.8rem;
+    color:#ff4d4d;
+    font-weight:700;
+    text-decoration:none;
+    letter-spacing:2px;
+    border-bottom:2px solid #ff4d4d;
+    width:fit-content;
 }
 
+.logo:hover{
+    color:white;
+    text-shadow:0 0 10px #ff4d4d;
+}
+
+.logo-sub{
+    font-size:13px;
+    color:#aaa;
+    letter-spacing:2px;
+}
 /* ================= NAV ================= */
 
 nav a{
