@@ -2,17 +2,74 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- ICON -->
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="../style.css">
+<!-- ICON -->
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-    <title>Contact - Erika099</title>
+<!-- CSS UTAMA -->
+<link rel="stylesheet" href="../style.css">
+
+<title>Contact - Erika099</title>
+
+<style>
+
+/* CONTACT PAGE */
+
+.contact{
+    padding-top:140px;
+    padding-bottom:60px;
+    text-align:center;
+}
+
+.title{
+    font-size:2rem;
+    margin-bottom:30px;
+}
+
+.title span{
+    color:#b74b4b;
+}
+
+.contact-container{
+    display:flex;
+    justify-content:center;
+}
+
+.contact-form{
+    width:400px;
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+.contact-form input,
+.contact-form textarea{
+    padding:12px;
+    background:#161616;
+    border:none;
+    border-radius:6px;
+    color:white;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus{
+    outline:2px solid #b74b4b;
+}
+
+@media(max-width:768px){
+
+    .contact-form{
+        width:90%;
+    }
+
+}
+
+</style>
+
 </head>
 
 <body>
@@ -20,103 +77,84 @@
 <!-- HEADER -->
 <header>
 
-    <div class="logo-area">
+<div class="logo-area" onclick="toggleMenu()">
 
-        <img src="../img/logo.png" class="logo-img" onclick="toggleMenu()">
+<img src="../img/logo.png" class="logo-img">
 
-        <a href="../index.html" class="logo">Erika099</a>
+<div class="logo-text">
+<a href="../index.html" class="logo">Erika099</a>
+<p class="logo-sub">Personal Biography</p>
+</div>
 
-        <!-- DROPDOWN -->
-        <div class="settings-menu" id="settingsMenu">
+<!-- DROPDOWN -->
+<div class="settings-menu" id="settingsMenu">
 
-            <a href="../index.html" class="menu-btn">Home</a>
-            <a href="services.html" class="menu-btn">Services</a>
-            <a href="skills.html" class="menu-btn">Skills</a>
-            <a href="education.html" class="menu-btn">Education</a>
-            <a href="experience.html" class="menu-btn">Experience</a>
-            <a href="contact.html" class="menu-btn">Contact</a>
+<a href="../index.html" class="menu-btn">Home</a>
+<a href="services.html" class="menu-btn">Services</a>
+<a href="skills.html" class="menu-btn">Skills</a>
+<a href="education.html" class="menu-btn">Education</a>
+<a href="experience.html" class="menu-btn">Experience</a>
+<a href="contact.html" class="menu-btn">Contact</a>
 
-            <hr>
+<hr>
 
-            <button class="menu-btn" onclick="toggleTheme()">
-                🌙 Dark / Light
-            </button>
+<button class="menu-btn" onclick="toggleTheme()">
+🌙 Dark / Light
+</button>
 
-            <a href="../global/login.html" class="menu-btn">
-                Login Admin
-            </a>
+<a href="../global/login.html" class="menu-btn">
+Login Admin
+</a>
 
-        </div>
+</div>
 
-    </div>
+</div>
 
 </header>
 
 <!-- CONTACT -->
 <section class="contact">
 
-    <h1 class="title">Contact <span>Me</span></h1>
+<h1 class="title">Contact <span>Me</span></h1>
 
-    <div class="contact-container">
+<div class="contact-container">
 
-        <!-- FORM -->
-        <form class="contact-form" onsubmit="sendWhatsApp(event)">
+<form class="contact-form" onsubmit="sendWhatsApp(event)">
 
-            <input type="text" id="name" placeholder="Your Name" required>
+<input type="text" id="name" placeholder="Your Name" required>
 
-            <input type="email" id="email" placeholder="Your Email" required>
+<input type="email" id="email" placeholder="Your Email" required>
 
-            <textarea id="message" placeholder="Your Message" rows="6" required></textarea>
+<textarea id="message" placeholder="Your Message" rows="6" required></textarea>
 
-            <button type="submit" class="btn">Send Message</button>
+<button type="submit" class="btn">Send Message</button>
 
-        </form>
+</form>
 
-        </div>
-
-    </div>
+</div>
 
 </section>
 
-<!-- SCRIPT -->
 <script>
 
-/* MENU LOGO */
-
+/* MENU */
 function toggleMenu(){
-
-    let menu = document.getElementById("settingsMenu");
-
-    menu.classList.toggle("show");
-
+    document.getElementById("settingsMenu").classList.toggle("show");
 }
 
 /* DARK MODE */
-
 function toggleTheme(){
-
     document.body.classList.toggle("light-mode");
-
 }
 
-/* KLIK LUAR TUTUP MENU */
-
+/* KLIK LUAR */
 window.onclick = function(e){
-
     if(!e.target.closest('.logo-area')){
-
-        let menu = document.getElementById("settingsMenu");
-
-        if(menu.classList.contains("show")){
-            menu.classList.remove("show");
-        }
-
+        document.getElementById("settingsMenu").classList.remove("show");
     }
-
 }
 
 /* WHATSAPP */
-
 function sendWhatsApp(event){
 
     event.preventDefault();
@@ -135,10 +173,9 @@ function sendWhatsApp(event){
     let url = "https://wa.me/" + phone + "?text=" + text;
 
     window.open(url, "_blank");
-
 }
 
 </script>
 
 </body>
-              </html>
+    </html>
