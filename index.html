@@ -116,27 +116,28 @@
 
     // MENU TOGGLE
     function toggleMenu() {
-        document.getElementById("settingsMenu").classList.toggle("show");
+        const menu = document.getElementById("settingsMenu");
+        menu.classList.toggle("show");
     }
 
-    // DARK/LIGHT MODE
+    // DARK MODE
     function toggleTheme() {
         document.body.classList.toggle("light-mode");
     }
 
-    // CLOSE MENU
-    window.addEventListener("click", function (e) {
-        if (!e.target.closest('.logo-area')) {
+    // CLOSE MENU KLIK LUAR
+    document.addEventListener("click", function(e){
 
-            const menu = document.getElementById("settingsMenu");
+        const logoArea = document.querySelector(".logo-area");
+        const menu = document.getElementById("settingsMenu");
 
-            if (menu.classList.contains("show")) {
-                menu.classList.remove("show");
-            }
+        if (!logoArea.contains(e.target) && !menu.contains(e.target)) {
+            menu.classList.remove("show");
         }
+
     });
 
-</script>
+    </script>
 
 </body>
     </html>
