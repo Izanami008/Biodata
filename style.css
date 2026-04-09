@@ -202,13 +202,18 @@ header{
 /* ================= ANIME VIDEO ================= */
 
 .anime-video{
-    position:fixed;
-    bottom:20px;
-    right:20px;
-    width:230px;
-    border-radius:10px;
+    position:absolute;
+    right:40px;
+    bottom:-50px;
+    width:220px;
     overflow:hidden;
-    box-shadow:0 0 20px #b74b4b;
+}
+
+.anime-video video{
+    width:100%;
+    height:auto;
+    object-fit:cover;
+    background:transparent;
 }
 
 .anime-video video{
