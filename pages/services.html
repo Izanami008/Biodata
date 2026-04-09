@@ -2,178 +2,283 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- ICON -->
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<!-- ICON -->
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-    <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="../style.css">
 
-    <title>Services</title>
+<title>Services - Erika099</title>
 
-    <style>
-        body {
-            background: black;
-            color: white;
-            overflow-x: hidden;
-        }
+<style>
 
-        .video-section {
-            margin-top: 100px;
-            text-align: center;
-            position: relative;
-        }
+body{
+    background:black;
+    color:white;
+    overflow-x:hidden;
+}
 
-        .video-container {
-            position: relative;
-            width: 80%;
-            max-width: 900px;
-            margin: auto;
-            border-radius: 15px;
-            overflow: hidden;
-        }
+/* SECTION */
+.video-section{
+    padding-top:140px;
+    text-align:center;
+}
 
-        video {
-            width: 100%;
-            border-radius: 15px;
-            z-index: 2;
-            position: relative;
-        }
+/* TITLE */
+.video-section h1{
+    font-size:2.2rem;
+    margin-bottom:30px;
+}
 
-        #three-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 1;
-        }
-    </style>
+.video-section span{
+    color:#b74b4b;
+}
+
+/* VIDEO BOX */
+.video-container{
+    position:relative;
+    width:85%;
+    max-width:950px;
+    margin:auto;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 0 30px rgba(183,75,75,0.3);
+}
+
+/* VIDEO */
+video{
+    width:100%;
+    border-radius:15px;
+    position:relative;
+    z-index:2;
+    background:black;
+}
+
+/* PARTICLE CANVAS */
+#three-canvas{
+    position:absolute;
+    top:0;
+    left:0;
+    z-index:1;
+}
+
+/* CARD SERVICE */
+.service-info{
+    margin-top:40px;
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:20px;
+}
+
+.card{
+    background:#111;
+    padding:20px;
+    border-radius:12px;
+    width:250px;
+    transition:0.3s;
+    border:1px solid #222;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 0 20px rgba(183,75,75,0.4);
+}
+
+.card i{
+    font-size:30px;
+    color:#b74b4b;
+    margin-bottom:10px;
+}
+
+.card h3{
+    margin-bottom:10px;
+}
+
+</style>
 
 </head>
 
 <body>
 
-    <!-- HEADER -->
-    <header>
+<!-- HEADER -->
+<header>
 
-        <a href="../index.html" class="logo">Erika099</a>
+<div class="logo-area" onclick="toggleMenu()">
 
-        <nav>
+<img src="../img/logo.png" class="logo-img">
 
-            <a href="../index.html">Home</a>
-            <a href="services.html" class="active">Services</a>
-            <a href="skills.html">Skills</a>
-            <a href="education.html">Education</a>
-            <a href="experience.html">Experience</a>
-            <a href="contact.html">Contact</a>
+<div class="logo-text">
+<a href="../index.html" class="logo">Erika099</a>
+<p class="logo-sub">Personal Biography</p>
+</div>
 
-        </nav>
+<div class="settings-menu" id="settingsMenu">
 
-    </header>
+<a href="../index.html" class="menu-btn">Home</a>
+<a href="services.html" class="menu-btn">Services</a>
+<a href="skills.html" class="menu-btn">Skills</a>
+<a href="education.html" class="menu-btn">Education</a>
+<a href="experience.html" class="menu-btn">Experience</a>
+<a href="contact.html" class="menu-btn">Contact</a>
 
+<hr>
 
-    <!-- VIDEO -->
-    <section class="video-section">
+<button class="menu-btn" onclick="toggleTheme()">🌙 Dark / Light</button>
 
-        <h1>My Service Video</h1>
+<a href="../global/login.html" class="menu-btn">Login Admin</a>
 
-        <div class="video-container" id="videoContainer">
+</div>
+</div>
 
-            <video controls>
-                <source src="video/service01.mp4" type="video/mp4">
-            </video>
-
-            <canvas id="three-canvas"></canvas>
-
-        </div>
-
-    </section>
+</header>
 
 
+<!-- VIDEO -->
+<section class="video-section">
 
-    <!-- THREE JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<h1>My <span>Service Video</span></h1>
 
-    <script>
+<div class="video-container" id="videoContainer">
 
-        const container = document.getElementById("videoContainer");
-        const canvas = document.getElementById("three-canvas");
+<video controls>
+<source src="../video/service01.mp4" type="video/mp4">
+</video>
 
-        const scene = new THREE.Scene();
+<canvas id="three-canvas"></canvas>
 
-        const camera = new THREE.PerspectiveCamera(
-            75,
-            container.clientWidth / container.clientHeight,
-            0.1,
-            1000
-        );
+</div>
 
-        const renderer = new THREE.WebGLRenderer({
-            canvas: canvas,
-            alpha: true
-        });
+<!-- SERVICE INFO -->
+<div class="service-info">
 
-        renderer.setSize(
-            container.clientWidth,
-            container.clientHeight
-        );
+<div class="card">
+<i class="fa-solid fa-code"></i>
+<h3>Web Development</h3>
+<p>Membuat website modern dan responsif</p>
+</div>
 
-        camera.position.z = 5;
+<div class="card">
+<i class="fa-solid fa-paintbrush"></i>
+<h3>UI Design</h3>
+<p>Desain tampilan website yang elegan</p>
+</div>
 
-        const particlesGeometry = new THREE.BufferGeometry();
-        const particlesCount = 800;
+<div class="card">
+<i class="fa-solid fa-server"></i>
+<h3>System Script</h3>
+<p>Membuat sistem coding dan fitur website</p>
+</div>
 
-        const posArray = new Float32Array(particlesCount * 3);
+</div>
 
-        for (let i = 0; i < particlesCount * 3; i++) {
-            posArray[i] = (Math.random() - 0.5) * 10;
-        }
-
-        particlesGeometry.setAttribute(
-            'position',
-            new THREE.BufferAttribute(posArray, 3)
-        );
-
-        const particlesMaterial = new THREE.PointsMaterial({
-            size: 0.02,
-            color: 0xffffff
-        });
-
-        const particlesMesh = new THREE.Points(
-            particlesGeometry,
-            particlesMaterial
-        );
-
-        scene.add(particlesMesh);
-
-        function animate() {
-
-            requestAnimationFrame(animate);
-
-            particlesMesh.rotation.y += 0.0008;
-            particlesMesh.rotation.x += 0.0005;
-
-            renderer.render(scene, camera);
-        }
-
-        animate();
+</section>
 
 
-        window.addEventListener("resize", () => {
 
-            const width = container.clientWidth;
-            const height = container.clientHeight;
+<!-- THREE JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
-            renderer.setSize(width, height);
+<script>
 
-            camera.aspect = width / height;
-            camera.updateProjectionMatrix();
+/* MENU */
+function toggleMenu(){
+document.getElementById("settingsMenu").classList.toggle("show");
+}
 
-        });
+/* DARK MODE */
+function toggleTheme(){
+document.body.classList.toggle("light-mode");
+}
 
-    </script>
+/* CLICK OUTSIDE */
+window.onclick=function(e){
+if(!e.target.closest('.logo-area')){
+document.getElementById("settingsMenu").classList.remove("show");
+}
+}
+
+
+/* THREE PARTICLE */
+
+const container=document.getElementById("videoContainer");
+const canvas=document.getElementById("three-canvas");
+
+const scene=new THREE.Scene();
+
+const camera=new THREE.PerspectiveCamera(
+75,
+container.clientWidth/container.clientHeight,
+0.1,
+1000
+);
+
+const renderer=new THREE.WebGLRenderer({
+canvas:canvas,
+alpha:true
+});
+
+renderer.setSize(
+container.clientWidth,
+container.clientHeight
+);
+
+camera.position.z=5;
+
+const particlesGeometry=new THREE.BufferGeometry();
+const particlesCount=800;
+
+const posArray=new Float32Array(particlesCount*3);
+
+for(let i=0;i<particlesCount*3;i++){
+posArray[i]=(Math.random()-0.5)*10;
+}
+
+particlesGeometry.setAttribute(
+'position',
+new THREE.BufferAttribute(posArray,3)
+);
+
+const particlesMaterial=new THREE.PointsMaterial({
+size:0.02,
+color:0xffffff
+});
+
+const particlesMesh=new THREE.Points(
+particlesGeometry,
+particlesMaterial
+);
+
+scene.add(particlesMesh);
+
+function animate(){
+
+requestAnimationFrame(animate);
+
+particlesMesh.rotation.y+=0.0008;
+particlesMesh.rotation.x+=0.0005;
+
+renderer.render(scene,camera);
+}
+
+animate();
+
+window.addEventListener("resize",()=>{
+
+const width=container.clientWidth;
+const height=container.clientHeight;
+
+renderer.setSize(width,height);
+
+camera.aspect=width/height;
+camera.updateProjectionMatrix();
+
+});
+
+</script>
 
 </body>
-
-  </html>
+    </html>
