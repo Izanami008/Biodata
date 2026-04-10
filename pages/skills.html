@@ -4,11 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- FONT -->
+<title>Skills - Erika099</title>
+
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-<title>Skills - Erika099</title>
 
 <style>
 
@@ -95,6 +94,10 @@ transition:0.3s;
 background:#222;
 }
 
+hr{
+border:0.5px solid #333;
+}
+
 /* ================= SKILLS ================= */
 
 .skills-section{
@@ -151,8 +154,8 @@ background:#b74b4b;
 /* ================= EARTH ================= */
 
 .earth-section{
-margin-top:50px;
 text-align:center;
+margin-top:50px;
 }
 
 #earthCanvas{
@@ -160,36 +163,71 @@ width:100%;
 height:400px;
 }
 
-/* ================= CODE EDITOR ================= */
+/* ================= EDITOR ================= */
 
 .editor-section{
-margin-top:40px;
 padding:30px;
+margin-top:40px;
+}
+
+.editor-tabs{
+display:flex;
+gap:10px;
+margin-bottom:10px;
+justify-content:center;
+}
+
+.editor-tabs button{
+background:#111;
+color:white;
+border:1px solid #333;
+padding:8px 15px;
+cursor:pointer;
 }
 
 textarea{
 width:100%;
-height:120px;
+height:150px;
 background:#111;
-color:white;
+color:#00ff9d;
 border:1px solid #333;
 padding:10px;
 margin-bottom:10px;
+font-family:monospace;
 }
 
-button{
+.run-btn{
 background:#b74b4b;
 border:none;
 padding:10px 20px;
 color:white;
 cursor:pointer;
+display:block;
+margin:auto;
 }
 
 iframe{
 width:100%;
 height:300px;
-background:white;
+background:black;
+border:1px solid #333;
 margin-top:20px;
+}
+
+/* ================= LIGHT MODE ================= */
+
+.light-mode{
+background:white;
+color:black;
+}
+
+.light-mode header{
+background:white;
+}
+
+.light-mode .skill-card{
+background:#eee;
+color:black;
 }
 
 </style>
@@ -197,7 +235,7 @@ margin-top:20px;
 
 <body>
 
-<!-- HEADER -->
+<!-- ================= HEADER ================= -->
 
 <header>
 
@@ -219,12 +257,23 @@ margin-top:20px;
 <a href="experience.html" class="menu-btn">Experience</a>
 <a href="contact.html" class="menu-btn">Contact</a>
 
+<hr>
+
+<button class="menu-btn" onclick="toggleTheme()">
+Dark / Light
+</button>
+
+<a href="../global/login.html" class="menu-btn">
+Login Admin
+</a>
+
 </div>
 
 </div>
+
 </header>
 
-<!-- SKILLS -->
+<!-- ================= SKILLS ================= -->
 
 <section class="skills-section">
 
@@ -250,11 +299,17 @@ margin-top:20px;
 <div class="progress"><div style="width:80%"></div></div>
 </div>
 
+<div class="skill-card">
+<i class="fa-solid fa-cube"></i>
+<h3>Three.js</h3>
+<div class="progress"><div style="width:75%"></div></div>
+</div>
+
 </div>
 
 </section>
 
-<!-- EARTH -->
+<!-- ================= EARTH ================= -->
 
 <section class="earth-section">
 
@@ -264,38 +319,123 @@ margin-top:20px;
 
 </section>
 
-<!-- CODE EDITOR -->
+<!-- ================= EDITOR ================= -->
 
 <section class="editor-section">
 
-<h1>Try Coding</h1>
+<h1 style="text-align:center;">Try Coding</h1>
 
-<textarea id="code">
+<div class="editor-tabs">
 
-<h1>Hello Erika</h1>
-<p>Test Coding</p>
+<button onclick="showEditor('html')">HTML</button>
+<button onclick="showEditor('css')">CSS</button>
+<button onclick="showEditor('js')">JavaScript</button>
 
-</textarea>
+</div>
 
-<button onclick="runCode()">Run Code</button>
+<textarea id="htmlEditor"></textarea>
+<textarea id="cssEditor" style="display:none;"></textarea>
+<textarea id="jsEditor" style="display:none;"></textarea>
+
+<button class="run-btn" onclick="runCode()">Run Code</button>
 
 <iframe id="output"></iframe>
 
 </section>
 
-<!-- THREE JS -->
+<!-- ================= THREE JS ================= -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
 <script>
 
-/* MENU */
+/* ================= MENU ================= */
 
 function toggleMenu(){
 document.getElementById("settingsMenu").classList.toggle("show");
 }
 
-/* EARTH */
+function toggleTheme(){
+document.body.classList.toggle("light-mode");
+}
+
+window.onclick=function(e){
+if(!e.target.closest('.logo-area')){
+document.getElementById("settingsMenu").classList.remove("show");
+}
+}
+
+/* ================= DEFAULT CODE ================= */
+
+document.getElementById("htmlEditor").value =
+`<h1>Hello Erika</h1>
+<p>Welcome to Skills Page</p>`;
+
+document.getElementById("cssEditor").value =
+`body{
+color:white;
+}
+
+h1{
+color:#b74b4b;
+}`;
+
+document.getElementById("jsEditor").value =
+`console.log("Hello Erika");`;
+
+/* ================= SWITCH EDITOR ================= */
+
+function showEditor(type){
+
+htmlEditor.style.display="none";
+cssEditor.style.display="none";
+jsEditor.style.display="none";
+
+if(type==="html") htmlEditor.style.display="block";
+if(type==="css") cssEditor.style.display="block";
+if(type==="js") jsEditor.style.display="block";
+
+}
+
+/* ================= RUN CODE ================= */
+
+function runCode(){
+
+let html = htmlEditor.value;
+let css = cssEditor.value;
+let js = jsEditor.value;
+
+output.srcdoc = `
+<html>
+<head>
+
+<style>
+body{
+background:black;
+color:white;
+font-family:monospace;
+padding:20px;
+}
+${css}
+</style>
+
+</head>
+
+<body>
+
+${html}
+
+<script>
+${js}
+<\/script>
+
+</body>
+</html>
+`;
+
+}
+
+/* ================= EARTH ================= */
 
 const scene = new THREE.Scene();
 
@@ -307,42 +447,54 @@ window.innerWidth/400,
 );
 
 const renderer = new THREE.WebGLRenderer({
-canvas:document.getElementById("earthCanvas")
+canvas:document.getElementById("earthCanvas"),
+alpha:true
 });
 
 renderer.setSize(window.innerWidth,400);
 
-const geometry = new THREE.SphereGeometry(2,32,32);
+const geometry = new THREE.SphereGeometry(2,64,64);
 
-const material = new THREE.MeshBasicMaterial({
-wireframe:true
+const textureLoader = new THREE.TextureLoader();
+
+const earthTexture = textureLoader.load("../img/earth.jpg");
+
+const material = new THREE.MeshStandardMaterial({
+map:earthTexture
 });
 
 const earth = new THREE.Mesh(geometry,material);
 
 scene.add(earth);
 
+const light = new THREE.PointLight(0xffffff,1.5);
+light.position.set(5,5,5);
+scene.add(light);
+
+const ambient = new THREE.AmbientLight(0x404040);
+scene.add(ambient);
+
 camera.position.z = 5;
 
 function animate(){
+
 requestAnimationFrame(animate);
-earth.rotation.y += 0.01;
+
+earth.rotation.y += 0.003;
+
 renderer.render(scene,camera);
+
 }
 
 animate();
 
-/* CODE RUN */
+window.addEventListener("resize",()=>{
 
-function runCode(){
+renderer.setSize(window.innerWidth,400);
+camera.aspect = window.innerWidth/400;
+camera.updateProjectionMatrix();
 
-const code =
-document.getElementById("code").value;
-
-document.getElementById("output")
-srcdoc = code;
-
-}
+});
 
 </script>
 
