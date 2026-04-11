@@ -15,7 +15,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
 
 <style>
 
-/* ================= GLOBAL ================= */
+/* ================= RESET ================= */
 
 *{
 margin:0;
@@ -28,45 +28,6 @@ body{
 background:black;
 color:white;
 overflow-x:hidden;
-}
-
-/* ================= HEADER ================= */
-
-header{
-position:fixed;
-top:0;
-width:100%;
-padding:15px 8%;
-background:#000;
-display:flex;
-justify-content:space-between;
-align-items:center;
-z-index:1000;
-border-bottom:1px solid #111;
-}
-
-.logo{
-color:#b74b4b;
-font-size:22px;
-text-decoration:none;
-font-weight:bold;
-}
-
-nav a{
-color:white;
-margin-left:20px;
-text-decoration:none;
-}
-
-nav a.active{
-color:#b74b4b;
-}
-
-/* ================= SECTION ================= */
-
-.page-section{
-padding-top:120px;
-text-align:center;
 }
 
 /* ================= STARS ================= */
@@ -85,6 +46,86 @@ height:2px;
 background:white;
 }
 
+/* ================= HEADER ================= */
+
+header{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+padding:15px 9%;
+background:black;
+display:flex;
+align-items:center;
+z-index:1000;
+border-bottom:1px solid #111;
+}
+
+.logo-area{
+display:flex;
+align-items:center;
+cursor:pointer;
+}
+
+.logo-img{
+width:50px;
+margin-right:10px;
+}
+
+.logo{
+font-size:22px;
+font-weight:bold;
+color:#b74b4b;
+text-decoration:none;
+}
+
+.logo-sub{
+font-size:12px;
+color:gray;
+}
+
+/* ================= MENU ================= */
+
+.settings-menu{
+position:absolute;
+top:70px;
+left:9%;
+background:#111;
+padding:15px;
+border-radius:10px;
+display:none;
+flex-direction:column;
+gap:10px;
+min-width:200px;
+}
+
+.settings-menu.show{
+display:flex;
+}
+
+.menu-btn{
+color:white;
+text-decoration:none;
+padding:8px;
+border-radius:6px;
+transition:0.3s;
+}
+
+.menu-btn:hover{
+background:#222;
+}
+
+hr{
+border:0.5px solid #333;
+}
+
+/* ================= SECTION ================= */
+
+.page-section{
+padding-top:120px;
+text-align:center;
+}
+
 /* ================= TIMELINE ================= */
 
 .timeline{
@@ -99,6 +140,7 @@ padding:20px;
 margin:20px 0;
 border-radius:10px;
 border:1px solid #222;
+transition:0.3s;
 }
 
 .timeline-item:hover{
@@ -108,7 +150,7 @@ box-shadow:0 0 15px #b74b4b;
 /* ================= MOTIVATION ================= */
 
 .motivation{
-margin-top:50px;
+margin-top:40px;
 font-size:18px;
 color:#b74b4b;
 }
@@ -116,7 +158,7 @@ color:#b74b4b;
 /* ================= MONEY ================= */
 
 .money{
-margin-top:40px;
+margin-top:30px;
 font-size:24px;
 animation:moneyMove 10s linear infinite;
 }
@@ -126,12 +168,20 @@ animation:moneyMove 10s linear infinite;
 100%{transform:translateX(100%)}
 }
 
-/* ================= CHART ================= */
+/* ================= CRYPTO CHART ================= */
 
-.chart-box{
+.crypto-section{
+margin-top:40px;
+padding:20px;
+}
+
+#cryptoChart{
 width:90%;
-max-width:700px;
-margin:40px auto;
+max-width:900px;
+margin:auto;
+background:#111;
+border-radius:10px;
+padding:10px;
 }
 
 /* ================= NEWS ================= */
@@ -187,12 +237,28 @@ text-align:center;
 padding:20px;
 }
 
+/* ================= LIGHT MODE ================= */
+
+.light-mode{
+background:white;
+color:black;
+}
+
+.light-mode header{
+background:white;
+}
+
+.light-mode .timeline-item{
+background:#eee;
+color:black;
+}
+
 /* ================= RESPONSIVE ================= */
 
 @media(max-width:768px){
 
-nav{
-display:none;
+.settings-menu{
+left:5%;
 }
 
 }
@@ -205,23 +271,44 @@ display:none;
 
 <div id="stars"></div>
 
+<!-- ================= HEADER ================= -->
+
 <header>
+
+<div class="logo-area" onclick="toggleMenu()">
+
+<img src="../img/logo.png" class="logo-img">
+
+<div>
 
 <a href="../index.html" class="logo">Erika099</a>
 
-<nav>
+<p class="logo-sub">Personal Biography</p>
 
-<a href="../index.html">Home</a>
-<a href="services.html">Services</a>
-<a href="skills.html">Skills</a>
-<a href="education.html" class="active">Education</a>
-<a href="experience.html">Experience</a>
-<a href="contact.html">Contact</a>
+</div>
 
-</nav>
+<div class="settings-menu" id="settingsMenu">
+
+<a href="../index.html" class="menu-btn">Home</a>
+<a href="services.html" class="menu-btn">Services</a>
+<a href="skills.html" class="menu-btn">Skills</a>
+<a href="education.html" class="menu-btn">Education</a>
+<a href="experience.html" class="menu-btn">Experience</a>
+<a href="contact.html" class="menu-btn">Contact</a>
+
+<hr>
+
+<button class="menu-btn" onclick="toggleTheme()">🌙 Dark / Light</button>
+
+<a href="../global/login.html" class="menu-btn">Login Admin</a>
+
+</div>
+
+</div>
 
 </header>
 
+<!-- ================= CONTENT ================= -->
 
 <section class="page-section">
 
@@ -259,42 +346,65 @@ display:none;
 
 <div class="money">
 
-💰 Money Moves With Knowledge 💰
+💰 Knowledge Creates Money 💰
 
 </div>
 
-<div class="chart-box">
+</section>
 
-<canvas id="moneyChart"></canvas>
+<!-- ================= CRYPTO CHART ================= -->
 
-</div>
+<section class="crypto-section">
 
-<h2 style="margin-top:40px;">Education News</h2>
+<h2>Money Growth (Crypto Style)</h2>
+
+<canvas id="cryptoChart"></canvas>
+
+</section>
+
+<!-- ================= NEWS ================= -->
+
+<section class="crypto-section">
+
+<h2>Education News</h2>
 
 <div class="news-container" id="news">
 
 <div class="loading">
-
 <i class="fa-solid fa-spinner fa-spin"></i>
 Loading education news...
-
 </div>
 
 </div>
 
 </section>
 
+<!-- ================= SCRIPT ================= -->
 
 <script>
 
-/* ================= STARS ================= */
+/* MENU */
+
+function toggleMenu(){
+document.getElementById("settingsMenu").classList.toggle("show");
+}
+
+function toggleTheme(){
+document.body.classList.toggle("light-mode");
+}
+
+window.onclick=function(e){
+if(!e.target.closest('.logo-area')){
+document.getElementById("settingsMenu").classList.remove("show");
+}
+}
+
+/* STARS */
 
 for(let i=0;i<120;i++){
 
 let star=document.createElement("div");
-
 star.className="star";
-
 star.style.top=Math.random()*100+"%";
 star.style.left=Math.random()*100+"%";
 
@@ -302,83 +412,91 @@ document.getElementById("stars").appendChild(star);
 
 }
 
-/* ================= CHART ================= */
+/* CRYPTO CHART */
 
-new Chart(document.getElementById("moneyChart"),{
+new Chart(document.getElementById("cryptoChart"),{
 
 type:"line",
 
 data:{
 
-labels:["Start","Learn","Work","Save","Invest","Grow"],
+labels:["1","2","3","4","5","6","7","8","9","10"],
 
-datasets:[{
+datasets:[
 
-label:"Money Growth",
-
-data:[0,10,30,50,80,120],
-
-borderColor:"#b74b4b",
-fill:false,
+{
+label:"Profit",
+data:[10,20,15,30,40,35,50,60,55,70],
+borderColor:"#00ff88",
 tension:0.4
+},
 
-}]
+{
+label:"Loss",
+data:[5,15,10,20,25,15,30,25,20,15],
+borderColor:"#ff0040",
+tension:0.4
+}
 
+]
+
+},
+
+options:{
+plugins:{
+legend:{
+labels:{color:"white"}
+}
+},
+scales:{
+x:{ticks:{color:"white"}},
+y:{ticks:{color:"white"}}
+}
 }
 
 });
 
-/* ================= RSS NEWS ================= */
+/* RSS NEWS */
 
-const feeds = [
+const feeds=[
 
 "https://news.google.com/rss/search?q=education&hl=en-US&gl=US&ceid=US:en",
-
 "https://news.google.com/rss/search?q=pendidikan&hl=id&gl=ID&ceid=ID:id"
 
 ];
 
 async function loadNews(){
 
-const container = document.getElementById("news");
+const container=document.getElementById("news");
 
-container.innerHTML = `
-<div class="loading">
-<i class="fa-solid fa-spinner fa-spin"></i>
-Loading education news...
-</div>
-`;
-
-let newsList = [];
+let newsList=[];
 
 for(let feed of feeds){
 
 try{
 
-let res = await fetch(
-"https://api.allorigins.win/get?url=" + encodeURIComponent(feed)
+let res=await fetch(
+"https://api.allorigins.win/get?url="+encodeURIComponent(feed)
 );
 
-let data = await res.json();
+let data=await res.json();
 
-let parser = new DOMParser();
+let parser=new DOMParser();
 
-let xml = parser.parseFromString(data.contents,"text/xml");
+let xml=parser.parseFromString(data.contents,"text/xml");
 
-let items = xml.querySelectorAll("item");
+let items=xml.querySelectorAll("item");
 
 items.forEach((item,i)=>{
 
 if(i<6){
 
-let title = item.querySelector("title")?.textContent;
-let link = item.querySelector("link")?.textContent;
-let pubDate = item.querySelector("pubDate")?.textContent;
-
 newsList.push({
-title,
-link,
-pubDate
+
+title:item.querySelector("title").textContent,
+link:item.querySelector("link").textContent,
+pubDate:item.querySelector("pubDate").textContent
+
 });
 
 }
@@ -387,7 +505,7 @@ pubDate
 
 }catch(e){
 
-console.log("RSS error",e);
+console.log(e);
 
 }
 
@@ -397,7 +515,7 @@ container.innerHTML="";
 
 newsList.forEach(news=>{
 
-container.innerHTML += `
+container.innerHTML+=`
 
 <div class="news-item">
 
@@ -437,4 +555,4 @@ setInterval(loadNews,300000);
 </script>
 
 </body>
-    </html>
+    </html>r
