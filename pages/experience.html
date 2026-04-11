@@ -1,64 +1,634 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<title>Experiment - Erika099</title>
 
-    <link rel="stylesheet" href="style.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-    <title>Experience</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<style>
+
+/* ================= RESET ================= */
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Poppins,sans-serif;
+}
+
+body{
+background:black;
+color:white;
+overflow-x:hidden;
+}
+
+/* ================= HEADER ================= */
+
+header{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+padding:15px 9%;
+background:black;
+display:flex;
+align-items:center;
+z-index:1000;
+border-bottom:1px solid #111;
+}
+
+.logo-area{
+display:flex;
+align-items:center;
+cursor:pointer;
+}
+
+.logo-img{
+width:50px;
+margin-right:10px;
+}
+
+.logo{
+font-size:22px;
+font-weight:bold;
+color:#00ff9d;
+text-decoration:none;
+}
+
+.logo-sub{
+font-size:12px;
+color:gray;
+}
+
+/* ================= MENU ================= */
+
+.settings-menu{
+position:absolute;
+top:70px;
+left:9%;
+background:#111;
+padding:15px;
+border-radius:10px;
+display:none;
+flex-direction:column;
+gap:10px;
+min-width:200px;
+border:1px solid #00ff9d;
+}
+
+.settings-menu.show{
+display:flex;
+}
+
+.menu-btn{
+color:white;
+text-decoration:none;
+padding:8px;
+border-radius:6px;
+transition:0.3s;
+}
+
+.menu-btn:hover{
+background:#00ff9d;
+color:black;
+}
+
+hr{
+border:0.5px solid #333;
+}
+
+/* ================= RUNNING TECH ================= */
+
+.running-tech{
+margin-top:100px;
+background:#001a12;
+padding:10px;
+white-space:nowrap;
+overflow:hidden;
+}
+
+.running-tech span{
+display:inline-block;
+padding-left:100%;
+animation:runTech 15s linear infinite;
+color:#00ff9d;
+}
+
+@keyframes runTech{
+0%{transform:translateX(0)}
+100%{transform:translateX(-100%)}
+}
+
+/* ================= SECTION ================= */
+
+.section{
+padding:40px 9%;
+margin-top:20px;
+}
+
+.section h1{
+text-align:center;
+margin-bottom:20px;
+color:#00ff9d;
+}
+
+/* ================= CARDS ================= */
+
+.card-container{
+display:flex;
+flex-wrap:wrap;
+gap:20px;
+justify-content:center;
+}
+
+.card{
+background:#0a0a0a;
+padding:20px;
+border-radius:12px;
+width:250px;
+border:1px solid #00ff9d33;
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-8px);
+box-shadow:0 0 20px #00ff9d;
+}
+
+.card i{
+font-size:30px;
+color:#00ff9d;
+margin-bottom:10px;
+}
+
+/* ================= CODING LAB ================= */
+
+.editor-section{
+padding:40px 9%;
+}
+
+.editor-tabs{
+display:flex;
+gap:10px;
+margin-bottom:10px;
+justify-content:center;
+}
+
+.editor-tabs button{
+background:#111;
+color:white;
+border:1px solid #00ff9d;
+padding:8px 15px;
+cursor:pointer;
+}
+
+textarea{
+width:100%;
+height:150px;
+background:#0a0a0a;
+color:#00ff9d;
+border:1px solid #00ff9d;
+padding:10px;
+margin-bottom:10px;
+font-family:monospace;
+}
+
+.run-btn{
+background:#00ff9d;
+border:none;
+padding:10px 20px;
+color:black;
+cursor:pointer;
+display:block;
+margin:auto;
+}
+
+iframe{
+width:100%;
+height:300px;
+background:black;
+border:1px solid #00ff9d;
+margin-top:20px;
+}
+
+/* ================= GRAPH ================= */
+
+.graph-section{
+padding:40px 9%;
+text-align:center;
+}
+
+canvas{
+max-width:900px;
+margin:auto;
+background:#0a0a0a;
+padding:10px;
+border-radius:10px;
+border:1px solid #00ff9d;
+}
+
+/* ================= 3D ================= */
+
+#cubeCanvas{
+width:100%;
+height:400px;
+}
+
+/* ================= QUOTE ================= */
+
+.quote-box{
+text-align:center;
+padding:30px;
+background:#0a0a0a;
+margin:40px;
+border-radius:10px;
+border:1px solid #00ff9d;
+}
+
+.quote-btn{
+background:#00ff9d;
+border:none;
+padding:10px 20px;
+cursor:pointer;
+color:black;
+margin-top:10px;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:768px){
+
+.card{
+width:100%;
+}
+
+header{
+padding:15px;
+}
+
+}
+
+</style>
 </head>
 
 <body>
 
+<!-- ================= HEADER ================= -->
+
 <header>
 
-    <a href="../index.html" class="logo">Erika099</a>
+<div class="logo-area" onclick="toggleMenu()">
 
-    <nav>
-        <a href="../index.html">Home</a>
-        <a href="services.html">Services</a>
-        <a href="skills.html">Skills</a>
-        <a href="education.html">Education</a>
-        <a href="experience.html" class="active">Experience</a>
-        <a href="contact.html">Contact</a>
-    </nav>
+<img src="../img/logo.png" class="logo-img">
+
+<div>
+<a href="../index.html" class="logo">Erika099</a>
+<p class="logo-sub">Experiment Lab</p>
+</div>
+
+<div class="settings-menu" id="settingsMenu">
+
+<a href="../index.html" class="menu-btn">Home</a>
+<a href="services.html" class="menu-btn">Services</a>
+<a href="skills.html" class="menu-btn">Skills</a>
+<a href="education.html" class="menu-btn">Education</a>
+<a href="experience.html" class="menu-btn">Experience</a>
+<a href="experiment.html" class="menu-btn">Experiment</a>
+<a href="contact.html" class="menu-btn">Contact</a>
+
+<hr>
+
+<button class="menu-btn" onclick="toggleTheme()">
+Dark / Light
+</button>
+
+<a href="../global/login.html" class="menu-btn">
+Login Admin
+</a>
+
+</div>
+
+</div>
 
 </header>
 
-<section class="page-section">
+<!-- ================= RUNNING TECH ================= -->
 
-    <h1>My Experience</h1>
+<div class="running-tech">
+<span>
+AI • Blockchain • Cyber Security • Coding • Web Development • Three.js • JavaScript • Crypto Technology • Machine Learning • Digital Innovation
+</span>
+</div>
 
-    <div class="card-container">
+<!-- ================= EXPERIMENT CARDS ================= -->
 
-        <div class="card">
-            <h3>Web Developer</h3>
-            <p>Building modern portfolio website</p>
-        </div>
+<section class="section">
 
-        <div class="card">
-            <h3>Frontend Developer</h3>
-            <p>Creating responsive UI</p>
-        </div>
+<h1>Experiment Technology</h1>
 
-        <div class="card">
-            <h3>3D Web Designer</h3>
-            <p>Three.js animation and design</p>
-        </div>
+<div class="card-container">
 
-        <div class="card">
-            <h3>Freelancer</h3>
-            <p>Working on web projects</p>
-        </div>
+<div class="card">
+<i class="fa-solid fa-code"></i>
+<h3>Coding Lab</h3>
+<p>Try HTML CSS JS</p>
+</div>
 
-    </div>
+<div class="card">
+<i class="fa-solid fa-chart-line"></i>
+<h3>Live Graph</h3>
+<p>Technology simulation</p>
+</div>
+
+<div class="card">
+<i class="fa-solid fa-cube"></i>
+<h3>3D Cube</h3>
+<p>Three.js experiment</p>
+</div>
+
+<div class="card">
+<i class="fa-solid fa-brain"></i>
+<h3>AI Quote</h3>
+<p>Random knowledge</p>
+</div>
+
+</div>
+
+    </section>
+    <!-- ================= CODING LAB ================= -->
+
+<section class="editor-section">
+
+<h1 style="text-align:center;color:#00ff9d;">Coding Lab</h1>
+
+<div class="editor-tabs">
+
+<button onclick="showEditor('html')">HTML</button>
+<button onclick="showEditor('css')">CSS</button>
+<button onclick="showEditor('js')">JavaScript</button>
+
+</div>
+
+<textarea id="htmlEditor"></textarea>
+<textarea id="cssEditor" style="display:none;"></textarea>
+<textarea id="jsEditor" style="display:none;"></textarea>
+
+<button class="run-btn" onclick="runCode()">Run Code</button>
+
+<iframe id="output"></iframe>
 
 </section>
 
+<!-- ================= GRAPH ================= -->
+
+<section class="graph-section">
+
+<h1 style="color:#00ff9d;">Technology Graph</h1>
+
+<canvas id="techChart"></canvas>
+
+</section>
+
+<!-- ================= 3D CUBE ================= -->
+
+<section class="section">
+
+<h1>3D Cube Experiment</h1>
+
+<canvas id="cubeCanvas"></canvas>
+
+</section>
+    <!-- ================= SCRIPT ================= -->
+
+<script>
+
+/* ================= MENU ================= */
+
+function toggleMenu(){
+document.getElementById("settingsMenu").classList.toggle("show");
+}
+
+function toggleTheme(){
+document.body.classList.toggle("light-mode");
+}
+
+window.onclick=function(e){
+if(!e.target.closest('.logo-area')){
+document.getElementById("settingsMenu").classList.remove("show");
+}
+}
+
+/* ================= DEFAULT CODE ================= */
+
+document.getElementById("htmlEditor").value =
+`<h1>Hello Erika</h1>
+<p>Welcome to Experiment Lab</p>`;
+
+document.getElementById("cssEditor").value =
+`body{
+background:black;
+color:#00ff9d;
+font-family:monospace;
+}
+
+h1{
+color:#00ff9d;
+}`;
+
+document.getElementById("jsEditor").value =
+`console.log("Experiment Running");`;
+
+/* ================= SWITCH EDITOR ================= */
+
+function showEditor(type){
+
+htmlEditor.style.display="none";
+cssEditor.style.display="none";
+jsEditor.style.display="none";
+
+if(type==="html") htmlEditor.style.display="block";
+if(type==="css") cssEditor.style.display="block";
+if(type==="js") jsEditor.style.display="block";
+
+}
+
+/* ================= RUN CODE ================= */
+
+function runCode(){
+
+let html = htmlEditor.value;
+let css = cssEditor.value;
+let js = jsEditor.value;
+
+output.srcdoc = `
+<html>
+<head>
+<style>
+${css}
+</style>
+</head>
+
+<body>
+
+${html}
+
+<script>
+${js}
+<\/script>
+
 </body>
 </html>
+`;
+
+}
+
+/* ================= GRAPH ================= */
+
+const ctx = document.getElementById('techChart');
+
+let techData = [10,15,12,18,20,17,25,22];
+
+const techChart = new Chart(ctx,{
+type:'line',
+data:{
+labels:['1','2','3','4','5','6','7','8'],
+datasets:[{
+label:'Technology Growth',
+data:techData,
+borderColor:'#00ff9d',
+tension:0.4
+}]
+},
+options:{
+plugins:{
+legend:{
+labels:{
+color:'white'
+}
+}
+},
+scales:{
+x:{
+ticks:{color:'white'}
+},
+y:{
+ticks:{color:'white'}
+}
+}
+}
+});
+
+/* update tiap 5 detik */
+
+setInterval(()=>{
+
+techData.shift();
+
+let last = techData[techData.length-1];
+
+techData.push(last + (Math.random()*6-3));
+
+techChart.update();
+
+},5000);
+
+
+/* ================= 3D CUBE ================= */
+
+const scene = new THREE.Scene();
+
+const camera = new THREE.PerspectiveCamera(
+75,
+window.innerWidth/400,
+0.1,
+1000
+);
+
+const renderer = new THREE.WebGLRenderer({
+canvas:document.getElementById("cubeCanvas"),
+alpha:true
+});
+
+renderer.setSize(window.innerWidth,400);
+
+const geometry = new THREE.BoxGeometry();
+
+const material = new THREE.MeshStandardMaterial({
+color:0x00ff9d,
+wireframe:false
+});
+
+const cube = new THREE.Mesh(geometry,material);
+
+scene.add(cube);
+
+const light = new THREE.PointLight(0xffffff,1.5);
+light.position.set(5,5,5);
+scene.add(light);
+
+const ambient = new THREE.AmbientLight(0x404040);
+scene.add(ambient);
+
+camera.position.z = 5;
+
+function animate(){
+
+requestAnimationFrame(animate);
+
+cube.rotation.x += 0.01;
+cube.rotation.y += 0.01;
+
+renderer.render(scene,camera);
+
+}
+
+animate();
+
+/* ================= QUOTE ================= */
+
+const quotes = [
+
+"Technology is the future",
+"Code is power",
+"AI will change the world",
+"Never stop learning",
+"Experiment creates innovation",
+"Programming builds the future",
+"Knowledge is digital power",
+"Think like a developer",
+"Build your own system",
+"Create your technology"
+
+];
+
+function generateQuote(){
+
+let random = Math.floor(Math.random()*quotes.length);
+
+document.getElementById("quote").innerText = quotes[random];
+
+}
+
+</script>
+
+</body>
+</html>
+
+<!-- ================= QUOTE ================= -->
+
+<section class="quote-box">
+
+<h2 id="quote">Click button to generate knowledge</h2>
+
+<button class="quote-btn" onclick="generateQuote()">
+Generate Quote
+</button>
+
+    </section>
