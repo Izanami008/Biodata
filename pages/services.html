@@ -1,293 +1,307 @@
-<!DOCTYPE html><html lang="en"><head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"><!-- FONT AWESOME -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 <title>Services - Erika099</title>
 
 <style>
 
-    /* ==============================
-       RESET
-    ============================== */
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: Poppins, sans-serif;
-    }
+/* ==============================
+RESET
+============================== */
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Poppins,sans-serif;
+}
 
-    body {
-        background: black;
-        color: white;
-        overflow-x: hidden;
-    }
+body{
+background:black;
+color:white;
+overflow-x:hidden;
+}
 
-    /* ==============================
-       HEADER
-    ============================== */
-    header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        padding: 15px 9%;
-        background: black;
-        display: flex;
-        align-items: center;
-        z-index: 1000;
-    }
+/* ==============================
+HEADER
+============================== */
+header{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+padding:15px 9%;
+background:black;
+display:flex;
+align-items:center;
+z-index:1000;
+}
 
-    .logo-area {
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-    }
+.logo-area{
+display:flex;
+align-items:center;
+cursor:pointer;
+}
 
-    .logo-img {
-        width: 50px;
-        margin-right: 10px;
-    }
+.logo-img{
+width:50px;
+margin-right:10px;
+}
 
-    .logo {
-        font-size: 22px;
-        font-weight: bold;
-        color: #b74b4b;
-        text-decoration: none;
-    }
+.logo{
+font-size:22px;
+font-weight:bold;
+color:#b74b4b;
+text-decoration:none;
+}
 
-    .logo-sub {
-        font-size: 12px;
-        color: gray;
-    }
+.logo-sub{
+font-size:12px;
+color:gray;
+}
 
-    /* ==============================
-       MENU
-    ============================== */
-    .settings-menu {
-        position: absolute;
-        top: 70px;
-        left: 9%;
-        background: #111;
-        padding: 15px;
-        border-radius: 10px;
-        display: none;
-        flex-direction: column;
-        gap: 10px;
-        min-width: 180px;
-    }
+/* ==============================
+MENU
+============================== */
+.settings-menu{
+position:absolute;
+top:70px;
+left:9%;
+background:#111;
+padding:15px;
+border-radius:10px;
+display:none;
+flex-direction:column;
+gap:10px;
+min-width:180px;
+}
 
-    .settings-menu.show {
-        display: flex;
-    }
+.settings-menu.show{
+display:flex;
+}
 
-    .menu-btn {
-        color: white;
-        text-decoration: none;
-        padding: 8px;
-        border-radius: 6px;
-        transition: 0.3s;
-    }
+.menu-btn{
+color:white;
+text-decoration:none;
+padding:8px;
+border-radius:6px;
+transition:0.3s;
+display:block;
+}
 
-    .menu-btn:hover {
-        background: #222;
-    }
+.menu-btn:hover{
+background:#222;
+}
 
-    hr {
-        border: 0.5px solid #333;
-    }
+hr{
+border:0.5px solid #333;
+}
 
-    /* ==============================
-       VIDEO SECTION
-    ============================== */
-    .video-section {
-        padding-top: 140px;
-        text-align: center;
-    }
+/* ==============================
+VIDEO SECTION
+============================== */
+.video-section{
+padding-top:140px;
+text-align:center;
+}
 
-    .video-section h1 {
-        font-size: 2.3rem;
-        margin-bottom: 30px;
-    }
+.video-section h1{
+font-size:2.3rem;
+margin-bottom:30px;
+}
 
-    .video-section span {
-        color: #b74b4b;
-    }
+.video-section span{
+color:#b74b4b;
+}
 
-    /* ==============================
-       VIDEO CONTAINER
-    ============================== */
-    .video-container {
-        position: relative;
-        width: 85%;
-        max-width: 950px;
-        margin: auto;
-        border-radius: 15px;
-        overflow: hidden;
-        box-shadow: 0 0 30px rgba(183, 75, 75, 0.3);
-    }
+/* ==============================
+VIDEO CONTAINER
+============================== */
+.video-container{
+position:relative;
+width:85%;
+max-width:950px;
+margin:auto;
+border-radius:15px;
+overflow:hidden;
+box-shadow:0 0 30px rgba(183,75,75,0.3);
+}
 
-    .service-video {
-        width: 100%;
-        z-index: 2;
-        position: relative;
-        object-fit: cover;
-        pointer-events: none;
-        background: black;
-    }
+.service-video{
+width:100%;
+z-index:2;
+position:relative;
+object-fit:cover;
+pointer-events:none;
+background:black;
+}
 
-    #three-canvas {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 1;
-    }
+#three-canvas{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+z-index:1;
+}
 
-    /* ==============================
-       SERVICE CARD
-    ============================== */
-    .service-info {
-        margin-top: 40px;
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 20px;
-        padding-bottom: 50px;
-    }
+/* ==============================
+SERVICE CARD
+============================== */
+.service-info{
+margin-top:40px;
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+gap:20px;
+padding-bottom:50px;
+}
 
-    .card {
-        background: #111;
-        padding: 20px;
-        width: 250px;
-        border-radius: 12px;
-        border: 1px solid #222;
-        transition: 0.3s;
-    }
+.card{
+background:#111;
+padding:20px;
+width:250px;
+border-radius:12px;
+border:1px solid #222;
+transition:0.3s;
+text-align:center;
+}
 
-    .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 0 20px rgba(183, 75, 75, 0.4);
-    }
+.card:hover{
+transform:translateY(-5px);
+box-shadow:0 0 20px rgba(183,75,75,0.4);
+}
 
-    .card i {
-        font-size: 30px;
-        color: #b74b4b;
-        margin-bottom: 10px;
-    }
+.card i{
+font-size:30px;
+color:#b74b4b;
+margin-bottom:10px;
+}
 
-    .card h3 {
-        margin-bottom: 10px;
-    }
+.card h3{
+margin-bottom:10px;
+}
 
-    .card p {
-        color: #aaa;
-    }
+.card p{
+color:#aaa;
+margin-bottom:10px;
+}
 
-    /* ==============================
-       LIGHT MODE
-    ============================== */
-    .light-mode {
-        background: white;
-        color: black;
-    }
+.card a{
+color:#b74b4b;
+text-decoration:none;
+font-size:14px;
+}
 
-    .light-mode header {
-        background: white;
-    }
+/* ==============================
+LIGHT MODE
+============================== */
+.light-mode{
+background:white;
+color:black;
+}
 
-    .light-mode .card {
-        background: #eee;
-        color: black;
-    }
+.light-mode header{
+background:white;
+}
+
+.light-mode .card{
+background:#eee;
+color:black;
+}
 
 </style>
+</head>
 
-</head><body><!-- ==============================
-     HEADER
-============================== -->
+<body>
+
+<!-- HEADER -->
 <header>
 
-    <div class="logo-area" onclick="toggleMenu()">
+<div class="logo-area" onclick="toggleMenu()">
 
-        <img src="../img/logo.png" class="logo-img">
+<img src="../img/logo.png" class="logo-img">
 
-        <div>
-            <a href="../index.html" class="logo">Erika099</a>
-            <p class="logo-sub">Personal Biography</p>
-        </div>
+<div>
+<a href="../index.html" class="logo">Erika099</a>
+<p class="logo-sub">Personal Biography</p>
+</div>
 
-        <div class="settings-menu" id="settingsMenu">
+<div class="settings-menu" id="settingsMenu">
 
-            <a href="../index.html" class="menu-btn">Home</a>
-            <a href="services.html" class="menu-btn">Services</a>
-            <a href="skills.html" class="menu-btn">Skills</a>
-            <a href="education.html" class="menu-btn">Education</a>
-            <a href="experience.html" class="menu-btn">Experience</a>
-            <a href="contact.html" class="menu-btn">Contact</a>
+<a href="../index.html" class="menu-btn">Home</a>
+<a href="services.html" class="menu-btn">Services</a>
+<a href="skills.html" class="menu-btn">Skills</a>
+<a href="education.html" class="menu-btn">Education</a>
+<a href="experience.html" class="menu-btn">Experience</a>
+<a href="contact.html" class="menu-btn">Contact</a>
 
-            <hr>
+<hr>
 
-            <button class="menu-btn" onclick="toggleTheme()">
-                🌙 Dark / Light
-            </button>
+<button class="menu-btn" onclick="toggleTheme()">🌙 Dark / Light</button>
 
-            <a href="../global/login.html" class="menu-btn">
-                Login Admin
-            </a>
+<a href="../global/login.html" class="menu-btn">Login Admin</a>
 
-        </div>
-    </div>
+</div>
+</div>
 
 </header>
 
-<!-- ==============================
-     VIDEO SECTION
-============================== -->
+<!-- VIDEO SECTION -->
 <section class="video-section">
 
-    <h1>My <span>Service Video</span></h1>
+<h1>My <span>Service Video</span></h1>
 
-    <div class="video-container" id="videoContainer">
+<div class="video-container" id="videoContainer">
 
-        <video autoplay muted loop playsinline
-            class="service-video"
-            poster="../img/main.jpg">
+<video autoplay muted loop playsinline
+class="service-video"
+poster="../img/main.jpg">
 
-            <source
-                src="../video/km_20260409-2_720p_30f_20260409_212602.mp4"
-                type="video/mp4">
+<source
+src="../video/km_20260409-2_720p_30f_20260409_212602.mp4"
+type="video/mp4">
 
-        </video>
+</video>
 
-        <canvas id="three-canvas"></canvas>
+<canvas id="three-canvas"></canvas>
 
-    </div>
+</div>
 
-    <!-- SERVICE CARDS -->
-    <div class="service-info">
+<!-- SERVICE CARDS -->
+<div class="service-info">
 
-        <div class="card">
-            <i class="fa-solid fa-code"></i>
-            <h3>Web Development</h3>
-            <p>Membuat website modern dan responsif</p>
-        </div>
+<div class="card">
+<i class="fa-solid fa-code"></i>
+<h3>Web Development</h3>
+<p>Membuat website modern dan responsif</p>
+</div>
 
-        <div class="card">
-            <i class="fa-solid fa-paintbrush"></i>
-            <h3>UI Design</h3>
-            <p>Desain tampilan website elegan dan ringan</p>
-        </div>
+<div class="card">
+<i class="fa-solid fa-paintbrush"></i>
+<h3>UI Design</h3>
+<p>Desain tampilan website elegan dan ringan</p>
+</div>
 
-        <div class="card">
-            <i class="fa-solid fa-server"></i>
-            <h3>System Script</h3>
-            <p>Membuat fitur dan sistem website</p>
-        </div>
+<div class="card">
+<i class="fa-solid fa-server"></i>
+<h3>System Script</h3>
+<p>Membuat fitur dan sistem website</p>
+</div>
 
-    </div>
+<div class="card">
+<i class="fa-solid fa-robot"></i>
+<h3>AI Design</h3>
+<p>Artificial Intelligence Web System</p>
+<a href="login/login.html">Open AI</a>
+</div>
+
+</div>
 
 </section>
 
@@ -296,113 +310,122 @@
 
 <script>
 
-    /* ==============================
-       MENU
-    ============================== */
-    function toggleMenu() {
-        document
-            .getElementById("settingsMenu")
-            .classList
-            .toggle("show");
-    }
+/* MENU */
+function toggleMenu(){
+document.getElementById("settingsMenu").classList.toggle("show");
+}
 
-    /* ==============================
-       DARK MODE
-    ============================== */
-    function toggleTheme() {
-        document.body.classList.toggle("light-mode");
-    }
+/* DARK MODE */
+function toggleTheme(){
+document.body.classList.toggle("light-mode");
+}
 
-    /* ==============================
-       CLICK OUTSIDE
-    ============================== */
-    window.onclick = function (e) {
-        if (!e.target.closest('.logo-area')) {
-            document
-                .getElementById("settingsMenu")
-                .classList
-                .remove("show");
-        }
-    }
+/* CLICK OUTSIDE */
+window.onclick=function(e){
+if(!e.target.closest('.logo-area')){
+document.getElementById("settingsMenu").classList.remove("show");
+}
+}
 
-    /* ==============================
-       THREE JS PARTICLE
-    ============================== */
+/* THREE JS */
+const container=document.getElementById("videoContainer");
+const canvas=document.getElementById("three-canvas");
 
-    const container = document.getElementById("videoContainer");
-    const canvas = document.getElementById("three-canvas");
+const scene=new THREE.Scene();
 
-    const scene = new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(
+75,
+container.clientWidth/container.clientHeight,
+0.1,
+1000
+);
 
-    const camera = new THREE.PerspectiveCamera(
-        75,
-        container.clientWidth / container.clientHeight,
-        0.1,
-        1000
-    );
+const renderer=new THREE.WebGLRenderer({
+canvas:canvas,
+alpha:true
+});
 
-    const renderer = new THREE.WebGLRenderer({
-        canvas: canvas,
-        alpha: true
-    });
+renderer.setSize(
+container.clientWidth,
+container.clientHeight
+);
 
-    renderer.setSize(
-        container.clientWidth,
-        container.clientHeight
-    );
+camera.position.z=5;
 
-    camera.position.z = 5;
+/* PARTICLE */
+const geometry=new THREE.BufferGeometry();
+const count=800;
+const posArray=new Float32Array(count*3);
 
-    const geometry = new THREE.BufferGeometry();
-    const count = 800;
-    const posArray = new Float32Array(count * 3);
+for(let i=0;i<count*3;i++){
+posArray[i]=(Math.random()-0.5)*10;
+}
 
-    for (let i = 0; i < count * 3; i++) {
-        posArray[i] = (Math.random() - 0.5) * 10;
-    }
+geometry.setAttribute(
+'position',
+new THREE.BufferAttribute(posArray,3)
+);
 
-    geometry.setAttribute(
-        'position',
-        new THREE.BufferAttribute(posArray, 3)
-    );
+const material=new THREE.PointsMaterial({
+size:0.02,
+color:0xffffff
+});
 
-    const material = new THREE.PointsMaterial({
-        size: 0.02,
-        color: 0xffffff
-    });
+const particles=new THREE.Points(
+geometry,
+material
+);
 
-    const particles = new THREE.Points(
-        geometry,
-        material
-    );
+scene.add(particles);
 
-    scene.add(particles);
+/* PLANET BUMI */
+const planetGeometry=new THREE.SphereGeometry(1,64,64);
 
-    function animate() {
-        requestAnimationFrame(animate);
+const planetMaterial=new THREE.MeshStandardMaterial({
+color:0x2266ff
+});
 
-        particles.rotation.y += 0.0008;
-        particles.rotation.x += 0.0005;
+const planet=new THREE.Mesh(
+planetGeometry,
+planetMaterial
+);
 
-        renderer.render(scene, camera);
-    }
+scene.add(planet);
 
-    animate();
+/* LIGHT */
+const light=new THREE.PointLight(0xffffff,1);
+light.position.set(5,5,5);
+scene.add(light);
 
-    /* ==============================
-       RESPONSIVE
-    ============================== */
-    window.addEventListener("resize", () => {
+const ambient=new THREE.AmbientLight(0xffffff,0.4);
+scene.add(ambient);
 
-        const width = container.clientWidth;
-        const height = container.clientHeight;
+/* ANIMATE */
+function animate(){
+requestAnimationFrame(animate);
 
-        renderer.setSize(width, height);
+particles.rotation.y+=0.0008;
+particles.rotation.x+=0.0005;
 
-        camera.aspect = width / height;
-        camera.updateProjectionMatrix();
+planet.rotation.y+=0.003;
 
-    });
+renderer.render(scene,camera);
+}
+
+animate();
+
+/* RESPONSIVE */
+window.addEventListener("resize",()=>{
+
+const width=container.clientWidth;
+const height=container.clientHeight;
+
+renderer.setSize(width,height);
+
+camera.aspect=width/height;
+camera.updateProjectionMatrix();
+
+});
 
 </script>
 
