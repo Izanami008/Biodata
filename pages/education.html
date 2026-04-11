@@ -1,22 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Education - Erika099</title>
 
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
 <style>
 
 /* ================= RESET ================= */
-
 *{
 margin:0;
 padding:0;
@@ -30,35 +25,17 @@ color:white;
 overflow-x:hidden;
 }
 
-/* ================= STARS ================= */
-
-#stars{
-position:fixed;
-width:100%;
-height:100%;
-z-index:-1;
-}
-
-.star{
-position:absolute;
-width:2px;
-height:2px;
-background:white;
-}
-
 /* ================= HEADER ================= */
-
 header{
 position:fixed;
 top:0;
-left:0;
 width:100%;
 padding:15px 9%;
 background:black;
 display:flex;
 align-items:center;
-z-index:1000;
 border-bottom:1px solid #111;
+z-index:1000;
 }
 
 .logo-area{
@@ -68,25 +45,19 @@ cursor:pointer;
 }
 
 .logo-img{
-width:50px;
+width:45px;
 margin-right:10px;
 }
 
 .logo{
-font-size:22px;
-font-weight:bold;
 color:#b74b4b;
+font-size:22px;
 text-decoration:none;
-}
-
-.logo-sub{
-font-size:12px;
-color:gray;
+font-weight:bold;
 }
 
 /* ================= MENU ================= */
-
-.settings-menu{
+.menu{
 position:absolute;
 top:70px;
 left:9%;
@@ -96,463 +67,254 @@ border-radius:10px;
 display:none;
 flex-direction:column;
 gap:10px;
-min-width:200px;
 }
 
-.settings-menu.show{
-display:flex;
-}
+.menu.show{display:flex;}
 
-.menu-btn{
+.menu a{
 color:white;
 text-decoration:none;
 padding:8px;
 border-radius:6px;
-transition:0.3s;
 }
 
-.menu-btn:hover{
-background:#222;
-}
-
-hr{
-border:0.5px solid #333;
-}
+.menu a:hover{background:#222;}
 
 /* ================= SECTION ================= */
-
-.page-section{
+section{
 padding-top:120px;
 text-align:center;
 }
 
 /* ================= TIMELINE ================= */
-
 .timeline{
 max-width:800px;
 margin:auto;
-margin-top:40px;
 }
 
 .timeline-item{
 background:#111;
+margin:20px;
 padding:20px;
-margin:20px 0;
 border-radius:10px;
 border:1px solid #222;
 transition:0.3s;
 }
 
 .timeline-item:hover{
+transform:translateY(-5px);
 box-shadow:0 0 15px #b74b4b;
 }
 
-/* ================= MOTIVATION ================= */
-
-.motivation{
-margin-top:40px;
-font-size:18px;
-color:#b74b4b;
-}
-
 /* ================= MONEY ================= */
-
 .money{
-margin-top:30px;
-font-size:24px;
-animation:moneyMove 10s linear infinite;
+margin-top:20px;
+font-size:22px;
+white-space:nowrap;
+animation:run 12s linear infinite;
 }
 
-@keyframes moneyMove{
+@keyframes run{
 0%{transform:translateX(-100%)}
 100%{transform:translateX(100%)}
 }
 
-/* ================= CRYPTO CHART ================= */
-
-.crypto-section{
-margin-top:40px;
-padding:20px;
-}
-
-#cryptoChart{
+/* ================= CHART ================= */
+#chartBox{
 width:90%;
 max-width:900px;
-margin:auto;
+margin:40px auto;
 background:#111;
-border-radius:10px;
-padding:10px;
+padding:15px;
+border-radius:12px;
+border:1px solid #222;
+}
+
+/* ================= PLANET ================= */
+#planetCanvas{
+width:100%;
+height:400px;
+margin-top:30px;
 }
 
 /* ================= NEWS ================= */
-
-.news-container{
+.news{
 max-width:1000px;
 margin:auto;
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
 gap:20px;
-margin-top:40px;
+padding:20px;
 }
 
 .news-item{
 background:#111;
+padding:15px;
+border-radius:10px;
 border:1px solid #222;
-border-radius:12px;
-overflow:hidden;
 transition:0.3s;
 }
 
 .news-item:hover{
 transform:translateY(-5px);
-box-shadow:0 0 20px #b74b4b;
+box-shadow:0 0 10px #00ff88;
 }
 
-.news-img{
-width:100%;
-height:150px;
-object-fit:cover;
+/* ================= BACKGROUND ANIMATION ================= */
+.bg-line{
+position:fixed;
+width:2px;
+height:100%;
+background:linear-gradient(transparent,#00ff88,transparent);
+left:50%;
+animation:move 5s linear infinite;
+opacity:0.2;
 }
 
-.news-content{
-padding:15px;
-text-align:left;
-}
-
-.news-title{
-color:#b74b4b;
-text-decoration:none;
-font-weight:bold;
-display:block;
-margin-bottom:10px;
-}
-
-.news-date{
-font-size:12px;
-color:gray;
-}
-
-.loading{
-text-align:center;
-padding:20px;
-}
-
-/* ================= LIGHT MODE ================= */
-
-.light-mode{
-background:white;
-color:black;
-}
-
-.light-mode header{
-background:white;
-}
-
-.light-mode .timeline-item{
-background:#eee;
-color:black;
-}
-
-/* ================= RESPONSIVE ================= */
-
-@media(max-width:768px){
-
-.settings-menu{
-left:5%;
-}
-
+@keyframes move{
+0%{transform:translateY(-100%)}
+100%{transform:translateY(100%)}
 }
 
 </style>
-
 </head>
 
 <body>
 
-<div id="stars"></div>
-
-<!-- ================= HEADER ================= -->
+<div class="bg-line"></div>
 
 <header>
-
 <div class="logo-area" onclick="toggleMenu()">
-
 <img src="../img/logo.png" class="logo-img">
-
-<div>
-
 <a href="../index.html" class="logo">Erika099</a>
-
-<p class="logo-sub">Personal Biography</p>
-
 </div>
 
-<div class="settings-menu" id="settingsMenu">
-
-<a href="../index.html" class="menu-btn">Home</a>
-<a href="services.html" class="menu-btn">Services</a>
-<a href="skills.html" class="menu-btn">Skills</a>
-<a href="education.html" class="menu-btn">Education</a>
-<a href="experience.html" class="menu-btn">Experience</a>
-<a href="contact.html" class="menu-btn">Contact</a>
-
-<hr>
-
-<button class="menu-btn" onclick="toggleTheme()">🌙 Dark / Light</button>
-
-<a href="../global/login.html" class="menu-btn">Login Admin</a>
-
+<div class="menu" id="menu">
+<a href="../index.html">Home</a>
+<a href="skills.html">Skills</a>
+<a href="education.html">Education</a>
+<a href="contact.html">Contact</a>
 </div>
-
-</div>
-
 </header>
 
-<!-- ================= CONTENT ================= -->
-
-<section class="page-section">
+<section>
 
 <h1>My Education</h1>
 
 <div class="timeline">
-
-<div class="timeline-item">
-<h3>Elementary School</h3>
-<p>Basic education and learning foundation</p>
+<div class="timeline-item">Elementary School</div>
+<div class="timeline-item">Junior High School</div>
+<div class="timeline-item">Senior High School</div>
+<div class="timeline-item">Self Learning Programming</div>
 </div>
 
-<div class="timeline-item">
-<h3>Junior High School</h3>
-<p>Learning science and technology basics</p>
+<div class="money">💰 Knowledge → Skill → Money → Success 💰</div>
+
+<div id="chartBox">
+<h2>Crypto Style Chart</h2>
+<canvas id="chart"></canvas>
 </div>
 
-<div class="timeline-item">
-<h3>Senior High School</h3>
-<p>Focus on computer and web development</p>
-</div>
-
-<div class="timeline-item">
-<h3>Self Learning</h3>
-<p>Programming, Web, and 3D Development</p>
-</div>
-
-</div>
-
-<div class="motivation">
-
-"Education is the key to success and financial freedom"
-
-</div>
-
-<div class="money">
-
-💰 Knowledge Creates Money 💰
-
-</div>
-
-</section>
-
-<!-- ================= CRYPTO CHART ================= -->
-
-<section class="crypto-section">
-
-<h2>Money Growth (Crypto Style)</h2>
-
-<canvas id="cryptoChart"></canvas>
-
-</section>
-
-<!-- ================= NEWS ================= -->
-
-<section class="crypto-section">
+<h2>3D Earth</h2>
+<canvas id="planetCanvas"></canvas>
 
 <h2>Education News</h2>
-
-<div class="news-container" id="news">
-
-<div class="loading">
-<i class="fa-solid fa-spinner fa-spin"></i>
-Loading education news...
-</div>
-
-</div>
+<div class="news" id="news">Loading...</div>
 
 </section>
-
-<!-- ================= SCRIPT ================= -->
 
 <script>
 
-/* MENU */
-
+/* ================= MENU ================= */
 function toggleMenu(){
-document.getElementById("settingsMenu").classList.toggle("show");
+document.getElementById("menu").classList.toggle("show");
 }
 
-function toggleTheme(){
-document.body.classList.toggle("light-mode");
-}
+/* ================= CHART ================= */
+let data=[10,20,15,30,25,40,35,50];
 
-window.onclick=function(e){
-if(!e.target.closest('.logo-area')){
-document.getElementById("settingsMenu").classList.remove("show");
-}
-}
-
-/* STARS */
-
-for(let i=0;i<120;i++){
-
-let star=document.createElement("div");
-star.className="star";
-star.style.top=Math.random()*100+"%";
-star.style.left=Math.random()*100+"%";
-
-document.getElementById("stars").appendChild(star);
-
-}
-
-/* CRYPTO CHART */
-
-new Chart(document.getElementById("cryptoChart"),{
-
+const chart=new Chart(document.getElementById("chart"),{
 type:"line",
-
 data:{
-
-labels:["1","2","3","4","5","6","7","8","9","10"],
-
-datasets:[
-
-{
-label:"Profit",
-data:[10,20,15,30,40,35,50,60,55,70],
+labels:data.map((_,i)=>i),
+datasets:[{
+data:data,
 borderColor:"#00ff88",
+borderWidth:2,
 tension:0.4
+}]
 },
-
-{
-label:"Loss",
-data:[5,15,10,20,25,15,30,25,20,15],
-borderColor:"#ff0040",
-tension:0.4
-}
-
-]
-
-},
-
 options:{
-plugins:{
-legend:{
-labels:{color:"white"}
+plugins:{legend:{display:false}},
+scales:{x:{display:false},y:{display:false}}
 }
-},
-scales:{
-x:{ticks:{color:"white"}},
-y:{ticks:{color:"white"}}
-}
-}
-
 });
 
-/* RSS NEWS */
+/* update tiap 5 menit */
+setInterval(()=>{
+let last=data[data.length-1];
+data.push(last+(Math.random()*10-5));
+data.shift();
+chart.data.labels=data.map((_,i)=>i);
+chart.data.datasets[0].data=data;
+chart.update();
+},300000);
 
-const feeds=[
+/* ================= THREE JS ================= */
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(75,window.innerWidth/400,0.1,1000);
+const renderer=new THREE.WebGLRenderer({canvas:document.getElementById("planetCanvas"),alpha:true});
 
-"https://news.google.com/rss/search?q=education&hl=en-US&gl=US&ceid=US:en",
-"https://news.google.com/rss/search?q=pendidikan&hl=id&gl=ID&ceid=ID:id"
+renderer.setSize(window.innerWidth,400);
 
-];
+const geometry=new THREE.SphereGeometry(2,64,64);
+const loader=new THREE.TextureLoader();
+const texture=loader.load("../img/earth.jpg");
 
-async function loadNews(){
+const material=new THREE.MeshStandardMaterial({map:texture});
+const earth=new THREE.Mesh(geometry,material);
 
-const container=document.getElementById("news");
+scene.add(earth);
 
-let newsList=[];
+const light=new THREE.PointLight(0xffffff,1.2);
+light.position.set(5,5,5);
+scene.add(light);
 
-for(let feed of feeds){
+camera.position.z=5;
 
-try{
+function animate(){
+requestAnimationFrame(animate);
+earth.rotation.y+=0.003;
+renderer.render(scene,camera);
+}
+animate();
 
-let res=await fetch(
-"https://api.allorigins.win/get?url="+encodeURIComponent(feed)
-);
+/* ================= NEWS RSS ================= */
+const feed="https://news.google.com/rss/search?q=pendidikan&hl=id&gl=ID&ceid=ID:id";
 
-let data=await res.json();
-
+fetch("https://api.allorigins.win/get?url="+encodeURIComponent(feed))
+.then(res=>res.json())
+.then(data=>{
 let parser=new DOMParser();
-
 let xml=parser.parseFromString(data.contents,"text/xml");
-
 let items=xml.querySelectorAll("item");
 
+let html="";
 items.forEach((item,i)=>{
-
 if(i<6){
-
-newsList.push({
-
-title:item.querySelector("title").textContent,
-link:item.querySelector("link").textContent,
-pubDate:item.querySelector("pubDate").textContent
-
-});
-
-}
-
-});
-
-}catch(e){
-
-console.log(e);
-
-}
-
-}
-
-container.innerHTML="";
-
-newsList.forEach(news=>{
-
-container.innerHTML+=`
-
+html+=`
 <div class="news-item">
-
-<img class="news-img"
-src="https://source.unsplash.com/400x200/?education,school">
-
-<div class="news-content">
-
-<a class="news-title"
-href="${news.link}"
-target="_blank">
-
-${news.title}
-
+<a href="${item.querySelector("link").textContent}" target="_blank">
+${item.querySelector("title").textContent}
 </a>
-
-<div class="news-date">
-
-${new Date(news.pubDate).toLocaleDateString()}
-
-</div>
-
-</div>
-
-</div>
-
-`;
-
+</div>`;
+}
 });
 
-}
-
-loadNews();
-
-setInterval(loadNews,300000);
+document.getElementById("news").innerHTML=html;
+});
 
 </script>
 
 </body>
-    </html>r
+    </html>
