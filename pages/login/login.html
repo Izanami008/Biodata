@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Login - Erika099</title>
+<title>AI Login - Erika099</title>
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -20,40 +20,52 @@ font-family:Poppins,sans-serif;
 }
 
 body{
-background:black;
-color:white;
 height:100vh;
+background:black;
 display:flex;
 justify-content:center;
 align-items:center;
 overflow:hidden;
+color:white;
 }
 
-/* BACKGROUND ANIMATION */
-.bg{
+/* PARTICLE BG */
+canvas{
 position:absolute;
+top:0;
+left:0;
 width:100%;
 height:100%;
-background:radial-gradient(circle,#0f0f0f,#000);
 z-index:-1;
 }
 
 /* LOGIN BOX */
 .login-box{
-width:320px;
-padding:30px;
-background:#0a0a0a;
-border-radius:15px;
-border:1px solid #222;
+width:340px;
+padding:35px;
+border-radius:20px;
+
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(20px);
+
+border:1px solid rgba(255,255,255,0.1);
+
 box-shadow:
 0 0 20px rgba(0,255,157,0.3),
 0 0 60px rgba(0,255,157,0.1);
+
 text-align:center;
+animation:fadeIn 1s ease;
+}
+
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(20px);}
+to{opacity:1;transform:translateY(0);}
 }
 
 .login-box h2{
-margin-bottom:20px;
 color:#00ff9d;
+margin-bottom:25px;
 }
 
 /* INPUT */
@@ -64,12 +76,18 @@ margin-bottom:20px;
 
 .input-box input{
 width:100%;
-padding:10px;
-background:black;
-border:1px solid #00ff9d;
+padding:12px;
+background:transparent;
+border:1px solid rgba(0,255,157,0.3);
+border-radius:8px;
 color:#00ff9d;
-border-radius:6px;
 outline:none;
+transition:0.3s;
+}
+
+.input-box input:focus{
+border-color:#00ff9d;
+box-shadow:0 0 10px #00ff9d;
 }
 
 .input-box i{
@@ -78,23 +96,25 @@ right:10px;
 top:50%;
 transform:translateY(-50%);
 color:#00ff9d;
+cursor:pointer;
 }
 
 /* BUTTON */
 .login-btn{
 width:100%;
-padding:10px;
-background:#00ff9d;
+padding:12px;
+background:linear-gradient(45deg,#00ff9d,#00ffaa);
 border:none;
-border-radius:6px;
+border-radius:8px;
 color:black;
-cursor:pointer;
 font-weight:bold;
-transition:.3s;
+cursor:pointer;
+transition:0.3s;
 }
 
 .login-btn:hover{
-background:#00ffaa;
+transform:scale(1.05);
+box-shadow:0 0 20px #00ff9d;
 }
 
 /* ERROR */
@@ -110,11 +130,13 @@ display:none;
 
 <body>
 
-<div class="bg"></div>
+<!-- BACKGROUND PARTICLE -->
+<canvas id="bg"></canvas>
 
+<!-- LOGIN -->
 <div class="login-box">
 
-<h2>Admin Login</h2>
+<h2>AI SYSTEM LOGIN</h2>
 
 <div class="input-box">
 <input type="text" id="username" placeholder="Username">
@@ -123,7 +145,7 @@ display:none;
 
 <div class="input-box">
 <input type="password" id="password" placeholder="Password">
-<i class="fa fa-lock"></i>
+<i class="fa fa-eye" onclick="togglePass()"></i>
 </div>
 
 <button class="login-btn" onclick="login()">Login</button>
@@ -134,27 +156,74 @@ display:none;
 
 <script>
 
-/* LOGIN FUNCTION */
+/* SHOW PASSWORD */
+function togglePass(){
+let pass = document.getElementById("password");
+
+if(pass.type === "password"){
+pass.type = "text";
+}else{
+pass.type = "password";
+}
+}
+
+/* LOGIN */
 function login(){
 
 let user = document.getElementById("username").value;
 let pass = document.getElementById("password").value;
 
-/* SIMPLE LOGIN (EDIT SESUKA LU) */
 if(user === "admin" && pass === "12345"){
 
-alert("Login berhasil 🔥");
-
-/* redirect ke halaman utama */
+alert("Access Granted 🚀");
 window.location.href = "../../index.html";
 
 }else{
-
 document.getElementById("error").style.display = "block";
-
 }
 
 }
+
+/* PARTICLE BACKGROUND */
+const canvas = document.getElementById("bg");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+for(let i=0;i<80;i++){
+particles.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+r:Math.random()*2,
+dx:(Math.random()-0.5),
+dy:(Math.random()-0.5)
+});
+}
+
+function animate(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+particles.forEach(p=>{
+ctx.beginPath();
+ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+ctx.fillStyle="#00ff9d";
+ctx.fill();
+
+p.x+=p.dx;
+p.y+=p.dy;
+
+if(p.x<0||p.x>canvas.width) p.dx*=-1;
+if(p.y<0||p.y>canvas.height) p.dy*=-1;
+
+});
+
+requestAnimationFrame(animate);
+}
+
+animate();
 
 </script>
 
