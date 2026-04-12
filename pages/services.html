@@ -34,7 +34,7 @@ display:none;flex-direction:column;gap:10px;
 min-width:180px;
 }
 .settings-menu.show{display:flex;}
-.menu-btn{color:white;text-decoration:none;padding:8px;border-radius:6px;transition:.3s;}
+.menu-btn{color:white;text-decoration:none;padding:8px;border-radius:6px;}
 .menu-btn:hover{background:#222;}
 hr{border:0.5px solid #333;}
 
@@ -50,16 +50,16 @@ box-shadow:0 0 30px rgba(183,75,75,0.3);
 }
 .service-video{
 width:100%;z-index:2;position:relative;
-object-fit:cover;pointer-events:none;background:black;
+object-fit:cover;pointer-events:none;
 }
 #three-canvas{
 position:absolute;top:0;left:0;width:100%;height:100%;z-index:1;
 }
 
-/* CARD */
+/* CARDS */
 .service-info{
 margin-top:40px;display:flex;justify-content:center;
-flex-wrap:wrap;gap:20px;padding-bottom:50px;
+flex-wrap:wrap;gap:20px;padding-bottom:40px;
 }
 .card{
 background:#111;padding:20px;width:250px;
@@ -73,24 +73,47 @@ box-shadow:0 0 20px rgba(183,75,75,0.4);
 .card i{font-size:30px;color:#b74b4b;margin-bottom:10px;}
 .card h3{margin-bottom:10px;}
 .card p{color:#aaa;margin-bottom:10px;}
+.card a{color:#b74b4b;text-decoration:none;}
 
-.card a{
-display:inline-block;
-margin-top:5px;
+/* CODING AREA */
+.coding-area{
+padding:60px 9%;
+text-align:center;
+}
+
+.coding-area h1{
 color:#b74b4b;
-text-decoration:none;
+margin-bottom:30px;
 }
 
-/* SATURN */
-.saturn-box{
-width:100%;
-height:150px;
-margin-top:15px;
-border-radius:10px;
-overflow:hidden;
-background:black;
+.coding-container{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:30px;
+background:#0a0a0a;
+padding:30px;
+border-radius:15px;
+border:1px solid #222;
 }
-#saturn-canvas{width:100%;height:100%;display:block;}
+
+pre{
+color:#00ff9d;
+background:black;
+padding:20px;
+border-radius:10px;
+font-size:12px;
+text-align:left;
+max-width:400px;
+overflow:auto;
+}
+
+#codeCanvas{
+width:350px;
+height:350px;
+background:black;
+border-radius:10px;
+}
 
 /* LIGHT MODE */
 .light-mode{background:white;color:black;}
@@ -102,7 +125,6 @@ background:black;
 
 <body>
 
-<!-- HEADER -->
 <header>
 <div class="logo-area" onclick="toggleMenu()">
 <img src="../img/logo.png" class="logo-img">
@@ -119,13 +141,12 @@ background:black;
 <a href="experience.html" class="menu-btn">Experience</a>
 <a href="contact.html" class="menu-btn">Contact</a>
 <hr>
-<button class="menu-btn" onclick="toggleTheme()">🌙 Dark / Light</button>
+<button class="menu-btn" onclick="toggleTheme()">Dark / Light</button>
 <a href="../global/login.html" class="menu-btn">Login Admin</a>
 </div>
 </div>
 </header>
 
-<!-- VIDEO -->
 <section class="video-section">
 
 <h1>My <span>Service Video</span></h1>
@@ -140,7 +161,6 @@ background:black;
 
 </div>
 
-<!-- CARDS -->
 <div class="service-info">
 
 <div class="card">
@@ -153,13 +173,7 @@ background:black;
 <i class="fa-solid fa-paintbrush"></i>
 <h3>UI Design</h3>
 <p>Desain tampilan website elegan dan ringan</p>
-
 <a href="login/login.html">Open AI</a>
-
-<div class="saturn-box">
-<canvas id="saturn-canvas"></canvas>
-</div>
-
 </div>
 
 <div class="card">
@@ -167,7 +181,45 @@ background:black;
 <h3>System Script</h3>
 <p>Membuat fitur dan sistem website</p>
 </div>
-  
+
+</div>
+
+</section>
+
+<!-- CODING -->
+<section class="coding-area">
+
+<h1>Code Experiment</h1>
+
+<div class="coding-container">
+
+<pre>
+from turtle import *
+import colorsys
+
+speed(0)
+bgcolor("black")
+
+h = 0
+
+for i in range(16):
+    for j in range(18):
+        c = colorsys.hsv_to_rgb(h, 1, 1)
+        color(c)
+        h += 0.005
+
+        right(90)
+        circle(150 - j * 6, 90)
+        left(90)
+        circle(150 - j * 6, 90)
+        right(180)
+        circle(40, 24)
+
+done()
+</pre>
+
+<canvas id="codeCanvas"></canvas>
+
 </div>
 
 </section>
@@ -189,35 +241,30 @@ document.getElementById("settingsMenu").classList.remove("show");
 }
 }
 
-/* MAIN THREE */
+/* PARTICLE + PLANET */
 const container=document.getElementById("videoContainer");
 const canvas=document.getElementById("three-canvas");
 
 const scene=new THREE.Scene();
 const camera=new THREE.PerspectiveCamera(75,container.clientWidth/container.clientHeight,0.1,1000);
 const renderer=new THREE.WebGLRenderer({canvas:canvas,alpha:true});
-
 renderer.setSize(container.clientWidth,container.clientHeight);
 camera.position.z=5;
 
-/* PARTICLES */
 const geo=new THREE.BufferGeometry();
 const arr=new Float32Array(800*3);
 for(let i=0;i<arr.length;i++){arr[i]=(Math.random()-0.5)*10;}
 geo.setAttribute('position',new THREE.BufferAttribute(arr,3));
 
-const mat=new THREE.PointsMaterial({size:0.02,color:0xffffff});
-const particles=new THREE.Points(geo,mat);
+const particles=new THREE.Points(geo,new THREE.PointsMaterial({size:0.02,color:0xffffff}));
 scene.add(particles);
 
-/* PLANET */
 const planet=new THREE.Mesh(
 new THREE.SphereGeometry(1,64,64),
 new THREE.MeshStandardMaterial({color:0x2266ff})
 );
 scene.add(planet);
 
-/* LIGHT */
 scene.add(new THREE.PointLight(0xffffff,1).position.set(5,5,5));
 scene.add(new THREE.AmbientLight(0xffffff,0.4));
 
@@ -229,40 +276,60 @@ renderer.render(scene,camera);
 }
 animate();
 
-/* SATURN */
-const saturnCanvas=document.getElementById("saturn-canvas");
-if(saturnCanvas){
-const sScene=new THREE.Scene();
-const sCam=new THREE.PerspectiveCamera(60,1,0.1,1000);
-const sRenderer=new THREE.WebGLRenderer({canvas:saturnCanvas,alpha:true});
+/* REAL TURTLE */
+const c=document.getElementById("codeCanvas");
 
-sRenderer.setSize(saturnCanvas.clientWidth,saturnCanvas.clientHeight);
-sCam.position.z=3;
+if(c){
 
-const saturn=new THREE.Mesh(
-new THREE.SphereGeometry(0.6,64,64),
-new THREE.MeshStandardMaterial({color:0xd2b48c})
-);
+const ctx=c.getContext("2d");
 
-const ring=new THREE.Mesh(
-new THREE.RingGeometry(0.8,1.2,64),
-new THREE.MeshBasicMaterial({color:0xf5deb3,side:THREE.DoubleSide})
-);
+c.width=350;
+c.height=350;
 
-ring.rotation.x=Math.PI/2;
-saturn.add(ring);
-sScene.add(saturn);
+let x=175,y=175,angle=0,h=0,i=0,j=0;
 
-sScene.add(new THREE.PointLight(0xffffff,1).position.set(5,5,5));
-sScene.add(new THREE.AmbientLight(0xffffff,0.4));
+function draw(){
 
-function saturnAnim(){
-requestAnimationFrame(saturnAnim);
-saturn.rotation.y+=0.01;
-ring.rotation.z+=0.005;
-sRenderer.render(sScene,sCam);
+for(let s=0;s<5;s++){
+
+ctx.strokeStyle=`hsl(${h*200},100%,50%)`;
+ctx.beginPath();
+ctx.moveTo(x,y);
+
+let r=150-j*6;
+
+angle+=Math.PI/2;
+x+=Math.cos(angle)*r*0.1;
+y+=Math.sin(angle)*r*0.1;
+
+angle-=Math.PI/2;
+x+=Math.cos(angle)*r*0.1;
+y+=Math.sin(angle)*r*0.1;
+
+angle+=Math.PI;
+x+=Math.cos(angle)*4;
+y+=Math.sin(angle)*4;
+
+ctx.lineTo(x,y);
+ctx.stroke();
+
+h+=0.01;
+j++;
+
+if(j>=18){j=0;i++;}
+if(i>=16){i=0;}
+
+if(x<0||x>350||y<0||y>350){
+x=175;y=175;angle=0;
 }
-saturnAnim();
+
+}
+
+requestAnimationFrame(draw);
+}
+
+draw();
+
 }
 
 </script>
