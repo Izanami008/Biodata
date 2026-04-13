@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Secure Access</title>
+<title>Login System</title>
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -13,159 +13,127 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
 
 /* RESET */
 *{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif;}
-
 body{
-height:100vh;
-background:radial-gradient(circle at top,#0a0a0a,#000);
+background:black;
+color:white;
 display:flex;
 justify-content:center;
 align-items:center;
-color:white;
+height:100vh;
 }
 
-/* CONTAINER */
+/* LOGIN BOX */
 .login-box{
-width:380px;
-padding:45px;
-border-radius:25px;
-
-background:rgba(255,255,255,0.03);
-backdrop-filter:blur(20px);
-
-position:relative;
-overflow:hidden;
-
-border:1px solid rgba(255,255,255,0.08);
-
-box-shadow:
-0 10px 40px rgba(0,0,0,0.6),
-0 0 40px rgba(0,255,157,0.08);
-
-animation:fadeIn .8s ease;
-}
-
-/* BORDER GLOW */
-.login-box::before{
-content:"";
-position:absolute;
-inset:0;
-padding:1px;
-border-radius:25px;
-background:linear-gradient(120deg,transparent,#00ff9d,transparent);
-animation:borderMove 4s linear infinite;
--webkit-mask:
-linear-gradient(#000 0 0) content-box,
-linear-gradient(#000 0 0);
--webkit-mask-composite:xor;
-mask-composite:exclude;
-}
-
-@keyframes borderMove{
-0%{background-position:0%;}
-100%{background-position:200%;}
-}
-
-/* TITLE */
-.login-box h2{
+background:#0a0a0a;
+padding:30px;
+border-radius:15px;
+width:300px;
 text-align:center;
-color:#00ff9d;
-margin-bottom:30px;
-letter-spacing:3px;
-}
-
-/* INPUT */
-.input-box{
-position:relative;
-margin-bottom:22px;
-}
-
-.input-box input{
-width:100%;
-padding:14px;
-background:transparent;
-border:1px solid rgba(0,255,157,0.25);
-border-radius:10px;
-color:#00ff9d;
-outline:none;
+border:1px solid #111;
 transition:.3s;
 }
 
-.input-box input:focus{
-border-color:#00ff9d;
-box-shadow:0 0 10px rgba(0,255,157,0.4);
-}
+.login-box h2{margin-bottom:20px;color:#00ff9d;}
 
-/* ICON */
-.input-box i{
-position:absolute;
-right:12px;
-top:50%;
-transform:translateY(-50%);
-color:#00ff9d;
-cursor:pointer;
-transition:.3s;
-}
-
-.input-box i:hover{
-transform:translateY(-50%) scale(1.2);
-}
-
-/* BUTTON */
-.login-btn{
+input{
 width:100%;
-padding:14px;
+padding:10px;
+margin:8px 0;
+background:#111;
 border:none;
-border-radius:10px;
-background:linear-gradient(120deg,#00ff9d,#00ffaa);
-color:black;
-font-weight:bold;
-cursor:pointer;
-position:relative;
-overflow:hidden;
-transition:.3s;
+color:white;
+border-radius:5px;
 }
 
-/* SHINE EFFECT */
-.login-btn::after{
-content:"";
-position:absolute;
-top:0;
-left:-100%;
+button{
 width:100%;
-height:100%;
-background:linear-gradient(120deg,transparent,rgba(255,255,255,0.6),transparent);
-transition:.5s;
-}
-
-.login-btn:hover::after{
-left:100%;
-}
-
-.login-btn:hover{
-box-shadow:0 0 20px rgba(0,255,157,0.5);
-transform:translateY(-2px);
+padding:10px;
+margin-top:10px;
+background:#00ff9d;
+border:none;
+cursor:pointer;
+border-radius:5px;
+font-weight:bold;
 }
 
 /* STATUS */
-.status{
-text-align:center;
-margin-top:15px;
-font-size:12px;
-color:#00ff9d;
+#status{margin-top:10px;color:#00ff9d;}
+#error{color:red;display:none;margin-top:10px;}
+
+/* SUCCESS */
+.success{
+border-color:#00ff9d !important;
+box-shadow:0 0 20px #00ff9d;
 }
 
 /* ERROR */
-#error{
-text-align:center;
-color:red;
-font-size:12px;
-display:none;
-margin-top:5px;
+.error{
+border-color:red !important;
+box-shadow:0 0 15px red;
+animation:shake .3s;
 }
 
-@keyframes fadeIn{
-from{opacity:0;transform:translateY(30px);}
-to{opacity:1;transform:translateY(0);}
+@keyframes shake{
+0%{transform:translateX(0);}
+25%{transform:translateX(-5px);}
+50%{transform:translateX(5px);}
+75%{transform:translateX(-5px);}
+100%{transform:translateX(0);}
+}
+
+/* ICON */
+.check{
+font-size:40px;
+color:#00ff9d;
+margin-top:10px;
+animation:pop .4s ease;
+}
+
+.cross{
+font-size:40px;
+color:red;
+margin-top:10px;
+animation:pop .4s ease;
+}
+
+@keyframes pop{
+from{transform:scale(0);}
+to{transform:scale(1);}
+}
+
+/* CINEMATIC */
+#cinematic{
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+background:black;
+display:flex;
+justify-content:center;
+align-items:center;
+opacity:0;
+pointer-events:none;
+transition:1s;
+z-index:9999;
+}
+
+#cinematic.show{
+opacity:1;
+pointer-events:auto;
+}
+
+#cineText{
+color:#00ff9d;
+font-size:40px;
+letter-spacing:5px;
+opacity:0;
+transform:scale(0.8);
+}
+
+/* TEXT ANIM */
+@keyframes cineTextAnim{
+0%{opacity:0;transform:scale(0.7);}
+50%{opacity:1;transform:scale(1.1);}
+100%{opacity:1;transform:scale(1);}
 }
 
 </style>
@@ -174,66 +142,92 @@ to{opacity:1;transform:translateY(0);}
 <body>
 
 <div class="login-box">
+<h2>LOGIN SYSTEM</h2>
 
-<h2>SECURE ACCESS</h2>
-
-<div class="input-box">
 <input type="text" id="username" placeholder="Username">
-<i class="fa fa-user"></i>
-</div>
-
-<div class="input-box">
 <input type="password" id="password" placeholder="Password">
-<i class="fa fa-eye" onclick="togglePass()"></i>
+
+<button onclick="login()">LOGIN</button>
+
+<p id="status"></p>
+<p id="error"></p>
+
 </div>
 
-<button class="login-btn" onclick="login()">ENTER SYSTEM</button>
-
-<p class="status" id="status"></p>
-<p id="error">Invalid credentials</p>
-
+<!-- CINEMATIC -->
+<div id="cinematic">
+<h1 id="cineText">ACCESS GRANTED</h1>
 </div>
 
 <script>
 
-/* SHOW PASSWORD */
-function togglePass(){
-let p=document.getElementById("password");
-p.type = p.type==="password"?"text":"password";
-}
-
 /* LOGIN */
 function login(){
 
-let user=document.getElementById("username").value;
-let pass=document.getElementById("password").value;
+let box=document.querySelector(".login-box");
+
+let user=document.getElementById("username").value.trim();
+let pass=document.getElementById("password").value.trim();
 
 let status=document.getElementById("status");
+let error=document.getElementById("error");
 
-status.innerText="Authorizing...";
+/* RESET */
+box.classList.remove("error","success");
+error.style.display="none";
+status.innerText="Verifying...";
 
 setTimeout(()=>{
 
+/* ADMIN */
 if(user==="admin" && pass==="12345"){
+box.classList.add("success");
+startCinematic("../admin/admin.html","admin");
+return;
+}
 
-status.innerText="Access Granted";
+/* USER */
+if(user==="user" && pass==="12345"){
+box.classList.add("success");
+startCinematic("../user/user.html","user");
+return;
+}
 
-/* SAVE USER */
-localStorage.setItem("user",user);
+/* ERROR */
+box.classList.add("error");
+status.innerHTML="";
+error.style.display="block";
+error.innerHTML='Access Denied <div class="cross"><i class="fa fa-times"></i></div>';
 
-/* REDIRECT */
-setTimeout(()=>{
-window.location.href="../user/user.html";
-},700);
-
-}else{
-
-status.innerText="";
-document.getElementById("error").style.display="block";
+},800);
 
 }
 
-},700);
+/* CINEMATIC */
+function startCinematic(url,role){
+
+let cine=document.getElementById("cinematic");
+let text=document.getElementById("cineText");
+
+/* SHOW */
+cine.classList.add("show");
+
+/* ANIM TEXT */
+text.style.animation="cineTextAnim 1s ease forwards";
+
+/* SAVE USER */
+localStorage.setItem("user",role);
+
+/* TRANSISI */
+setTimeout(()=>{
+text.innerText="LOADING SYSTEM...";
+text.style.animation="none";
+text.style.opacity="1";
+},1200);
+
+setTimeout(()=>{
+window.location.href=url;
+},2200);
 
 }
 
