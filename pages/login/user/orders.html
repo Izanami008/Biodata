@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Order History</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif;}
+body{background:#050505;color:white;}
+
+header{
+display:flex;justify-content:space-between;
+padding:15px 9%;background:#000;
+}
+
+.btn{
+background:#00ff9d;border:none;padding:6px 10px;border-radius:5px;
+cursor:pointer;
+}
+
+.container{padding:30px 9%;}
+
+.order{
+background:#0a0a0a;
+padding:15px;
+margin-bottom:15px;
+border-radius:10px;
+border:1px solid #111;
+}
+
+.order h3{color:#00ff9d;}
+
+.item{
+font-size:13px;
+margin-top:5px;
+}
+
+.total{
+margin-top:10px;
+color:#00ff9d;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h2>Riwayat Pesanan</h2>
+<button class="btn" onclick="back()">⬅</button>
+</header>
+
+<div class="container" id="orders"></div>
+
+<script>
+
+/* PROTECT */
+let user=localStorage.getItem("user");
+if(!user){window.location.href="../login/login.html";}
+
+/* LOAD */
+let data=JSON.parse(localStorage.getItem("orders"))||[];
+
+let html="";
+
+data.slice().reverse().forEach(o=>{
+
+html+=`
+<div class="order">
+<h3>${o.date}</h3>
+<p>Status: ${o.status}</p>
+
+${o.items.map(i=>`<div class="item">- ${i.name} (Rp ${i.price})</div>`).join("")}
+
+<p class="total">Total: Rp ${o.total}</p>
+</div>
+`;
+
+});
+
+document.getElementById("orders").innerHTML=html;
+
+/* BACK */
+function back(){
+window.location.href="user.html";
+}
+
+</script>
+
+</body>
+</html>
