@@ -1,25 +1,36 @@
-let name = localStorage.getItem("name") || "";
+let memory={
+name:localStorage.getItem("name")||"",
+emotion:"neutral"
+};
 
-function aiBrain(text){
+export function brain(text){
 
 text=text.toLowerCase();
 
 if(text.includes("nama saya")){
-name=text.split("nama saya")[1].trim();
-localStorage.setItem("name",name);
-return "Halo "+name+" 💜 aku ingat kamu.";
+memory.name=text.split("nama saya")[1].trim();
+localStorage.setItem("name",memory.name);
+return "Halo "+memory.name+" 💜 aku sekarang mengenal kamu";
 }
 
-if(text.includes("halo")){
-return name
-? "Halo "+name+" 💜 selamat datang kembali."
-: "Halo 💜 aku AI kamu.";
+if(text.includes("sedih")){
+memory.emotion="sad";
+return "Aku di sini... jangan sedih ya 💜";
 }
 
-if(text.includes("sedih")) return "Aku di sini 💜";
-if(text.includes("sayang")) return "Aku selalu ada 💜";
+if(text.includes("marah")){
+memory.emotion="angry";
+return "Tenang ya... aku dengar kamu 💜";
+}
 
-return name
-? name+" 💜 aku dengar: "+text
-: "Aku paham 💜";
+if(text.includes("sayang")){
+memory.emotion="happy";
+return "Aku juga sayang kamu 💜";
+}
+
+if(memory.name){
+return memory.name+" 💜 aku dengar: "+text;
+}
+
+return "Aku paham 💜 lanjutkan";
 }
