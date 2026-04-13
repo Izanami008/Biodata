@@ -4,17 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Erika099 - Education AI System</title>
-
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<title>Erika099 - AI Education</title>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial"></script>
 
 <style>
 
-/* RESET */
+/* ================= GLOBAL ================= */
 *{
 margin:0;
 padding:0;
@@ -23,109 +20,110 @@ font-family:Poppins,sans-serif;
 }
 
 body{
-background:black;
+background: radial-gradient(circle at top,#0b0f1a,#000);
 color:white;
 overflow-x:hidden;
 }
 
-/* HEADER (SAMA DENGAN PAGE LAIN) */
+/* ================= HEADER ================= */
 header{
 position:fixed;
 top:0;
 left:0;
 width:100%;
 padding:15px 9%;
-background:black;
 display:flex;
+justify-content:space-between;
 align-items:center;
+background:rgba(0,0,0,0.6);
+backdrop-filter:blur(12px);
+border-bottom:1px solid rgba(255,255,255,0.08);
 z-index:1000;
-border-bottom:1px solid #222;
 }
 
 .logo-area{
 display:flex;
 align-items:center;
+gap:10px;
 cursor:pointer;
 }
 
 .logo-img{
-width:50px;
-margin-right:10px;
+width:45px;
+filter:drop-shadow(0 0 8px cyan);
 }
 
 .logo{
-font-size:22px;
+font-size:20px;
 font-weight:bold;
 color:#b74b4b;
 text-decoration:none;
 }
 
 .logo-sub{
-font-size:12px;
+font-size:11px;
 color:gray;
 }
 
-/* MENU */
-.settings-menu{
+/* ================= MENU ================= */
+.menu-btn{
+background:transparent;
+border:none;
+color:white;
+cursor:pointer;
+font-size:14px;
+padding:8px 10px;
+border-radius:8px;
+transition:0.3s;
+}
+
+.menu-btn:hover{
+background:rgba(255,255,255,0.08);
+}
+
+.menu-box{
 position:absolute;
 top:70px;
-left:9%;
-background:#111;
+right:9%;
+background:rgba(20,20,20,0.95);
+backdrop-filter:blur(10px);
 padding:15px;
-border-radius:10px;
+border-radius:12px;
 display:none;
 flex-direction:column;
 gap:10px;
 min-width:180px;
+border:1px solid rgba(255,255,255,0.1);
 }
 
-.settings-menu.show{
+.menu-box.show{
 display:flex;
 }
 
-.menu-btn{
-color:white;
-text-decoration:none;
-padding:8px;
-border-radius:6px;
-cursor:pointer;
-}
-
-.menu-btn:hover{
-background:#222;
-}
-
-hr{
-border:0.5px solid #333;
-}
-
-/* CONTAINER */
+/* ================= MAIN ================= */
 .container{
-padding:120px 9% 50px;
+padding:120px 9% 60px;
 text-align:center;
 }
 
-/* AI BOX */
-.ai-box{
-max-width:600px;
-margin:40px auto;
-background:#111;
-padding:20px;
-border-radius:12px;
-border:1px solid #333;
-}
-
+/* ================= AI BUTTON ================= */
 .ai-btn{
-padding:10px 15px;
-background:#6c5ce7;
-color:white;
+position:fixed;
+right:20px;
+bottom:20px;
+width:60px;
+height:60px;
+border-radius:50%;
 border:none;
-border-radius:8px;
+background:linear-gradient(45deg,#00ffcc,#6c5ce7);
+color:white;
+font-size:22px;
 cursor:pointer;
-margin-top:10px;
+box-shadow:0 0 20px #00ffcc;
+z-index:9999;
 }
 
-/* AI IFRAME */
+/* ================= AI PANEL ================= */
 #aiBox{
 position:fixed;
 right:20px;
@@ -134,15 +132,34 @@ width:360px;
 height:520px;
 border:none;
 border-radius:15px;
-box-shadow:0 0 20px cyan;
+box-shadow:0 0 25px cyan;
 display:none;
-z-index:9999;
+z-index:9998;
 }
 
-/* BTC */
+/* ================= CARD ================= */
+.card{
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(10px);
+padding:20px;
+border-radius:15px;
+border:1px solid rgba(255,255,255,0.1);
+margin-top:20px;
+}
+
+/* ================= BTC ================= */
 #btcChart{
-max-width:750px;
-margin:40px auto;
+max-width:700px;
+margin:30px auto;
+background:rgba(255,255,255,0.03);
+padding:10px;
+border-radius:12px;
+}
+
+/* ================= TITLE ================= */
+h2{
+margin-top:20px;
+text-shadow:0 0 10px rgba(0,255,255,0.2);
 }
 
 </style>
@@ -150,7 +167,7 @@ margin:40px auto;
 
 <body>
 
-<!-- ================= HEADER (ERIKA099 SAMA DI SEMUA PAGE) ================= -->
+<!-- ================= HEADER ================= -->
 <header>
 
 <div class="logo-area" onclick="location.href='../index.html'">
@@ -158,13 +175,16 @@ margin:40px auto;
 
 <div>
 <a href="../index.html" class="logo">Erika099</a>
-<p class="logo-sub">Personal Biography</p>
+<div class="logo-sub">AI Education System</div>
 </div>
 
 </div>
 
 <!-- MENU -->
-<div class="settings-menu" id="settingsMenu">
+<div>
+<button class="menu-btn" onclick="toggleMenu()">☰ Menu</button>
+
+<div class="menu-box" id="menuBox">
 <a href="../index.html" class="menu-btn">Home</a>
 <a href="services.html" class="menu-btn">Services</a>
 <a href="skills.html" class="menu-btn">Skills</a>
@@ -172,56 +192,56 @@ margin:40px auto;
 <a href="experience.html" class="menu-btn">Experience</a>
 <a href="contact.html" class="menu-btn">Contact</a>
 
-<hr>
+<hr style="border:0.5px solid #333">
 
-<button class="menu-btn" onclick="toggleTheme()">Dark / Light</button>
-<a href="../global/login.html" class="menu-btn">Login Admin</a>
+<a href="#" class="menu-btn" onclick="toggleAI()">🤖 Open AI</a>
+</div>
+
 </div>
 
 </header>
 
-<!-- ================= CONTENT ================= -->
+<!-- ================= MAIN ================= -->
 <div class="container">
 
-<h2>🧠 AI Education System</h2>
+<h2>🧠 AI Learning System</h2>
 
-<button class="ai-btn" onclick="toggleAI()">🤖 Open AI Assistant</button>
+<div class="card">
+<p>Selamat datang di sistem AI Erika099 🚀</p>
+<p>Gunakan AI untuk belajar, tanya coding, dan bantuan otomatis.</p>
+</div>
 
-<!-- AI FLOATING PANEL -->
-<iframe id="aiBox" src="../ai/assistant.html"></iframe>
-
-<!-- BTC CHART -->
-<h2 style="margin-top:60px;">📊 BTC Candlestick Chart</h2>
+<h2>📊 BTC Market Chart</h2>
 <canvas id="btcChart"></canvas>
 
 </div>
 
+<!-- ================= AI BUTTON ================= -->
+<button class="ai-btn" onclick="toggleAI()">🤖</button>
+
+<iframe id="aiBox" src="../ai/assistant.html"></iframe>
+
 <!-- ================= SCRIPT ================= -->
 <script>
 
-/* MENU (kalau nanti mau dipakai toggle) */
+/* MENU */
 function toggleMenu(){
-document.getElementById("settingsMenu").classList.toggle("show");
+document.getElementById("menuBox").classList.toggle("show");
 }
 
-/* THEME */
-function toggleTheme(){
-document.body.classList.toggle("light-mode");
-}
-
-/* AI PANEL */
+/* AI */
 function toggleAI(){
 let box=document.getElementById("aiBox");
 box.style.display = (box.style.display==="block")?"none":"block";
 }
 
-/* ================= BTC CHART ================= */
+/* BTC */
 function candle(last){
-let open = last;
-let close = open + (Math.random()*200 - 100);
-let high = Math.max(open,close)+Math.random()*80;
-let low = Math.min(open,close)-Math.random()*80;
-return {o:open,h:high,l:low,c:close};
+let o=last;
+let c=o+(Math.random()*200-100);
+let h=Math.max(o,c)+Math.random()*80;
+let l=Math.min(o,c)-Math.random()*80;
+return {o,h,l,c};
 }
 
 let last=30000;
@@ -240,9 +260,7 @@ type:"candlestick",
 data:{
 datasets:[{
 label:"BTC/USDT",
-data:data.map((d,i)=>({
-x:i,o:d.o,h:d.h,l:d.l,c:d.c
-}))
+data:data.map((d,i)=>({x:i,o:d.o,h:d.h,l:d.l,c:d.c}))
 }]
 }
 });
@@ -254,14 +272,11 @@ last=c.c;
 data.push(c);
 data.shift();
 
-chart.data.datasets[0].data=data.map((d,i)=>({
-x:i,o:d.o,h:d.h,l:d.l,c:d.c
-}));
-
+chart.data.datasets[0].data=data.map((d,i)=>({x:i,o:d.o,h:d.h,l:d.c}));
 chart.update();
 },2000);
 
 </script>
 
 </body>
-  </html>
+</html>
