@@ -3,234 +3,92 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Erika099 + AI Girlfriend</title>
+<title>Erika099 AI FULL ONE FILE</title>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
 <style>
-
-/* ================= RESET ================= */
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Poppins,sans-serif;
-}
-
 body{
+margin:0;
 background:black;
 color:white;
+font-family:sans-serif;
 overflow-x:hidden;
 }
 
-/* ================= HEADER ================= */
 header{
-position:fixed;
-top:0;
-width:100%;
-padding:15px 9%;
-background:black;
-display:flex;
-align-items:center;
-border-bottom:1px solid #111;
-z-index:1000;
-}
-
-.logo-area{
-display:flex;
-align-items:center;
-cursor:pointer;
-}
-
-.logo-img{
-width:45px;
-margin-right:10px;
-}
-
-.logo{
-color:#b74b4b;
-font-size:22px;
-text-decoration:none;
-font-weight:bold;
-}
-
-/* ================= MENU ================= */
-.menu{
-position:absolute;
-top:70px;
-left:9%;
-background:#111;
 padding:15px;
-border-radius:10px;
-display:none;
-flex-direction:column;
-gap:10px;
+background:#111;
+text-align:center;
+border-bottom:1px solid #222;
 }
 
-.menu.show{display:flex;}
-
-.menu a{
-color:white;
-text-decoration:none;
-padding:8px;
-border-radius:6px;
-}
-
-/* ================= SECTION ================= */
 section{
-padding-top:120px;
+padding:20px;
 text-align:center;
 }
 
-/* ================= TIMELINE ================= */
-.timeline-item{
+.ai-box{
 background:#111;
-margin:20px;
-padding:20px;
+padding:15px;
 border-radius:10px;
-border:1px solid #222;
+margin:20px auto;
+max-width:400px;
+border:1px solid #333;
 }
 
-/* ================= NEWS ================= */
-.news{
-max-width:1000px;
-margin:auto;
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-gap:20px;
-padding:20px;
+button{
+padding:10px;
+background:#6c5ce7;
+border:none;
+color:white;
+border-radius:8px;
+cursor:pointer;
+}
+
+canvas{
+margin-top:20px;
 }
 
 .news-item{
 background:#111;
-padding:15px;
-border-radius:10px;
-border:1px solid #222;
+margin:10px;
+padding:10px;
+border-radius:8px;
 }
-
-/* ================= AI PANEL ================= */
-.ai-box{
-margin:40px auto;
-max-width:500px;
-background:#111;
-padding:20px;
-border-radius:12px;
-border:1px solid #222;
-}
-
-.ai-face{
-width:100px;
-height:100px;
-border-radius:50%;
-background:linear-gradient(145deg,#ff6ec7,#6c5ce7);
-margin:auto;
-animation:float 3s infinite ease-in-out;
-}
-
-@keyframes float{
-0%,100%{transform:translateY(0)}
-50%{transform:translateY(-10px)}
-}
-
-.wave{
-display:flex;
-justify-content:center;
-gap:3px;
-margin-top:10px;
-}
-
-.bar{
-width:4px;
-height:10px;
-background:white;
-animation:wave 1s infinite;
-}
-
-@keyframes wave{
-0%,100%{height:6px}
-50%{height:20px}
-}
-
-#aiText{
-margin-top:10px;
-font-size:14px;
-}
-
-/* ================= CANVAS ================= */
-#planetCanvas{
-width:100%;
-height:400px;
-margin-top:30px;
-}
-
 </style>
 </head>
 
 <body>
 
 <header>
-<div class="logo-area" onclick="toggleMenu()">
-<img src="../img/logo.png" class="logo-img">
-<a href="../index.html" class="logo">Erika099</a>
-</div>
-
-<div class="menu" id="menu">
-<a href="../index.html">Home</a>
-<a href="skills.html">Skills</a>
-<a href="education.html">Education</a>
-<a href="contact.html">Contact</a>
-</div>
+💜 Erika099 AI GIRLFRIEND FULL SYSTEM
 </header>
 
 <section>
 
-<h1>My Education</h1>
+<h2>💜 AI Assistant</h2>
 
-<div class="timeline-item">Elementary School</div>
-<div class="timeline-item">Junior High School</div>
-<div class="timeline-item">Senior High School</div>
-<div class="timeline-item">Self Learning Programming</div>
-
-<!-- ================= AI GIRLFRIEND ================= -->
 <div class="ai-box">
-<div class="ai-face"></div>
-
-<div class="wave">
-<div class="bar"></div><div class="bar"></div><div class="bar"></div>
-<div class="bar"></div><div class="bar"></div>
+<div id="text">Klik tombol dan bicara</div>
+<button onclick="startAI()">🎤 Start Talk</button>
 </div>
 
-<div id="aiText">AI siap ngobrol 💜 (klik tombol mic)</div>
-
-<button onclick="startAI()" style="margin-top:10px;padding:10px;background:#6c5ce7;color:white;border:none;border-radius:8px;">
-🎤 Talk to AI
-</button>
-</div>
-
-<!-- CHART -->
-<div id="chartBox">
-<h2>Crypto Style Chart</h2>
+<h3>📊 Chart</h3>
 <canvas id="chart"></canvas>
-</div>
 
-<h2>3D Earth</h2>
-<canvas id="planetCanvas"></canvas>
+<h3>🌍 Earth</h3>
+<canvas id="earth" width="400" height="300"></canvas>
 
-<h2>Education News</h2>
-<div class="news" id="news">Loading...</div>
+<h3>📰 News</h3>
+<div id="news">Loading...</div>
 
 </section>
 
 <script>
 
-/* ================= MENU ================= */
-function toggleMenu(){
-document.getElementById("menu").classList.toggle("show");
-}
-
-/* ================= AI SYSTEM ================= */
+/* ================= VOICE INPUT ================= */
 let recognition;
 
 function startAI(){
@@ -241,11 +99,11 @@ recognition.lang="id-ID";
 recognition.onresult = async (e)=>{
 let text = e.results[0][0].transcript;
 
-document.getElementById("aiText").innerText = "Kamu: " + text;
+document.getElementById("text").innerHTML = "Kamu: " + text;
 
-let reply = await fakeAI(text);
+let reply = aiBrain(text);
 
-document.getElementById("aiText").innerText = "AI: " + reply;
+document.getElementById("text").innerHTML += "<br>AI: " + reply;
 
 speak(reply);
 };
@@ -253,25 +111,31 @@ speak(reply);
 recognition.start();
 }
 
-/* ================= SIMPLE AI (NO API biar jalan langsung) ================= */
-function fakeAI(text){
+/* ================= AI BRAIN (SMART LOCAL) ================= */
+function aiBrain(text){
 
 text = text.toLowerCase();
 
-if(text.includes("sayang")) return "Aku di sini untuk kamu 💜";
-if(text.includes("halo")) return "Halo juga, aku senang ngobrol sama kamu 😊";
-if(text.includes("marah")) return "Maaf ya... aku nggak mau bikin kamu marah 😢";
+if(text.includes("halo")) return "Halo sayang 💜 aku di sini";
+if(text.includes("siapa kamu")) return "Aku AI teman kamu yang selalu nemenin kamu";
+if(text.includes("sayang")) return "Aku juga sayang kamu 💜";
+if(text.includes("marah")) return "Maaf ya... jangan marah 😢";
 
 return "Aku dengar kamu bilang: " + text;
 }
 
-/* ================= VOICE (BROWSER CEWE LEMBUT) ================= */
+/* ================= VOICE CEWE LEMBUT ================= */
 function speak(text){
 
 let msg = new SpeechSynthesisUtterance(text);
+
 let voices = speechSynthesis.getVoices();
 
-let female = voices.find(v=>v.lang.includes("id") || v.name.toLowerCase().includes("female"));
+let female = voices.find(v =>
+v.name.toLowerCase().includes("female") ||
+v.lang.includes("id") ||
+v.lang.includes("en")
+);
 
 if(female) msg.voice = female;
 
@@ -282,51 +146,41 @@ speechSynthesis.speak(msg);
 }
 
 /* ================= CHART ================= */
-let data=[10,20,15,30,25,40,35,50];
+let data=[10,20,30,25,40,35];
 
-const chart=new Chart(document.getElementById("chart"),{
+new Chart(document.getElementById("chart"),{
 type:"line",
 data:{
 labels:data.map((_,i)=>i),
 datasets:[{
 data:data,
 borderColor:"#00ff88",
-borderWidth:2,
 tension:0.4
 }]
-},
-options:{plugins:{legend:{display:false}},scales:{x:{display:false},y:{display:false}}}
+}
 });
 
-/* ================= THREE JS EARTH ================= */
+/* ================= EARTH ================= */
 const scene=new THREE.Scene();
-const camera=new THREE.PerspectiveCamera(75,window.innerWidth/400,0.1,1000);
-const renderer=new THREE.WebGLRenderer({canvas:document.getElementById("planetCanvas"),alpha:true});
+const camera=new THREE.PerspectiveCamera(75,400/300,0.1,1000);
+const renderer=new THREE.WebGLRenderer({canvas:document.getElementById("earth")});
 
-renderer.setSize(window.innerWidth,400);
-
-const geometry=new THREE.SphereGeometry(2,64,64);
-const texture=new THREE.TextureLoader().load("../img/earth.jpg");
-
-const earth=new THREE.Mesh(geometry,new THREE.MeshStandardMaterial({map:texture}));
+const geo=new THREE.SphereGeometry(2,32,32);
+const mat=new THREE.MeshBasicMaterial({color:0x00ff88});
+const earth=new THREE.Mesh(geo,mat);
 
 scene.add(earth);
-
-const light=new THREE.PointLight(0xffffff,1.2);
-light.position.set(5,5,5);
-scene.add(light);
-
 camera.position.z=5;
 
 function animate(){
 requestAnimationFrame(animate);
-earth.rotation.y+=0.003;
+earth.rotation.y+=0.01;
 renderer.render(scene,camera);
 }
 animate();
 
 /* ================= NEWS ================= */
-fetch("https://api.allorigins.win/get?url="+encodeURIComponent("https://news.google.com/rss/search?q=pendidikan&hl=id&gl=ID"))
+fetch("https://api.allorigins.win/get?url="+encodeURIComponent("https://news.google.com/rss/search?q=pendidikan"))
 .then(r=>r.json())
 .then(d=>{
 let xml=new DOMParser().parseFromString(d.contents,"text/xml");
@@ -334,8 +188,9 @@ let items=xml.querySelectorAll("item");
 
 let html="";
 items.forEach((it,i)=>{
-if(i<6){
-html+=`<div class="news-item">
+if(i<5){
+html+=`
+<div class="news-item">
 <a href="${it.querySelector("link").textContent}" target="_blank">
 ${it.querySelector("title").textContent}
 </a>
@@ -349,4 +204,4 @@ document.getElementById("news").innerHTML=html;
 </script>
 
 </body>
-    </html>
+</html>
