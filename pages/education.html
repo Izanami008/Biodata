@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Education - Erika099</title>
+<title>Erika099 + AI Girlfriend</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -78,8 +78,6 @@ padding:8px;
 border-radius:6px;
 }
 
-.menu a:hover{background:#222;}
-
 /* ================= SECTION ================= */
 section{
 padding-top:120px;
@@ -87,54 +85,12 @@ text-align:center;
 }
 
 /* ================= TIMELINE ================= */
-.timeline{
-max-width:800px;
-margin:auto;
-}
-
 .timeline-item{
 background:#111;
 margin:20px;
 padding:20px;
 border-radius:10px;
 border:1px solid #222;
-transition:0.3s;
-}
-
-.timeline-item:hover{
-transform:translateY(-5px);
-box-shadow:0 0 15px #b74b4b;
-}
-
-/* ================= MONEY ================= */
-.money{
-margin-top:20px;
-font-size:22px;
-white-space:nowrap;
-animation:run 12s linear infinite;
-}
-
-@keyframes run{
-0%{transform:translateX(-100%)}
-100%{transform:translateX(100%)}
-}
-
-/* ================= CHART ================= */
-#chartBox{
-width:90%;
-max-width:900px;
-margin:40px auto;
-background:#111;
-padding:15px;
-border-radius:12px;
-border:1px solid #222;
-}
-
-/* ================= PLANET ================= */
-#planetCanvas{
-width:100%;
-height:400px;
-margin-top:30px;
 }
 
 /* ================= NEWS ================= */
@@ -152,36 +108,67 @@ background:#111;
 padding:15px;
 border-radius:10px;
 border:1px solid #222;
-transition:0.3s;
 }
 
-.news-item:hover{
-transform:translateY(-5px);
-box-shadow:0 0 10px #00ff88;
+/* ================= AI PANEL ================= */
+.ai-box{
+margin:40px auto;
+max-width:500px;
+background:#111;
+padding:20px;
+border-radius:12px;
+border:1px solid #222;
 }
 
-/* ================= BACKGROUND ANIMATION ================= */
-.bg-line{
-position:fixed;
-width:2px;
-height:100%;
-background:linear-gradient(transparent,#00ff88,transparent);
-left:50%;
-animation:move 5s linear infinite;
-opacity:0.2;
+.ai-face{
+width:100px;
+height:100px;
+border-radius:50%;
+background:linear-gradient(145deg,#ff6ec7,#6c5ce7);
+margin:auto;
+animation:float 3s infinite ease-in-out;
 }
 
-@keyframes move{
-0%{transform:translateY(-100%)}
-100%{transform:translateY(100%)}
+@keyframes float{
+0%,100%{transform:translateY(0)}
+50%{transform:translateY(-10px)}
+}
+
+.wave{
+display:flex;
+justify-content:center;
+gap:3px;
+margin-top:10px;
+}
+
+.bar{
+width:4px;
+height:10px;
+background:white;
+animation:wave 1s infinite;
+}
+
+@keyframes wave{
+0%,100%{height:6px}
+50%{height:20px}
+}
+
+#aiText{
+margin-top:10px;
+font-size:14px;
+}
+
+/* ================= CANVAS ================= */
+#planetCanvas{
+width:100%;
+height:400px;
+margin-top:30px;
 }
 
 </style>
 </head>
 
 <body>
-
-<div class="bg-line"></div>
 
 <header>
 <div class="logo-area" onclick="toggleMenu()">
@@ -201,15 +188,28 @@ opacity:0.2;
 
 <h1>My Education</h1>
 
-<div class="timeline">
 <div class="timeline-item">Elementary School</div>
 <div class="timeline-item">Junior High School</div>
 <div class="timeline-item">Senior High School</div>
 <div class="timeline-item">Self Learning Programming</div>
+
+<!-- ================= AI GIRLFRIEND ================= -->
+<div class="ai-box">
+<div class="ai-face"></div>
+
+<div class="wave">
+<div class="bar"></div><div class="bar"></div><div class="bar"></div>
+<div class="bar"></div><div class="bar"></div>
 </div>
 
-<div class="money">💰 Knowledge → Skill → Money → Success 💰</div>
+<div id="aiText">AI siap ngobrol 💜 (klik tombol mic)</div>
 
+<button onclick="startAI()" style="margin-top:10px;padding:10px;background:#6c5ce7;color:white;border:none;border-radius:8px;">
+🎤 Talk to AI
+</button>
+</div>
+
+<!-- CHART -->
 <div id="chartBox">
 <h2>Crypto Style Chart</h2>
 <canvas id="chart"></canvas>
@@ -230,6 +230,57 @@ function toggleMenu(){
 document.getElementById("menu").classList.toggle("show");
 }
 
+/* ================= AI SYSTEM ================= */
+let recognition;
+
+function startAI(){
+
+recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+recognition.lang="id-ID";
+
+recognition.onresult = async (e)=>{
+let text = e.results[0][0].transcript;
+
+document.getElementById("aiText").innerText = "Kamu: " + text;
+
+let reply = await fakeAI(text);
+
+document.getElementById("aiText").innerText = "AI: " + reply;
+
+speak(reply);
+};
+
+recognition.start();
+}
+
+/* ================= SIMPLE AI (NO API biar jalan langsung) ================= */
+function fakeAI(text){
+
+text = text.toLowerCase();
+
+if(text.includes("sayang")) return "Aku di sini untuk kamu 💜";
+if(text.includes("halo")) return "Halo juga, aku senang ngobrol sama kamu 😊";
+if(text.includes("marah")) return "Maaf ya... aku nggak mau bikin kamu marah 😢";
+
+return "Aku dengar kamu bilang: " + text;
+}
+
+/* ================= VOICE (BROWSER CEWE LEMBUT) ================= */
+function speak(text){
+
+let msg = new SpeechSynthesisUtterance(text);
+let voices = speechSynthesis.getVoices();
+
+let female = voices.find(v=>v.lang.includes("id") || v.name.toLowerCase().includes("female"));
+
+if(female) msg.voice = female;
+
+msg.rate = 0.9;
+msg.pitch = 1.6;
+
+speechSynthesis.speak(msg);
+}
+
 /* ================= CHART ================= */
 let data=[10,20,15,30,25,40,35,50];
 
@@ -244,23 +295,10 @@ borderWidth:2,
 tension:0.4
 }]
 },
-options:{
-plugins:{legend:{display:false}},
-scales:{x:{display:false},y:{display:false}}
-}
+options:{plugins:{legend:{display:false}},scales:{x:{display:false},y:{display:false}}}
 });
 
-/* update tiap 5 menit */
-setInterval(()=>{
-let last=data[data.length-1];
-data.push(last+(Math.random()*10-5));
-data.shift();
-chart.data.labels=data.map((_,i)=>i);
-chart.data.datasets[0].data=data;
-chart.update();
-},300000);
-
-/* ================= THREE JS ================= */
+/* ================= THREE JS EARTH ================= */
 const scene=new THREE.Scene();
 const camera=new THREE.PerspectiveCamera(75,window.innerWidth/400,0.1,1000);
 const renderer=new THREE.WebGLRenderer({canvas:document.getElementById("planetCanvas"),alpha:true});
@@ -268,11 +306,9 @@ const renderer=new THREE.WebGLRenderer({canvas:document.getElementById("planetCa
 renderer.setSize(window.innerWidth,400);
 
 const geometry=new THREE.SphereGeometry(2,64,64);
-const loader=new THREE.TextureLoader();
-const texture=loader.load("../img/earth.jpg");
+const texture=new THREE.TextureLoader().load("../img/earth.jpg");
 
-const material=new THREE.MeshStandardMaterial({map:texture});
-const earth=new THREE.Mesh(geometry,material);
+const earth=new THREE.Mesh(geometry,new THREE.MeshStandardMaterial({map:texture}));
 
 scene.add(earth);
 
@@ -289,23 +325,19 @@ renderer.render(scene,camera);
 }
 animate();
 
-/* ================= NEWS RSS ================= */
-const feed="https://news.google.com/rss/search?q=pendidikan&hl=id&gl=ID&ceid=ID:id";
-
-fetch("https://api.allorigins.win/get?url="+encodeURIComponent(feed))
-.then(res=>res.json())
-.then(data=>{
-let parser=new DOMParser();
-let xml=parser.parseFromString(data.contents,"text/xml");
+/* ================= NEWS ================= */
+fetch("https://api.allorigins.win/get?url="+encodeURIComponent("https://news.google.com/rss/search?q=pendidikan&hl=id&gl=ID"))
+.then(r=>r.json())
+.then(d=>{
+let xml=new DOMParser().parseFromString(d.contents,"text/xml");
 let items=xml.querySelectorAll("item");
 
 let html="";
-items.forEach((item,i)=>{
+items.forEach((it,i)=>{
 if(i<6){
-html+=`
-<div class="news-item">
-<a href="${item.querySelector("link").textContent}" target="_blank">
-${item.querySelector("title").textContent}
+html+=`<div class="news-item">
+<a href="${it.querySelector("link").textContent}" target="_blank">
+${it.querySelector("title").textContent}
 </a>
 </div>`;
 }
