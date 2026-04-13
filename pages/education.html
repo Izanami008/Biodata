@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Erika099 - AI Education</title>
+<title>Erika099 - Education AI System</title>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial"></script>
 
 <style>
 
-/* ================= GLOBAL ================= */
+/* ================= RESET ================= */
 *{
 margin:0;
 padding:0;
@@ -50,7 +50,7 @@ cursor:pointer;
 
 .logo-img{
 width:45px;
-filter:drop-shadow(0 0 8px cyan);
+filter:drop-shadow(0 0 10px cyan);
 }
 
 .logo{
@@ -61,7 +61,7 @@ text-decoration:none;
 }
 
 .logo-sub{
-font-size:11px;
+font-size:12px;
 color:gray;
 }
 
@@ -71,7 +71,6 @@ background:transparent;
 border:none;
 color:white;
 cursor:pointer;
-font-size:14px;
 padding:8px 10px;
 border-radius:8px;
 transition:0.3s;
@@ -100,10 +99,19 @@ border:1px solid rgba(255,255,255,0.1);
 display:flex;
 }
 
-/* ================= MAIN ================= */
+/* ================= CONTENT ================= */
 .container{
 padding:120px 9% 60px;
 text-align:center;
+}
+
+.card{
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(10px);
+padding:20px;
+border-radius:15px;
+border:1px solid rgba(255,255,255,0.1);
+margin-top:20px;
 }
 
 /* ================= AI BUTTON ================= */
@@ -114,16 +122,16 @@ bottom:20px;
 width:60px;
 height:60px;
 border-radius:50%;
-border:none;
 background:linear-gradient(45deg,#00ffcc,#6c5ce7);
 color:white;
 font-size:22px;
+border:none;
 cursor:pointer;
 box-shadow:0 0 20px #00ffcc;
 z-index:9999;
 }
 
-/* ================= AI PANEL ================= */
+/* ================= AI IFRAME ================= */
 #aiBox{
 position:fixed;
 right:20px;
@@ -137,19 +145,9 @@ display:none;
 z-index:9998;
 }
 
-/* ================= CARD ================= */
-.card{
-background:rgba(255,255,255,0.05);
-backdrop-filter:blur(10px);
-padding:20px;
-border-radius:15px;
-border:1px solid rgba(255,255,255,0.1);
-margin-top:20px;
-}
-
-/* ================= BTC ================= */
+/* ================= BTC CHART ================= */
 #btcChart{
-max-width:700px;
+max-width:750px;
 margin:30px auto;
 background:rgba(255,255,255,0.03);
 padding:10px;
@@ -158,7 +156,7 @@ border-radius:12px;
 
 /* ================= TITLE ================= */
 h2{
-margin-top:20px;
+margin-top:25px;
 text-shadow:0 0 10px rgba(0,255,255,0.2);
 }
 
@@ -180,11 +178,11 @@ text-shadow:0 0 10px rgba(0,255,255,0.2);
 
 </div>
 
-<!-- MENU -->
 <div>
 <button class="menu-btn" onclick="toggleMenu()">☰ Menu</button>
 
 <div class="menu-box" id="menuBox">
+
 <a href="../index.html" class="menu-btn">Home</a>
 <a href="services.html" class="menu-btn">Services</a>
 <a href="skills.html" class="menu-btn">Skills</a>
@@ -194,24 +192,25 @@ text-shadow:0 0 10px rgba(0,255,255,0.2);
 
 <hr style="border:0.5px solid #333">
 
-<a href="#" class="menu-btn" onclick="toggleAI()">🤖 Open AI</a>
+<a class="menu-btn" onclick="toggleAI()">🤖 Open AI</a>
+
 </div>
 
 </div>
 
 </header>
 
-<!-- ================= MAIN ================= -->
+<!-- ================= CONTENT ================= -->
 <div class="container">
 
 <h2>🧠 AI Learning System</h2>
 
 <div class="card">
-<p>Selamat datang di sistem AI Erika099 🚀</p>
-<p>Gunakan AI untuk belajar, tanya coding, dan bantuan otomatis.</p>
+<p>Selamat datang di AI Erika099 🚀</p>
+<p>Belajar coding + AI assistant + market analysis.</p>
 </div>
 
-<h2>📊 BTC Market Chart</h2>
+<h2>📊 BTC MARKET CHART</h2>
 <canvas id="btcChart"></canvas>
 
 </div>
@@ -219,7 +218,8 @@ text-shadow:0 0 10px rgba(0,255,255,0.2);
 <!-- ================= AI BUTTON ================= -->
 <button class="ai-btn" onclick="toggleAI()">🤖</button>
 
-<iframe id="aiBox" src="../ai/assistant.html"></iframe>
+<!-- AI PANEL -->
+<iframe id="aiBox" src="ai/assistant.html"></iframe>
 
 <!-- ================= SCRIPT ================= -->
 <script>
@@ -229,13 +229,13 @@ function toggleMenu(){
 document.getElementById("menuBox").classList.toggle("show");
 }
 
-/* AI */
+/* AI PANEL */
 function toggleAI(){
 let box=document.getElementById("aiBox");
-box.style.display = (box.style.display==="block")?"none":"block";
+box.style.display=(box.style.display==="block")?"none":"block";
 }
 
-/* BTC */
+/* ================= BTC FIXED CHART ================= */
 function candle(last){
 let o=last;
 let c=o+(Math.random()*200-100);
@@ -260,8 +260,17 @@ type:"candlestick",
 data:{
 datasets:[{
 label:"BTC/USDT",
-data:data.map((d,i)=>({x:i,o:d.o,h:d.h,l:d.l,c:d.c}))
+data:data.map((d,i)=>({
+x:i,o:d.o,h:d.h,l:d.l,c:d.c
+}))
 }]
+},
+options:{
+plugins:{legend:{display:false}},
+scales:{
+x:{display:false},
+y:{ticks:{color:"white"}}
+}
 }
 });
 
@@ -272,7 +281,10 @@ last=c.c;
 data.push(c);
 data.shift();
 
-chart.data.datasets[0].data=data.map((d,i)=>({x:i,o:d.o,h:d.h,l:d.c}));
+chart.data.datasets[0].data=data.map((d,i)=>({
+x:i,o:d.o,h:d.h,l:d.l,c:d.c
+}));
+
 chart.update();
 },2000);
 
