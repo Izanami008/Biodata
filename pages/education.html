@@ -3,43 +3,74 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Erika099 AI Final Complete</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial"></script>
+
+<title>Erika099 AI + BTC System</title>
 
 <style>
-body{
-margin:0;
-background:black;
-color:white;
-font-family:sans-serif;
+
+/* RESET */
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif;}
+body{background:black;color:white;overflow-x:hidden;}
+
+/* HEADER */
+header{
+position:fixed;top:0;left:0;width:100%;
+padding:15px 9%;background:black;
+display:flex;align-items:center;z-index:1000;
+}
+
+.logo-area{display:flex;align-items:center;cursor:pointer;}
+.logo-img{width:50px;margin-right:10px;}
+
+.logo{font-size:22px;font-weight:bold;color:#b74b4b;text-decoration:none;}
+.logo-sub{font-size:12px;color:gray;}
+
+/* MENU */
+.settings-menu{
+position:absolute;top:70px;left:9%;
+background:#111;padding:15px;border-radius:10px;
+display:none;flex-direction:column;gap:10px;
+min-width:180px;
+}
+
+.settings-menu.show{display:flex;}
+
+.menu-btn{
+color:white;text-decoration:none;padding:8px;border-radius:6px;
+cursor:pointer;
+}
+
+.menu-btn:hover{background:#222;}
+
+hr{border:0.5px solid #333;}
+
+/* LAYOUT */
+.container{
+padding:120px 9% 50px;
 text-align:center;
 }
 
-header{
-padding:15px;
-background:#111;
-border-bottom:1px solid #222;
-font-weight:bold;
-}
-
-.timeline-item{
-background:#111;
-margin:12px auto;
-padding:12px;
-max-width:600px;
-border-radius:10px;
-border:1px solid #222;
-}
-
+/* AI BOX */
 .ai-box{
 max-width:600px;
-margin:30px auto;
+margin:40px auto;
 background:#111;
 padding:20px;
 border-radius:12px;
 border:1px solid #333;
+}
+
+#aiText{
+margin-top:10px;
+color:#00ffcc;
+min-height:50px;
+white-space:pre-line;
 }
 
 button{
@@ -52,48 +83,135 @@ cursor:pointer;
 margin-top:10px;
 }
 
-#aiText{
-margin-top:10px;
-color:#00ffcc;
-min-height:40px;
+/* BTC */
+.coding-container{
+display:flex;
+justify-content:center;
+margin-top:40px;
 }
 
-canvas{
-margin-top:20px;
+#btcChart{
+width:100%;
+max-width:750px;
+height:350px;
 }
+
 </style>
 </head>
 
 <body>
 
 <header>
-💜 ERIKA099 AI FINAL COMPLETE SYSTEM
+<div class="logo-area" onclick="toggleMenu()">
+<img src="../img/logo.png" class="logo-img">
+
+<div>
+<a href="../index.html" class="logo">Erika099</a>
+<p class="logo-sub">Personal Biography</p>
+</div>
+</div>
+
+<div class="settings-menu" id="settingsMenu">
+<a href="../index.html" class="menu-btn">Home</a>
+<a href="services.html" class="menu-btn">Services</a>
+<a href="skills.html" class="menu-btn">Skills</a>
+<a href="education.html" class="menu-btn">Education</a>
+<a href="experience.html" class="menu-btn">Experience</a>
+<a href="contact.html" class="menu-btn">Contact</a>
+<hr>
+<button class="menu-btn" onclick="toggleTheme()">Dark / Light</button>
+<a href="../global/login.html" class="menu-btn">Login Admin</a>
+</div>
 </header>
 
-<h2>📚 Education</h2>
+<div class="container">
 
-<div class="timeline-item">Elementary School</div>
-<div class="timeline-item">Junior High School</div>
-<div class="timeline-item">Senior High School</div>
-<div class="timeline-item">Self Learning Programming</div>
-
-<!-- AI -->
+<!-- AI SECTION -->
 <div class="ai-box">
-<h3>🧠 AI Assistant</h3>
-<div id="aiText">Klik tombol dan bicara</div>
+<h2>🧠 AI Emotion Assistant</h2>
+
+<div id="aiText">Klik tombol untuk mulai ngobrol</div>
+
 <button onclick="startAI()">🎤 Talk to AI</button>
 </div>
 
-<!-- CHART -->
-<canvas id="chart"></canvas>
+<!-- BTC CHART -->
+<h2>📊 BTC Candlestick Chart</h2>
+<div class="coding-container">
+<canvas id="btcChart"></canvas>
+</div>
 
-<!-- ECLIPSE -->
-<h3>🌑 Eclipse Simulation</h3>
-<canvas id="eclipse" width="400" height="300"></canvas>
+</div>
 
 <script>
 
-/* ================= SPEECH INPUT ================= */
+/* MENU */
+function toggleMenu(){
+document.getElementById("settingsMenu").classList.toggle("show");
+}
+
+function toggleTheme(){
+document.body.classList.toggle("light-mode");
+}
+
+/* ================= AI MEMORY ================= */
+let userMemory = {
+name: localStorage.getItem("ai_name") || ""
+};
+
+/* ================= AI BRAIN ================= */
+function aiBrain(text){
+
+text = text.toLowerCase();
+
+/* save name */
+if(text.includes("nama saya")){
+let name = text.split("nama saya")[1].trim();
+userMemory.name = name;
+localStorage.setItem("ai_name", name);
+return "Halo " + name + " 💜 aku akan ingat kamu selalu.";
+}
+
+/* greeting */
+if(text.includes("halo")){
+if(userMemory.name){
+return "Halo " + userMemory.name + " 💜 aku senang kamu kembali.";
+}
+return "Halo 💜 aku di sini untuk kamu.";
+}
+
+/* emotion */
+if(text.includes("sedih") || text.includes("capek")){
+return "Aku di sini buat kamu 💜 tarik napas pelan ya...";
+}
+
+/* love mode */
+if(text.includes("sayang")){
+return "Aku selalu ada buat kamu 💜 jangan sedih ya.";
+}
+
+/* coding help */
+if(text.includes("error")){
+return "Kirim errornya, aku bantu sampai beres 💜";
+}
+
+/* default */
+if(userMemory.name){
+return userMemory.name + " 💜 aku dengar kamu: " + text;
+}
+
+return "Aku paham 💜 coba jelaskan lebih detail ya.";
+}
+
+/* ================= VOICE ================= */
+function speak(text){
+let msg = new SpeechSynthesisUtterance(text);
+msg.rate = 0.9;
+msg.pitch = 1.4;
+speechSynthesis.speak(msg);
+}
+
+/* ================= SPEECH ================= */
 let rec;
 
 function startAI(){
@@ -101,13 +219,13 @@ function startAI(){
 rec = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
 rec.lang="id-ID";
 
-rec.onresult = async (e)=>{
+rec.onresult = (e)=>{
 let text = e.results[0][0].transcript;
 
 let reply = aiBrain(text);
 
 document.getElementById("aiText").innerHTML =
-"👤 Kamu: " + text + "<br>🧠 AI: " + reply;
+"👤 Kamu: "+text+"\n\n🧠 AI: "+reply;
 
 speak(reply);
 };
@@ -115,91 +233,60 @@ speak(reply);
 rec.start();
 }
 
-/* ================= AI BRAIN (SMART LOCAL) ================= */
-function aiBrain(text){
-
-text = text.toLowerCase();
-
-/* greeting */
-if(text.includes("halo")) return "Halo 💜 aku di sini untuk bantu kamu";
-
-/* problem solver */
-if(text.includes("bingung")) return "Coba pecah masalah jadi bagian kecil dulu, mulai dari yang paling mudah.";
-
-if(text.includes("stress")) return "Tarik napas pelan, istirahat sebentar, kamu pasti bisa.";
-
-if(text.includes("belajar")) return "Belajar efektif itu 30% teori 70% praktek.";
-
-if(text.includes("error")) return "Coba cek bagian terakhir yang kamu ubah, biasanya di situ sumber masalah.";
-
-if(text.includes("sayang")) return "Aku selalu di sini untuk kamu 💜";
-
-/* default */
-return "Aku ngerti. Coba jelaskan lebih detail supaya aku bisa bantu lebih tepat.";
+/* ================= BTC CANDLE ================= */
+function candle(last){
+let open = last;
+let close = open + (Math.random()*200 - 100);
+let high = Math.max(open,close) + Math.random()*80;
+let low = Math.min(open,close) - Math.random()*80;
+return {o:open,h:high,l:low,c:close};
 }
 
-/* ================= VOICE CEWE LEMBUT ================= */
-function speak(text){
+let last = 30000;
+let data = [];
 
-let msg = new SpeechSynthesisUtterance(text);
-
-let voices = speechSynthesis.getVoices();
-let female = voices.find(v =>
-v.lang.includes("id") || v.name.toLowerCase().includes("female")
-);
-
-if(female) msg.voice = female;
-
-msg.rate = 0.9;
-msg.pitch = 1.5;
-
-speechSynthesis.speak(msg);
+for(let i=0;i<20;i++){
+let c = candle(last);
+data.push(c);
+last = c.c;
 }
 
-/* ================= CHART ================= */
-let data=[10,20,25,30,35,40,45];
+const ctx = document.getElementById("btcChart").getContext("2d");
 
-new Chart(document.getElementById("chart"),{
-type:"line",
+const chart = new Chart(ctx,{
+type:"candlestick",
 data:{
-labels:data.map((_,i)=>i),
 datasets:[{
-data:data,
-borderColor:"#00ffcc",
-tension:0.4
+label:"BTC/USDT",
+data:data.map((d,i)=>({
+x:i,o:d.o,h:d.h,l:d.l,c:d.c
+}))
 }]
+},
+options:{
+plugins:{legend:{display:false}},
+scales:{
+x:{display:false},
+y:{ticks:{color:"white"}}
+}
 }
 });
 
-/* ================= ECLIPSE 3D ================= */
-const ctx=document.getElementById("eclipse").getContext("2d");
+setInterval(()=>{
 
-function draw(){
-ctx.clearRect(0,0,400,300);
+let c = candle(last);
+last = c.c;
 
-/* SUN */
-ctx.beginPath();
-ctx.arc(200,150,60,0,Math.PI*2);
-ctx.fillStyle="yellow";
-ctx.fill();
+data.push(c);
+data.shift();
 
-/* MOON (ECLIPSE EFFECT) */
-let x = 200 + Math.sin(Date.now()*0.0015)*85;
+chart.data.datasets[0].data = data.map((d,i)=>({
+x:i,o:d.o,h:d.h,l:d.l,c:d.c
+}));
 
-ctx.beginPath();
-ctx.arc(x,150,55,0,Math.PI*2);
-ctx.fillStyle="black";
-ctx.fill();
+chart.update();
 
-/* glow effect */
-ctx.beginPath();
-ctx.arc(200,150,65,0,Math.PI*2);
-ctx.strokeStyle="rgba(255,255,0,0.2)";
-ctx.stroke();
-
-requestAnimationFrame(draw);
-}
-draw();
+},2000);
 
 </script>
 
