@@ -18,7 +18,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
 *{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif;}
 body{background:black;color:white;overflow-x:hidden;}
 
-/* HEADER */
+/* HEADER (SAMA PERSIS) */
 header{
 position:fixed;top:0;left:0;width:100%;
 padding:15px 9%;background:black;
@@ -101,6 +101,7 @@ height:350px;
 
 <body>
 
+<!-- ================= HEADER (NO CHANGE) ================= -->
 <header>
 <div class="logo-area" onclick="toggleMenu()">
 <img src="../img/logo.png" class="logo-img">
@@ -124,9 +125,10 @@ height:350px;
 </div>
 </header>
 
+<!-- ================= CONTENT ================= -->
 <div class="container">
 
-<!-- AI SECTION -->
+<!-- AI -->
 <div class="ai-box">
 <h2>🧠 AI Emotion Assistant</h2>
 
@@ -135,7 +137,7 @@ height:350px;
 <button onclick="startAI()">🎤 Talk to AI</button>
 </div>
 
-<!-- BTC CHART -->
+<!-- BTC -->
 <h2>📊 BTC Candlestick Chart</h2>
 <div class="coding-container">
 <canvas id="btcChart"></canvas>
@@ -143,9 +145,14 @@ height:350px;
 
 </div>
 
-<script>
+<!-- ================= AI MODULE ================= -->
+<script type="module">
+import { startAI } from "../ai/ai.js";
+window.startAI = startAI;
+</script>
 
-/* MENU */
+<!-- ================= MENU ================= -->
+<script>
 function toggleMenu(){
 document.getElementById("settingsMenu").classList.toggle("show");
 }
@@ -154,141 +161,48 @@ function toggleTheme(){
 document.body.classList.toggle("light-mode");
 }
 
-/* ================= AI MEMORY ================= */
-let userMemory = {
-name: localStorage.getItem("ai_name") || ""
-};
-
-/* ================= AI BRAIN ================= */
-function aiBrain(text){
-
-text = text.toLowerCase();
-
-/* save name */
-if(text.includes("nama saya")){
-let name = text.split("nama saya")[1].trim();
-userMemory.name = name;
-localStorage.setItem("ai_name", name);
-return "Halo " + name + " 💜 aku akan ingat kamu selalu.";
-}
-
-/* greeting */
-if(text.includes("halo")){
-if(userMemory.name){
-return "Halo " + userMemory.name + " 💜 aku senang kamu kembali.";
-}
-return "Halo 💜 aku di sini untuk kamu.";
-}
-
-/* emotion */
-if(text.includes("sedih") || text.includes("capek")){
-return "Aku di sini buat kamu 💜 tarik napas pelan ya...";
-}
-
-/* love mode */
-if(text.includes("sayang")){
-return "Aku selalu ada buat kamu 💜 jangan sedih ya.";
-}
-
-/* coding help */
-if(text.includes("error")){
-return "Kirim errornya, aku bantu sampai beres 💜";
-}
-
-/* default */
-if(userMemory.name){
-return userMemory.name + " 💜 aku dengar kamu: " + text;
-}
-
-return "Aku paham 💜 coba jelaskan lebih detail ya.";
-}
-
-/* ================= VOICE ================= */
-function speak(text){
-let msg = new SpeechSynthesisUtterance(text);
-msg.rate = 0.9;
-msg.pitch = 1.4;
-speechSynthesis.speak(msg);
-}
-
-/* ================= SPEECH ================= */
-let rec;
-
-function startAI(){
-
-rec = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-rec.lang="id-ID";
-
-rec.onresult = (e)=>{
-let text = e.results[0][0].transcript;
-
-let reply = aiBrain(text);
-
-document.getElementById("aiText").innerHTML =
-"👤 Kamu: "+text+"\n\n🧠 AI: "+reply;
-
-speak(reply);
-};
-
-rec.start();
-}
-
-/* ================= BTC CANDLE ================= */
+/* ================= BTC ================= */
 function candle(last){
 let open = last;
 let close = open + (Math.random()*200 - 100);
-let high = Math.max(open,close) + Math.random()*80;
-let low = Math.min(open,close) - Math.random()*80;
+let high = Math.max(open,close)+Math.random()*80;
+let low = Math.min(open,close)-Math.random()*80;
 return {o:open,h:high,l:low,c:close};
 }
 
-let last = 30000;
-let data = [];
+let last=30000;
+let data=[];
 
 for(let i=0;i<20;i++){
-let c = candle(last);
+let c=candle(last);
 data.push(c);
-last = c.c;
+last=c.c;
 }
 
-const ctx = document.getElementById("btcChart").getContext("2d");
+const ctx=document.getElementById("btcChart").getContext("2d");
 
-const chart = new Chart(ctx,{
+const chart=new Chart(ctx,{
 type:"candlestick",
 data:{
 datasets:[{
 label:"BTC/USDT",
-data:data.map((d,i)=>({
-x:i,o:d.o,h:d.h,l:d.l,c:d.c
-}))
+data:data.map((d,i)=>({x:i,o:d.o,h:d.h,l:d.l,c:d.c}))
 }]
-},
-options:{
-plugins:{legend:{display:false}},
-scales:{
-x:{display:false},
-y:{ticks:{color:"white"}}
-}
 }
 });
 
 setInterval(()=>{
-
-let c = candle(last);
-last = c.c;
+let c=candle(last);
+last=c.c;
 
 data.push(c);
 data.shift();
 
-chart.data.datasets[0].data = data.map((d,i)=>({
-x:i,o:d.o,h:d.h,l:d.l,c:d.c
-}));
-
+chart.data.datasets[0].data=data.map((d,i)=>({x:i,o:d.o,h:d.h,l:d.l,c:d.c}));
 chart.update();
 
 },2000);
-
 </script>
 
 </body>
-</html>
+  </html>
