@@ -235,23 +235,61 @@ let box=document.getElementById("aiBox");
 box.style.display=(box.style.display==="block")?"none":"block";
 }
 
-/* ================= BTC FIXED CHART ================= */
-function candle(last){
-let o=last;
-let c=o+(Math.random()*200-100);
-let h=Math.max(o,c)+Math.random()*80;
-let l=Math.min(o,c)-Math.random()*80;
-return {o,h,l,c};
+/* ================= BTC REAL CHART ================= */
+
+const ctx = document.getElementById("btcChart").getContext("2d");
+
+const chart = new Chart(ctx,{
+type:"candlestick",
+data:{
+datasets:[{
+label:"BTC/USDT",
+data:[]
+}]
+},
+options:{
+plugins:{legend:{display:false}},
+scales:{
+x:{ticks:{color:"white"}},
+y:{ticks:{color:"white"}}
+}
+}
+});
+
+/* ================= AMBIL DATA BINANCE ================= */
+async function loadBTC(){
+try{
+const res = await fetch("https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=15m&limit=30");
+const raw = await res.json();
+
+const data = raw.map((d,i)=>({
+x:i,
+o:parseFloat(d[1]),
+h:parseFloat(d[2]),
+l:parseFloat(d[3]),
+c:parseFloat(d[4])
+}));
+
+chart.data.datasets[0].data = data;
+chart.update();
+
+/* harga terakhir */
+if(data.length > 0){
+let lastPrice = data[data.length-1].c;
+document.getElementById("priceNow").innerText =
+"BTC Price: $" + lastPrice.toLocaleString();
 }
 
-let last=30000;
-let data=[];
-
-for(let i=0;i<20;i++){
-let c=candle(last);
-data.push(c);
-last=c.c;
+}catch(e){
+console.log("Error BTC:",e);
 }
+}
+
+/* LOAD AWAL */
+loadBTC();
+
+/* AUTO UPDATE */
+setInterval(loadBTC,10000);
 
 const ctx=document.getElementById("btcChart").getContext("2d");
 
