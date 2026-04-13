@@ -4,49 +4,128 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>AI + BTC System</title>
+<title>Erika099 - Education AI System</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial"></script>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif;}
-body{background:black;color:white;overflow-x:hidden;}
 
-/* HEADER */
+/* RESET */
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Poppins,sans-serif;
+}
+
+body{
+background:black;
+color:white;
+overflow-x:hidden;
+}
+
+/* HEADER (SAMA DENGAN PAGE LAIN) */
 header{
-position:fixed;top:0;left:0;width:100%;
-padding:15px 9%;background:black;
-display:flex;align-items:center;z-index:1000;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+padding:15px 9%;
+background:black;
+display:flex;
+align-items:center;
+z-index:1000;
+border-bottom:1px solid #222;
 }
 
-.logo-area{display:flex;align-items:center;cursor:pointer;}
-.logo-img{width:50px;margin-right:10px;}
-
-.logo{font-size:22px;font-weight:bold;color:#b74b4b;text-decoration:none;}
-.logo-sub{font-size:12px;color:gray;}
-
-.settings-menu{
-position:absolute;top:70px;left:9%;
-background:#111;padding:15px;border-radius:10px;
-display:none;flex-direction:column;gap:10px;
-min-width:180px;
-}
-
-.settings-menu.show{display:flex;}
-
-.menu-btn{
-color:white;text-decoration:none;padding:8px;border-radius:6px;
+.logo-area{
+display:flex;
+align-items:center;
 cursor:pointer;
 }
 
-.container{padding:120px 9%;text-align:center;}
-
-.ai-btn{
-padding:10px 15px;background:#6c5ce7;border:none;color:white;
-border-radius:8px;cursor:pointer;
+.logo-img{
+width:50px;
+margin-right:10px;
 }
 
+.logo{
+font-size:22px;
+font-weight:bold;
+color:#b74b4b;
+text-decoration:none;
+}
+
+.logo-sub{
+font-size:12px;
+color:gray;
+}
+
+/* MENU */
+.settings-menu{
+position:absolute;
+top:70px;
+left:9%;
+background:#111;
+padding:15px;
+border-radius:10px;
+display:none;
+flex-direction:column;
+gap:10px;
+min-width:180px;
+}
+
+.settings-menu.show{
+display:flex;
+}
+
+.menu-btn{
+color:white;
+text-decoration:none;
+padding:8px;
+border-radius:6px;
+cursor:pointer;
+}
+
+.menu-btn:hover{
+background:#222;
+}
+
+hr{
+border:0.5px solid #333;
+}
+
+/* CONTAINER */
+.container{
+padding:120px 9% 50px;
+text-align:center;
+}
+
+/* AI BOX */
+.ai-box{
+max-width:600px;
+margin:40px auto;
+background:#111;
+padding:20px;
+border-radius:12px;
+border:1px solid #333;
+}
+
+.ai-btn{
+padding:10px 15px;
+background:#6c5ce7;
+color:white;
+border:none;
+border-radius:8px;
+cursor:pointer;
+margin-top:10px;
+}
+
+/* AI IFRAME */
 #aiBox{
 position:fixed;
 right:20px;
@@ -60,48 +139,89 @@ display:none;
 z-index:9999;
 }
 
-#btcChart{max-width:700px;margin-top:30px;}
+/* BTC */
+#btcChart{
+max-width:750px;
+margin:40px auto;
+}
+
 </style>
 </head>
 
 <body>
 
+<!-- ================= HEADER (ERIKA099 SAMA DI SEMUA PAGE) ================= -->
 <header>
-<div class="logo-area">
+
+<div class="logo-area" onclick="location.href='../index.html'">
 <img src="../img/logo.png" class="logo-img">
+
 <div>
 <a href="../index.html" class="logo">Erika099</a>
 <p class="logo-sub">Personal Biography</p>
 </div>
+
 </div>
+
+<!-- MENU -->
+<div class="settings-menu" id="settingsMenu">
+<a href="../index.html" class="menu-btn">Home</a>
+<a href="services.html" class="menu-btn">Services</a>
+<a href="skills.html" class="menu-btn">Skills</a>
+<a href="education.html" class="menu-btn">Education</a>
+<a href="experience.html" class="menu-btn">Experience</a>
+<a href="contact.html" class="menu-btn">Contact</a>
+
+<hr>
+
+<button class="menu-btn" onclick="toggleTheme()">Dark / Light</button>
+<a href="../global/login.html" class="menu-btn">Login Admin</a>
+</div>
+
 </header>
 
+<!-- ================= CONTENT ================= -->
 <div class="container">
 
-<h2>🧠 AI Assistant System</h2>
+<h2>🧠 AI Education System</h2>
 
-<button class="ai-btn" onclick="toggleAI()">🤖 Open AI</button>
+<button class="ai-btn" onclick="toggleAI()">🤖 Open AI Assistant</button>
 
+<!-- AI FLOATING PANEL -->
 <iframe id="aiBox" src="../ai/assistant.html"></iframe>
 
-<h2 style="margin-top:40px;">📊 BTC Chart</h2>
+<!-- BTC CHART -->
+<h2 style="margin-top:60px;">📊 BTC Candlestick Chart</h2>
 <canvas id="btcChart"></canvas>
 
 </div>
 
+<!-- ================= SCRIPT ================= -->
 <script>
-function toggleAI(){
-let box=document.getElementById("aiBox");
-box.style.display = box.style.display==="block"?"none":"block";
+
+/* MENU (kalau nanti mau dipakai toggle) */
+function toggleMenu(){
+document.getElementById("settingsMenu").classList.toggle("show");
 }
 
-/* BTC */
+/* THEME */
+function toggleTheme(){
+document.body.classList.toggle("light-mode");
+}
+
+/* AI PANEL */
+function toggleAI(){
+let box=document.getElementById("aiBox");
+box.style.display = (box.style.display==="block")?"none":"block";
+}
+
+/* ================= BTC CHART ================= */
 function candle(last){
-let o=last;
-let c=o+(Math.random()*200-100);
-let h=Math.max(o,c)+Math.random()*80;
-let l=Math.min(o,c)-Math.random()*80;
-return {o,h,l,c};
+let open = last;
+let close = open + (Math.random()*200 - 100);
+let high = Math.max(open,close)+Math.random()*80;
+let low = Math.min(open,close)-Math.random()*80;
+return {o:open,h:high,l:low,c:close};
 }
 
 let last=30000;
@@ -119,8 +239,10 @@ const chart=new Chart(ctx,{
 type:"candlestick",
 data:{
 datasets:[{
-label:"BTC",
-data:data.map((d,i)=>({x:i,o:d.o,h:d.h,l:d.l,c:d.c}))
+label:"BTC/USDT",
+data:data.map((d,i)=>({
+x:i,o:d.o,h:d.h,l:d.l,c:d.c
+}))
 }]
 }
 });
@@ -128,13 +250,18 @@ data:data.map((d,i)=>({x:i,o:d.o,h:d.h,l:d.l,c:d.c}))
 setInterval(()=>{
 let c=candle(last);
 last=c.c;
+
 data.push(c);
 data.shift();
 
-chart.data.datasets[0].data=data.map((d,i)=>({x:i,o:d.o,h:d.h,l:d.l,c:d.c}));
+chart.data.datasets[0].data=data.map((d,i)=>({
+x:i,o:d.o,h:d.h,l:d.l,c:d.c
+}));
+
 chart.update();
 },2000);
+
 </script>
 
 </body>
-</html>
+  </html>
