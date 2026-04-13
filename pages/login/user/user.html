@@ -1,1 +1,285 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Erika Market</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif;}
+body{background:#050505;color:white;}
+
+/* HEADER */
+header{
+display:flex;justify-content:space-between;align-items:center;
+padding:15px 9%;background:#000;border-bottom:1px solid #111;
+}
+
+.logo{color:#00ff9d;font-weight:bold;}
+
+.search input{
+padding:8px;border-radius:6px;border:none;background:#111;color:white;
+}
+
+.user-area{display:flex;gap:10px;align-items:center;}
+
+.btn{
+background:#00ff9d;border:none;padding:6px 10px;border-radius:5px;
+cursor:pointer;
+}
+
+/* PRODUCT */
+.container{padding:30px 9%;}
+
+.products{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:20px;
+}
+
+.card{
+background:#0a0a0a;padding:15px;border-radius:10px;
+border:1px solid #111;transition:.3s;
+}
+
+.card:hover{transform:translateY(-5px);box-shadow:0 0 15px #00ff9d33;}
+
+.card img{width:100%;border-radius:10px;}
+
+.price{color:#00ff9d;margin:5px 0;}
+
+.card button{
+width:100%;margin-top:5px;padding:6px;border:none;border-radius:5px;
+cursor:pointer;
+}
+
+/* CART */
+.cart{
+position:fixed;
+right:-350px;
+top:0;
+width:300px;
+height:100%;
+background:#000;
+border-left:1px solid #111;
+padding:20px;
+transition:.4s;
+overflow:auto;
+}
+
+.cart.show{right:0;}
+
+.cart-item{
+font-size:13px;
+margin-bottom:10px;
+border-bottom:1px solid #111;
+padding-bottom:5px;
+}
+
+.total{color:#00ff9d;margin-top:10px;}
+
+.checkout{
+width:100%;
+padding:8px;
+background:#00ff9d;
+border:none;
+cursor:pointer;
+margin-top:10px;
+}
+
+/* MODAL */
+.modal{
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+background:rgba(0,0,0,0.8);
+display:none;
+justify-content:center;
+align-items:center;
+}
+
+.modal-content{
+background:#111;
+padding:20px;
+border-radius:10px;
+width:300px;
+text-align:center;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="logo">ERIKA MARKET</div>
+
+<div class="search">
+<input type="text" id="search" placeholder="Cari..." onkeyup="searchProduct()">
+</div>
+
+<div class="user-area">
+<span id="userName"></span>
+<button class="btn" onclick="goHistory()">📦</button>
+<button class="btn" onclick="toggleCart()">🛒</button>
+<button class="btn" onclick="logout()">Logout</button>
+</div>
+</header>
+
+<div class="container">
+<div class="products" id="productList"></div>
+</div>
+
+<!-- CART -->
+<div class="cart" id="cart">
+<h3>Keranjang</h3>
+<div id="cartItems"></div>
+<p class="total" id="total"></p>
+<button class="checkout" onclick="checkout()">Bayar</button>
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+<div class="modal-content" id="modalContent"></div>
+</div>
+
+<script>
+
+/* PROTECT */
+let user=localStorage.getItem("user");
+if(!user){window.location.href="../login/login.html";}
+document.getElementById("userName").innerText=user;
+
+/* DATA */
+let products = JSON.parse(localStorage.getItem("products")) || [
+{name:"Website Premium",price:500000,img:"https://via.placeholder.com/200"},
+{name:"Script Bot",price:250000,img:"https://via.placeholder.com/200"}
+];
+
+let cart=[];
+
+/* LOAD PRODUK */
+function loadProducts(){
+let html="";
+products.forEach((p,i)=>{
+html+=`
+<div class="card">
+<img src="${p.img}">
+<h3>${p.name}</h3>
+<p class="price">Rp ${p.price}</p>
+<button onclick="addCart(${i})">Tambah</button>
+<button onclick="detail(${i})">Detail</button>
+</div>`;
+});
+document.getElementById("productList").innerHTML=html;
+}
+loadProducts();
+
+/* SEARCH */
+function searchProduct(){
+let val=document.getElementById("search").value.toLowerCase();
+let cards=document.querySelectorAll(".card");
+
+cards.forEach(c=>{
+let t=c.querySelector("h3").innerText.toLowerCase();
+c.style.display=t.includes(val)?"block":"none";
+});
+}
+
+/* CART */
+function addCart(i){
+cart.push(products[i]);
+renderCart();
+}
+
+function renderCart(){
+let html="";
+let total=0;
+
+cart.forEach(p=>{
+html+=`<div class="cart-item">${p.name} - Rp ${p.price}</div>`;
+total+=p.price;
+});
+
+document.getElementById("cartItems").innerHTML=html;
+document.getElementById("total").innerText="Total: Rp "+total;
+
+localStorage.setItem("cart",JSON.stringify(cart));
+}
+
+function toggleCart(){
+document.getElementById("cart").classList.toggle("show");
+}
+
+/* DETAIL */
+function detail(i){
+let p=products[i];
+
+document.getElementById("modal").style.display="flex";
+document.getElementById("modalContent").innerHTML=`
+<h3>${p.name}</h3>
+<img src="${p.img}" style="width:100%;margin:10px 0;">
+<p>Harga: Rp ${p.price}</p>
+<button onclick="addCart(${i})">Tambah</button>
+<button onclick="closeModal()">Tutup</button>
+`;
+}
+
+function closeModal(){
+document.getElementById("modal").style.display="none";
+}
+
+/* CHECKOUT */
+function checkout(){
+
+if(cart.length===0){
+alert("Keranjang kosong");
+return;
+}
+
+let total=0;
+cart.forEach(p=>total+=p.price);
+
+let orders=JSON.parse(localStorage.getItem("orders"))||[];
+
+orders.push({
+items:cart,
+total:total,
+date:new Date().toLocaleString(),
+status:"Paid"
+});
+
+localStorage.setItem("orders",JSON.stringify(orders));
+
+alert("Pembayaran berhasil 💳");
+
+cart=[];
+renderCart();
+}
+
+/* NAV */
+function goHistory(){
+window.location.href="orders.html";
+}
+
+/* LOGOUT */
+function logout(){
+localStorage.removeItem("user");
+window.location.href="../login/login.html";
+}
+
+/* LOAD CART */
+let saved=localStorage.getItem("cart");
+if(saved){
+cart=JSON.parse(saved);
+renderCart();
+}
+
+</script>
+
+</body>
+</html>
