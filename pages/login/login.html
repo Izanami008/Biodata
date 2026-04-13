@@ -42,8 +42,6 @@ box-shadow:0 0 20px red;
 100%{transform:translateX(0);}
 }
 
-.box h2{margin-bottom:20px;}
-
 input{
 padding:12px;
 margin:10px 0;
@@ -62,17 +60,12 @@ border:none;
 border-radius:8px;
 font-weight:bold;
 cursor:pointer;
-transition:.3s;
 }
 
 button:hover{background:#00ccaa;}
 
-.error-text{
-color:red;
-margin-bottom:10px;
-}
+.error-text{color:red;margin-bottom:10px;}
 
-/* PROFILE */
 .profile-img{
 width:80px;
 height:80px;
@@ -80,25 +73,18 @@ border-radius:50%;
 object-fit:cover;
 margin-bottom:15px;
 border:2px solid #00ffcc;
-box-shadow:0 0 15px #00ffcc;
 }
 
 /* HOME */
 .home-icon{
 display:block;
-margin:20px auto 0;
+margin-top:20px;
 font-size:30px;
 color:#00ffcc;
 text-decoration:none;
-transition:.3s;
 }
 
-.home-icon:hover{
-transform:scale(1.2);
-color:#00ffaa;
-}
-
-/* CINEMATIC LOGIN */
+/* LOGIN CINEMATIC */
 #overlay{
 position:fixed;
 top:0;left:0;
@@ -120,32 +106,20 @@ pointer-events:auto;
 
 #overlay h1{
 color:#00ffcc;
-font-size:30px;
-letter-spacing:4px;
-animation:fadeIn 1s;
 }
 
-@keyframes fadeIn{
-from{opacity:0;}
-to{opacity:1;}
-}
-
-/* FADE HOME */
+/* FADE */
 #fadeScreen{
 position:fixed;
 top:0;left:0;
 width:100%;height:100%;
 background:black;
 opacity:0;
-pointer-events:none;
 transition:.6s;
 z-index:9999;
 }
 
-#fadeScreen.show{
-opacity:1;
-pointer-events:auto;
-}
+#fadeScreen.show{opacity:1;}
 
 </style>
 </head>
@@ -165,21 +139,18 @@ pointer-events:auto;
 <button type="submit">Login</button>
 </form>
 
-<!-- HOME BUTTON -->
 <a href="#" class="home-icon" onclick="goHome()">🏠</a>
 </div>
 
-<!-- LOGIN CINEMATIC -->
 <div id="overlay">
 <h1 id="overlayText">ACCESS GRANTED</h1>
 </div>
 
-<!-- FADE TRANSITION -->
 <div id="fadeScreen"></div>
 
 <script>
 
-/* AKUN FIX */
+/* AKUN */
 const ADMIN = {user:"admin", pass:"12345"};
 const USER  = {user:"user", pass:"12345"};
 
@@ -193,21 +164,21 @@ const overlayText = document.getElementById("overlayText");
 form.addEventListener("submit", function(e){
 e.preventDefault();
 
-let u = username.value.trim();
-let p = password.value.trim();
+let u = document.getElementById("username").value.trim();
+let p = document.getElementById("password").value.trim();
 
 errorMsg.textContent="";
 box.classList.remove("error","success");
 
-/* ADMIN */
+/* ADMIN LOGIN */
 if(u===ADMIN.user && p===ADMIN.pass){
-success("../admin/admin.html","admin");
+loginSuccess("../admin/admin.html","admin");
 return;
 }
 
-/* USER */
+/* USER LOGIN (FIX PATH) */
 if(u===USER.user && p===USER.pass){
-success("../user/user.html","user");
+loginSuccess("user/user.html","user");
 return;
 }
 
@@ -217,22 +188,23 @@ errorMsg.textContent="Username atau password salah!";
 });
 
 /* SUCCESS */
-function success(url,role){
+function loginSuccess(url,role){
 
 box.classList.add("success");
 
+/* SIMPAN LOGIN */
 localStorage.setItem("user",role);
 
-/* CINEMATIC LOGIN */
+/* CINEMATIC */
 overlay.classList.add("show");
 
 setTimeout(()=>{
 overlayText.innerText="LOADING...";
-},1000);
+},800);
 
 setTimeout(()=>{
 window.location.href=url;
-},2000);
+},1800);
 
 }
 
