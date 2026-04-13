@@ -1,29 +1,23 @@
-function add(msg){
-document.getElementById("chat").innerHTML+="<div>"+msg+"</div>";
-}
+import { brain } from "./brain.js";
+import { speak } from "./voice.js";
 
-function send(){
-let t=document.getElementById("input").value;
+export function startAI(){
 
-add("You: "+t);
+let rec=new (window.SpeechRecognition||window.webkitSpeechRecognition)();
+rec.lang="id-ID";
 
-let reply=aiBrain(t);
+rec.onresult=(e)=>{
+let text=e.results[0][0].transcript;
 
-add("AI: "+reply);
+let reply=brain(text);
+
+document.getElementById("chat")?.innerHTML+=`
+<div>You: ${text}</div>
+<div>AI: ${reply}</div>
+`;
 
 speak(reply);
-
-document.getElementById("input").value="";
-}
-
-function voice(){
-let r=new (window.SpeechRecognition||window.webkitSpeechRecognition)();
-r.lang="id-ID";
-
-r.onresult=(e)=>{
-document.getElementById("input").value=e.results[0][0].transcript;
-send();
 };
 
-r.start();
-  }
+rec.start();
+}
