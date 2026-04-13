@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Login System</title>
+<title>AI Secure Login</title>
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
@@ -13,47 +13,116 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
 
 /* RESET */
 *{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif;}
+
 body{
 background:black;
 color:white;
+height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
-height:100vh;
+overflow:hidden;
+}
+
+/* BACKGROUND GRID */
+body::before{
+content:"";
+position:absolute;
+width:200%;
+height:200%;
+background:linear-gradient(#00ff9d22 1px,transparent 1px),
+linear-gradient(90deg,#00ff9d22 1px,transparent 1px);
+background-size:40px 40px;
+animation:gridMove 20s linear infinite;
+}
+
+@keyframes gridMove{
+from{transform:translate(0,0);}
+to{transform:translate(-40px,-40px);}
+}
+
+/* SCAN LINE */
+.scan{
+position:absolute;
+width:100%;
+height:2px;
+background:#00ff9d;
+animation:scan 3s linear infinite;
+}
+
+@keyframes scan{
+0%{top:0;}
+100%{top:100%;}
 }
 
 /* LOGIN BOX */
 .login-box{
+position:relative;
 background:#0a0a0a;
-padding:30px;
+padding:35px;
 border-radius:15px;
-width:300px;
+width:320px;
 text-align:center;
 border:1px solid #111;
-transition:.3s;
+box-shadow:0 0 20px #00ff9d33;
+z-index:2;
 }
 
-.login-box h2{margin-bottom:20px;color:#00ff9d;}
+.login-box h2{
+color:#00ff9d;
+margin-bottom:20px;
+letter-spacing:2px;
+}
 
-input{
+/* INPUT */
+.input-box{
+position:relative;
+margin:10px 0;
+}
+
+.input-box input{
 width:100%;
-padding:10px;
-margin:8px 0;
+padding:12px;
 background:#111;
 border:none;
 color:white;
 border-radius:5px;
+outline:none;
 }
 
+.input-box label{
+position:absolute;
+left:10px;
+top:50%;
+transform:translateY(-50%);
+color:#555;
+transition:.3s;
+pointer-events:none;
+}
+
+/* FLOAT LABEL */
+.input-box input:focus + label,
+.input-box input:valid + label{
+top:-8px;
+font-size:12px;
+color:#00ff9d;
+}
+
+/* BUTTON */
 button{
 width:100%;
 padding:10px;
-margin-top:10px;
+margin-top:15px;
 background:#00ff9d;
 border:none;
 cursor:pointer;
 border-radius:5px;
 font-weight:bold;
+transition:.3s;
+}
+
+button:hover{
+background:#00cc7a;
 }
 
 /* STATUS */
@@ -62,14 +131,12 @@ font-weight:bold;
 
 /* SUCCESS */
 .success{
-border-color:#00ff9d !important;
-box-shadow:0 0 20px #00ff9d;
+box-shadow:0 0 25px #00ff9d;
 }
 
 /* ERROR */
 .error{
-border-color:red !important;
-box-shadow:0 0 15px red;
+box-shadow:0 0 20px red;
 animation:shake .3s;
 }
 
@@ -79,26 +146,6 @@ animation:shake .3s;
 50%{transform:translateX(5px);}
 75%{transform:translateX(-5px);}
 100%{transform:translateX(0);}
-}
-
-/* ICON */
-.check{
-font-size:40px;
-color:#00ff9d;
-margin-top:10px;
-animation:pop .4s ease;
-}
-
-.cross{
-font-size:40px;
-color:red;
-margin-top:10px;
-animation:pop .4s ease;
-}
-
-@keyframes pop{
-from{transform:scale(0);}
-to{transform:scale(1);}
 }
 
 /* CINEMATIC */
@@ -116,20 +163,16 @@ transition:1s;
 z-index:9999;
 }
 
-#cinematic.show{
-opacity:1;
-pointer-events:auto;
-}
+#cinematic.show{opacity:1;}
 
 #cineText{
 color:#00ff9d;
-font-size:40px;
-letter-spacing:5px;
+font-size:42px;
+letter-spacing:6px;
 opacity:0;
 transform:scale(0.8);
 }
 
-/* TEXT ANIM */
 @keyframes cineTextAnim{
 0%{opacity:0;transform:scale(0.7);}
 50%{opacity:1;transform:scale(1.1);}
@@ -141,27 +184,34 @@ transform:scale(0.8);
 
 <body>
 
+<div class="scan"></div>
+
 <div class="login-box">
-<h2>LOGIN SYSTEM</h2>
+<h2>AI LOGIN</h2>
 
-<input type="text" id="username" placeholder="Username">
-<input type="password" id="password" placeholder="Password">
+<div class="input-box">
+<input type="text" id="username" required>
+<label>Username</label>
+</div>
 
-<button onclick="login()">LOGIN</button>
+<div class="input-box">
+<input type="password" id="password" required>
+<label>Password</label>
+</div>
+
+<button onclick="login()">ACCESS SYSTEM</button>
 
 <p id="status"></p>
 <p id="error"></p>
 
 </div>
 
-<!-- CINEMATIC -->
 <div id="cinematic">
 <h1 id="cineText">ACCESS GRANTED</h1>
 </div>
 
 <script>
 
-/* LOGIN */
 function login(){
 
 let box=document.querySelector(".login-box");
@@ -172,62 +222,53 @@ let pass=document.getElementById("password").value.trim();
 let status=document.getElementById("status");
 let error=document.getElementById("error");
 
-/* RESET */
 box.classList.remove("error","success");
 error.style.display="none";
-status.innerText="Verifying...";
+status.innerText="Scanning...";
 
 setTimeout(()=>{
 
-/* ADMIN */
 if(user==="admin" && pass==="12345"){
 box.classList.add("success");
-startCinematic("../admin/admin.html","admin");
+startCine("../admin/admin.html","admin");
 return;
 }
 
-/* USER */
 if(user==="user" && pass==="12345"){
 box.classList.add("success");
-startCinematic("../user/user.html","user");
+startCine("../user/user.html","user");
 return;
 }
 
 /* ERROR */
 box.classList.add("error");
-status.innerHTML="";
+status.innerText="";
 error.style.display="block";
-error.innerHTML='Access Denied <div class="cross"><i class="fa fa-times"></i></div>';
+error.innerText="ACCESS DENIED";
 
-},800);
+},900);
 
 }
 
-/* CINEMATIC */
-function startCinematic(url,role){
+function startCine(url,role){
 
 let cine=document.getElementById("cinematic");
 let text=document.getElementById("cineText");
 
-/* SHOW */
 cine.classList.add("show");
 
-/* ANIM TEXT */
 text.style.animation="cineTextAnim 1s ease forwards";
 
-/* SAVE USER */
 localStorage.setItem("user",role);
 
-/* TRANSISI */
 setTimeout(()=>{
-text.innerText="LOADING SYSTEM...";
-text.style.animation="none";
+text.innerText="INITIALIZING SYSTEM...";
 text.style.opacity="1";
 },1200);
 
 setTimeout(()=>{
 window.location.href=url;
-},2200);
+},2300);
 
 }
 
