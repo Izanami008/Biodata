@@ -6,8 +6,10 @@
 
 <title>Erika099 - Education AI System</title>
 
+<!-- CHART LIB -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
 
 <style>
 
@@ -114,6 +116,16 @@ border:1px solid rgba(255,255,255,0.1);
 margin-top:20px;
 }
 
+/* ================= BTC CHART ================= */
+#btcChart{
+max-width:750px;
+height:400px; /* WAJIB */
+margin:30px auto;
+background:rgba(255,255,255,0.03);
+padding:10px;
+border-radius:12px;
+}
+
 /* ================= AI BUTTON ================= */
 .ai-btn{
 position:fixed;
@@ -131,7 +143,6 @@ box-shadow:0 0 20px #00ffcc;
 z-index:9999;
 }
 
-/* ================= AI IFRAME ================= */
 #aiBox{
 position:fixed;
 right:20px;
@@ -145,16 +156,6 @@ display:none;
 z-index:9998;
 }
 
-/* ================= BTC CHART ================= */
-#btcChart{
-max-width:750px;
-margin:30px auto;
-background:rgba(255,255,255,0.03);
-padding:10px;
-border-radius:12px;
-}
-
-/* ================= TITLE ================= */
 h2{
 margin-top:25px;
 text-shadow:0 0 10px rgba(0,255,255,0.2);
@@ -165,7 +166,7 @@ text-shadow:0 0 10px rgba(0,255,255,0.2);
 
 <body>
 
-<!-- ================= HEADER ================= -->
+<!-- HEADER -->
 <header>
 
 <div class="logo-area" onclick="location.href='../index.html'">
@@ -175,14 +176,12 @@ text-shadow:0 0 10px rgba(0,255,255,0.2);
 <a href="../index.html" class="logo">Erika099</a>
 <div class="logo-sub">AI Education System</div>
 </div>
-
 </div>
 
 <div>
 <button class="menu-btn" onclick="toggleMenu()">☰ Menu</button>
 
 <div class="menu-box" id="menuBox">
-
 <a href="../index.html" class="menu-btn">Home</a>
 <a href="services.html" class="menu-btn">Services</a>
 <a href="skills.html" class="menu-btn">Skills</a>
@@ -193,14 +192,12 @@ text-shadow:0 0 10px rgba(0,255,255,0.2);
 <hr style="border:0.5px solid #333">
 
 <a class="menu-btn" onclick="toggleAI()">🤖 Open AI</a>
-
 </div>
 
 </div>
-
 </header>
 
-<!-- ================= CONTENT ================= -->
+<!-- CONTENT -->
 <div class="container">
 
 <h2>🧠 AI Learning System</h2>
@@ -215,13 +212,11 @@ text-shadow:0 0 10px rgba(0,255,255,0.2);
 
 </div>
 
-<!-- ================= AI BUTTON ================= -->
+<!-- AI BUTTON -->
 <button class="ai-btn" onclick="toggleAI()">🤖</button>
-
-<!-- AI PANEL -->
 <iframe id="aiBox" src="ai/assistant.html"></iframe>
 
-<!-- ================= SCRIPT ================= -->
+<!-- SCRIPT -->
 <script>
 
 /* MENU */
@@ -229,13 +224,13 @@ function toggleMenu(){
 document.getElementById("menuBox").classList.toggle("show");
 }
 
-/* AI PANEL */
+/* AI */
 function toggleAI(){
 let box=document.getElementById("aiBox");
 box.style.display=(box.style.display==="block")?"none":"block";
 }
 
-/* ================= BTC REAL CHART ================= */
+/* ================= BTC CHART ================= */
 
 const ctx = document.getElementById("btcChart").getContext("2d");
 
@@ -244,87 +239,59 @@ type:"candlestick",
 data:{
 datasets:[{
 label:"BTC/USDT",
-data:[]
+data:[],
+color:{
+up:'#00ffcc',
+down:'#ff4d4d',
+unchanged:'#999'
+}
 }]
 },
 options:{
-plugins:{legend:{display:false}},
+responsive:true,
+plugins:{
+legend:{display:false}
+},
 scales:{
-x:{ticks:{color:"white"}},
-y:{ticks:{color:"white"}}
+x:{
+type:"time",
+time:{unit:"minute"},
+ticks:{color:"white"}
+},
+y:{
+ticks:{color:"white"}
+}
 }
 }
 });
 
-/* ================= AMBIL DATA BINANCE ================= */
+/* ================= LOAD DATA ================= */
 async function loadBTC(){
 try{
-const res = await fetch("https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=15m&limit=30");
+const res = await fetch("https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=15m&limit=50");
 const raw = await res.json();
 
-const data = raw.map((d,i)=>({
-x:i,
-o:parseFloat(d[1]),
-h:parseFloat(d[2]),
-l:parseFloat(d[3]),
-c:parseFloat(d[4])
+const data = raw.map(d => ({
+x: new Date(d[0]),
+o: parseFloat(d[1]),
+h: parseFloat(d[2]),
+l: parseFloat(d[3]),
+c: parseFloat(d[4])
 }));
 
 chart.data.datasets[0].data = data;
 chart.update();
 
-/* harga terakhir */
-if(data.length > 0){
-let lastPrice = data[data.length-1].c;
-document.getElementById("priceNow").innerText =
-"BTC Price: $" + lastPrice.toLocaleString();
-}
-
 }catch(e){
-console.log("Error BTC:",e);
+console.log("BTC ERROR:", e);
 }
 }
 
-/* LOAD AWAL */
+/* LOAD */
 loadBTC();
 
 /* AUTO UPDATE */
-setInterval(loadBTC,10000);
-
-const ctx=document.getElementById("btcChart").getContext("2d");
-
-const chart=new Chart(ctx,{
-type:"candlestick",
-data:{
-datasets:[{
-label:"BTC/USDT",
-data:data.map((d,i)=>({
-x:i,o:d.o,h:d.h,l:d.l,c:d.c
-}))
-}]
-},
-options:{
-plugins:{legend:{display:false}},
-scales:{
-x:{display:false},
-y:{ticks:{color:"white"}}
-}
-}
-});
-
-setInterval(()=>{
-let c=candle(last);
-last=c.c;
-
-data.push(c);
-data.shift();
-
-chart.data.datasets[0].data=data.map((d,i)=>({
-x:i,o:d.o,h:d.h,l:d.l,c:d.c
-}));
-
-chart.update();
-},2000);
+setInterval(loadBTC,15000);
 
 </script>
 
