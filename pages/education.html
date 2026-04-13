@@ -3,274 +3,139 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Education - Erika099 + AI</title>
+<title>Erika099 AI Final Complete</title>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
 <style>
-
-/* ================= RESET ================= */
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Poppins,sans-serif;
-}
-
 body{
+margin:0;
 background:black;
 color:white;
-overflow-x:hidden;
-}
-
-/* ================= HEADER ================= */
-header{
-position:fixed;
-top:0;
-width:100%;
-padding:15px 9%;
-background:black;
-display:flex;
-align-items:center;
-border-bottom:1px solid #111;
-z-index:1000;
-}
-
-.logo-area{
-display:flex;
-align-items:center;
-cursor:pointer;
-}
-
-.logo-img{
-width:45px;
-margin-right:10px;
-}
-
-.logo{
-color:#b74b4b;
-font-size:22px;
-text-decoration:none;
-font-weight:bold;
-}
-
-/* ================= MENU ================= */
-.menu{
-position:absolute;
-top:70px;
-left:9%;
-background:#111;
-padding:15px;
-border-radius:10px;
-display:none;
-flex-direction:column;
-gap:10px;
-}
-
-.menu.show{display:flex;}
-
-.menu a{
-color:white;
-text-decoration:none;
-padding:8px;
-border-radius:6px;
-}
-
-/* ================= SECTION ================= */
-section{
-padding-top:120px;
+font-family:sans-serif;
 text-align:center;
 }
 
-/* ================= TIMELINE ================= */
-.timeline{
-max-width:800px;
-margin:auto;
+header{
+padding:15px;
+background:#111;
+border-bottom:1px solid #222;
+font-weight:bold;
 }
 
 .timeline-item{
 background:#111;
-margin:20px;
-padding:20px;
+margin:12px auto;
+padding:12px;
+max-width:600px;
 border-radius:10px;
 border:1px solid #222;
-transition:0.3s;
 }
 
-/* ================= MONEY ================= */
-.money{
-margin-top:20px;
-font-size:22px;
-white-space:nowrap;
-animation:run 12s linear infinite;
-}
-
-@keyframes run{
-0%{transform:translateX(-100%)}
-100%{transform:translateX(100%)}
-}
-
-/* ================= CHART ================= */
-#chartBox{
-width:90%;
-max-width:900px;
-margin:40px auto;
-background:#111;
-padding:15px;
-border-radius:12px;
-border:1px solid #222;
-}
-
-/* ================= PLANET ================= */
-#planetCanvas{
-width:100%;
-height:400px;
-margin-top:30px;
-}
-
-/* ================= NEWS ================= */
-.news{
-max-width:1000px;
-margin:auto;
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-gap:20px;
-padding:20px;
-}
-
-.news-item{
-background:#111;
-padding:15px;
-border-radius:10px;
-border:1px solid #222;
-transition:0.3s;
-}
-
-/* ================= AI ADD-ON (TIDAK MERUSAK UI) ================= */
 .ai-box{
-max-width:800px;
-margin:40px auto;
+max-width:600px;
+margin:30px auto;
 background:#111;
 padding:20px;
 border-radius:12px;
 border:1px solid #333;
 }
 
-#aiText{
-margin-top:10px;
-font-size:14px;
-color:#00ffcc;
-}
-
 button{
-margin-top:10px;
 padding:10px 15px;
 background:#6c5ce7;
-border:none;
 color:white;
+border:none;
 border-radius:8px;
 cursor:pointer;
+margin-top:10px;
 }
 
+#aiText{
+margin-top:10px;
+color:#00ffcc;
+min-height:40px;
+}
+
+canvas{
+margin-top:20px;
+}
 </style>
 </head>
 
 <body>
 
-<div class="bg-line"></div>
-
 <header>
-<div class="logo-area" onclick="toggleMenu()">
-<img src="../img/logo.png" class="logo-img">
-<a href="../index.html" class="logo">Erika099</a>
-</div>
-
-<div class="menu" id="menu">
-<a href="../index.html">Home</a>
-<a href="skills.html">Skills</a>
-<a href="education.html">Education</a>
-<a href="contact.html">Contact</a>
-</div>
+💜 ERIKA099 AI FINAL COMPLETE SYSTEM
 </header>
 
-<section>
+<h2>📚 Education</h2>
 
-<h1>My Education</h1>
-
-<div class="timeline">
 <div class="timeline-item">Elementary School</div>
 <div class="timeline-item">Junior High School</div>
 <div class="timeline-item">Senior High School</div>
 <div class="timeline-item">Self Learning Programming</div>
-</div>
 
-<div class="money">💰 Knowledge → Skill → Money → Success 💰</div>
-
-<!-- ================= AI ADD ON ================= -->
+<!-- AI -->
 <div class="ai-box">
-<h2>💜 AI Assistant</h2>
-
-<div id="aiText">Klik tombol untuk bicara</div>
-
+<h3>🧠 AI Assistant</h3>
+<div id="aiText">Klik tombol dan bicara</div>
 <button onclick="startAI()">🎤 Talk to AI</button>
 </div>
 
-<div id="chartBox">
-<h2>Crypto Style Chart</h2>
+<!-- CHART -->
 <canvas id="chart"></canvas>
-</div>
 
-<h2>3D Earth</h2>
-<canvas id="planetCanvas"></canvas>
-
-<h2>Education News</h2>
-<div class="news" id="news">Loading...</div>
-
-</section>
+<!-- ECLIPSE -->
+<h3>🌑 Eclipse Simulation</h3>
+<canvas id="eclipse" width="400" height="300"></canvas>
 
 <script>
 
-/* ================= MENU ================= */
-function toggleMenu(){
-document.getElementById("menu").classList.toggle("show");
-}
-
-/* ================= AI VOICE ================= */
-let recognition;
+/* ================= SPEECH INPUT ================= */
+let rec;
 
 function startAI(){
 
-recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-recognition.lang="id-ID";
+rec = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+rec.lang="id-ID";
 
-recognition.onresult = async (e)=>{
+rec.onresult = async (e)=>{
 let text = e.results[0][0].transcript;
-
-document.getElementById("aiText").innerText = "Kamu: " + text;
 
 let reply = aiBrain(text);
 
-document.getElementById("aiText").innerText = "AI: " + reply;
+document.getElementById("aiText").innerHTML =
+"👤 Kamu: " + text + "<br>🧠 AI: " + reply;
 
 speak(reply);
 };
 
-recognition.start();
+rec.start();
 }
 
-/* ================= AI BRAIN (FIX NO NGULANG) ================= */
+/* ================= AI BRAIN (SMART LOCAL) ================= */
 function aiBrain(text){
 
 text = text.toLowerCase();
 
-if(text.includes("halo")) return "Halo sayang 💜 aku di sini";
-if(text.includes("siapa kamu")) return "Aku AI yang nemenin kamu belajar dan ngobrol";
-if(text.includes("sayang")) return "Aku juga sayang kamu 💜";
-if(text.includes("marah")) return "Maaf ya 😢 jangan marah";
+/* greeting */
+if(text.includes("halo")) return "Halo 💜 aku di sini untuk bantu kamu";
 
-return "Aku mengerti, kamu bilang: " + text;
+/* problem solver */
+if(text.includes("bingung")) return "Coba pecah masalah jadi bagian kecil dulu, mulai dari yang paling mudah.";
+
+if(text.includes("stress")) return "Tarik napas pelan, istirahat sebentar, kamu pasti bisa.";
+
+if(text.includes("belajar")) return "Belajar efektif itu 30% teori 70% praktek.";
+
+if(text.includes("error")) return "Coba cek bagian terakhir yang kamu ubah, biasanya di situ sumber masalah.";
+
+if(text.includes("sayang")) return "Aku selalu di sini untuk kamu 💜";
+
+/* default */
+return "Aku ngerti. Coba jelaskan lebih detail supaya aku bisa bantu lebih tepat.";
 }
 
 /* ================= VOICE CEWE LEMBUT ================= */
@@ -286,13 +151,13 @@ v.lang.includes("id") || v.name.toLowerCase().includes("female")
 if(female) msg.voice = female;
 
 msg.rate = 0.9;
-msg.pitch = 1.6;
+msg.pitch = 1.5;
 
 speechSynthesis.speak(msg);
 }
 
 /* ================= CHART ================= */
-let data=[10,20,15,30,25,40,35,50];
+let data=[10,20,25,30,35,40,45];
 
 new Chart(document.getElementById("chart"),{
 type:"line",
@@ -300,56 +165,43 @@ data:{
 labels:data.map((_,i)=>i),
 datasets:[{
 data:data,
-borderColor:"#00ff88",
+borderColor:"#00ffcc",
 tension:0.4
 }]
 }
 });
 
-/* ================= EARTH ================= */
-const scene=new THREE.Scene();
-const camera=new THREE.PerspectiveCamera(75,window.innerWidth/400,0.1,1000);
-const renderer=new THREE.WebGLRenderer({canvas:document.getElementById("planetCanvas")});
+/* ================= ECLIPSE 3D ================= */
+const ctx=document.getElementById("eclipse").getContext("2d");
 
-renderer.setSize(window.innerWidth,400);
+function draw(){
+ctx.clearRect(0,0,400,300);
 
-const geometry=new THREE.SphereGeometry(2,32,32);
-const material=new THREE.MeshBasicMaterial({color:0x00ff88});
-const earth=new THREE.Mesh(geometry,material);
+/* SUN */
+ctx.beginPath();
+ctx.arc(200,150,60,0,Math.PI*2);
+ctx.fillStyle="yellow";
+ctx.fill();
 
-scene.add(earth);
-camera.position.z=5;
+/* MOON (ECLIPSE EFFECT) */
+let x = 200 + Math.sin(Date.now()*0.0015)*85;
 
-function animate(){
-requestAnimationFrame(animate);
-earth.rotation.y+=0.003;
-renderer.render(scene,camera);
+ctx.beginPath();
+ctx.arc(x,150,55,0,Math.PI*2);
+ctx.fillStyle="black";
+ctx.fill();
+
+/* glow effect */
+ctx.beginPath();
+ctx.arc(200,150,65,0,Math.PI*2);
+ctx.strokeStyle="rgba(255,255,0,0.2)";
+ctx.stroke();
+
+requestAnimationFrame(draw);
 }
-animate();
-
-/* ================= NEWS ================= */
-fetch("https://api.allorigins.win/get?url="+encodeURIComponent("https://news.google.com/rss/search?q=pendidikan"))
-.then(r=>r.json())
-.then(d=>{
-let xml=new DOMParser().parseFromString(d.contents,"text/xml");
-let items=xml.querySelectorAll("item");
-
-let html="";
-items.forEach((it,i)=>{
-if(i<6){
-html+=`
-<div class="news-item">
-<a href="${it.querySelector("link").textContent}" target="_blank">
-${it.querySelector("title").textContent}
-</a>
-</div>`;
-}
-});
-
-document.getElementById("news").innerHTML=html;
-});
+draw();
 
 </script>
 
 </body>
-  </html>
+</html>
