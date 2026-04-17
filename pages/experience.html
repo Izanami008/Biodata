@@ -139,6 +139,25 @@ margin-bottom:20px;
 color:#00ff9d;
 }
 
+/* ================= BUTTON GAME ================= */
+
+.start-game-btn{
+background:linear-gradient(45deg,#00ff9d,#00c3ff);
+border:none;
+padding:12px 25px;
+font-size:18px;
+color:black;
+border-radius:10px;
+cursor:pointer;
+box-shadow:0 0 15px #00ff9d;
+transition:0.3s;
+}
+
+.start-game-btn:hover{
+transform:scale(1.1);
+box-shadow:0 0 30px #00ff9d,0 0 50px #00c3ff;
+}
+
 /* ================= CARDS ================= */
 
 .card-container{
@@ -261,77 +280,41 @@ color:black;
 margin-top:10px;
 }
 
-/* ================= RESPONSIVE ================= */
-
-@media(max-width:768px){
-
-.card{
-width:100%;
-}
-
-header{
-padding:15px;
-}
-
-}
-
 </style>
 </head>
 
 <body>
 
-<!-- ================= HEADER ================= -->
-
 <header>
-
 <div class="logo-area" onclick="toggleMenu()">
-
 <img src="../img/logo.png" class="logo-img">
-
 <div>
 <a href="../index.html" class="logo">Erika099</a>
 <p class="logo-sub">Experiment Lab</p>
 </div>
 
 <div class="settings-menu" id="settingsMenu">
-
 <a href="../index.html" class="menu-btn">Home</a>
-<a href="services.html" class="menu-btn">Services</a>
-<a href="skills.html" class="menu-btn">Skills</a>
-<a href="education.html" class="menu-btn">Education</a>
-<a href="experience.html" class="menu-btn">Experience</a>
 <a href="experiment.html" class="menu-btn">Experiment</a>
-<a href="contact.html" class="menu-btn">Contact</a>
-
 <hr>
-
-<button class="menu-btn" onclick="toggleTheme()">
-Dark / Light
-</button>
-
-<a href="../global/login.html" class="menu-btn">
-Login Admin
-</a>
-
+<button class="menu-btn" onclick="toggleTheme()">Dark / Light</button>
 </div>
-
 </div>
-
 </header>
 
-<!-- ================= RUNNING TECH ================= -->
-
 <div class="running-tech">
-<span>
-AI • Blockchain • Cyber Security • Coding • Web Development • Three.js • JavaScript • Crypto Technology • Machine Learning • Digital Innovation
-</span>
+<span>AI • Blockchain • Cyber Security • Coding • Web Development • Three.js • JavaScript</span>
 </div>
-
-<!-- ================= EXPERIMENT CARDS ================= -->
 
 <section class="section">
 
 <h1>Experiment Technology</h1>
+
+<div style="text-align:center; margin-bottom:20px;">
+<button onclick="startGame()" class="start-game-btn">
+🎮 Mulai Game Anime
+</button>
+</div>
 
 <div class="card-container">
 
@@ -361,55 +344,22 @@ AI • Blockchain • Cyber Security • Coding • Web Development • Three.js
 
 </div>
 
-    </section>
-    <!-- ================= CODING LAB ================= -->
-
-<section class="editor-section">
-
-<h1 style="text-align:center;color:#00ff9d;">Coding Lab</h1>
-
-<div class="editor-tabs">
-
-<button onclick="showEditor('html')">HTML</button>
-<button onclick="showEditor('css')">CSS</button>
-<button onclick="showEditor('js')">JavaScript</button>
-
-</div>
-
-<textarea id="htmlEditor"></textarea>
-<textarea id="cssEditor" style="display:none;"></textarea>
-<textarea id="jsEditor" style="display:none;"></textarea>
-
-<button class="run-btn" onclick="runCode()">Run Code</button>
-
-<iframe id="output"></iframe>
-
 </section>
 
-<!-- ================= GRAPH ================= -->
-
-<section class="graph-section">
-
-<h1 style="color:#00ff9d;">Technology Graph</h1>
-
-<canvas id="techChart"></canvas>
-
+<section class="quote-box">
+<h2 id="quote">Click button to generate knowledge</h2>
+<button class="quote-btn" onclick="generateQuote()">Generate Quote</button>
 </section>
-
-<!-- ================= 3D CUBE ================= -->
-
-<section class="section">
-
-<h1>3D Cube Experiment</h1>
-
-<canvas id="cubeCanvas"></canvas>
-
-</section>
-    <!-- ================= SCRIPT ================= -->
 
 <script>
 
-/* ================= MENU ================= */
+function startGame(){
+document.body.style.transition="0.5s";
+document.body.style.opacity="0";
+setTimeout(()=>{
+window.location.href="geam/geam.html";
+},500);
+}
 
 function toggleMenu(){
 document.getElementById("settingsMenu").classList.toggle("show");
@@ -419,216 +369,11 @@ function toggleTheme(){
 document.body.classList.toggle("light-mode");
 }
 
-window.onclick=function(e){
-if(!e.target.closest('.logo-area')){
-document.getElementById("settingsMenu").classList.remove("show");
-}
-}
-
-/* ================= DEFAULT CODE ================= */
-
-document.getElementById("htmlEditor").value =
-`<h1>Hello Erika</h1>
-<p>Welcome to Experiment Lab</p>`;
-
-document.getElementById("cssEditor").value =
-`body{
-background:black;
-color:#00ff9d;
-font-family:monospace;
-}
-
-h1{
-color:#00ff9d;
-}`;
-
-document.getElementById("jsEditor").value =
-`console.log("Experiment Running");`;
-
-/* ================= SWITCH EDITOR ================= */
-
-function showEditor(type){
-
-htmlEditor.style.display="none";
-cssEditor.style.display="none";
-jsEditor.style.display="none";
-
-if(type==="html") htmlEditor.style.display="block";
-if(type==="css") cssEditor.style.display="block";
-if(type==="js") jsEditor.style.display="block";
-
-}
-
-/* ================= RUN CODE ================= */
-
-function runCode(){
-
-let html = htmlEditor.value;
-let css = cssEditor.value;
-let js = jsEditor.value;
-
-output.srcdoc = `
-<html>
-<head>
-<style>
-${css}
-</style>
-</head>
-
-<body>
-
-${html}
-
-<script>
-${js}
-<\/script>
-
-</body>
-</html>
-`;
-
-}
-
-/* ================= GRAPH ================= */
-
-const ctx = document.getElementById('techChart');
-
-let techData = [10,15,12,18,20,17,25,22];
-
-const techChart = new Chart(ctx,{
-type:'line',
-data:{
-labels:['1','2','3','4','5','6','7','8'],
-datasets:[{
-label:'Technology Growth',
-data:techData,
-borderColor:'#00ff9d',
-tension:0.4
-}]
-},
-options:{
-plugins:{
-legend:{
-labels:{
-color:'white'
-}
-}
-},
-scales:{
-x:{
-ticks:{color:'white'}
-},
-y:{
-ticks:{color:'white'}
-}
-}
-}
-});
-
-/* update tiap 5 detik */
-
-setInterval(()=>{
-
-techData.shift();
-
-let last = techData[techData.length-1];
-
-techData.push(last + (Math.random()*6-3));
-
-techChart.update();
-
-},5000);
-
-
-/* ================= 3D CUBE ================= */
-
-const scene = new THREE.Scene();
-
-const camera = new THREE.PerspectiveCamera(
-75,
-window.innerWidth/400,
-0.1,
-1000
-);
-
-const renderer = new THREE.WebGLRenderer({
-canvas:document.getElementById("cubeCanvas"),
-alpha:true
-});
-
-renderer.setSize(window.innerWidth,400);
-
-const geometry = new THREE.BoxGeometry();
-
-const material = new THREE.MeshStandardMaterial({
-color:0x00ff9d,
-wireframe:false
-});
-
-const cube = new THREE.Mesh(geometry,material);
-
-scene.add(cube);
-
-const light = new THREE.PointLight(0xffffff,1.5);
-light.position.set(5,5,5);
-scene.add(light);
-
-const ambient = new THREE.AmbientLight(0x404040);
-scene.add(ambient);
-
-camera.position.z = 5;
-
-function animate(){
-
-requestAnimationFrame(animate);
-
-cube.rotation.x += 0.01;
-cube.rotation.y += 0.01;
-
-renderer.render(scene,camera);
-
-}
-
-animate();
-
-/* ================= QUOTE ================= */
-
-const quotes = [
-
-"Technology is the future",
-"Code is power",
-"AI will change the world",
-"Never stop learning",
-"Experiment creates innovation",
-"Programming builds the future",
-"Knowledge is digital power",
-"Think like a developer",
-"Build your own system",
-"Create your technology"
-
-];
-
 function generateQuote(){
-
-let random = Math.floor(Math.random()*quotes.length);
-
-document.getElementById("quote").innerText = quotes[random];
-
+document.getElementById("quote").innerText="Build Your Own Game 🔥";
 }
 
 </script>
 
 </body>
-</html>
-
-<!-- ================= QUOTE ================= -->
-
-<section class="quote-box">
-
-<h2 id="quote">Click button to generate knowledge</h2>
-
-<button class="quote-btn" onclick="generateQuote()">
-Generate Quote
-</button>
-
-    </section>
+    </html>
