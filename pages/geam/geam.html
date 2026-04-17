@@ -1,1 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Anime Battle Arena</title>
 
+<style>
+body{
+margin:0;
+background:black;
+overflow:hidden;
+color:white;
+font-family:sans-serif;
+}
+
+.ui{
+position:absolute;
+top:10px;
+left:10px;
+}
+
+.bar{
+width:200px;
+height:15px;
+background:#333;
+margin-bottom:10px;
+}
+
+.hp{height:100%;background:red;}
+.energy{height:100%;background:#00ff9d;}
+</style>
+</head>
+
+<body>
+
+<canvas id="game"></canvas>
+
+<div class="ui">
+<div>PLAYER HP</div>
+<div class="bar"><div id="playerHP" class="hp"></div></div>
+
+<div>ENERGY</div>
+<div class="bar"><div id="energyBar" class="energy"></div></div>
+
+<div>ENEMY HP</div>
+<div class="bar"><div id="enemyHP" class="hp"></div></div>
+</div>
+
+<script>
+
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+// 🔥 CHARACTER IMAGE
+const playerImg = new Image();
+playerImg.src = "png/character.png";
+
+// PLAYER
+let player = {
+x:100,
+y:250,
+w:150,
+h:250,
+hp:100,
+energy:0
+};
+
+// ENEMY
+let enemy = {
+x:700,
+y:300,
+w:80,
+h:120,
+hp:100
+};
+
+let attack=false;
+let ultimate=false;
+
+// 🌌 ARENA
+function drawArena(){
+
+// SKY
+let sky = ctx.createLinearGradient(0,0,0,canvas.height);
+sky.addColorStop(0,"#141e30");
+sky.addColorStop(0.5,"#243b55");
+sky.addColorStop(1,"#0f2027");
+
+ctx.fillStyle = sky;
+ctx.fillRect(0,0,canvas.width,canvas.height);
+
+// CLOUD
+let time = Date.now()*0.02;
+
+ctx.fillStyle="rgba(255,255,255,0.05)";
+for(let i=0;i<5;i++){
+ctx.beginPath();
+ctx.arc((i*300+time)%canvas.width,100+i*20,60,0,Math.PI*2);
+ctx.fill();
+}
+
+// MOUNTAIN
+ctx.fillStyle="#111";
+
+ctx.beginPath();
+ctx.moveTo(0,400);
+ctx.lineTo(200,250);
+ctx.lineTo(400,400);
+ctx.fill();
+
+ctx.beginPath();
+ctx.moveTo(300,400);
+ctx.lineTo(600,220);
+ctx.lineTo(900,400);
+ctx.fill();
+
+// GROUND
+ctx.fillStyle="#1a1a1a";
+ctx.fillRect(0,400,canvas.width,canvas.height);
+
+// GLOW LINE
+ctx.shadowColor="#00ff9d";
+ctx.shadowBlur=20;
+
+ctx.strokeStyle="#00ff9d";
+ctx.lineWidth=3;
+
+ctx.beginPath();
+ctx.moveTo(0,400);
+ctx.lineTo(canvas.width,400);
+ctx.stroke();
+
+ctx.shadowBlur=0;
+
+// TEXTURE
+for(let i=0;i<canvas.width;i+=40){
+ctx.fillStyle="rgba(255,255,255,0.02)";
+ctx.fillRect(i,400,20,5);
+}
+
+// CINEMATIC
+ctx.fillStyle="rgba(0,0,0,0.2)";
+ctx.fillRect(0,0,canvas.width,canvas.height);
+
+}
+
+// LOOP
+function draw(){
+
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+// CAMERA SHAKE
+let shake = ultimate ? Math.random()*10-5 : 0;
+ctx.save();
+ctx.translate(shake,0);
+
+// ARENA
+drawArena();
+
+// SHADOW PLAYER
+ctx.fillStyle="rgba(0,0,0,0.5)";
+ctx.beginPath();
+ctx.ellipse(player.x+player.w/2, player.y+player.h, 50, 12, 0, 0, Math.PI*2);
+ctx.fill();
+
+// PLAYER
+ctx.drawImage(playerImg,player.x,player.y,player.w,player.h);
+
+// SHADOW ENEMY
+ctx.beginPath();
+ctx.ellipse(enemy.x+enemy.w/2, enemy.y+enemy.h, 40, 10, 0, 0, Math.PI*2);
+ctx.fill();
+
+// ENEMY
+ctx.fillStyle="red";
+ctx.fillRect(enemy.x,enemy.y,enemy.w,enemy.h);
+
+// ATTACK
+if(attack){
+ctx.fillStyle="yellow";
+ctx.fillRect(player.x+120,player.y+100,60,20);
+}
+
+// ULTIMATE
+if(ultimate){
+ctx.fillStyle="rgba(255,0,0,0.4)";
+ctx.fillRect(0,0,canvas.width,canvas.height);
+}
+
+// UI
+document.getElementById("playerHP").style.width = player.hp+"%";
+document.getElementById("enemyHP").style.width = enemy.hp+"%";
+document.getElementById("energyBar").style.width = player.energy+"%";
+
+ctx.restore();
+
+requestAnimationFrame(draw);
+}
+
+draw();
+
+// CONTROL
+document.addEventListener("keydown",(e)=>{
+
+if(e.key==="d") player.x+=20;
+if(e.key==="a") player.x-=20;
+
+// ATTACK
+if(e.code==="Space"){
+attack=true;
+setTimeout(()=>attack=false,200);
+
+if(Math.abs(player.x-enemy.x)<120){
+enemy.hp-=10;
+player.energy+=10;
+}
+}
+
+// ULTIMATE
+if(e.key==="f" && player.energy>=100){
+ultimate=true;
+setTimeout(()=>ultimate=false,600);
+
+enemy.hp-=40;
+player.energy=0;
+}
+
+});
+
+// ENEMY AI
+setInterval(()=>{
+
+if(enemy.x>player.x){
+enemy.x-=10;
+}else{
+enemy.x+=10;
+}
+
+if(Math.abs(player.x-enemy.x)<100){
+player.hp-=5;
+}
+
+},1000);
+
+</script>
+
+</body>
+                   </html>
