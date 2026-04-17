@@ -77,7 +77,7 @@ margin-bottom:15px;
 border:2px solid #00ffcc;
 }
 
-/* HOME MODERN */
+/* HOME */
 .home-btn{
 display:inline-flex;
 align-items:center;
@@ -94,7 +94,6 @@ text-decoration:none;
 font-size:14px;
 
 transition:0.3s;
-z-index:20;
 }
 
 .home-btn:hover{
@@ -104,7 +103,7 @@ box-shadow:0 0 15px #00ffcc;
 transform:translateY(-2px);
 }
 
-/* OVERLAY FIX */
+/* OVERLAY */
 #overlay{
 position:fixed;
 top:0;left:0;
@@ -114,18 +113,17 @@ display:flex;
 justify-content:center;
 align-items:center;
 opacity:0;
-pointer-events:none; /* 🔥 FIX */
+pointer-events:none;
 transition:1s;
 z-index:5;
 }
 
 #overlay.show{
 opacity:1;
-pointer-events:none; /* 🔥 BIAR TIDAK BLOCK */
+pointer-events:none;
 }
 
 #overlay h1{color:#00ffcc;}
-
 </style>
 </head>
 
@@ -134,7 +132,7 @@ pointer-events:none; /* 🔥 BIAR TIDAK BLOCK */
 <div class="box" id="box">
 <h2>Login</h2>
 
-<img src="../img/IMG_20260413_093051.png" class="profile-img">
+<img src="../../img/IMG_20260413_093051.png" class="profile-img">
 
 <p class="error-text" id="errorMsg"></p>
 
@@ -144,8 +142,7 @@ pointer-events:none; /* 🔥 BIAR TIDAK BLOCK */
 <button type="submit">Login</button>
 </form>
 
-<!-- HOME -->
-<a href="/pages/education.html" class="home-btn">
+<a href="../education.html" class="home-btn">
 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
 <path d="M12 3l9 9h-3v9h-12v-9h-3z"/>
 </svg>
@@ -160,7 +157,6 @@ pointer-events:none; /* 🔥 BIAR TIDAK BLOCK */
 
 <script>
 
-/* AKUN */
 const ADMIN = {user:"admin", pass:"12345"};
 const USER  = {user:"user", pass:"12345"};
 
@@ -170,7 +166,6 @@ const box = document.getElementById("box");
 const overlay = document.getElementById("overlay");
 const overlayText = document.getElementById("overlayText");
 
-/* LOGIN */
 form.addEventListener("submit", function(e){
 e.preventDefault();
 
@@ -180,24 +175,20 @@ let p = password.value.trim();
 errorMsg.textContent="";
 box.classList.remove("error","success");
 
-/* ADMIN */
 if(u===ADMIN.user && p===ADMIN.pass){
-loginSuccess("/pages/education.html","admin");
+loginSuccess("../education.html","admin");
 return;
 }
 
-/* USER */
 if(u===USER.user && p===USER.pass){
-loginSuccess("/pages/education.html","user");
+loginSuccess("../education.html","user");
 return;
 }
 
-/* ERROR */
 box.classList.add("error");
 errorMsg.textContent="Username atau password salah!";
 });
 
-/* SUCCESS */
 function loginSuccess(url,role){
 
 box.classList.add("success");
