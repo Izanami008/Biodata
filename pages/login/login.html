@@ -17,7 +17,6 @@ height:100vh;
 margin:0;
 }
 
-/* BOX */
 .box{
 background:#1e293b;
 padding:40px;
@@ -25,23 +24,8 @@ border-radius:15px;
 width:350px;
 box-shadow:0 0 20px rgba(0,255,204,0.3);
 text-align:center;
-transition:.3s;
 position:relative;
 z-index:10;
-}
-
-.box.success{box-shadow:0 0 25px #00ffcc;}
-.box.error{
-animation:shake .3s;
-box-shadow:0 0 20px red;
-}
-
-@keyframes shake{
-0%{transform:translateX(0);}
-25%{transform:translateX(-5px);}
-50%{transform:translateX(5px);}
-75%{transform:translateX(-5px);}
-100%{transform:translateX(0);}
 }
 
 input{
@@ -60,13 +44,10 @@ margin-top:10px;
 background:#00ffcc;
 border:none;
 border-radius:8px;
-font-weight:bold;
 cursor:pointer;
 }
 
 button:hover{background:#00ccaa;}
-
-.error-text{color:red;margin-bottom:10px;}
 
 .profile-img{
 width:80px;
@@ -77,7 +58,6 @@ margin-bottom:15px;
 border:2px solid #00ffcc;
 }
 
-/* HOME */
 .home-btn{
 display:inline-flex;
 align-items:center;
@@ -85,56 +65,35 @@ gap:8px;
 margin-top:20px;
 padding:10px 16px;
 border-radius:10px;
-
 background:rgba(255,255,255,0.05);
 border:1px solid rgba(255,255,255,0.1);
-
 color:#00ffcc;
 text-decoration:none;
-font-size:14px;
-
-transition:0.3s;
+transition:.3s;
 }
 
 .home-btn:hover{
 background:linear-gradient(45deg,#00ffcc,#6c5ce7);
 color:white;
 box-shadow:0 0 15px #00ffcc;
-transform:translateY(-2px);
 }
 
-/* OVERLAY */
-#overlay{
-position:fixed;
-top:0;left:0;
-width:100%;height:100%;
-background:black;
-display:flex;
-justify-content:center;
-align-items:center;
-opacity:0;
-pointer-events:none;
-transition:1s;
-z-index:5;
+#error{
+color:red;
+margin-top:10px;
 }
-
-#overlay.show{
-opacity:1;
-pointer-events:none;
-}
-
-#overlay h1{color:#00ffcc;}
 </style>
 </head>
 
 <body>
 
-<div class="box" id="box">
+<div class="box">
 <h2>Login</h2>
 
-<img src="../../img/IMG_20260413_093051.png" class="profile-img">
+<!-- FOTO FIX -->
+<img src="img/IMG_20260413_093051.png" class="profile-img">
 
-<p class="error-text" id="errorMsg"></p>
+<p id="error"></p>
 
 <form id="loginForm">
 <input type="text" id="username" placeholder="Username" required>
@@ -142,18 +101,14 @@ pointer-events:none;
 <button type="submit">Login</button>
 </form>
 
-<a href="../
-services.html" class="home-btn">
+<!-- HOME KE SERVICES -->
+<a href="../services.html" class="home-btn">
 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
 <path d="M12 3l9 9h-3v9h-12v-9h-3z"/>
 </svg>
-<span>Home</span>
+Home
 </a>
 
-</div>
-
-<div id="overlay">
-<h1 id="overlayText">ACCESS GRANTED</h1>
 </div>
 
 <script>
@@ -161,51 +116,26 @@ services.html" class="home-btn">
 const ADMIN = {user:"admin", pass:"12345"};
 const USER  = {user:"user", pass:"12345"};
 
-const form = document.getElementById("loginForm");
-const errorMsg = document.getElementById("errorMsg");
-const box = document.getElementById("box");
-const overlay = document.getElementById("overlay");
-const overlayText = document.getElementById("overlayText");
-
-form.addEventListener("submit", function(e){
+document.getElementById("loginForm").addEventListener("submit", function(e){
 e.preventDefault();
 
 let u = username.value.trim();
 let p = password.value.trim();
 
-errorMsg.textContent="";
-box.classList.remove("error","success");
-
+/* LOGIN */
 if(u===ADMIN.user && p===ADMIN.pass){
-loginSuccess("../education.html","admin");
+window.location.href="../services.html";
 return;
 }
 
 if(u===USER.user && p===USER.pass){
-loginSuccess("../education.html","user");
+window.location.href="../services.html";
 return;
 }
 
-box.classList.add("error");
-errorMsg.textContent="Username atau password salah!";
+/* ERROR */
+document.getElementById("error").innerText="Username atau password salah!";
 });
-
-function loginSuccess(url,role){
-
-box.classList.add("success");
-localStorage.setItem("user",role);
-
-overlay.classList.add("show");
-
-setTimeout(()=>{
-overlayText.innerText="LOADING...";
-},800);
-
-setTimeout(()=>{
-window.location.href=url;
-},1800);
-
-}
 
 </script>
 
