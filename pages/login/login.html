@@ -6,81 +6,88 @@
 <title>Login</title>
 
 <style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
 body{
-background:#0f172a;
-color:white;
-font-family:Arial;
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
-margin:0;
+    background:#0f172a;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
 }
 
 .box{
-background:#1e293b;
-padding:40px;
-border-radius:15px;
-width:350px;
-box-shadow:0 0 20px rgba(0,255,204,0.3);
-text-align:center;
-position:relative;
-z-index:10;
+    background:#1e293b;
+    padding:40px;
+    border-radius:15px;
+    width:350px;
+    box-shadow:0 0 20px rgba(0,255,204,0.25);
+    text-align:center;
+}
+
+.profile-img{
+    width:80px;
+    height:80px;
+    border-radius:50%;
+    object-fit:cover;
+    margin-bottom:15px;
+    border:2px solid #00ffcc;
 }
 
 input{
-padding:12px;
-margin:10px 0;
-width:100%;
-border-radius:8px;
-border:none;
-outline:none;
+    width:100%;
+    padding:12px;
+    margin:10px 0;
+    border-radius:8px;
+    border:none;
+    outline:none;
 }
 
 button{
-padding:12px;
-width:100%;
-margin-top:10px;
-background:#00ffcc;
-border:none;
-border-radius:8px;
-cursor:pointer;
+    width:100%;
+    padding:12px;
+    margin-top:10px;
+    background:#00ffcc;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
 }
 
-button:hover{background:#00ccaa;}
-
-.profile-img{
-width:80px;
-height:80px;
-border-radius:50%;
-object-fit:cover;
-margin-bottom:15px;
-border:2px solid #00ffcc;
+button:hover{
+    background:#00ccaa;
 }
 
 .home-btn{
-display:inline-flex;
-align-items:center;
-gap:8px;
-margin-top:20px;
-padding:10px 16px;
-border-radius:10px;
-background:rgba(255,255,255,0.05);
-border:1px solid rgba(255,255,255,0.1);
-color:#00ffcc;
-text-decoration:none;
-transition:.3s;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    margin-top:20px;
+    padding:10px 16px;
+    border-radius:10px;
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.1);
+    color:#00ffcc;
+    text-decoration:none;
+    transition:.3s;
 }
 
 .home-btn:hover{
-background:linear-gradient(45deg,#00ffcc,#6c5ce7);
-color:white;
-box-shadow:0 0 15px #00ffcc;
+    background:linear-gradient(45deg,#00ffcc,#6c5ce7);
+    color:white;
+    box-shadow:0 0 15px #00ffcc;
 }
 
 #error{
-color:red;
-margin-top:10px;
+    color:#ff6b6b;
+    margin-top:10px;
+    min-height:18px;
 }
 </style>
 </head>
@@ -88,55 +95,55 @@ margin-top:10px;
 <body>
 
 <div class="box">
-<h2>Login</h2>
 
-<!-- FOTO FIX -->
-<img src="img/IMG_20260413_093051.png" class="profile-img">
+    <h2>Login</h2>
 
-<p id="error"></p>
+    <img src="img/IMG_20260413_093051.png" class="profile-img" alt="Profile">
 
-<form id="loginForm">
-<input type="text" id="username" placeholder="Username" required>
-<input type="password" id="password" placeholder="Password" required>
-<button type="submit">Login</button>
-</form>
+    <p id="error"></p>
 
-<!-- HOME KE SERVICES -->
-<a href="../services.html" class="home-btn">
-<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-<path d="M12 3l9 9h-3v9h-12v-9h-3z"/>
-</svg>
-Home
-</a>
+    <form id="loginForm">
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button type="submit">Login</button>
+    </form>
+
+    <a href="services.html" class="home-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 3l9 9h-3v9h-12v-9h-3z"/>
+        </svg>
+        Home
+    </a>
 
 </div>
 
 <script>
-
-const ADMIN = {user:"admin", pass:"12345"};
-const USER  = {user:"user", pass:"12345"};
+const ADMIN = { user:"admin", pass:"12345" };
+const USER  = { user:"user", pass:"12345" };
 
 document.getElementById("loginForm").addEventListener("submit", function(e){
-e.preventDefault();
+    e.preventDefault();
 
-let u = username.value.trim();
-let p = password.value.trim();
+    let u = document.getElementById("username").value.trim();
+    let p = document.getElementById("password").value.trim();
+    let error = document.getElementById("error");
 
-/* LOGIN */
-if(u===ADMIN.user && p===ADMIN.pass){
-window.location.href="../services.html";
-return;
-}
+    error.innerText = "";
 
-if(u===USER.user && p===USER.pass){
-window.location.href="user/user.html";
-return;
-}
+    if(u === ADMIN.user && p === ADMIN.pass){
+        localStorage.setItem("user","admin");
+        window.location.href = "services.html";
+        return;
+    }
 
-/* ERROR */
-document.getElementById("error").innerText="Username atau password salah!";
+    if(u === USER.user && p === USER.pass){
+        localStorage.setItem("user","user");
+        window.location.href = "user/user.html";
+        return;
+    }
+
+    error.innerText = "Username atau password salah!";
 });
-
 </script>
 
 </body>
