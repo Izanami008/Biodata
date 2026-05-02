@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login</title>
+<title>Login Marketplace</title>
 
 <style>
 *{
@@ -15,7 +15,7 @@
 
 body{
     background:#0f172a;
-    color:white;
+    color:#fff;
     display:flex;
     justify-content:center;
     align-items:center;
@@ -23,11 +23,11 @@ body{
 }
 
 .box{
+    width:360px;
     background:#1e293b;
-    padding:40px;
-    border-radius:15px;
-    width:350px;
-    box-shadow:0 0 20px rgba(0,255,204,0.25);
+    padding:35px;
+    border-radius:16px;
+    box-shadow:0 0 20px rgba(0,255,204,.18);
     text-align:center;
 }
 
@@ -36,58 +36,63 @@ body{
     height:80px;
     border-radius:50%;
     object-fit:cover;
-    margin-bottom:15px;
     border:2px solid #00ffcc;
+    margin-bottom:14px;
+}
+
+h2{
+    margin-bottom:10px;
 }
 
 input{
     width:100%;
     padding:12px;
-    margin:10px 0;
-    border-radius:8px;
+    margin-top:10px;
     border:none;
+    border-radius:8px;
     outline:none;
 }
 
 button{
     width:100%;
+    margin-top:14px;
     padding:12px;
-    margin-top:10px;
-    background:#00ffcc;
     border:none;
     border-radius:8px;
-    cursor:pointer;
+    background:#00ffcc;
+    color:#000;
     font-weight:bold;
+    cursor:pointer;
 }
 
 button:hover{
-    background:#00ccaa;
+    background:#00d6aa;
 }
 
 .home-btn{
     display:inline-flex;
     align-items:center;
     gap:8px;
-    margin-top:20px;
+    margin-top:18px;
     padding:10px 16px;
     border-radius:10px;
-    background:rgba(255,255,255,0.05);
-    border:1px solid rgba(255,255,255,0.1);
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.08);
     color:#00ffcc;
     text-decoration:none;
-    transition:.3s;
+    transition:.25s;
 }
 
 .home-btn:hover{
-    background:linear-gradient(45deg,#00ffcc,#6c5ce7);
-    color:white;
-    box-shadow:0 0 15px #00ffcc;
+    background:#00ffcc;
+    color:#000;
 }
 
 #error{
     color:#ff6b6b;
-    margin-top:10px;
     min-height:18px;
+    margin-top:8px;
+    font-size:14px;
 }
 </style>
 </head>
@@ -96,9 +101,9 @@ button:hover{
 
 <div class="box">
 
-    <h2>Login</h2>
+    <img src="img/IMG_20260413_093051.png" class="profile-img" alt="profile">
 
-    <img src="img/IMG_20260413_093051.png" class="profile-img" alt="Profile">
+    <h2>Login Marketplace</h2>
 
     <p id="error"></p>
 
@@ -118,31 +123,38 @@ button:hover{
 </div>
 
 <script>
-const ADMIN = { user:"admin", pass:"12345" };
-const USER  = { user:"user", pass:"12345" };
+const ADMIN = {
+    user:"admin",
+    pass:"12345"
+};
+
+const USER = {
+    user:"user",
+    pass:"12345"
+};
 
 document.getElementById("loginForm").addEventListener("submit", function(e){
     e.preventDefault();
 
-    let u = document.getElementById("username").value.trim();
-    let p = document.getElementById("password").value.trim();
-    let error = document.getElementById("error");
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const error = document.getElementById("error");
 
     error.innerText = "";
 
-    if(u === ADMIN.user && p === ADMIN.pass){
+    if(username === ADMIN.user && password === ADMIN.pass){
         localStorage.setItem("user","admin");
-        window.location.href = "services.html";
+        window.location.href = "admin/admin.html";
         return;
     }
 
-    if(u === USER.user && p === USER.pass){
+    if(username === USER.user && password === USER.pass){
         localStorage.setItem("user","user");
         window.location.href = "user/user.html";
         return;
     }
 
-    error.innerText = "Username atau password salah!";
+    error.innerText = "Username atau password salah";
 });
 </script>
 
