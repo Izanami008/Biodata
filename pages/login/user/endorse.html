@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Endorse</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#0f172a;
+    color:#fff;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+.box{
+    width:420px;
+    max-width:100%;
+    background:#1e293b;
+    padding:28px;
+    border-radius:16px;
+    box-shadow:0 0 20px rgba(0,255,204,.08);
+}
+
+h2{
+    color:#00ffcc;
+    margin-bottom:10px;
+}
+
+p{
+    opacity:.85;
+    line-height:1.6;
+    margin-bottom:18px;
+}
+
+.form-group{
+    margin-bottom:12px;
+}
+
+input, textarea{
+    width:100%;
+    padding:11px 12px;
+    border:none;
+    border-radius:8px;
+    outline:none;
+    background:#0f172a;
+    color:#fff;
+}
+
+textarea{
+    min-height:110px;
+    resize:none;
+}
+
+.actions{
+    display:flex;
+    gap:8px;
+    margin-top:14px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    border:none;
+    cursor:pointer;
+    text-decoration:none;
+    padding:10px 14px;
+    border-radius:8px;
+    font-weight:bold;
+    background:#00ffcc;
+    color:#000;
+}
+
+.secondary{
+    background:#0f172a;
+    color:#fff;
+    border:1px solid rgba(255,255,255,.08);
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+    <h2>Form Endorse</h2>
+
+    <p>
+        Kirim permintaan endorse atau kerja sama promosi produk.
+        Data tersimpan di browser.
+    </p>
+
+    <div class="form-group">
+        <input type="text" id="name" placeholder="Nama">
+    </div>
+
+    <div class="form-group">
+        <input type="text" id="contact" placeholder="Kontak / WhatsApp">
+    </div>
+
+    <div class="form-group">
+        <textarea id="message" placeholder="Pesan endorse"></textarea>
+    </div>
+
+    <div class="actions">
+        <button class="btn" onclick="submitEndorse()">Kirim</button>
+        <a href="user.html" class="btn secondary">Kembali</a>
+    </div>
+
+</div>
+
+<script>
+let user = localStorage.getItem("user");
+
+if(user !== "user"){
+    window.location.href = "../login.html";
+}
+
+function submitEndorse(){
+
+    let name = document.getElementById("name").value.trim();
+    let contact = document.getElementById("contact").value.trim();
+    let message = document.getElementById("message").value.trim();
+
+    if(!name || !contact || !message){
+        alert("Lengkapi data");
+        return;
+    }
+
+    let endorse = JSON.parse(localStorage.getItem("endorse")) || [];
+
+    endorse.push({
+        name:name,
+        contact:contact,
+        message:message,
+        date:new Date().toLocaleString("id-ID")
+    });
+
+    localStorage.setItem("endorse", JSON.stringify(endorse));
+
+    document.getElementById("name").value = "";
+    document.getElementById("contact").value = "";
+    document.getElementById("message").value = "";
+
+    alert("Permintaan endorse berhasil dikirim");
+}
+</script>
+
+</body>
+</html>
