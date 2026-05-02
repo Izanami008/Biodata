@@ -3,106 +3,196 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>User Dashboard</title>
+<title>Marketplace</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial;}
-body{background:#0f172a;color:white;}
-
-/* HEADER */
-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:15px 9%;
-background:#1e293b;
-box-shadow:0 0 10px #000;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
 }
 
-.logo{color:#00ffcc;font-weight:bold;}
+body{
+    background:#0f172a;
+    color:#fff;
+}
+
+header{
+    position:sticky;
+    top:0;
+    z-index:20;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:16px 8%;
+    background:#1e293b;
+}
+
+.logo{
+    color:#00ffcc;
+    font-size:20px;
+    font-weight:bold;
+}
+
+.header-right{
+    display:flex;
+    gap:8px;
+    align-items:center;
+}
 
 .btn{
-background:#00ffcc;
-border:none;
-padding:6px 10px;
-border-radius:5px;
-cursor:pointer;
+    border:none;
+    cursor:pointer;
+    background:#00ffcc;
+    color:#000;
+    font-weight:bold;
+    padding:8px 12px;
+    border-radius:8px;
+    text-decoration:none;
 }
 
-/* PRODUCT */
-.container{padding:30px 9%;}
+.container{
+    padding:28px 8%;
+}
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-bottom:22px;
+}
+
+.search{
+    width:280px;
+    max-width:100%;
+    padding:11px 12px;
+    border:none;
+    outline:none;
+    border-radius:8px;
+    background:#1e293b;
+    color:#fff;
+}
 
 .products{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-gap:20px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    gap:18px;
 }
 
 .card{
-background:#1e293b;
-padding:15px;
-border-radius:10px;
-transition:.3s;
-}
-
-.card:hover{
-transform:translateY(-5px);
-box-shadow:0 0 10px #00ffcc55;
+    background:#1e293b;
+    border-radius:14px;
+    padding:14px;
 }
 
 .card img{
-width:100%;
-border-radius:10px;
+    width:100%;
+    height:170px;
+    object-fit:cover;
+    border-radius:10px;
+}
+
+.card h3{
+    margin-top:10px;
 }
 
 .price{
-color:#00ffcc;
-margin:5px 0;
+    color:#00ffcc;
+    font-weight:bold;
+    margin-top:6px;
+}
+
+.stock{
+    font-size:13px;
+    opacity:.75;
+    margin-top:4px;
+}
+
+.desc{
+    font-size:14px;
+    opacity:.85;
+    margin-top:8px;
+    line-height:1.5;
 }
 
 .card button{
-width:100%;
-margin-top:5px;
-padding:6px;
-border:none;
-border-radius:5px;
-cursor:pointer;
+    width:100%;
+    margin-top:12px;
+    padding:9px;
+    border:none;
+    border-radius:8px;
+    background:#00ffcc;
+    color:#000;
+    font-weight:bold;
+    cursor:pointer;
 }
 
-/* CART */
 .cart{
-position:fixed;
-right:-320px;
-top:0;
-width:300px;
-height:100%;
-background:#1e293b;
-padding:20px;
-transition:.4s;
-overflow:auto;
+    position:fixed;
+    top:0;
+    right:-360px;
+    width:340px;
+    height:100%;
+    background:#1e293b;
+    padding:20px;
+    transition:.3s;
+    overflow:auto;
+    z-index:40;
 }
 
-.cart.show{right:0;}
+.cart.show{
+    right:0;
+}
 
 .cart-item{
-font-size:13px;
-margin-bottom:10px;
-border-bottom:1px solid #333;
-padding-bottom:5px;
+    padding:8px 0;
+    border-bottom:1px solid rgba(255,255,255,.05);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:8px;
+}
+
+.remove{
+    border:none;
+    background:#ef4444;
+    color:#fff;
+    padding:4px 7px;
+    border-radius:6px;
+    cursor:pointer;
 }
 
 .total{
-color:#00ffcc;
-margin-top:10px;
+    margin-top:12px;
+    color:#00ffcc;
+    font-weight:bold;
 }
 
 .checkout{
-width:100%;
-padding:8px;
-background:#00ffcc;
-border:none;
-margin-top:10px;
-cursor:pointer;
+    margin-top:12px;
+    width:100%;
+    padding:10px;
+    border:none;
+    border-radius:8px;
+    background:#00ffcc;
+    color:#000;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.badge{
+    background:#ef4444;
+    color:#fff;
+    font-size:12px;
+    padding:2px 7px;
+    border-radius:999px;
+}
+
+.empty{
+    opacity:.7;
+    padding:20px;
 }
 </style>
 </head>
@@ -110,102 +200,194 @@ cursor:pointer;
 <body>
 
 <header>
-<div class="logo">USER PANEL</div>
+    <div class="logo">MARKETPLACE</div>
 
-<div>
-<button class="btn" onclick="toggleCart()">🛒</button>
-<button class="btn" onclick="logout()">Logout</button>
-</div>
+    <div class="header-right">
+        <a href="orders.html" class="btn">Riwayat</a>
+        <a href="endorse.html" class="btn">Endorse</a>
+        <button class="btn" onclick="toggleCart()">🛒 <span class="badge" id="cartCount">0</span></button>
+        <button class="btn" onclick="logout()">Logout</button>
+    </div>
 </header>
 
 <div class="container">
-<div class="products" id="productList"></div>
+
+    <div class="topbar">
+        <input
+            class="search"
+            id="search"
+            placeholder="Cari produk..."
+            oninput="loadProducts()"
+        >
+    </div>
+
+    <div class="products" id="productList"></div>
+
 </div>
 
-<!-- CART -->
 <div class="cart" id="cart">
-<h3>Keranjang</h3>
-<div id="cartItems"></div>
-<p class="total" id="total"></p>
-<button class="checkout" onclick="checkout()">Bayar</button>
+    <h3>Keranjang</h3>
+    <div id="cartItems"></div>
+    <p class="total" id="total"></p>
+    <button class="checkout" onclick="checkout()">Bayar</button>
 </div>
 
 <script>
-
-/* PROTEKSI LOGIN */
 let user = localStorage.getItem("user");
+
 if(user !== "user"){
-window.location.href="../login.html";
+    window.location.href = "../login.html";
 }
 
-/* DATA PRODUK */
-let products = [
-{name:"Website Premium",price:500000,img:"https://via.placeholder.com/200"},
-{name:"Script Bot",price:250000,img:"https://via.placeholder.com/200"},
-{name:"UI Design Pack",price:150000,img:"https://via.placeholder.com/200"}
-];
+let products = JSON.parse(localStorage.getItem("products")) || [];
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-let cart=[];
+function saveProducts(){
+    localStorage.setItem("products", JSON.stringify(products));
+}
 
-/* LOAD PRODUK */
+function saveCart(){
+    localStorage.setItem("cart", JSON.stringify(cart));
+    document.getElementById("cartCount").innerText = cart.length;
+}
+
 function loadProducts(){
-let html="";
-products.forEach((p,i)=>{
-html+=`
-<div class="card">
-<img src="${p.img}">
-<h3>${p.name}</h3>
-<p class="price">Rp ${p.price}</p>
-<button onclick="addCart(${i})">Tambah</button>
-</div>`;
-});
-document.getElementById("productList").innerHTML=html;
-}
-loadProducts();
 
-/* CART */
+    let keyword = document.getElementById("search").value.toLowerCase();
+
+    let filtered = products.filter(p =>
+        p.name.toLowerCase().includes(keyword)
+    );
+
+    if(filtered.length === 0){
+        document.getElementById("productList").innerHTML =
+            `<div class="empty">Belum ada produk</div>`;
+        return;
+    }
+
+    let html = "";
+
+    filtered.forEach((p,i)=>{
+
+        let realIndex = products.indexOf(p);
+
+        html += `
+        <div class="card">
+            <img src="${p.image}">
+            <h3>${p.name}</h3>
+            <div class="price">Rp ${Number(p.price).toLocaleString("id-ID")}</div>
+            <div class="stock">Stok: ${p.stock}</div>
+            <div class="desc">${p.desc}</div>
+            <button onclick="addCart(${realIndex})">Tambah</button>
+        </div>`;
+    });
+
+    document.getElementById("productList").innerHTML = html;
+}
+
 function addCart(i){
-cart.push(products[i]);
-renderCart();
+
+    if(products[i].stock <= 0){
+        alert("Stok habis");
+        return;
+    }
+
+    cart.push({
+        name:products[i].name,
+        price:products[i].price
+    });
+
+    products[i].stock--;
+
+    saveProducts();
+    saveCart();
+    renderCart();
+    loadProducts();
+}
+
+function removeCart(i){
+
+    let item = cart[i];
+
+    let p = products.find(x => x.name === item.name);
+
+    if(p){
+        p.stock++;
+    }
+
+    cart.splice(i,1);
+
+    saveProducts();
+    saveCart();
+    renderCart();
+    loadProducts();
 }
 
 function renderCart(){
-let html="";
-let total=0;
 
-cart.forEach(p=>{
-html+=`<div class="cart-item">${p.name} - Rp ${p.price}</div>`;
-total+=p.price;
-});
+    let html = "";
+    let total = 0;
 
-document.getElementById("cartItems").innerHTML=html;
-document.getElementById("total").innerText="Total: Rp "+total;
+    if(cart.length === 0){
+        html = `<div class="empty">Keranjang kosong</div>`;
+    }
+
+    cart.forEach((p,i)=>{
+        html += `
+        <div class="cart-item">
+            <div>${p.name}<br>Rp ${Number(p.price).toLocaleString("id-ID")}</div>
+            <button class="remove" onclick="removeCart(${i})">x</button>
+        </div>`;
+
+        total += Number(p.price);
+    });
+
+    document.getElementById("cartItems").innerHTML = html;
+    document.getElementById("total").innerText =
+        "Total: Rp " + total.toLocaleString("id-ID");
 }
 
-/* TOGGLE CART */
 function toggleCart(){
-document.getElementById("cart").classList.toggle("show");
+    document.getElementById("cart").classList.toggle("show");
 }
 
-/* CHECKOUT */
 function checkout(){
-if(cart.length===0){
-alert("Keranjang kosong");
-return;
+
+    if(cart.length === 0){
+        alert("Keranjang kosong");
+        return;
+    }
+
+    let total = cart.reduce((a,b)=>a + Number(b.price), 0);
+
+    let orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+    orders.push({
+        date:new Date().toLocaleString("id-ID"),
+        status:"Berhasil",
+        items:[...cart],
+        total:total
+    });
+
+    localStorage.setItem("orders", JSON.stringify(orders));
+
+    cart = [];
+
+    saveCart();
+    renderCart();
+
+    alert("Pembayaran berhasil");
 }
 
-alert("Pembayaran berhasil 💳");
-
-cart=[];
-renderCart();
-}
-
-/* LOGOUT */
 function logout(){
-localStorage.removeItem("user");
-window.location.href="../login.html";
+    localStorage.removeItem("user");
+    localStorage.removeItem("cart");
+    window.location.href = "../login.html";
 }
 
+loadProducts();
+renderCart();
+saveCart();
 </script>
 
 </body>
