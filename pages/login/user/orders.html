@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Riwayat Pesanan</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#0f172a;
+    color:#fff;
+    min-height:100vh;
+}
+
+header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:16px 8%;
+    background:#1e293b;
+}
+
+.logo{
+    color:#00ffcc;
+    font-size:20px;
+    font-weight:bold;
+}
+
+.btn{
+    border:none;
+    cursor:pointer;
+    text-decoration:none;
+    background:#00ffcc;
+    color:#000;
+    font-weight:bold;
+    padding:8px 12px;
+    border-radius:8px;
+}
+
+.container{
+    padding:28px 8%;
+}
+
+.order{
+    background:#1e293b;
+    border-radius:14px;
+    padding:18px;
+    margin-bottom:16px;
+}
+
+.date{
+    color:#00ffcc;
+    font-weight:bold;
+    margin-bottom:6px;
+}
+
+.status{
+    font-size:14px;
+    opacity:.8;
+    margin-bottom:10px;
+}
+
+.item{
+    padding:6px 0;
+    border-bottom:1px solid rgba(255,255,255,.05);
+    font-size:14px;
+}
+
+.total{
+    margin-top:12px;
+    color:#00ffcc;
+    font-weight:bold;
+}
+
+.empty{
+    opacity:.7;
+    padding:20px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">RIWAYAT PESANAN</div>
+    <a href="user.html" class="btn">Kembali</a>
+</header>
+
+<div class="container" id="orders"></div>
+
+<script>
+let user = localStorage.getItem("user");
+
+if(user !== "user"){
+    window.location.href = "../login.html";
+}
+
+let orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+function loadOrders(){
+
+    if(orders.length === 0){
+        document.getElementById("orders").innerHTML =
+            `<div class="empty">Belum ada pesanan</div>`;
+        return;
+    }
+
+    let html = "";
+
+    orders.slice().reverse().forEach(o=>{
+
+        html += `
+        <div class="order">
+
+            <div class="date">${o.date}</div>
+            <div class="status">Status: ${o.status}</div>
+
+            ${o.items.map(i => `
+                <div class="item">
+                    ${i.name} — Rp ${Number(i.price).toLocaleString("id-ID")}
+                </div>
+            `).join("")}
+
+            <div class="total">
+                Total: Rp ${Number(o.total).toLocaleString("id-ID")}
+            </div>
+
+        </div>`;
+    });
+
+    document.getElementById("orders").innerHTML = html;
+}
+
+loadOrders();
+</script>
+
+</body>
+</html>
