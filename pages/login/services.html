@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marketplace Services</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#0f172a;
+    color:#fff;
+    min-height:100vh;
+}
+
+header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:16px 9%;
+    background:#1e293b;
+    box-shadow:0 2px 8px rgba(0,0,0,.2);
+}
+
+.logo{
+    color:#00ffcc;
+    font-size:20px;
+    font-weight:bold;
+}
+
+.btn{
+    text-decoration:none;
+    background:#00ffcc;
+    color:#000;
+    padding:9px 14px;
+    border-radius:8px;
+    font-weight:bold;
+}
+
+.hero{
+    padding:70px 9%;
+    text-align:center;
+}
+
+.hero h1{
+    font-size:40px;
+    margin-bottom:15px;
+}
+
+.hero p{
+    opacity:.8;
+    max-width:650px;
+    margin:auto;
+    line-height:1.7;
+}
+
+.actions{
+    margin-top:30px;
+    display:flex;
+    justify-content:center;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+.action-btn{
+    text-decoration:none;
+    padding:12px 18px;
+    border-radius:10px;
+    font-weight:bold;
+    background:#00ffcc;
+    color:#000;
+}
+
+.secondary{
+    background:#1e293b;
+    color:#fff;
+    border:1px solid rgba(255,255,255,.08);
+}
+
+.features{
+    padding:20px 9% 70px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:18px;
+}
+
+.card{
+    background:#1e293b;
+    padding:20px;
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.04);
+}
+
+.card h3{
+    color:#00ffcc;
+    margin-bottom:10px;
+}
+
+.card p{
+    opacity:.8;
+    line-height:1.6;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">MARKETPLACE</div>
+    <a href="login.html" class="btn">Login</a>
+</header>
+
+<section class="hero">
+    <h1>Digital Store Marketplace</h1>
+    <p>
+        Platform jual beli produk digital dengan dashboard admin, upload produk,
+        katalog user, keranjang belanja, checkout, dan riwayat pesanan.
+    </p>
+
+    <div class="actions">
+        <a href="login.html" class="action-btn">Masuk Sekarang</a>
+        <a href="user/endorse.html" class="action-btn secondary">Endorse</a>
+    </div>
+</section>
+
+<section class="features">
+
+    <div class="card">
+        <h3>Produk Lengkap</h3>
+        <p>Admin dapat menambahkan produk lengkap dengan gambar, harga, deskripsi, dan stok.</p>
+    </div>
+
+    <div class="card">
+        <h3>Keranjang</h3>
+        <p>User bisa menambahkan produk ke keranjang dan checkout langsung.</p>
+    </div>
+
+    <div class="card">
+        <h3>Riwayat Pesanan</h3>
+        <p>Semua transaksi tersimpan otomatis di browser.</p>
+    </div>
+
+</section>
+
+</body>
+  </html>
