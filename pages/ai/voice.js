@@ -1,10 +1,30 @@
-function speak(text){
+function speak(text) {
+  if (!window.speechSynthesis) return;
 
-const utter = new SpeechSynthesisUtterance(text);
-utter.lang = "id-ID";
-utter.pitch = 1.3;
-utter.rate = 1.0;
+  speechSynthesis.cancel();
 
-speechSynthesis.speak(utter);
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "id-ID";
+  u.rate = 1;
 
+  speechSynthesis.speak(u);
+}
+
+function startListening() {
+  const SpeechRecognition =
+    window.SpeechRecognition || window.webkitSpeechRecognition;
+
+  if (!SpeechRecognition) return;
+
+  const rec = new SpeechRecognition();
+
+  rec.lang = "id-ID";
+
+  rec.onresult = e => {
+    const text = e.results[0][0].transcript;
+    document.getElementById("input").value = text;
+    send();
+  };
+
+  rec.start();
 }
