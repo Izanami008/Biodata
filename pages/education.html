@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,243 +11,349 @@
 <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
 
 <style>
-
-/* RESET */
-*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif;}
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Poppins,sans-serif;
+}
 
 body{
-background: radial-gradient(circle at top,#0b0f1a,#000);
-color:white;
+  background:radial-gradient(circle at top,#0b0f1a,#000);
+  color:white;
 }
 
 /* HEADER */
 header{
-position:fixed;top:0;left:0;width:100%;
-padding:15px 9%;
-display:flex;justify-content:space-between;align-items:center;
-background:rgba(0,0,0,0.6);
-backdrop-filter:blur(12px);
-border-bottom:1px solid rgba(255,255,255,0.08);
-z-index:1000;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  padding:15px 9%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:rgba(0,0,0,.6);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(255,255,255,.08);
+  z-index:1000;
 }
 
-.logo-area{display:flex;align-items:center;gap:10px;cursor:pointer;}
-.logo-img{width:45px;filter:drop-shadow(0 0 10px cyan);}
-.logo{font-size:20px;font-weight:bold;color:#b74b4b;text-decoration:none;}
-.logo-sub{font-size:12px;color:gray;}
+.logo-area{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  cursor:pointer;
+}
+
+.logo-img{
+  width:45px;
+  filter:drop-shadow(0 0 10px cyan);
+}
+
+.logo{
+  font-size:20px;
+  font-weight:bold;
+  color:#b74b4b;
+  text-decoration:none;
+}
+
+.logo-sub{
+  font-size:12px;
+  color:gray;
+}
 
 /* MENU */
-.menu-btn{background:transparent;border:none;color:white;cursor:pointer;padding:8px 10px;border-radius:8px;}
-.menu-btn:hover{background:rgba(255,255,255,0.08);}
+.menu-btn{
+  background:transparent;
+  border:none;
+  color:white;
+  cursor:pointer;
+  padding:8px 10px;
+  border-radius:8px;
+}
+
+.menu-btn:hover{
+  background:rgba(255,255,255,.08);
+}
 
 .menu-box{
-position:absolute;top:70px;right:9%;
-background:rgba(20,20,20,0.95);
-padding:15px;border-radius:12px;display:none;
-flex-direction:column;gap:10px;
-border:1px solid rgba(255,255,255,0.1);
+  position:absolute;
+  top:70px;
+  right:9%;
+  background:rgba(20,20,20,.95);
+  padding:15px;
+  border-radius:12px;
+  display:none;
+  flex-direction:column;
+  gap:10px;
+  border:1px solid rgba(255,255,255,.1);
 }
-.menu-box.show{display:flex;}
+
+.menu-box.show{
+  display:flex;
+}
 
 /* CONTENT */
-.container{padding:120px 9% 60px;text-align:center;}
+.container{
+  padding:120px 9% 60px;
+  text-align:center;
+}
 
 .card{
-background:rgba(255,255,255,0.05);
-padding:20px;border-radius:15px;
-border:1px solid rgba(255,255,255,0.1);
-margin-top:20px;
+  background:rgba(255,255,255,.05);
+  padding:20px;
+  border-radius:15px;
+  border:1px solid rgba(255,255,255,.1);
+  margin-top:20px;
 }
 
 /* CHART */
 #btcChart{
-max-width:750px;height:400px;
-margin:30px auto;
-background:rgba(255,255,255,0.03);
-padding:10px;border-radius:12px;
+  max-width:750px;
+  height:400px;
+  margin:30px auto;
+  background:rgba(255,255,255,.03);
+  padding:10px;
+  border-radius:12px;
 }
 
 /* VTUBER */
 .vtuber-box{
-margin-top:40px;
-display:flex;flex-direction:column;
-align-items:center;gap:10px;
+  margin-top:40px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
 }
 
 #avatar{
-width:220px;
-filter:drop-shadow(0 0 20px cyan);
+  width:220px;
+  filter:drop-shadow(0 0 20px cyan);
 }
 
 #bubble{
-background:rgba(0,0,0,0.6);
-padding:10px 15px;
-border-radius:12px;
-font-size:14px;
-max-width:300px;
-text-align:center;
-border:1px solid rgba(255,255,255,0.1);
+  background:rgba(0,0,0,.6);
+  padding:10px 15px;
+  border-radius:12px;
+  font-size:14px;
+  max-width:320px;
+  text-align:center;
+  border:1px solid rgba(255,255,255,.1);
 }
 
-/* AI */
+/* AI BUTTON */
 .ai-btn{
-position:fixed;right:20px;bottom:20px;
-width:60px;height:60px;border-radius:50%;
-background:linear-gradient(45deg,#00ffcc,#6c5ce7);
-color:white;font-size:22px;border:none;
-cursor:pointer;box-shadow:0 0 20px #00ffcc;
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  width:60px;
+  height:60px;
+  border-radius:50%;
+  background:linear-gradient(45deg,#00ffcc,#6c5ce7);
+  color:white;
+  font-size:22px;
+  border:none;
+  cursor:pointer;
+  box-shadow:0 0 20px #00ffcc;
+  z-index:1200;
 }
 
+/* AI BOX */
 #aiBox{
-position:fixed;right:20px;bottom:90px;
-width:360px;height:520px;border:none;
-border-radius:15px;
-box-shadow:0 0 25px cyan;
-display:none;
+  position:fixed;
+  right:20px;
+  bottom:90px;
+  width:380px;
+  height:560px;
+  border:none;
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 0 25px cyan;
+  display:none;
+  background:#0d1117;
+  z-index:1100;
 }
-
 </style>
 </head>
 
 <body>
 
 <header>
-<div class="logo-area" onclick="location.href='../index.html'">
-<img src="../img/logo.png" class="logo-img">
-<div>
-<a href="../index.html" class="logo">Erika099</a>
-<div class="logo-sub">AI Education System</div>
-</div>
-</div>
+  <div class="logo-area" onclick="location.href='../index.html'">
+    <img src="../img/logo.png" class="logo-img">
+    <div>
+      <a href="../index.html" class="logo">Erika099</a>
+      <div class="logo-sub">AI Education System</div>
+    </div>
+  </div>
 
-<button class="menu-btn" onclick="toggleMenu()">☰ Menu</button>
+  <button class="menu-btn" onclick="toggleMenu()">☰ Menu</button>
 
-<div class="menu-box" id="menuBox">
-<a href="../index.html" class="menu-btn">Home</a>
-<a href="services.html" class="menu-btn">Services</a>
-<a href="skills.html" class="menu-btn">Skills</a>
-<a href="education.html" class="menu-btn">Education</a>
-<a href="experience.html" class="menu-btn">Experience</a>
-<a href="contact.html" class="menu-btn">Contact</a>
-<hr>
-<a class="menu-btn" onclick="toggleAI()">🤖 Open AI</a>
-</div>
-
+  <div class="menu-box" id="menuBox">
+    <a href="../index.html" class="menu-btn">Home</a>
+    <a href="services.html" class="menu-btn">Services</a>
+    <a href="skills.html" class="menu-btn">Skills</a>
+    <a href="education.html" class="menu-btn">Education</a>
+    <a href="experience.html" class="menu-btn">Experience</a>
+    <a href="contact.html" class="menu-btn">Contact</a>
+    <hr>
+    <a class="menu-btn" onclick="toggleAI()">🤖 Open AI</a>
+  </div>
 </header>
 
 <div class="container">
 
-<h2>🧠 AI Learning System</h2>
+  <h2>🧠 AI Learning System</h2>
 
-<div class="card">
-<p>Selamat datang di AI Erika099 🚀</p>
-</div>
+  <div class="card">
+    <p>Selamat datang di AI Erika099 🚀</p>
+  </div>
 
-<h2>📊 BTC MARKET CHART</h2>
-<canvas id="btcChart"></canvas>
+  <h2 style="margin-top:35px;">📊 BTC MARKET CHART</h2>
+  <canvas id="btcChart"></canvas>
 
-<!-- VTUBER -->
-<div class="vtuber-box">
-<img id="avatar" src="ai/img/vtuber.png">
-<div id="bubble">Klik layar sekali untuk mulai 🎤</div>
-</div>
+  <div class="vtuber-box">
+    <img id="avatar" src="ai/img/vtuber.png">
+    <div id="bubble">Klik layar sekali untuk mulai 🎤</div>
+  </div>
 
 </div>
 
 <button class="ai-btn" onclick="toggleAI()">🤖</button>
-<iframe id="aiBox" src="ai/assistant.html"></iframe>
+
+<iframe
+  id="aiBox"
+  src="ai/assistant.html">
+</iframe>
 
 <script>
-
 /* MENU */
 function toggleMenu(){
-document.getElementById("menuBox").classList.toggle("show");
+  document.getElementById("menuBox").classList.toggle("show");
 }
 
 /* AI */
 function toggleAI(){
-let box=document.getElementById("aiBox");
-box.style.display=(box.style.display==="block")?"none":"block";
+  const box = document.getElementById("aiBox");
+  box.style.display =
+    box.style.display === "block"
+      ? "none"
+      : "block";
 }
 
-/* BTC */
+/* BTC CHART */
 const ctx = document.getElementById("btcChart").getContext("2d");
 
 const chart = new Chart(ctx,{
-type:"candlestick",
-data:{datasets:[{data:[]}]},
-options:{
-scales:{
-x:{type:"time",ticks:{color:"white"}},
-y:{ticks:{color:"white"}}
-}
-}
+  type:"candlestick",
+  data:{
+    datasets:[{
+      data:[]
+    }]
+  },
+  options:{
+    scales:{
+      x:{
+        type:"time",
+        ticks:{color:"white"}
+      },
+      y:{
+        ticks:{color:"white"}
+      }
+    }
+  }
 });
 
 async function loadBTC(){
-const res = await fetch("https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=15m&limit=50");
-const raw = await res.json();
+  try{
+    const res = await fetch(
+      "https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=15m&limit=50"
+    );
 
-const data = raw.map(d=>({
-x:new Date(d[0]),
-o:+d[1],h:+d[2],l:+d[3],c:+d[4]
-}));
+    const raw = await res.json();
 
-chart.data.datasets[0].data=data;
-chart.update();
+    const data = raw.map(d => ({
+      x:new Date(d[0]),
+      o:+d[1],
+      h:+d[2],
+      l:+d[3],
+      c:+d[4]
+    }));
+
+    chart.data.datasets[0].data = data;
+    chart.update();
+
+  }catch(e){
+    console.log("BTC error", e);
+  }
 }
 
 loadBTC();
-setInterval(loadBTC,15000);
+setInterval(loadBTC, 15000);
 
 /* VTUBER */
 const avatar = document.getElementById("avatar");
 const bubble = document.getElementById("bubble");
 
 /* BLINK */
-setInterval(()=>{
-avatar.src="ai/img/vtuber-eyes-closed.png";
-setTimeout(()=>{avatar.src="ai/img/vtuber.png";},150);
-},4000);
+setInterval(() => {
+  avatar.src = "ai/img/vtuber-eyes-closed.png";
+
+  setTimeout(() => {
+    avatar.src = "ai/img/vtuber.png";
+  }, 150);
+
+}, 4000);
+
+/* SPEAK */
+function speak(text){
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "id-ID";
+  speechSynthesis.speak(u);
+}
 
 /* VOICE */
-function speak(text){
-let u=new SpeechSynthesisUtterance(text);
-u.lang="id-ID";
-speechSynthesis.speak(u);
+const SpeechRecognition =
+  window.SpeechRecognition || window.webkitSpeechRecognition;
+
+if(SpeechRecognition){
+
+  const recognition = new SpeechRecognition();
+
+  recognition.lang = "id-ID";
+  recognition.continuous = true;
+
+  document.body.addEventListener("click", () => {
+    recognition.start();
+    bubble.innerText = "🎤 Aku lagi dengerin kamu...";
+  }, { once:true });
+
+  recognition.onresult = (e) => {
+    const text =
+      e.results[e.results.length - 1][0].transcript;
+
+    let reply = "Aku dengar: " + text;
+
+    if(text.toLowerCase().includes("btc")){
+      reply = "BTC sedang bergerak. Lihat chart di atas 📊";
+    }
+
+    if(
+      text.toLowerCase().includes("buka ai") ||
+      text.toLowerCase().includes("open ai")
+    ){
+      toggleAI();
+      reply = "Membuka AI assistant.";
+    }
+
+    bubble.innerText = reply;
+    speak(reply);
+  };
+
+  recognition.onend = () => recognition.start();
+  recognition.onerror = () => recognition.start();
 }
-
-/* AUTO LISTEN */
-const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-const recognition = new SpeechRecognition();
-
-recognition.lang="id-ID";
-recognition.continuous=true;
-
-/* START 1x */
-document.body.addEventListener("click",()=>{
-recognition.start();
-bubble.innerText="🎤 Aku lagi dengerin kamu...";
-},{once:true});
-
-/* RESULT */
-recognition.onresult=(e)=>{
-let text=e.results[e.results.length-1][0].transcript;
-
-let reply="Aku dengar: "+text;
-
-if(text.toLowerCase().includes("btc")){
-reply="BTC lagi bergerak, lihat chart di atas 📊";
-}
-
-bubble.innerText=reply;
-speak(reply);
-};
-
-/* AUTO RESTART */
-recognition.onend=()=>recognition.start();
-recognition.onerror=()=>recognition.start();
-
 </script>
 
 </body>
