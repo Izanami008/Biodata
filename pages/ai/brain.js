@@ -134,4 +134,4 @@ function brain(text) {
 function clearMemory() {
   localStorage.removeItem("izanami_ai");
   location.reload();
-      }
+}
