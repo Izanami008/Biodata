@@ -1,1 +1,0 @@
-let emotion={happy:50};
