@@ -22,12 +22,17 @@ async function send() {
   if (!text) return;
 
   addMessage(text, "user");
+
+  if (typeof remember === "function") {
+    remember("user", text);
+  }
+
   input.value = "";
   setTyping(true);
 
   const history =
     (window.memory && memory.history)
-      ? memory.history.slice(-8)
+      ? memory.history.slice(-20)
       : [];
 
   try {
@@ -40,16 +45,21 @@ async function send() {
       remember("ai", reply);
     }
 
-    if (typeof speak === "function") {
+    if (typeof vtuberSpeak === "function") {
+      vtuberSpeak(reply);
+    } else if (typeof speak === "function") {
       speak(reply);
     }
+
   } catch (e) {
     const reply = brain(text);
 
     setTyping(false);
     addMessage(reply, "ai");
 
-    if (typeof speak === "function") {
+    if (typeof vtuberSpeak === "function") {
+      vtuberSpeak(reply);
+    } else if (typeof speak === "function") {
       speak(reply);
     }
   }
