@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Erika099 - AI System</title>
+<title>Erika099 - AI Virtual Assistant</title>
 
 <style>
 *{
@@ -19,74 +19,101 @@ body{
   min-height:100vh;
 }
 
+/* ================= HEADER ================= */
+
 header{
   position:fixed;
   top:0;
   left:0;
   width:100%;
-  padding:15px 9%;
+  padding:14px 8%;
   display:flex;
-  justify-content:space-between;
   align-items:center;
-  background:rgba(0,0,0,.58);
+  justify-content:space-between;
+  background:rgba(0,0,0,.62);
   backdrop-filter:blur(12px);
   border-bottom:1px solid rgba(255,255,255,.08);
   z-index:1000;
 }
 
 .logo-area{
+  position:relative;
   display:flex;
   align-items:center;
-  gap:10px;
-  cursor:pointer;
+  gap:12px;
 }
 
 .logo-img{
-  width:45px;
-  filter:drop-shadow(0 0 10px rgba(0,255,255,.4));
+  width:44px;
+  height:44px;
+  object-fit:contain;
+  filter:drop-shadow(0 0 10px rgba(0,255,255,.35));
 }
 
 .logo{
-  font-size:20px;
-  font-weight:bold;
-  color:#b74b4b;
+  display:block;
   text-decoration:none;
+  font-size:20px;
+  font-weight:700;
+  color:#b74b4b;
+  line-height:1;
 }
 
 .logo-sub{
+  margin-top:4px;
   font-size:12px;
-  color:gray;
+  color:#8d93a7;
+}
+
+.menu-toggle{
+  background:transparent;
+  border:none;
+  color:white;
+  cursor:pointer;
+  font-size:14px;
+  padding:8px 12px;
+  border-radius:10px;
+}
+
+.menu-toggle:hover{
+  background:rgba(255,255,255,.06);
+}
+
+.settings-menu{
+  position:absolute;
+  top:62px;
+  left:0;
+  min-width:220px;
+  background:rgba(18,18,18,.96);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:14px;
+  padding:12px;
+  display:none;
+  flex-direction:column;
+  gap:8px;
+  backdrop-filter:blur(10px);
+}
+
+.settings-menu.show{
+  display:flex;
 }
 
 .menu-btn{
   background:transparent;
-  border:none;
   color:white;
+  text-decoration:none;
+  border:none;
+  text-align:left;
   cursor:pointer;
   padding:8px 10px;
   border-radius:8px;
 }
 
 .menu-btn:hover{
-  background:rgba(255,255,255,.08);
+  background:rgba(255,255,255,.05);
 }
 
-.menu-box{
-  position:absolute;
-  top:70px;
-  right:9%;
-  background:rgba(20,20,20,.96);
-  padding:15px;
-  border-radius:12px;
-  display:none;
-  flex-direction:column;
-  gap:10px;
-  border:1px solid rgba(255,255,255,.08);
-}
-
-.menu-box.show{
-  display:flex;
-}
+/* ================= CONTENT ================= */
 
 .container{
   padding:120px 9% 70px;
@@ -108,6 +135,8 @@ header{
   border:1px solid rgba(255,255,255,.08);
   color:#d5d7e0;
 }
+
+/* ================= VTUBER ================= */
 
 .vtuber-box{
   margin-top:55px;
@@ -186,6 +215,8 @@ header{
   backdrop-filter:blur(6px);
 }
 
+/* ================= AI BUTTON ================= */
+
 .ai-btn{
   position:fixed;
   right:20px;
@@ -217,6 +248,8 @@ header{
   z-index:1100;
 }
 
+/* ================= MOBILE ================= */
+
 @media(max-width:700px){
   .hero-title{
     font-size:28px;
@@ -245,26 +278,31 @@ header{
 <body>
 
 <header>
-  <div class="logo-area" onclick="location.href='../index.html'">
+
+  <div class="logo-area">
+
     <img src="../img/logo.png" class="logo-img">
+
     <div>
       <a href="../index.html" class="logo">Erika099</a>
-      <div class="logo-sub">AI Education System</div>
+      <p class="logo-sub">AI Virtual Assistant</p>
     </div>
+
+    <div class="settings-menu" id="settingsMenu">
+      <a href="../index.html" class="menu-btn">Home</a>
+      <a href="services.html" class="menu-btn">Services</a>
+      <a href="skills.html" class="menu-btn">Skills</a>
+      <a href="education.html" class="menu-btn">Education</a>
+      <a href="experience.html" class="menu-btn">Experience</a>
+      <a href="contact.html" class="menu-btn">Contact</a>
+      <hr>
+      <a class="menu-btn" onclick="toggleAI()">🤖 Open AI</a>
+    </div>
+
   </div>
 
-  <button class="menu-btn" onclick="toggleMenu()">☰ Menu</button>
+  <button class="menu-toggle" onclick="toggleMenu()">☰ Menu</button>
 
-  <div class="menu-box" id="menuBox">
-    <a href="../index.html" class="menu-btn">Home</a>
-    <a href="services.html" class="menu-btn">Services</a>
-    <a href="skills.html" class="menu-btn">Skills</a>
-    <a href="education.html" class="menu-btn">Education</a>
-    <a href="experience.html" class="menu-btn">Experience</a>
-    <a href="contact.html" class="menu-btn">Contact</a>
-    <hr>
-    <a class="menu-btn" onclick="toggleAI()">🤖 Open AI</a>
-  </div>
 </header>
 
 <div class="container">
@@ -295,7 +333,9 @@ header{
 
 <script>
 function toggleMenu(){
-  document.getElementById("menuBox").classList.toggle("show");
+  document
+    .getElementById("settingsMenu")
+    .classList.toggle("show");
 }
 
 function toggleAI(){
@@ -388,4 +428,4 @@ if(SpeechRecognition){
 </script>
 
 </body>
-  </html>
+</html>
