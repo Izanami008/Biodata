@@ -3,21 +3,46 @@ header('Content-Type: application/json');
 
 $apiKey = 'GANTI_DENGAN_API_KEY_KAMU';
 
+date_default_timezone_set('Asia/Jakarta');
+
 $input = json_decode(file_get_contents('php://input'), true);
 
-$message = $input['message'] ?? '';
+$message = trim($input['message'] ?? '');
 $history = $input['history'] ?? [];
+
+$today = date('l');
+$date = date('d F Y');
+$time = date('H:i');
+
+$systemPrompt =
+"Kamu adalah Izanami AI.
+Jawab natural, cerdas, relevan, dan mengikuti konteks percakapan.
+Gunakan history chat untuk memahami referensi sebelumnya.
+Jika user menanyakan waktu, gunakan info sistem.
+Hari ini $today.
+Tanggal $date.
+Jam $time.";
 
 $messages = [
   [
     'role' => 'system',
-    'content' => 'Kamu adalah Izanami AI. Jawab ringkas, jelas, natural, dan tetap mempertahankan konteks percakapan.'
+    'content' => $systemPrompt
   ]
 ];
 
-foreach ($history as $item) {
+$recent = array_slice($history, -20);
+
+foreach ($recent as $item) {
+  if (!isset($item['role']) || !isset($item['text'])) {
+    continue;
+  }
+
+  $role = $item['role'] === 'ai'
+    ? 'assistant'
+    : 'user';
+
   $messages[] = [
-    'role' => $item['role'],
+    'role' => $role,
     'content' => $item['text']
   ];
 }
@@ -57,8 +82,10 @@ curl_close($ch);
 
 $data = json_decode($result, true);
 
-$reply = $data['choices'][0]['message']['content'] ?? 'AI sedang tidak tersedia.';
+$reply =
+  $data['choices'][0]['message']['content']
+  ?? 'AI sedang tidak tersedia.';
 
 echo json_encode([
-  'reply' => $reply
+  'reply' => trim($reply)
 ]);
