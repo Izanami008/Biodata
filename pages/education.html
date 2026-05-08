@@ -152,48 +152,20 @@ header{
 }
 
 .vtuber-box{
-  margin-top:52px;
+  margin-top:40px;
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:16px;
+  gap:14px;
 }
 
 .vtuber-frame{
   position:relative;
-  width:290px;
-  height:290px;
+  width:370px;
+  height:420px;
   display:flex;
   align-items:center;
   justify-content:center;
-  isolation:isolate;
-}
-
-.vtuber-frame::before{
-  content:"";
-  position:absolute;
-  inset:-12px;
-  border-radius:40px;
-  background:
-    radial-gradient(circle at 50% 50%,
-      rgba(255,220,120,.28) 0%,
-      rgba(255,180,50,.18) 35%,
-      rgba(255,140,0,.08) 58%,
-      transparent 72%);
-  filter:blur(18px);
-  z-index:0;
-}
-
-.vtuber-frame::after{
-  content:"";
-  position:absolute;
-  inset:-6px;
-  border-radius:34px;
-  box-shadow:
-    0 0 16px rgba(255,215,120,.45),
-    0 0 30px rgba(255,170,40,.25),
-    0 0 55px rgba(255,140,0,.14);
-  z-index:1;
 }
 
 .frame-img{
@@ -203,31 +175,28 @@ header{
   height:100%;
   object-fit:contain;
   pointer-events:none;
-  z-index:4;
+  z-index:3;
 }
 
 #avatar{
   position:absolute;
-  width:148px;
-  bottom:42px;
+  width:220px;
+  bottom:77px;
   left:50%;
   transform:translateX(-50%);
   z-index:2;
-  filter:
-    drop-shadow(0 0 12px rgba(255,220,120,.22))
-    drop-shadow(0 0 20px rgba(255,150,0,.12));
-  transition:.22s;
+  filter:drop-shadow(0 0 20px cyan);
+  transition:.2s;
 }
 
 #bubble{
-  background:rgba(0,0,0,.58);
+  background:rgba(0,0,0,.6);
   padding:10px 15px;
   border-radius:12px;
-  font-size:13px;
+  font-size:14px;
   max-width:320px;
   text-align:center;
-  border:1px solid rgba(255,215,120,.12);
-  backdrop-filter:blur(6px);
+  border:1px solid rgba(255,255,255,.1);
   }
 
 .ai-btn{
