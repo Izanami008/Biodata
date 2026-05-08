@@ -1,6 +1,6 @@
 body{
   margin:0;
-  font-family:Arial, sans-serif;
+  font-family:Arial,sans-serif;
   background:#0d1117;
   color:#e6edf3;
 }
@@ -93,4 +93,4 @@ button{
   border:none;
   border-radius:12px;
   cursor:pointer;
-}
+  }
