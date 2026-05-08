@@ -29,7 +29,6 @@ header{
   padding:14px 8%;
   display:flex;
   align-items:center;
-  justify-content:space-between;
   background:rgba(0,0,0,.62);
   backdrop-filter:blur(12px);
   border-bottom:1px solid rgba(255,255,255,.08);
@@ -37,7 +36,6 @@ header{
 }
 
 .logo-area{
-  position:relative;
   display:flex;
   align-items:center;
   gap:12px;
@@ -47,7 +45,8 @@ header{
   width:44px;
   height:44px;
   object-fit:contain;
-  filter:drop-shadow(0 0 10px rgba(0,255,255,.35));
+  cursor:pointer;
+  filter:drop-shadow(0 0 10px rgba(255,220,120,.25));
 }
 
 .logo{
@@ -65,33 +64,20 @@ header{
   color:#8d93a7;
 }
 
-.menu-toggle{
-  background:transparent;
-  border:none;
-  color:white;
-  cursor:pointer;
-  font-size:14px;
-  padding:8px 12px;
-  border-radius:10px;
-}
-
-.menu-toggle:hover{
-  background:rgba(255,255,255,.06);
-}
-
 .settings-menu{
-  position:absolute;
-  top:62px;
-  left:0;
-  min-width:220px;
-  background:rgba(18,18,18,.96);
+  position:fixed;
+  top:76px;
+  left:18px;
+  width:220px;
+  background:rgba(18,18,18,.97);
   border:1px solid rgba(255,255,255,.08);
   border-radius:14px;
-  padding:12px;
+  padding:14px;
   display:none;
   flex-direction:column;
   gap:8px;
   backdrop-filter:blur(10px);
+  z-index:1200;
 }
 
 .settings-menu.show{
@@ -281,27 +267,30 @@ header{
 
   <div class="logo-area">
 
-    <img src="../img/logo.png" class="logo-img">
+    <img
+      src="../img/logo.png"
+      class="logo-img"
+      alt="logo"
+      onclick="toggleMenu()"
+    >
 
     <div>
       <a href="../index.html" class="logo">Erika099</a>
       <p class="logo-sub">AI Virtual Assistant</p>
     </div>
 
-    <div class="settings-menu" id="settingsMenu">
-      <a href="../index.html" class="menu-btn">Home</a>
-      <a href="services.html" class="menu-btn">Services</a>
-      <a href="skills.html" class="menu-btn">Skills</a>
-      <a href="education.html" class="menu-btn">Education</a>
-      <a href="experience.html" class="menu-btn">Experience</a>
-      <a href="contact.html" class="menu-btn">Contact</a>
-      <hr>
-      <a class="menu-btn" onclick="toggleAI()">🤖 Open AI</a>
-    </div>
-
   </div>
 
-  <button class="menu-toggle" onclick="toggleMenu()">☰ Menu</button>
+  <div class="settings-menu" id="settingsMenu">
+    <a href="../index.html" class="menu-btn">Home</a>
+    <a href="services.html" class="menu-btn">Services</a>
+    <a href="skills.html" class="menu-btn">Skills</a>
+    <a href="education.html" class="menu-btn">Education</a>
+    <a href="experience.html" class="menu-btn">Experience</a>
+    <a href="contact.html" class="menu-btn">Contact</a>
+    <hr>
+    <a class="menu-btn" onclick="toggleAI()">🤖 Open AI</a>
+  </div>
 
 </header>
 
@@ -394,13 +383,8 @@ if(SpeechRecognition){
 
     if(text.includes("hari apa")){
       const hari = [
-        "Minggu",
-        "Senin",
-        "Selasa",
-        "Rabu",
-        "Kamis",
-        "Jumat",
-        "Sabtu"
+        "Minggu","Senin","Selasa",
+        "Rabu","Kamis","Jumat","Sabtu"
       ];
 
       reply =
@@ -428,4 +412,4 @@ if(SpeechRecognition){
 </script>
 
 </body>
-</html>
+  </html>
