@@ -1,17 +1,34 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Izanami AI</title>
 <link rel="stylesheet" href="ui.css">
 </head>
 <body>
+<div class="app">
+  <header class="topbar">
+    <div>
+      <div class="title">Izanami AI</div>
+      <div class="sub">context-aware assistant</div>
+    </div>
+    <button onclick="clearMemory()">Reset</button>
+  </header>
 
-<div id="chat"></div>
-<input id="input" placeholder="Tanya sesuatu...">
-<button onclick="send()">Kirim</button>
+  <main id="chat" class="chat"></main>
+
+  <div id="typing" class="typing hidden">AI sedang mengetik…</div>
+
+  <footer class="inputbar">
+    <input id="input" placeholder="Tulis pesan...">
+    <button onclick="send()">Kirim</button>
+  </footer>
+</div>
 
 <script src="brain.js"></script>
 <script src="voice.js"></script>
+<script src="api/chat.js"></script>
 <script src="ai.js"></script>
-
 </body>
 </html>
