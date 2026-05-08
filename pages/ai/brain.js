@@ -15,7 +15,7 @@ function remember(role, text) {
     time: Date.now()
   });
 
-  if (memory.history.length > 50) {
+if (memory.history.length > 200)
     memory.history = memory.history.slice(-50);
   }
 
