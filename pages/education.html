@@ -3,11 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Erika099 - Education AI System</title>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-chart-financial"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+<title>Erika099 - AI System</title>
 
 <style>
 *{
@@ -18,8 +14,9 @@
 }
 
 body{
-  background:radial-gradient(circle at top,#0b0f1a,#000);
+  background:radial-gradient(circle at top,#0b1020,#000);
   color:white;
+  min-height:100vh;
 }
 
 header{
@@ -31,7 +28,7 @@ header{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  background:rgba(0,0,0,.6);
+  background:rgba(0,0,0,.58);
   backdrop-filter:blur(12px);
   border-bottom:1px solid rgba(255,255,255,.08);
   z-index:1000;
@@ -46,7 +43,7 @@ header{
 
 .logo-img{
   width:45px;
-  filter:drop-shadow(0 0 10px cyan);
+  filter:drop-shadow(0 0 10px rgba(0,255,255,.4));
 }
 
 .logo{
@@ -78,13 +75,13 @@ header{
   position:absolute;
   top:70px;
   right:9%;
-  background:rgba(20,20,20,.95);
+  background:rgba(20,20,20,.96);
   padding:15px;
   border-radius:12px;
   display:none;
   flex-direction:column;
   gap:10px;
-  border:1px solid rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.08);
 }
 
 .menu-box.show{
@@ -92,80 +89,67 @@ header{
 }
 
 .container{
-  padding:120px 9% 60px;
+  padding:120px 9% 70px;
   text-align:center;
 }
 
+.hero-title{
+  font-size:34px;
+  font-weight:700;
+  margin-bottom:12px;
+}
+
 .card{
-  background:rgba(255,255,255,.05);
-  padding:20px;
-  border-radius:15px;
-  border:1px solid rgba(255,255,255,.1);
-  margin-top:20px;
-}
-
-.market-bar{
-  max-width:750px;
-  margin:18px auto 0;
-  display:flex;
-  justify-content:space-between;
-  gap:12px;
-  flex-wrap:wrap;
-}
-
-.market-item{
-  flex:1;
-  min-width:160px;
+  max-width:700px;
+  margin:0 auto;
   background:rgba(255,255,255,.04);
+  padding:18px 22px;
+  border-radius:16px;
   border:1px solid rgba(255,255,255,.08);
-  padding:14px 16px;
-  border-radius:14px;
-  text-align:left;
-}
-
-.market-item span{
-  display:block;
-  font-size:12px;
-  opacity:.7;
-  margin-bottom:6px;
-}
-
-.market-item strong{
-  font-size:20px;
-}
-
-.up{
-  color:#00ff9d;
-}
-
-.down{
-  color:#ff5e7a;
-}
-
-#btcChart{
-  max-width:750px;
-  height:400px;
-  margin:30px auto;
-  background:rgba(255,255,255,.03);
-  padding:10px;
-  border-radius:12px;
+  color:#d5d7e0;
 }
 
 .vtuber-box{
-  margin-top:40px;
+  margin-top:55px;
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:14px;
+  gap:18px;
 }
 
 .vtuber-frame{
   position:relative;
-  width:370px;
-  height:420px;
+  width:300px;
+  height:300px;
   display:flex;
   align-items:center;
   justify-content:center;
+  isolation:isolate;
+}
+
+.vtuber-frame::before{
+  content:"";
+  position:absolute;
+  inset:-10px;
+  border-radius:40px;
+  background:
+    radial-gradient(circle,
+      rgba(255,220,120,.25) 0%,
+      rgba(255,170,40,.12) 45%,
+      transparent 72%);
+  filter:blur(16px);
+  z-index:0;
+}
+
+.vtuber-frame::after{
+  content:"";
+  position:absolute;
+  inset:-5px;
+  border-radius:36px;
+  box-shadow:
+    0 0 18px rgba(255,210,120,.4),
+    0 0 35px rgba(255,160,30,.18);
+  z-index:1;
 }
 
 .frame-img{
@@ -175,59 +159,85 @@ header{
   height:100%;
   object-fit:contain;
   pointer-events:none;
-  z-index:3;
+  z-index:4;
 }
 
 #avatar{
   position:absolute;
-  width:283px;
-  bottom:60px;
+  width:155px;
+  bottom:42px;
   left:50%;
   transform:translateX(-50%);
   z-index:2;
-  filter:drop-shadow(0 0 20px cyan);
-  transition:.2s;
+  transition:.22s;
+  filter:
+    drop-shadow(0 0 12px rgba(255,220,120,.22))
+    drop-shadow(0 0 20px rgba(255,140,0,.12));
 }
 
 #bubble{
-  background:rgba(0,0,0,.6);
-  padding:10px 15px;
-  border-radius:12px;
+  background:rgba(0,0,0,.55);
+  padding:11px 16px;
+  border-radius:14px;
   font-size:14px;
-  max-width:320px;
+  max-width:360px;
   text-align:center;
-  border:1px solid rgba(255,255,255,.1);
-  }
+  border:1px solid rgba(255,255,255,.08);
+  backdrop-filter:blur(6px);
+}
 
 .ai-btn{
   position:fixed;
   right:20px;
   bottom:20px;
-  width:60px;
-  height:60px;
+  width:62px;
+  height:62px;
   border-radius:50%;
   background:linear-gradient(45deg,#00ffcc,#6c5ce7);
   color:white;
   font-size:22px;
   border:none;
   cursor:pointer;
-  box-shadow:0 0 20px #00ffcc;
+  box-shadow:0 0 20px rgba(0,255,204,.5);
   z-index:1200;
 }
 
 #aiBox{
   position:fixed;
   right:20px;
-  bottom:90px;
-  width:380px;
-  height:560px;
+  bottom:95px;
+  width:390px;
+  height:570px;
   border:none;
-  border-radius:16px;
+  border-radius:18px;
   overflow:hidden;
-  box-shadow:0 0 25px cyan;
+  box-shadow:0 0 28px rgba(0,255,255,.25);
   display:none;
   background:#0d1117;
   z-index:1100;
+}
+
+@media(max-width:700px){
+  .hero-title{
+    font-size:28px;
+  }
+
+  .vtuber-frame{
+    width:260px;
+    height:260px;
+  }
+
+  #avatar{
+    width:140px;
+    bottom:38px;
+  }
+
+  #aiBox{
+    width:calc(100vw - 24px);
+    height:72vh;
+    right:12px;
+    bottom:86px;
+  }
 }
 </style>
 </head>
@@ -259,41 +269,23 @@ header{
 
 <div class="container">
 
-  <h2>🧠 AI Learning System</h2>
+  <div class="hero-title">🧠 AI Learning System</div>
 
   <div class="card">
-    <p>Selamat datang di AI Erika099 🚀</p>
+    Selamat datang di AI Erika099 🚀<br>
+    Tanya apa saja — aku siap membantu.
   </div>
 
-  <h2 style="margin-top:35px;">📊 BTC MARKET CHART</h2>
+  <div class="vtuber-box">
 
-  <div class="market-bar">
-    <div class="market-item">
-      <span>BTC</span>
-      <strong id="btcPrice">--</strong>
+    <div class="vtuber-frame">
+      <img class="frame-img" src="ai/img/frame.png" alt="frame">
+      <img id="avatar" src="ai/img/vtuber.png" alt="avatar">
     </div>
 
-    <div class="market-item">
-      <span>24h</span>
-      <strong id="btcChange">--</strong>
-    </div>
+    <div id="bubble">Klik layar sekali untuk mulai 🎤</div>
 
-    <div class="market-item">
-      <span>Status</span>
-      <strong id="btcStatus">Loading...</strong>
-    </div>
   </div>
-
-  <canvas id="btcChart"></canvas>
-
-<div class="vtuber-box">
-
-  <div class="vtuber-frame">
-    <img class="frame-img" src="ai/img/frame.png" alt="frame">
-    <img id="avatar" src="ai/img/vtuber.png" alt="avatar">
-  </div>
-
-  <div id="bubble">Klik layar sekali untuk mulai 🎤</div>
 
 </div>
 
@@ -315,95 +307,14 @@ function toggleAI(){
 const avatar = document.getElementById("avatar");
 const bubble = document.getElementById("bubble");
 
-const ctx = document.getElementById("btcChart").getContext("2d");
-
-const chart = new Chart(ctx,{
-  type:"candlestick",
-  data:{
-    datasets:[{
-      data:[]
-    }]
-  },
-  options:{
-    responsive:true,
-    scales:{
-      x:{
-        type:"time",
-        ticks:{color:"white"}
-      },
-      y:{
-        ticks:{color:"white"}
-      }
-    }
-  }
-});
-
-async function loadBTC(){
-  try{
-    const candleRes = await fetch(
-      "https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=15m&limit=50"
-    );
-
-    const candleRaw = await candleRes.json();
-
-    const data = candleRaw.map(d => ({
-      x:new Date(d[0]),
-      o:+d[1],
-      h:+d[2],
-      l:+d[3],
-      c:+d[4]
-    }));
-
-    chart.data.datasets[0].data = data;
-    chart.update();
-
-    const tickerRes = await fetch(
-      "https://api.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT"
-    );
-
-    const ticker = await tickerRes.json();
-
-    const price = Number(ticker.lastPrice);
-    const change = Number(ticker.priceChangePercent);
-
-    document.getElementById("btcPrice").textContent =
-      "$" + price.toLocaleString("en-US", {
-        maximumFractionDigits:2
-      });
-
-    document.getElementById("btcChange").textContent =
-      change.toFixed(2) + "%";
-
-    if(change >= 0){
-      document.getElementById("btcChange").className = "up";
-      document.getElementById("btcStatus").className = "up";
-      document.getElementById("btcStatus").textContent = "Bullish";
-      bubble.innerText =
-        "BTC naik " + change.toFixed(2) + "% 📈";
-    }else{
-      document.getElementById("btcChange").className = "down";
-      document.getElementById("btcStatus").className = "down";
-      document.getElementById("btcStatus").textContent = "Bearish";
-      bubble.innerText =
-        "BTC turun " + change.toFixed(2) + "% 📉";
-    }
-
-  }catch(e){
-    console.log("BTC error", e);
-  }
-}
-
-loadBTC();
-setInterval(loadBTC, 15000);
-
 setInterval(() => {
   avatar.src = "ai/img/vtuber-eyes-closed.png";
 
   setTimeout(() => {
     avatar.src = "ai/img/vtuber.png";
-  }, 150);
+  }, 140);
 
-}, 4000);
+}, 4200);
 
 function speak(text){
   const u = new SpeechSynthesisUtterance(text);
@@ -420,6 +331,7 @@ if(SpeechRecognition){
 
   recognition.lang = "id-ID";
   recognition.continuous = true;
+  recognition.interimResults = false;
 
   document.body.addEventListener("click", () => {
     recognition.start();
@@ -428,25 +340,39 @@ if(SpeechRecognition){
 
   recognition.onresult = (e) => {
     const text =
-      e.results[e.results.length - 1][0].transcript;
+      e.results[e.results.length - 1][0].transcript.toLowerCase();
 
     let reply = "Aku dengar: " + text;
 
-    if(text.toLowerCase().includes("btc")){
-      const price =
-        document.getElementById("btcPrice").textContent;
+    if(text.includes("halo")){
+      reply = "Halo. Ada yang ingin kamu tanyakan?";
+    }
 
-      const status =
-        document.getElementById("btcStatus").textContent;
+    if(text.includes("siapa kamu")){
+      reply = "Aku Erika AI. Asisten virtual di website ini.";
+    }
+
+    if(text.includes("hari apa")){
+      const hari = [
+        "Minggu",
+        "Senin",
+        "Selasa",
+        "Rabu",
+        "Kamis",
+        "Jumat",
+        "Sabtu"
+      ];
 
       reply =
-        "BTC sekarang " + price +
-        ". Status market " + status + ".";
+        "Hari ini " +
+        hari[new Date().getDay()] +
+        ".";
     }
 
     if(
-      text.toLowerCase().includes("buka ai") ||
-      text.toLowerCase().includes("open ai")
+      text.includes("buka ai") ||
+      text.includes("open ai") ||
+      text.includes("chat")
     ){
       toggleAI();
       reply = "Membuka AI assistant.";
@@ -462,4 +388,4 @@ if(SpeechRecognition){
 </script>
 
 </body>
-</html>
+  </html>
