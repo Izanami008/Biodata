@@ -1,3 +1,5 @@
+let sending = false;
+
 function addMessage(text, type) {
   const chat = document.getElementById("chat");
 
@@ -16,45 +18,62 @@ function setTyping(show) {
 }
 
 async function send() {
+
+  if (sending) return;
+
   const input = document.getElementById("input");
   const text = input.value.trim();
 
   if (!text) return;
 
+  sending = true;
+
   addMessage(text, "user");
-
-  if (typeof remember === "function") {
-    remember("user", text);
-  }
-
   input.value = "";
   setTyping(true);
 
-  const history =
-    (window.memory && memory.history)
-      ? memory.history.slice(-20)
-      : [];
-
   try {
-    const reply = await askOnlineAI(text, history);
 
-    setTyping(false);
-    addMessage(reply, "ai");
+    const history =
+      (window.memory && memory.history)
+        ? memory.history.slice(-20)
+        : [];
+
+    const controller = new AbortController();
+
+    const timeout = setTimeout(() => {
+      controller.abort();
+    }, 30000);
+
+    const res = await fetch("./api/chat.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message: text,
+        history
+      }),
+      signal: controller.signal
+    });
+
+    clearTimeout(timeout);
+
+    if (!res.ok) {
+      throw new Error("HTTP " + res.status);
+    }
+
+    const data = await res.json();
+
+    const reply =
+      data.reply ||
+      "Maaf, AI tidak memberikan jawaban.";
 
     if (typeof remember === "function") {
+      remember("user", text);
       remember("ai", reply);
     }
 
-    if (typeof vtuberSpeak === "function") {
-      vtuberSpeak(reply);
-    } else if (typeof speak === "function") {
-      speak(reply);
-    }
-
-  } catch (e) {
-    const reply = brain(text);
-
-    setTyping(false);
     addMessage(reply, "ai");
 
     if (typeof vtuberSpeak === "function") {
@@ -62,17 +81,45 @@ async function send() {
     } else if (typeof speak === "function") {
       speak(reply);
     }
+
+  } catch (err) {
+
+    console.error(err);
+
+    const reply = brain(text);
+
+    addMessage(reply, "ai");
+
+    if (typeof vtuberSpeak === "function") {
+      vtuberSpeak(reply);
+    } else if (typeof speak === "function") {
+      speak(reply);
+    }
+
+  } finally {
+
+    setTyping(false);
+    sending = false;
+
+    document.getElementById("input").focus();
+
   }
+
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  addMessage("Halo. Aku siap membantu.", "ai");
+
+  addMessage("Halo 👋 Saya Izanami AI. Ada yang bisa saya bantu?", "ai");
 
   document
     .getElementById("input")
     .addEventListener("keydown", e => {
+
       if (e.key === "Enter") {
+        e.preventDefault();
         send();
       }
+
     });
+
 });
