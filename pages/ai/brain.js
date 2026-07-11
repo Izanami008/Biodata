@@ -1,28 +1,32 @@
 const memory = JSON.parse(localStorage.getItem("izanami_ai") || "{}");
 
-memory.history = memory.history || [];
+memory.history = Array.isArray(memory.history) ? memory.history : [];
 memory.profile = memory.profile || {};
-memory.facts = memory.facts || [];
+memory.facts = Array.isArray(memory.facts) ? memory.facts : [];
 
 function saveMemory() {
   localStorage.setItem("izanami_ai", JSON.stringify(memory));
 }
 
 function remember(role, text) {
+  if (!text || typeof text !== "string") return;
+
   memory.history.push({
     role,
-    text,
+    text: text.trim(),
     time: Date.now()
   });
 
-if (memory.history.length > 200)
-    memory.history = memory.history.slice(-50);
+  if (memory.history.length > 200) {
+    memory.history = memory.history.slice(-100);
   }
 
   saveMemory();
 }
 
 function rememberFact(key, value) {
+  if (!key || !value) return;
+
   const found = memory.facts.find(f => f.key === key);
 
   if (found) {
@@ -44,33 +48,34 @@ function getFact(key) {
   return item ? item.value : null;
 }
 
-function recentContext(n = 6) {
+function recentContext(limit = 8) {
   return memory.history
-    .slice(-n)
-    .map(x => x.text)
-    .join(" | ");
+    .slice(-limit)
+    .map(x => `${x.role}: ${x.text}`)
+    .join("\n");
 }
 
 function extractFacts(text) {
   const t = text.toLowerCase();
 
   if (t.includes("nama saya")) {
-    const name = text.replace(/nama saya/i, "").trim();
-    if (name) rememberFact("name", name);
+    const value = text.replace(/nama saya/i, "").trim();
+    if (value) rememberFact("name", value);
   }
 
   if (t.includes("saya suka")) {
-    const like = text.replace(/saya suka/i, "").trim();
-    if (like) rememberFact("likes", like);
+    const value = text.replace(/saya suka/i, "").trim();
+    if (value) rememberFact("likes", value);
   }
 
   if (t.includes("saya kerja di")) {
-    const work = text.replace(/saya kerja di/i, "").trim();
-    if (work) rememberFact("work", work);
+    const value = text.replace(/saya kerja di/i, "").trim();
+    if (value) rememberFact("work", value);
   }
 }
 
 function brain(text) {
+
   remember("user", text);
   extractFacts(text);
 
@@ -85,7 +90,7 @@ function brain(text) {
   if (t.includes("siapa nama saya")) {
     reply = name
       ? `Nama kamu ${name}.`
-      : "Kamu belum memberi tahu nama kamu.";
+      : "Kamu belum pernah memberi tahu namamu.";
   }
 
   else if (t.includes("apa yang saya suka")) {
@@ -96,34 +101,41 @@ function brain(text) {
 
   else if (t.includes("kerja saya dimana")) {
     reply = work
-      ? `Kamu pernah bilang kerja di ${work}.`
-      : "Aku belum tahu tempat kerja kamu.";
+      ? `Kamu pernah bilang bekerja di ${work}.`
+      : "Aku belum tahu tempat kerjamu.";
   }
 
   else if (t.includes("ringkas profil saya")) {
-    const parts = [];
 
-    if (name) parts.push(`nama ${name}`);
-    if (likes) parts.push(`suka ${likes}`);
-    if (work) parts.push(`kerja di ${work}`);
+    const info = [];
 
-    reply = parts.length
-      ? `Yang aku ingat: ${parts.join(", ")}.`
-      : "Belum ada profil yang tersimpan.";
+    if (name) info.push(`Nama: ${name}`);
+    if (likes) info.push(`Suka: ${likes}`);
+    if (work) info.push(`Kerja: ${work}`);
+
+    reply = info.length
+      ? info.join("\n")
+      : "Belum ada informasi yang kusimpan.";
   }
 
-  else if (t.includes("halo") || t.includes("hai")) {
+  else if (
+    t === "halo" ||
+    t === "hai" ||
+    t.startsWith("halo ") ||
+    t.startsWith("hai ")
+  ) {
     reply = name
-      ? `Halo ${name}. Ada yang mau dibahas hari ini?`
-      : "Halo. Ada yang mau dibahas hari ini?";
+      ? `Halo ${name}, ada yang bisa kubantu?`
+      : "Halo, ada yang bisa kubantu?";
   }
 
   else {
-    const ctx = recentContext();
+
+    const ctx = recentContext(6);
 
     reply = ctx
-      ? `Aku masih mengikuti konteks percakapan kita. Jelaskan sedikit lebih spesifik. Konteks terakhir: ${ctx}`
-      : "Ceritakan lebih detail, nanti aku bantu uraikan.";
+      ? `Aku masih mengingat konteks percakapan sebelumnya.\n\n${ctx}\n\nSilakan lanjutkan pertanyaanmu.`
+      : "Coba jelaskan lebih detail supaya aku bisa membantu.";
   }
 
   remember("ai", reply);
@@ -132,6 +144,8 @@ function brain(text) {
 }
 
 function clearMemory() {
-  localStorage.removeItem("izanami_ai");
-  location.reload();
-}
+  if (confirm("Hapus semua memori AI?")) {
+    localStorage.removeItem("izanami_ai");
+    location.reload();
+  }
+    }
