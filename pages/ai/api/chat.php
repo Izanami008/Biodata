@@ -1,91 +1,119 @@
 <?php
-header('Content-Type: application/json');
-
-$apiKey = 'GANTI_DENGAN_API_KEY_KAMU';
+header('Content-Type: application/json; charset=utf-8');
 
 date_default_timezone_set('Asia/Jakarta');
+
+$apiKey = getenv('OPENAI_API_KEY');
+if (!$apiKey) {
+    $apiKey = 'GANTI_DENGAN_API_KEY_KAMU';
+}
 
 $input = json_decode(file_get_contents('php://input'), true);
 
 $message = trim($input['message'] ?? '');
-$history = $input['history'] ?? [];
 
-$today = date('l');
-$date = date('d F Y');
-$time = date('H:i');
+if ($message === '') {
+    http_response_code(400);
+    echo json_encode([
+        'reply' => 'Pesan kosong.'
+    ]);
+    exit;
+}
+
+$history = $input['history'] ?? [];
 
 $systemPrompt =
 "Kamu adalah Izanami AI.
-Jawab natural, cerdas, relevan, dan mengikuti konteks percakapan.
-Gunakan history chat untuk memahami referensi sebelumnya.
-Jika user menanyakan waktu, gunakan info sistem.
-Hari ini $today.
-Tanggal $date.
-Jam $time.";
+
+Jawab menggunakan Bahasa Indonesia yang natural.
+
+Jawaban harus singkat tetapi lengkap.
+
+Gunakan konteks percakapan sebelumnya.
+
+Jika tidak tahu jawabannya, katakan dengan jujur.
+
+Hari: ".date('l')."
+
+Tanggal: ".date('d F Y')."
+
+Jam: ".date('H:i');
 
 $messages = [
-  [
-    'role' => 'system',
-    'content' => $systemPrompt
-  ]
+    [
+        "role"=>"system",
+        "content"=>$systemPrompt
+    ]
 ];
 
-$recent = array_slice($history, -20);
+foreach(array_slice($history,-20) as $h){
 
-foreach ($recent as $item) {
-  if (!isset($item['role']) || !isset($item['text'])) {
-    continue;
-  }
+    if(empty($h["text"])) continue;
 
-  $role = $item['role'] === 'ai'
-    ? 'assistant'
-    : 'user';
-
-  $messages[] = [
-    'role' => $role,
-    'content' => $item['text']
-  ];
+    $messages[]=[
+        "role"=>$h["role"]=="ai"
+            ?"assistant"
+            :"user",
+        "content"=>$h["text"]
+    ];
 }
 
-$messages[] = [
-  'role' => 'user',
-  'content' => $message
+$messages[]=[
+    "role"=>"user",
+    "content"=>$message
 ];
 
-$payload = [
-  'model' => 'gpt-4o-mini',
-  'messages' => $messages,
-  'temperature' => 0.7
+$payload=[
+    "model"=>"gpt-4o-mini",
+    "messages"=>$messages,
+    "temperature"=>0.7,
+    "max_tokens"=>800
 ];
 
-$ch = curl_init('https://api.openai.com/v1/chat/completions');
+$ch=curl_init("https://api.openai.com/v1/chat/completions");
 
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_HTTPHEADER, [
-  'Content-Type: application/json',
-  'Authorization: Bearer ' . $apiKey
+curl_setopt_array($ch,[
+    CURLOPT_RETURNTRANSFER=>true,
+    CURLOPT_POST=>true,
+    CURLOPT_TIMEOUT=>30,
+    CURLOPT_CONNECTTIMEOUT=>10,
+    CURLOPT_HTTPHEADER=>[
+        "Content-Type: application/json",
+        "Authorization: Bearer ".$apiKey
+    ],
+    CURLOPT_POSTFIELDS=>json_encode($payload)
 ]);
-curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
 
-$result = curl_exec($ch);
+$result=curl_exec($ch);
 
-if ($result === false) {
-  echo json_encode([
-    'reply' => 'AI sedang tidak tersedia.'
-  ]);
-  curl_close($ch);
-  exit;
+if(curl_errno($ch)){
+    echo json_encode([
+        "reply"=>"Koneksi ke AI gagal: ".curl_error($ch)
+    ]);
+    curl_close($ch);
+    exit;
 }
+
+$http=curl_getinfo($ch,CURLINFO_HTTP_CODE);
 
 curl_close($ch);
 
-$data = json_decode($result, true);
+$data=json_decode($result,true);
 
-$reply =
-  $data['choices'][0]['message']['content']
-  ?? 'AI sedang tidak tersedia.';
+if($http!=200){
+
+    $err=$data["error"]["message"] ?? "Unknown error";
+
+    echo json_encode([
+        "reply"=>"OpenAI Error: ".$err
+    ]);
+
+    exit;
+}
 
 echo json_encode([
-  'reply' => trim($reply)
+    "reply"=>trim(
+        $data["choices"][0]["message"]["content"]
+        ??"Maaf, aku tidak memiliki jawaban."
+    )
 ]);
