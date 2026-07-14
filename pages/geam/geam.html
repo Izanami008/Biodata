@@ -2,50 +2,360 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Anime Fight Combo</title>
+<meta name="viewport"
+content="width=device-width,
+initial-scale=1.0,
+maximum-scale=1.0,
+user-scalable=no">
+
+<title>Anime Fight Ultimate</title>
 
 <style>
-body{margin:0;overflow:hidden;background:black;font-family:sans-serif;}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+-webkit-user-select:none;
+user-select:none;
+touch-action:none;
+}
+
+body{
+
+overflow:hidden;
+
+background:#000;
+
+font-family:Arial,sans-serif;
+
+}
+
+canvas{
+
+position:fixed;
+
+left:0;
+
+top:0;
+
+width:100%;
+
+height:100%;
+
+background:#000;
+
+}
+
+/* ====================== */
+/* UI */
+/* ====================== */
 
 .ui{
-position:absolute;top:10px;width:100%;
-display:flex;justify-content:space-between;
-padding:0 20px;color:white;
+
+position:absolute;
+
+top:12px;
+
+left:0;
+
+width:100%;
+
+display:flex;
+
+justify-content:space-between;
+
+padding:0 20px;
+
+z-index:100;
+
+pointer-events:none;
+
 }
 
-.bar{width:200px;height:15px;background:#222;border:1px solid #00ff9d;}
-.hp{height:100%;background:red;}
-.energy{height:100%;background:#00ff9d;}
+.playerPanel,
+.enemyPanel{
+
+width:38%;
+
+}
+
+.energyPanel{
+
+position:absolute;
+
+left:50%;
+
+top:70px;
+
+transform:translateX(-50%);
+
+width:220px;
+
+}
+
+.label{
+
+color:white;
+
+font-size:18px;
+
+font-weight:bold;
+
+margin-bottom:6px;
+
+text-shadow:0 0 8px cyan;
+
+}
+
+.bar{
+
+height:22px;
+
+background:#111;
+
+border-radius:25px;
+
+overflow:hidden;
+
+border:2px solid rgba(255,255,255,.4);
+
+box-shadow:
+
+0 0 15px rgba(0,255,255,.35);
+
+}
+
+.hp{
+
+height:100%;
+
+width:100%;
+
+background:
+
+linear-gradient(
+
+90deg,
+
+#ff1a1a,
+
+#ff7700
+
+);
+
+}
+
+.energy{
+
+height:100%;
+
+width:100%;
+
+background:
+
+linear-gradient(
+
+90deg,
+
+#00ffff,
+
+#0066ff
+
+);
+
+}
+
+/* ====================== */
+/* CONTROL */
+/* ====================== */
 
 .controls{
-position:fixed;bottom:20px;width:100%;
-display:flex;justify-content:space-between;padding:0 20px;
+
+position:fixed;
+
+left:0;
+
+bottom:25px;
+
+width:100%;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:flex-end;
+
+padding:0 20px;
+
+z-index:200;
+
 }
 
+/* ====================== */
+/* ANALOG */
+/* ====================== */
+
 #analog{
-width:120px;height:120px;
-background:rgba(255,255,255,0.1);
-border-radius:50%;position:relative;
+
+width:170px;
+
+height:170px;
+
+border-radius:50%;
+
+background:
+
+rgba(255,255,255,.08);
+
+border:
+
+3px solid rgba(0,255,255,.5);
+
+position:relative;
+
+backdrop-filter:blur(10px);
+
+box-shadow:
+
+0 0 30px cyan;
+
 }
 
 #stick{
-width:50px;height:50px;background:#00ff9d;
-border-radius:50%;position:absolute;
-top:35px;left:35px;
+
+width:70px;
+
+height:70px;
+
+border-radius:50%;
+
+position:absolute;
+
+left:50px;
+
+top:50px;
+
+background:
+
+linear-gradient(
+
+#00ffd5,
+
+#00a86b
+
+);
+
+box-shadow:
+
+0 0 20px cyan;
+
 }
 
-.buttons{display:flex;gap:15px;}
+/* ====================== */
+/* BUTTON */
+/* ====================== */
+
+.buttons{
+
+display:grid;
+
+grid-template-columns:
+
+repeat(2,110px);
+
+gap:16px;
+
+}
 
 button{
-width:75px;height:75px;border-radius:50%;
-border:none;color:white;font-size:18px;
+
+width:110px;
+
+height:110px;
+
+border:none;
+
+border-radius:50%;
+
+font-size:34px;
+
+font-weight:bold;
+
+color:white;
+
+box-shadow:
+
+0 0 25px rgba(255,255,255,.35);
+
+transition:.15s;
+
 }
 
-#skill1{background:linear-gradient(#00c3ff,#005eff);}
-#skill2{background:linear-gradient(#ff9d00,#ff3c00);}
-#skill3{background:linear-gradient(#ff0000,#990000);}
+button:active{
+
+transform:scale(.9);
+
+}
+
+#skill1{
+
+background:
+
+linear-gradient(
+
+#36d7ff,
+
+#004dff
+
+);
+
+}
+
+#skill2{
+
+background:
+
+linear-gradient(
+
+#ffc400,
+
+#ff5a00
+
+);
+
+}
+
+#skill3{
+
+background:
+
+linear-gradient(
+
+#ff0000,
+
+#660000
+
+);
+
+}
+
+#dash{
+
+background:
+
+linear-gradient(
+
+#8b5cf6,
+
+#3b82f6
+
+);
+
+}
+
 </style>
+
 </head>
 
 <body>
@@ -53,281 +363,584 @@ border:none;color:white;font-size:18px;
 <canvas id="gameCanvas"></canvas>
 
 <div class="ui">
-<div>PLAYER<div class="bar"><div id="playerHP" class="hp"></div></div></div>
-<div>ENEMY<div class="bar"><div id="enemyHP" class="hp"></div></div></div>
-<div>ENERGY<div class="bar"><div id="energyBar" class="energy"></div></div></div>
+
+<div class="playerPanel">
+
+<div class="label">
+
+PLAYER
+
+</div>
+
+<div class="bar">
+
+<div
+id="playerHP"
+class="hp">
+
+</div>
+
+</div>
+
+</div>
+
+<div class="enemyPanel">
+
+<div class="label">
+
+ENEMY
+
+</div>
+
+<div class="bar">
+
+<div
+id="enemyHP"
+class="hp">
+
+</div>
+
+</div>
+
+</div>
+
+<div class="energyPanel">
+
+<div class="label">
+
+ENERGY
+
+</div>
+
+<div class="bar">
+
+<div
+id="energyBar"
+class="energy">
+
+</div>
+
+</div>
+
+</div>
+
 </div>
 
 <div class="controls">
 
-<div id="analog"><div id="stick"></div></div>
+<div id="analog">
+
+<div id="stick">
+
+</div>
+
+</div>
 
 <div class="buttons">
-<button id="skill1">⚔️</button>
-<button id="skill2">⚡</button>
-<button id="skill3">💥</button>
+
+<button id="skill1">
+
+⚔️
+
+</button>
+
+<button id="skill2">
+
+⚡
+
+</button>
+
+<button id="skill3">
+
+💥
+
+</button>
+
+<button id="dash">
+
+💨
+
+</button>
+
 </div>
 
 </div>
 
 <script>
-
-// ===== CANVAS =====
+  // =========================
+// CANVAS
+// =========================
 const canvas=document.getElementById("gameCanvas");
 const ctx=canvas.getContext("2d");
 
+const WIDTH=window.innerWidth;
+const HEIGHT=window.innerHeight;
+
 const dpr=window.devicePixelRatio||1;
-canvas.width=innerWidth*dpr;
-canvas.height=innerHeight*dpr;
-canvas.style.width=innerWidth+"px";
-canvas.style.height=innerHeight+"px";
+
+canvas.width=WIDTH*dpr;
+canvas.height=HEIGHT*dpr;
+
+canvas.style.width=WIDTH+"px";
+canvas.style.height=HEIGHT+"px";
+
 ctx.scale(dpr,dpr);
 
-// ===== SPRITE =====
+// =========================
+// SPRITE
+// =========================
 const playerImg=new Image();
 playerImg.src="png/character.png";
 
-const frameW=333, frameH=333;
-let frameX=0, frameY=0, frameSpeed=0;
+const frameW=333;
+const frameH=333;
+
+let frameX=0;
+let frameY=0;
+let frameTick=0;
+
 let facing=1;
 
-// ===== PLAYER =====
-let player={x:100,y:300,w:150,h:150,hp:100,energy:0};
+// =========================
+// PLAYER
+// =========================
+const player={
 
-// ===== ENEMY =====
-let enemy={x:600,y:300,w:120,h:120,hp:100,speed:1.5};
+x:120,
+y:340,
 
-// ===== CONTROL =====
-let moveX=0, moveY=0;
+w:170,
+h:170,
 
-// ===== COMBO =====
-let comboStep=0;
-let comboTimer=0;
+speed:5,
 
-// ===== SKILL =====
-let skill2=false;
-let ultiMode=false, ultiTimer=0;
+hp:100,
 
-// ===== ANALOG =====
+energy:0
+
+};
+
+// =========================
+// ENEMY
+// =========================
+const enemy={
+
+x:720,
+y:330,
+
+w:150,
+h:150,
+
+hp:100,
+
+speed:1.6
+
+};
+
+// =========================
+// CONTROL
+// =========================
+let moveX=0;
+let moveY=0;
+
 const analog=document.getElementById("analog");
 const stick=document.getElementById("stick");
 
-analog.addEventListener("touchmove",(e)=>{
-let rect=analog.getBoundingClientRect();
-let x=e.touches[0].clientX-rect.left-60;
-let y=e.touches[0].clientY-rect.top-60;
+analog.addEventListener("touchmove",e=>{
 
-let dist=Math.sqrt(x*x+y*y);
-let max=40;
+e.preventDefault();
+
+let rect=analog.getBoundingClientRect();
+
+let x=e.touches[0].clientX-rect.left-85;
+let y=e.touches[0].clientY-rect.top-85;
+
+let dist=Math.hypot(x,y);
+
+let max=55;
 
 if(dist>max){
+
 x=x/dist*max;
 y=y/dist*max;
+
 }
 
-stick.style.left=(x+60-25)+"px";
-stick.style.top=(y+60-25)+"px";
+stick.style.left=(x+85-35)+"px";
+stick.style.top=(y+85-35)+"px";
 
 moveX=x/max;
 moveY=y/max;
+
 });
 
 analog.addEventListener("touchend",()=>{
-moveX=0;moveY=0;
-stick.style.left="35px";
-stick.style.top="35px";
+
+moveX=0;
+moveY=0;
+
+stick.style.left="50px";
+stick.style.top="50px";
+
 });
 
-// ===== BUTTON =====
+// =========================
+// COMBO
+// =========================
+let comboStep=0;
+let comboTimer=0;
+
+// =========================
+// SKILL
+// =========================
+let skill2=false;
+let dash=false;
+
+let ulti=false;
+let ultiTimer=0;
+
+// =========================
+// BUTTON
+// =========================
 skill1.onclick=()=>{
+
 comboStep++;
-comboTimer=20;
-if(comboStep>3) comboStep=1;
+
+comboTimer=18;
+
+if(comboStep>3)
+comboStep=1;
+
 };
 
 skill2.onclick=()=>{
+
 skill2=true;
-setTimeout(()=>skill2=false,400);
+
+setTimeout(()=>{
+
+skill2=false;
+
+},350);
+
+};
+
+dash.onclick=()=>{
+
+player.x+=facing*90;
+
 };
 
 skill3.onclick=()=>{
+
 if(player.energy>=100){
-ultiMode=true;
-ultiTimer=0;
+
 player.energy=0;
+
+ulti=true;
+
+ultiTimer=0;
+
 }
+
 };
 
-// ===== GAME LOOP =====
-function draw(){
+  ctx.clearRect(0,0,WIDTH,HEIGHT);
 
-ctx.clearRect(0,0,canvas.width,canvas.height);
+// LANGIT
+let bg=ctx.createLinearGradient(0,0,0,HEIGHT);
 
-// BACKGROUND
-let grad=ctx.createLinearGradient(0,0,0,canvas.height);
-grad.addColorStop(0,"#001a12");
-grad.addColorStop(1,"black");
-ctx.fillStyle=grad;
-ctx.fillRect(0,0,canvas.width,canvas.height);
+bg.addColorStop(0,"#061d39");
+bg.addColorStop(.6,"#132f5c");
+bg.addColorStop(1,"#030303");
 
-// lantai
-ctx.fillStyle="#111";
-ctx.fillRect(0,420,canvas.width,200);
+ctx.fillStyle=bg;
+ctx.fillRect(0,0,WIDTH,HEIGHT);
 
-// MOVE
-player.x+=moveX*5;
-player.y+=moveY*5;
+// Bulan
+ctx.shadowBlur=30;
+ctx.shadowColor="white";
 
-// arah
+ctx.beginPath();
+ctx.arc(WIDTH/2,90,45,0,Math.PI*2);
+
+ctx.fillStyle="#fffde7";
+
+ctx.fill();
+
+ctx.shadowBlur=0;
+
+// Ring Duel
+ctx.beginPath();
+
+ctx.fillStyle="#303030";
+
+ctx.ellipse(
+
+WIDTH/2,
+HEIGHT-120,
+
+420,
+90,
+
+0,
+0,
+Math.PI*2
+
+);
+
+ctx.fill();
+
+ctx.lineWidth=4;
+ctx.strokeStyle="#00ffff";
+ctx.stroke();
+  // ===========================
+// PLAYER MOVE
+// ===========================
+
+player.x += moveX * player.speed;
+player.y += moveY * player.speed;
+
+player.x = Math.max(0,Math.min(WIDTH-player.w,player.x));
+player.y = Math.max(100,Math.min(HEIGHT-220,player.y));
+
 if(moveX>0.1) facing=1;
 if(moveX<-0.1) facing=-1;
 
-// DIST
+// ===========================
+// PLAYER SHADOW
+// ===========================
+
+ctx.fillStyle="rgba(0,0,0,.35)";
+
+ctx.beginPath();
+
+ctx.ellipse(
+player.x+player.w/2,
+player.y+player.h-5,
+55,
+14,
+0,
+0,
+Math.PI*2
+);
+
+ctx.fill();
+
+// ===========================
+// ENEMY SHADOW
+// ===========================
+
+ctx.beginPath();
+
+ctx.ellipse(
+enemy.x+enemy.w/2,
+enemy.y+enemy.h-5,
+50,
+12,
+0,
+0,
+Math.PI*2
+);
+
+ctx.fill();
+
+// ===========================
+// PLAYER AURA
+// ===========================
+
+ctx.save();
+
+ctx.shadowBlur=35;
+ctx.shadowColor="#00ffff";
+
+ctx.beginPath();
+
+ctx.arc(
+player.x+player.w/2,
+player.y+player.h/2,
+55,
+0,
+Math.PI*2
+);
+
+ctx.fillStyle="rgba(0,255,255,.12)";
+ctx.fill();
+
+ctx.restore();
+
+// ===========================
+// ENEMY AI
+// ===========================
+
 let dx=player.x-enemy.x;
 let dy=player.y-enemy.y;
-let dist=Math.sqrt(dx*dx+dy*dy);
 
-// AI
-if(dist>80){
+let dist=Math.hypot(dx,dy);
+
+if(dist>110){
+
 enemy.x+=dx/dist*enemy.speed;
 enemy.y+=dy/dist*enemy.speed;
+
 }
 
-// ENEMY ATTACK
-if(dist<70){
-player.hp-=0.1;
+if(dist<90){
+
+player.hp-=0.08;
+
 }
 
-// ===== COMBO TIMER =====
-if(comboTimer>0){
-comboTimer--;
-}else{
-comboStep=0;
-}
+// ===========================
+// ANIMATION
+// ===========================
 
-// ===== ANIMASI =====
-let moving=Math.abs(moveX)>0.1||Math.abs(moveY)>0.1;
+let moving=Math.abs(moveX)>0.05||
+Math.abs(moveY)>0.05;
 
-if(comboStep===1) frameY=2;
-else if(comboStep===2) frameY=3;
-else if(comboStep===3) frameY=4;
+if(comboStep==1) frameY=2;
+else if(comboStep==2) frameY=3;
+else if(comboStep==3) frameY=4;
 else if(moving) frameY=1;
 else frameY=0;
 
-// FRAME
-frameSpeed++;
-if(frameSpeed>6){
+frameTick++;
+
+if(frameTick>6){
+
+frameTick=0;
+
 frameX++;
-frameSpeed=0;
-if(frameX>=4) frameX=0;
+
+if(frameX>=4)
+frameX=0;
+
 }
 
-// ===== DAMAGE COMBO =====
-if(comboStep===1 && dist<100) enemy.hp-=0.5;
-if(comboStep===2 && dist<100) enemy.hp-=0.8;
-if(comboStep===3 && dist<120){
-enemy.hp-=2;
+// ===========================
+// SKILL EFFECT
+// ===========================
 
-// efek finisher
-ctx.fillStyle="orange";
-ctx.beginPath();
-ctx.arc(enemy.x+40,enemy.y+60,40,0,Math.PI*2);
-ctx.fill();
-}
-
-// ===== SKILL 2 =====
 if(skill2){
-ctx.fillStyle="#00ffff";
-ctx.beginPath();
-ctx.arc(player.x+50,player.y+60,30,0,Math.PI*2);
-ctx.fill();
 
-if(dist<120) enemy.hp-=0.5;
-}
-
-// ===== ULTIMATE =====
-if(ultiMode){
-ultiTimer++;
-
-ctx.fillStyle="black";
-ctx.fillRect(0,0,canvas.width,canvas.height);
-
-let size=ultiTimer*20;
-
-let grad=ctx.createRadialGradient(
-canvas.width/2,canvas.height/2,50,
-canvas.width/2,canvas.height/2,size
-);
-
-grad.addColorStop(0,"#00ffff");
-grad.addColorStop(1,"transparent");
-
-ctx.fillStyle=grad;
-ctx.beginPath();
-ctx.arc(canvas.width/2,canvas.height/2,size,0,Math.PI*2);
-ctx.fill();
-
-if(ultiTimer>50){
-ultiMode=false;
-enemy.hp-=30;
-}
-}
-
-// ===== DRAW PLAYER (FLIP) =====
 ctx.save();
 
-if(facing===-1){
-ctx.translate(player.x+player.w,player.y);
-ctx.scale(-1,1);
-ctx.drawImage(playerImg,
-frameX*frameW,frameY*frameH,
-frameW,frameH,
-0,0,
-player.w,player.h);
-}else{
-ctx.drawImage(playerImg,
-frameX*frameW,frameY*frameH,
-frameW,frameH,
-player.x,player.y,
-player.w,player.h);
+ctx.strokeStyle="#00ffff";
+
+ctx.lineWidth=8;
+
+ctx.shadowBlur=25;
+
+ctx.shadowColor="#00ffff";
+
+ctx.beginPath();
+
+ctx.moveTo(
+player.x+80,
+player.y+70
+);
+
+ctx.lineTo(
+enemy.x+60,
+enemy.y+60
+);
+
+ctx.stroke();
+
+for(let i=0;i<20;i++){
+
+ctx.beginPath();
+
+ctx.fillStyle="cyan";
+
+ctx.arc(
+
+player.x+40+
+Math.random()*80,
+
+player.y+30+
+Math.random()*90,
+
+2+
+Math.random()*5,
+
+0,
+Math.PI*2
+
+);
+
+ctx.fill();
+
 }
 
 ctx.restore();
 
-// ===== ENEMY =====
-ctx.fillStyle="red";
-ctx.fillRect(enemy.x,enemy.y,enemy.w,enemy.h);
+if(dist<150){
 
+enemy.hp-=0.6;
+
+}
+
+}
+
+// ===========================
+// ULTIMATE
+// ===========================
+
+if(ulti){
+
+ultiTimer++;
+
+ctx.fillStyle="rgba(255,255,255,.08)";
+ctx.fillRect(0,0,WIDTH,HEIGHT);
+
+for(let i=0;i<40;i++){
+
+ctx.beginPath();
+
+ctx.fillStyle="cyan";
+
+ctx.arc(
+
+Math.random()*WIDTH,
+
+Math.random()*HEIGHT,
+
+Math.random()*6,
+
+0,
+
+Math.PI*2
+
+);
+
+ctx.fill();
+
+}
+
+if(ultiTimer>45){
+
+ulti=false;
+
+enemy.hp-=30;
+
+}
+
+}
+
+// ===========================
 // ENERGY
-player.energy+=0.2;
-if(player.energy>100) player.energy=100;
+// ===========================
 
+player.energy+=0.12;
+
+if(player.energy>100)
+player.energy=100;
+
+// ===========================
 // UI
+// ===========================
+
 playerHP.style.width=player.hp+"%";
 enemyHP.style.width=enemy.hp+"%";
 energyBar.style.width=player.energy+"%";
-
-// END
-if(player.hp<=0){
-ctx.fillStyle="red";
-ctx.font="40px Arial";
-ctx.fillText("YOU LOSE",200,200);
-return;
-}
-
-if(enemy.hp<=0){
-ctx.fillStyle="lime";
-ctx.font="40px Arial";
-ctx.fillText("YOU WIN",200,200);
-return;
-}
-
-requestAnimationFrame(draw);
-}
-
-draw();
-
-</script>
-
-</body>
-  </html>
