@@ -3,8 +3,7 @@
 
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Radar Wi-Fi</title>
 
@@ -22,8 +21,8 @@ body{
         radial-gradient(
             circle at center,
             #063442 0%,
-            #03151f 35%,
-            #01070d 75%
+            #03151f 40%,
+            #01070d 100%
         );
     color:white;
     font-family:Arial,Helvetica,sans-serif;
@@ -33,7 +32,7 @@ body{
 
 .header{
     padding:18px;
-    background:rgba(0,10,20,.92);
+    background:rgba(0,10,20,.95);
     border-bottom:1px solid #00d9ff;
     box-shadow:0 0 25px rgba(0,217,255,.3);
 }
@@ -63,9 +62,9 @@ body{
 }
 
 .logo-subtitle{
-    margin-top:4px;
     color:#83aebb;
     font-size:11px;
+    margin-top:4px;
 }
 
 /* ================= USER ================= */
@@ -87,9 +86,7 @@ body{
 .user img{
     width:55px;
     height:55px;
-
     border-radius:50%;
-
     object-fit:cover;
 
     border:2px solid #00d9ff;
@@ -113,10 +110,10 @@ body{
 }
 
 .logout{
+    padding:9px 12px;
+
     border:0;
     border-radius:8px;
-
-    padding:9px 12px;
 
     background:#e11d48;
     color:white;
@@ -124,15 +121,16 @@ body{
     cursor:pointer;
 }
 
-/* ================= STATISTIK ================= */
+/* ================= STATUS ================= */
 
-.stats{
+.status-grid{
     display:flex;
     gap:10px;
+
     padding:0 15px 15px;
 }
 
-.stat{
+.status-box{
     flex:1;
 
     padding:12px;
@@ -143,27 +141,23 @@ body{
     background:rgba(0,25,40,.75);
 }
 
-.stat-label{
+.status-box small{
     color:#79a7b5;
-    font-size:11px;
 }
 
-.stat-value{
+.status-box strong{
     display:block;
 
     margin-top:5px;
 
     color:#38dcff;
-    font-size:23px;
-    font-weight:bold;
+    font-size:18px;
 }
 
 /* ================= RADAR ================= */
 
 .radar-container{
-
     width:min(92vw,420px);
-
     aspect-ratio:1/1;
 
     margin:10px auto 20px;
@@ -174,13 +168,11 @@ body{
 .radar{
 
     position:absolute;
-
     inset:0;
 
     overflow:hidden;
 
     border:2px solid #00d9ff;
-
     border-radius:50%;
 
     box-shadow:
@@ -215,7 +207,7 @@ body{
         );
 }
 
-/* GARIS RADAR */
+/* GARIS SCAN */
 
 .radar::after{
 
@@ -285,34 +277,34 @@ body{
 
     position:absolute;
 
+    z-index:6;
+
     color:#4bdfff;
 
     font-weight:bold;
 
     text-shadow:0 0 8px #00cfff;
-
-    z-index:6;
 }
 
-.arah-atas{
+.atas{
     top:7px;
     left:50%;
     transform:translateX(-50%);
 }
 
-.arah-bawah{
+.bawah{
     bottom:7px;
     left:50%;
     transform:translateX(-50%);
 }
 
-.arah-kanan{
+.kanan{
     right:8px;
     top:50%;
     transform:translateY(-50%);
 }
 
-.arah-kiri{
+.kiri{
     left:8px;
     top:50%;
     transform:translateY(-50%);
@@ -320,7 +312,7 @@ body{
 
 /* ================= TITIK WIFI ================= */
 
-.titik-wifi{
+.titik{
 
     position:absolute;
 
@@ -331,25 +323,13 @@ body{
 
     z-index:10;
 
-    cursor:pointer;
-
     animation:
         denyut 1.4s infinite;
 }
 
-.titik-wifi::after{
-
-    content:"";
-
-    position:absolute;
-
-    inset:-8px;
-
-    border:1px solid currentColor;
-
-    border-radius:50%;
-
-    opacity:.5;
+.titik-kuat{
+    background:#00ff88;
+    box-shadow:0 0 15px #00ff88;
 }
 
 @keyframes denyut{
@@ -363,54 +343,19 @@ body{
     }
 }
 
-.sangat-kuat{
-    background:#00ff88;
-    color:#00ff88;
-    box-shadow:0 0 15px #00ff88;
-}
-
-.sedang{
-    background:#ffe600;
-    color:#ffe600;
-    box-shadow:0 0 15px #ffe600;
-}
-
-.lemah{
-    background:#ff3b30;
-    color:#ff3b30;
-    box-shadow:0 0 15px #ff3b30;
-}
-
-.nama-titik{
-
-    position:absolute;
-
-    left:25px;
-    top:-4px;
-
-    white-space:nowrap;
-
-    color:white;
-
-    font-size:10px;
-
-    text-shadow:0 0 6px black;
-}
-
-/* ================= TOMBOL ================= */
+/* ================= KONTROL ================= */
 
 .kontrol{
     padding:0 15px 15px;
 }
 
-.tombol-scan{
+.tombol{
 
     width:100%;
 
     padding:15px;
 
     border:1px solid #00d9ff;
-
     border-radius:12px;
 
     background:
@@ -431,8 +376,19 @@ body{
         0 0 15px rgba(0,217,255,.35);
 }
 
-.tombol-scan:active{
+.tombol:active{
     transform:scale(.98);
+}
+
+.tombol-pengaturan{
+
+    margin-top:10px;
+
+    background:#071923;
+
+    border-color:#087ea4;
+
+    font-size:14px;
 }
 
 /* ================= INFO ================= */
@@ -441,10 +397,9 @@ body{
 
     margin:0 15px 15px;
 
-    padding:13px;
+    padding:14px;
 
     border:1px solid #075f80;
-
     border-radius:12px;
 
     background:rgba(0,25,40,.7);
@@ -458,216 +413,53 @@ body{
     text-align:left;
 }
 
-/* ================= DAFTAR ================= */
+/* ================= HASIL ================= */
 
-.judul-daftar{
-
-    padding:10px 15px;
-
-    color:#43dcff;
-
-    font-size:14px;
-}
-
-.daftar{
+.hasil{
     padding:0 15px 30px;
 }
 
-.wifi-card{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:12px;
+.kartu{
 
     margin-bottom:10px;
 
-    padding:13px;
+    padding:14px;
 
     border:1px solid #075f80;
-
     border-radius:13px;
 
     background:rgba(0,22,36,.85);
-}
 
-.wifi-icon{
-
-    width:45px;
-    height:45px;
-
-    flex-shrink:0;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    border-radius:50%;
-
-    background:#032d3d;
-
-    font-size:22px;
-}
-
-.wifi-detail{
-    flex:1;
     text-align:left;
 }
 
-.wifi-name{
+.kartu-judul{
+    color:#42ddff;
     font-size:15px;
     font-weight:bold;
 }
 
-.wifi-meta{
-
-    margin-top:5px;
-
-    color:#7ba5b3;
-
-    font-size:11px;
+.kartu-info{
+    margin-top:7px;
+    color:#8bb2bf;
+    font-size:12px;
+    line-height:1.7;
 }
 
-.wifi-signal{
+.indikator{
 
-    margin-top:4px;
+    display:inline-block;
 
-    color:#00ff88;
+    width:9px;
+    height:9px;
 
-    font-size:11px;
-}
+    margin-right:6px;
 
-.tombol-connect{
+    border-radius:50%;
 
-    border:1px solid #00ff9d;
+    background:#00ff88;
 
-    border-radius:8px;
-
-    padding:8px 10px;
-
-    background:transparent;
-
-    color:#00ff9d;
-
-    cursor:pointer;
-}
-
-.tombol-connect:hover{
-
-    background:#00ff9d;
-
-    color:#00140d;
-}
-
-/* ================= MODAL ================= */
-
-.modal{
-
-    position:fixed;
-
-    inset:0;
-
-    display:none;
-
-    align-items:center;
-    justify-content:center;
-
-    padding:20px;
-
-    background:rgba(0,0,0,.82);
-
-    z-index:100;
-}
-
-.modal-box{
-
-    width:100%;
-    max-width:380px;
-
-    padding:22px;
-
-    border:1px solid #00d9ff;
-
-    border-radius:18px;
-
-    background:#041522;
-
-    box-shadow:
-        0 0 30px rgba(0,217,255,.45);
-}
-
-.modal-box h2{
-
-    color:#43dcff;
-
-    margin-bottom:8px;
-}
-
-.modal-box p{
-
-    color:#88aab6;
-
-    font-size:13px;
-
-    line-height:1.5;
-
-    margin-bottom:15px;
-}
-
-.password{
-
-    width:100%;
-
-    padding:13px;
-
-    border:1px solid #075f80;
-
-    border-radius:8px;
-
-    outline:none;
-
-    background:#020b12;
-
-    color:white;
-}
-
-.modal-buttons{
-
-    display:flex;
-
-    gap:10px;
-
-    margin-top:15px;
-}
-
-.modal-buttons button{
-
-    flex:1;
-
-    padding:11px;
-
-    border-radius:8px;
-
-    cursor:pointer;
-}
-
-.batal{
-
-    background:#16222b;
-
-    border:1px solid #34515f;
-
-    color:white;
-}
-
-.hubungkan{
-
-    border:0;
-
-    background:#00b978;
-
-    color:white;
+    box-shadow:0 0 8px #00ff88;
 }
 
 /* ================= NOTIFIKASI ================= */
@@ -683,12 +475,12 @@ body{
 
     display:none;
 
+    width:max-content;
     max-width:90%;
 
     padding:11px 18px;
 
     border:1px solid #00bfff;
-
     border-radius:30px;
 
     background:#02141f;
@@ -726,7 +518,7 @@ body{
                 </div>
 
                 <div class="logo-subtitle">
-                    DETEKSI â€¢ INFORMASI â€¢ HUBUNGKAN
+                    PEMINDAIAN JARINGAN
                 </div>
 
             </div>
@@ -773,39 +565,31 @@ body{
 </div>
 
 
-<!-- ================= STATISTIK ================= -->
+<!-- ================= STATUS ================= -->
 
-<div class="stats">
+<div class="status-grid">
 
-    <div class="stat">
+    <div class="status-box">
 
-        <span class="stat-label">
-            Jaringan terdeteksi
-        </span>
+        <small>
+            Status Wi-Fi
+        </small>
 
-        <strong
-            class="stat-value"
-            id="jumlahWifi">
-
-            0
-
+        <strong id="statusWifi">
+            Memeriksa...
         </strong>
 
     </div>
 
 
-    <div class="stat">
+    <div class="status-box">
 
-        <span class="stat-label">
-            Status pemindaian
-        </span>
+        <small>
+            Jenis koneksi
+        </small>
 
-        <strong
-            class="stat-value"
-            id="statusScan">
-
-            SIAP
-
+        <strong id="jenisKoneksi">
+            Memeriksa...
         </strong>
 
     </div>
@@ -821,19 +605,19 @@ body{
         class="radar"
         id="radar">
 
-        <span class="arah arah-atas">
+        <span class="arah atas">
             U
         </span>
 
-        <span class="arah arah-bawah">
+        <span class="arah bawah">
             S
         </span>
 
-        <span class="arah arah-kanan">
+        <span class="arah kanan">
             T
         </span>
 
-        <span class="arah arah-kiri">
+        <span class="arah kiri">
             B
         </span>
 
@@ -844,98 +628,90 @@ body{
 </div>
 
 
-<!-- ================= SCAN ================= -->
+<!-- ================= KONTROL ================= -->
 
 <div class="kontrol">
 
     <button
-        class="tombol-scan"
-        onclick="mulaiPemindaian()">
+        class="tombol"
+        onclick="periksaWifi()">
 
-        ðŸ”„ MULAI PEMINDAIAN WI-FI
+        ðŸ”„ PERIKSA KONEKSI WI-FI
+
+    </button>
+
+
+    <button
+        class="tombol tombol-pengaturan"
+        onclick="bukaPengaturanWifi()">
+
+        âš™ï¸ BUKA PENGATURAN WI-FI
 
     </button>
 
 </div>
 
 
-<!-- ================= INFO ================= -->
+<!-- ================= INFORMASI ================= -->
 
 <div class="info">
 
-    <b>â„¹ï¸ Informasi</b>
-    <br><br>
-
-    Radar ini menggunakan antarmuka web.
-    Browser tidak memberikan akses kepada HTML
-    untuk membaca daftar SSID Wi-Fi di sekitar
-    perangkat secara langsung.
+    <b>ðŸ“¡ Tentang pemindaian</b>
 
     <br><br>
 
-    Untuk pemindaian Wi-Fi sungguhan,
-    aplikasi harus menggunakan fitur Android
-    melalui aplikasi native/WebView.
+    Website dapat mengetahui informasi koneksi
+    tertentu yang diberikan oleh browser.
+
+    <br><br>
+
+    <b>Penting:</b> Chrome dan browser modern
+    tidak memberikan akses kepada website untuk
+    membaca seluruh nama Wi-Fi/SSID di sekitar
+    perangkat.
+
+    <br><br>
+
+    Untuk membaca daftar SSID secara nyata,
+    halaman ini perlu dijalankan di dalam aplikasi
+    Android yang memiliki akses Wi-Fi.
 
 </div>
 
 
-<!-- ================= DAFTAR ================= -->
+<!-- ================= HASIL ================= -->
 
-<div class="judul-daftar">
+<div class="hasil">
 
-    ðŸ“¡ JARINGAN WI-FI
+    <div class="kartu">
 
-</div>
+        <div class="kartu-judul">
+            <span class="indikator"></span>
+            Koneksi perangkat
+        </div>
 
-<div
-    class="daftar"
-    id="daftarWifi">
+        <div
+            class="kartu-info"
+            id="hasilKoneksi">
 
-</div>
+            Sedang memeriksa koneksi...
+
+        </div>
+
+    </div>
 
 
-<!-- ================= MODAL ================= -->
+    <div class="kartu">
 
-<div
-    class="modal"
-    id="modal">
+        <div class="kartu-judul">
+            ðŸ“ Lokasi perangkat
+        </div>
 
-    <div class="modal-box">
+        <div
+            class="kartu-info"
+            id="hasilLokasi">
 
-        <h2 id="namaWifiModal">
-            Hubungkan Wi-Fi
-        </h2>
-
-        <p>
-            Masukkan kata sandi jaringan yang
-            Anda miliki atau yang diberikan oleh
-            pemilik jaringan.
-        </p>
-
-        <input
-            id="password"
-            class="password"
-            type="password"
-            placeholder="Kata sandi Wi-Fi">
-
-        <div class="modal-buttons">
-
-            <button
-                class="batal"
-                onclick="tutupModal()">
-
-                Batal
-
-            </button>
-
-            <button
-                class="hubungkan"
-                onclick="hubungkanWifi()">
-
-                Hubungkan
-
-            </button>
+            Belum diperiksa.
 
         </div>
 
@@ -949,7 +725,6 @@ body{
 <div
     class="notifikasi"
     id="notifikasi">
-
 </div>
 
 
@@ -988,7 +763,7 @@ if(!pengguna){
 
 
 /* =====================================================
-   KELUAR
+   LOGOUT
 ===================================================== */
 
 function keluar(){
@@ -1003,322 +778,171 @@ function keluar(){
 
 
 /* =====================================================
-   DATA DEMO
-   -----------------------------------------------------
-   Data ini BUKAN hasil scan perangkat.
-   Browser tidak dapat membaca SSID Wi-Fi sekitar.
+   PERIKSA KONEKSI
 ===================================================== */
 
-const jaringanDemo = [
-
-    {
-        nama:"WiFi-Rumah",
-        sinyal:-48,
-        keamanan:"WPA2",
-        frekuensi:"2.4 GHz",
-        kelas:"sangat-kuat",
-        x:27,
-        y:54
-    },
-
-    {
-        nama:"WiFi-Kantor",
-        sinyal:-61,
-        keamanan:"WPA2",
-        frekuensi:"5 GHz",
-        kelas:"sangat-kuat",
-        x:58,
-        y:38
-    },
-
-    {
-        nama:"Hotspot-Tamu",
-        sinyal:-70,
-        keamanan:"WPA2",
-        frekuensi:"2.4 GHz",
-        kelas:"sedang",
-        x:73,
-        y:27
-    },
-
-    {
-        nama:"WiFi-Publik",
-        sinyal:-76,
-        keamanan:"Terbuka",
-        frekuensi:"2.4 GHz",
-        kelas:"sedang",
-        x:79,
-        y:59
-    },
-
-    {
-        nama:"Jaringan-5G",
-        sinyal:-82,
-        keamanan:"WPA3",
-        frekuensi:"5 GHz",
-        kelas:"lemah",
-        x:38,
-        y:76
-    }
-
-];
-
-
-let wifiTerpilih = null;
-
-
-/* =====================================================
-   TAMPILKAN DATA
-===================================================== */
-
-function tampilkanJaringan(){
-
-    const radar =
-        document.getElementById("radar");
-
-    const daftar =
-        document.getElementById("daftarWifi");
-
-
-    /*
-       Hapus titik lama
-    */
-
-    document
-        .querySelectorAll(".titik-wifi")
-        .forEach(
-            titik => titik.remove()
-        );
-
-
-    daftar.innerHTML = "";
-
-
-    document.getElementById(
-        "jumlahWifi"
-    ).innerText =
-        jaringanDemo.length;
-
-
-    jaringanDemo.forEach(wifi => {
-
-
-        /* ================= TITIK RADAR ================= */
-
-        const titik =
-            document.createElement("div");
-
-        titik.className =
-            "titik-wifi " +
-            wifi.kelas;
-
-        titik.style.left =
-            wifi.x + "%";
-
-        titik.style.top =
-            wifi.y + "%";
-
-
-        titik.innerHTML =
-            `<span class="nama-titik">
-                ${aman(wifi.nama)}
-            </span>`;
-
-
-        titik.onclick =
-            () => bukaModal(wifi);
-
-
-        radar.appendChild(titik);
-
-
-        /* ================= KARTU ================= */
-
-        const kartu =
-            document.createElement("div");
-
-        kartu.className =
-            "wifi-card";
-
-
-        kartu.innerHTML = `
-
-            <div class="wifi-icon">
-                ðŸ“¶
-            </div>
-
-            <div class="wifi-detail">
-
-                <div class="wifi-name">
-                    ${aman(wifi.nama)}
-                </div>
-
-                <div class="wifi-meta">
-                    ðŸ” ${wifi.keamanan}
-                    &nbsp; | &nbsp;
-                    ðŸ“» ${wifi.frekuensi}
-                </div>
-
-                <div class="wifi-signal">
-                    ðŸ“¶ ${wifi.sinyal} dBm
-                </div>
-
-            </div>
-
-            <button class="tombol-connect">
-                Hubungkan
-            </button>
-
-        `;
-
-
-        kartu
-            .querySelector(
-                ".tombol-connect"
-            )
-            .onclick =
-            () => bukaModal(wifi);
-
-
-        daftar.appendChild(kartu);
-
-    });
-
-}
-
-
-/* =====================================================
-   PEMINDAIAN
-===================================================== */
-
-function mulaiPemindaian(){
-
-    const status =
-        document.getElementById(
-            "statusScan"
-        );
-
-
-    status.innerText =
-        "MEMINDAI";
-
+function periksaWifi(){
 
     tampilkanNotifikasi(
-        "ðŸ“¡ Pemindaian sedang berjalan..."
+        "ðŸ“¡ Memeriksa koneksi perangkat..."
     );
 
 
-    setTimeout(() => {
-
-        status.innerText =
-            "SELESAI";
+    let tipe =
+        "Tidak diketahui";
 
 
-        tampilkanJaringan();
+    /*
+     * navigator.connection tidak tersedia
+     * di semua browser.
+     */
 
+    if(navigator.connection){
 
-        tampilkanNotifikasi(
-            "Pemindaian antarmuka selesai."
-        );
-
-    },1800);
-
-}
-
-
-/* =====================================================
-   MODAL
-===================================================== */
-
-function bukaModal(wifi){
-
-    wifiTerpilih =
-        wifi;
+        tipe =
+            navigator.connection.effectiveType ||
+            "Tidak diketahui";
+    }
 
 
     document.getElementById(
-        "namaWifiModal"
+        "jenisKoneksi"
     ).innerText =
-        "ðŸ“¡ " + wifi.nama;
+        tipe;
 
 
-    document.getElementById(
-        "password"
-    ).value = "";
+    /*
+     * Browser hanya mengetahui apakah perangkat
+     * sedang online/offline. Browser tidak memberikan
+     * nama SSID Wi-Fi.
+     */
+
+    if(navigator.onLine){
+
+        document.getElementById(
+            "statusWifi"
+        ).innerText =
+            "Terhubung";
+
+        document.getElementById(
+            "hasilKoneksi"
+        ).innerHTML =
+            "ðŸŸ¢ Perangkat sedang terhubung ke internet.<br>" +
+            "Nama Wi-Fi tidak dapat dibaca oleh browser.";
+
+    }else{
+
+        document.getElementById(
+            "statusWifi"
+        ).innerText =
+            "Offline";
+
+        document.getElementById(
+            "hasilKoneksi"
+        ).innerHTML =
+            "ðŸ”´ Perangkat sedang offline.";
+    }
 
 
-    document.getElementById(
-        "modal"
-    ).style.display =
-        "flex";
+    tampilkanNotifikasi(
+        "âœ… Pemeriksaan selesai"
+    );
 
-}
-
-
-function tutupModal(){
-
-    document.getElementById(
-        "modal"
-    ).style.display =
-        "none";
-
-
-    wifiTerpilih =
-        null;
 }
 
 
 /* =====================================================
-   HUBUNGKAN
+   STATUS INTERNET BERUBAH
 ===================================================== */
 
-function hubungkanWifi(){
+window.addEventListener(
+    "online",
+    periksaWifi
+);
 
-    if(!wifiTerpilih)
-        return;
+window.addEventListener(
+    "offline",
+    periksaWifi
+);
 
 
-    const password =
+/* =====================================================
+   LOKASI
+===================================================== */
+
+function periksaLokasi(){
+
+    const hasil =
         document.getElementById(
-            "password"
-        ).value;
-
-
-    if(!password){
-
-        tampilkanNotifikasi(
-            "âš ï¸ Silakan masukkan kata sandi."
+            "hasilLokasi"
         );
+
+
+    if(!navigator.geolocation){
+
+        hasil.innerText =
+            "Browser tidak mendukung lokasi.";
 
         return;
     }
 
 
-    tutupModal();
+    hasil.innerText =
+        "Meminta izin lokasi...";
 
 
-    /*
-       HTML murni tidak mempunyai API umum
-       untuk menghubungkan Wi-Fi Android.
+    navigator.geolocation.getCurrentPosition(
 
-       Jadi kita arahkan pengguna ke pengaturan
-       Wi-Fi perangkat.
-    */
+        function(posisi){
+
+            const lat =
+                posisi.coords.latitude;
+
+            const lon =
+                posisi.coords.longitude;
+
+
+            hasil.innerHTML =
+                "ðŸŸ¢ Lokasi berhasil diperoleh.<br>" +
+                "Lintang: " +
+                lat.toFixed(6) +
+                "<br>" +
+                "Bujur: " +
+                lon.toFixed(6);
+
+        },
+
+        function(){
+
+            hasil.innerText =
+                "âŒ Izin lokasi ditolak atau lokasi tidak tersedia.";
+
+        }
+
+    );
+
+}
+
+
+/* =====================================================
+   BUKA PENGATURAN WI-FI
+===================================================== */
+
+function bukaPengaturanWifi(){
 
     tampilkanNotifikasi(
-        "ðŸ“± Buka pengaturan Wi-Fi Android untuk menyelesaikan koneksi."
+        "ðŸ“± Membuka pengaturan Wi-Fi..."
     );
 
 
-    setTimeout(() => {
+    /*
+     * Intent Android tidak dijamin bekerja pada
+     * semua browser. Jika halaman ini digunakan
+     * sebagai WebView Android, fungsi ini dapat
+     * diganti dengan bridge Kotlin.
+     */
 
-        /*
-           Pada browser biasa, bagian ini tidak
-           dijamin didukung.
-
-           Android WebView/native dapat menggantinya
-           dengan fungsi Kotlin.
-        */
+    setTimeout(function(){
 
         try{
 
@@ -1327,13 +951,15 @@ function hubungkanWifi(){
                 "action=android.settings.WIFI_SETTINGS;" +
                 "end";
 
-        }catch(error){
+        }catch(e){
 
-            console.log(error);
+            alert(
+                "Silakan buka Pengaturan â†’ Wi-Fi secara manual."
+            );
 
         }
 
-    },1000);
+    },500);
 
 }
 
@@ -1367,29 +993,13 @@ function tampilkanNotifikasi(teks){
 
 
     timerNotifikasi =
-        setTimeout(() => {
+        setTimeout(function(){
 
             elemen.style.display =
                 "none";
 
-        },4000);
+        },3500);
 
-}
-
-
-/* =====================================================
-   KEAMANAN HTML
-===================================================== */
-
-function aman(teks){
-
-    const elemen =
-        document.createElement("div");
-
-    elemen.textContent =
-        teks;
-
-    return elemen.innerHTML;
 }
 
 
@@ -1397,7 +1007,9 @@ function aman(teks){
    MULAI
 ===================================================== */
 
-tampilkanJaringan();
+periksaWifi();
+
+periksaLokasi();
 
 </script>
 
