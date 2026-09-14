@@ -1,13 +1,15 @@
-
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
-<title>WiFi Radar & Connect</title>
+<title>Radar Wi-Fi</title>
 
 <style>
+
 *{
     box-sizing:border-box;
     margin:0;
@@ -15,23 +17,28 @@
 }
 
 body{
-    background:
-        radial-gradient(circle at center,#062b38 0%,#020b16 45%,#01050b 100%);
-    color:#fff;
-    font-family:Arial,Helvetica,sans-serif;
     min-height:100vh;
-    overflow-x:hidden;
+    background:
+        radial-gradient(
+            circle at center,
+            #063442 0%,
+            #03151f 35%,
+            #01070d 75%
+        );
+    color:white;
+    font-family:Arial,Helvetica,sans-serif;
 }
 
-/* HEADER */
+/* ================= HEADER ================= */
+
 .header{
     padding:18px;
-    border-bottom:1px solid #00bfff;
-    background:rgba(0,15,30,.92);
-    box-shadow:0 0 25px rgba(0,191,255,.25);
+    background:rgba(0,10,20,.92);
+    border-bottom:1px solid #00d9ff;
+    box-shadow:0 0 25px rgba(0,217,255,.3);
 }
 
-.header-top{
+.header-content{
     display:flex;
     align-items:center;
     justify-content:space-between;
@@ -45,73 +52,80 @@ body{
 
 .logo-icon{
     font-size:38px;
-    filter:drop-shadow(0 0 10px #00d9ff);
+    filter:drop-shadow(0 0 12px #00d9ff);
 }
 
-.logo h1{
-    color:#4ddcff;
+.logo-title{
+    color:#42ddff;
     font-size:22px;
-    text-shadow:0 0 10px #00bfff;
+    font-weight:bold;
+    text-shadow:0 0 10px #00cfff;
 }
 
-.logo p{
-    color:#83a9b8;
-    font-size:12px;
-    margin-top:3px;
+.logo-subtitle{
+    margin-top:4px;
+    color:#83aebb;
+    font-size:11px;
 }
 
-.settings{
-    font-size:25px;
-    color:#4ddcff;
-}
+/* ================= USER ================= */
 
-/* USER */
-.user-panel{
+.user{
     margin:15px;
     padding:12px;
-    border:1px solid #087ea4;
-    border-radius:15px;
-    background:rgba(0,25,40,.7);
+
     display:flex;
     align-items:center;
     gap:12px;
+
+    border:1px solid #087ea4;
+    border-radius:15px;
+
+    background:rgba(0,25,40,.75);
 }
 
-.user-panel img{
+.user img{
     width:55px;
     height:55px;
+
     border-radius:50%;
+
     object-fit:cover;
+
     border:2px solid #00d9ff;
+
     box-shadow:0 0 15px #00bfff;
 }
 
 .user-info{
-    text-align:left;
     flex:1;
+    text-align:left;
 }
 
 .user-info h3{
-    color:#fff;
     font-size:16px;
 }
 
 .user-info p{
-    color:#75a6b8;
-    font-size:12px;
     margin-top:4px;
+    color:#7ca7b5;
+    font-size:12px;
 }
 
 .logout{
-    background:#e11d48;
-    color:white;
     border:0;
     border-radius:8px;
-    padding:8px 12px;
+
+    padding:9px 12px;
+
+    background:#e11d48;
+    color:white;
+
     cursor:pointer;
 }
 
-/* STAT */
+/* ================= STATISTIK ================= */
+
 .stats{
     display:flex;
     gap:10px;
@@ -120,241 +134,383 @@ body{
 
 .stat{
     flex:1;
-    background:rgba(0,25,40,.75);
+
+    padding:12px;
+
     border:1px solid #087ea4;
     border-radius:12px;
-    padding:12px;
+
+    background:rgba(0,25,40,.75);
 }
 
-.stat small{
-    color:#6ca2b5;
+.stat-label{
+    color:#79a7b5;
+    font-size:11px;
 }
 
-.stat strong{
+.stat-value{
     display:block;
-    color:#35dcff;
-    font-size:24px;
-    margin-top:4px;
+
+    margin-top:5px;
+
+    color:#38dcff;
+    font-size:23px;
+    font-weight:bold;
 }
 
-/* RADAR */
-.radar-wrapper{
+/* ================= RADAR ================= */
+
+.radar-container{
+
     width:min(92vw,420px);
+
     aspect-ratio:1/1;
+
     margin:10px auto 20px;
+
     position:relative;
 }
 
 .radar{
+
     position:absolute;
+
     inset:0;
-    border-radius:50%;
-    border:2px solid #00cfff;
-    box-shadow:
-        0 0 20px #00cfff,
-        inset 0 0 30px rgba(0,207,255,.25);
+
     overflow:hidden;
 
+    border:2px solid #00d9ff;
+
+    border-radius:50%;
+
+    box-shadow:
+        0 0 20px #00d9ff,
+        inset 0 0 35px rgba(0,217,255,.35);
+
     background:
+
         repeating-radial-gradient(
             circle,
-            transparent 0 54px,
-            rgba(0,200,255,.35) 55px 56px
+            transparent 0 45px,
+            rgba(0,217,255,.25) 46px 47px
         ),
+
         linear-gradient(
-            transparent 49.7%,
-            rgba(0,200,255,.35) 50%,
-            transparent 50.3%
+            transparent 49.5%,
+            rgba(0,217,255,.3) 50%,
+            transparent 50.5%
         ),
+
         linear-gradient(
             90deg,
-            transparent 49.7%,
-            rgba(0,200,255,.35) 50%,
-            transparent 50.3%
+            transparent 49.5%,
+            rgba(0,217,255,.3) 50%,
+            transparent 50.5%
         ),
+
         radial-gradient(
             circle,
-            rgba(0,200,255,.18),
-            rgba(0,20,35,.95)
+            rgba(0,150,180,.2),
+            #02131e
         );
 }
 
-/* radar sweep */
+/* GARIS RADAR */
+
 .radar::after{
+
     content:"";
+
     position:absolute;
-    width:50%;
-    height:50%;
+
     left:50%;
     top:50%;
+
+    width:50%;
+    height:50%;
+
     transform-origin:0 0;
 
     background:
         conic-gradient(
             from 0deg,
-            rgba(0,255,150,.5),
-            rgba(0,255,150,.12),
-            transparent 75%
+            rgba(0,255,140,.65),
+            rgba(0,255,140,.15),
+            transparent 70%
         );
 
-    animation:scan 2.8s linear infinite;
+    animation:
+        putarRadar 2.8s linear infinite;
 }
 
-@keyframes scan{
+@keyframes putarRadar{
+
     from{
         transform:rotate(0deg);
     }
+
     to{
         transform:rotate(360deg);
     }
 }
 
-.center{
+/* TITIK TENGAH */
+
+.radar-center{
+
     position:absolute;
+
+    left:50%;
+    top:50%;
+
     width:20px;
     height:20px;
+
+    transform:translate(-50%,-50%);
+
     border-radius:50%;
+
     background:#00ffff;
+
     box-shadow:
         0 0 10px #00ffff,
         0 0 30px #00ffff;
-    left:50%;
-    top:50%;
-    transform:translate(-50%,-50%);
+
     z-index:5;
 }
 
-/* directions */
-.direction{
+/* ARAH */
+
+.arah{
+
     position:absolute;
-    color:#43dcff;
+
+    color:#4bdfff;
+
     font-weight:bold;
-    text-shadow:0 0 8px #00bfff;
+
+    text-shadow:0 0 8px #00cfff;
+
     z-index:6;
 }
 
-.n{top:5px;left:50%;transform:translateX(-50%);}
-.s{bottom:5px;left:50%;transform:translateX(-50%);}
-.e{right:7px;top:50%;transform:translateY(-50%);}
-.w{left:7px;top:50%;transform:translateY(-50%);}
+.arah-atas{
+    top:7px;
+    left:50%;
+    transform:translateX(-50%);
+}
 
-/* WIFI DOT */
-.wifi-dot{
+.arah-bawah{
+    bottom:7px;
+    left:50%;
+    transform:translateX(-50%);
+}
+
+.arah-kanan{
+    right:8px;
+    top:50%;
+    transform:translateY(-50%);
+}
+
+.arah-kiri{
+    left:8px;
+    top:50%;
+    transform:translateY(-50%);
+}
+
+/* ================= TITIK WIFI ================= */
+
+.titik-wifi{
+
     position:absolute;
+
     width:18px;
     height:18px;
+
     border-radius:50%;
+
     z-index:10;
+
     cursor:pointer;
-    animation:pulse 1.5s infinite;
+
+    animation:
+        denyut 1.4s infinite;
 }
 
-.wifi-dot::after{
+.titik-wifi::after{
+
     content:"";
+
     position:absolute;
+
     inset:-8px;
+
     border:1px solid currentColor;
+
     border-radius:50%;
-    opacity:.4;
+
+    opacity:.5;
 }
 
-@keyframes pulse{
+@keyframes denyut{
+
     0%,100%{
         transform:scale(1);
     }
+
     50%{
         transform:scale(1.35);
     }
 }
 
-.strong{
+.sangat-kuat{
     background:#00ff88;
     color:#00ff88;
     box-shadow:0 0 15px #00ff88;
 }
 
-.medium{
+.sedang{
     background:#ffe600;
     color:#ffe600;
     box-shadow:0 0 15px #ffe600;
 }
 
-.weak{
+.lemah{
     background:#ff3b30;
     color:#ff3b30;
     box-shadow:0 0 15px #ff3b30;
 }
 
-.dot-label{
+.nama-titik{
+
     position:absolute;
-    left:24px;
-    top:-5px;
+
+    left:25px;
+    top:-4px;
+
     white-space:nowrap;
+
     color:white;
+
     font-size:10px;
-    text-shadow:0 0 5px black;
+
+    text-shadow:0 0 6px black;
 }
 
-/* CONTROL */
-.controls{
+/* ================= TOMBOL ================= */
+
+.kontrol{
     padding:0 15px 15px;
 }
 
-.scan-btn{
+.tombol-scan{
+
     width:100%;
+
+    padding:15px;
+
     border:1px solid #00d9ff;
+
     border-radius:12px;
-    padding:14px;
-    color:#fff;
-    font-weight:bold;
+
+    background:
+        linear-gradient(
+            90deg,
+            #003c55,
+            #006f91
+        );
+
+    color:white;
+
     font-size:16px;
-    background:linear-gradient(
-        90deg,
-        #003e58,
-        #006c8d
-    );
-    box-shadow:0 0 15px rgba(0,217,255,.35);
+    font-weight:bold;
+
     cursor:pointer;
+
+    box-shadow:
+        0 0 15px rgba(0,217,255,.35);
 }
 
-.scan-btn:active{
+.tombol-scan:active{
     transform:scale(.98);
 }
 
-/* LIST */
-.section-title{
+/* ================= INFO ================= */
+
+.info{
+
+    margin:0 15px 15px;
+
+    padding:13px;
+
+    border:1px solid #075f80;
+
+    border-radius:12px;
+
+    background:rgba(0,25,40,.7);
+
+    color:#83aeba;
+
+    font-size:12px;
+
+    line-height:1.6;
+
+    text-align:left;
+}
+
+/* ================= DAFTAR ================= */
+
+.judul-daftar{
+
     padding:10px 15px;
+
     color:#43dcff;
+
     font-size:14px;
 }
 
-.wifi-list{
+.daftar{
     padding:0 15px 30px;
 }
 
 .wifi-card{
-    margin-bottom:10px;
-    padding:13px;
-    border:1px solid #075f80;
-    border-radius:13px;
-    background:rgba(0,22,36,.85);
+
     display:flex;
+
     align-items:center;
+
     gap:12px;
+
+    margin-bottom:10px;
+
+    padding:13px;
+
+    border:1px solid #075f80;
+
+    border-radius:13px;
+
+    background:rgba(0,22,36,.85);
 }
 
 .wifi-icon{
+
     width:45px;
     height:45px;
+
+    flex-shrink:0;
+
     display:flex;
     align-items:center;
     justify-content:center;
+
     border-radius:50%;
+
     background:#032d3d;
+
     font-size:22px;
 }
 
-.wifi-details{
+.wifi-detail{
     flex:1;
     text-align:left;
 }
@@ -365,248 +521,420 @@ body{
 }
 
 .wifi-meta{
-    color:#7ba5b3;
-    font-size:11px;
+
     margin-top:5px;
+
+    color:#7ba5b3;
+
+    font-size:11px;
 }
 
-.signal{
+.wifi-signal{
+
+    margin-top:4px;
+
     color:#00ff88;
-    font-size:12px;
-    margin-top:3px;
+
+    font-size:11px;
 }
 
-.connect{
+.tombol-connect{
+
     border:1px solid #00ff9d;
-    background:transparent;
-    color:#00ff9d;
+
     border-radius:8px;
+
     padding:8px 10px;
+
+    background:transparent;
+
+    color:#00ff9d;
+
     cursor:pointer;
 }
 
-.connect:hover{
+.tombol-connect:hover{
+
     background:#00ff9d;
+
     color:#00140d;
 }
 
-/* MODAL */
+/* ================= MODAL ================= */
+
 .modal{
-    display:none;
+
     position:fixed;
+
     inset:0;
-    background:rgba(0,0,0,.8);
-    z-index:100;
+
+    display:none;
+
     align-items:center;
     justify-content:center;
+
     padding:20px;
+
+    background:rgba(0,0,0,.82);
+
+    z-index:100;
 }
 
 .modal-box{
+
     width:100%;
     max-width:380px;
-    background:#041522;
-    border:1px solid #00cfff;
-    border-radius:18px;
+
     padding:22px;
-    box-shadow:0 0 30px rgba(0,207,255,.5);
+
+    border:1px solid #00d9ff;
+
+    border-radius:18px;
+
+    background:#041522;
+
+    box-shadow:
+        0 0 30px rgba(0,217,255,.45);
 }
 
 .modal-box h2{
+
     color:#43dcff;
+
     margin-bottom:8px;
 }
 
 .modal-box p{
+
     color:#88aab6;
+
     font-size:13px;
+
+    line-height:1.5;
+
     margin-bottom:15px;
 }
 
 .password{
+
     width:100%;
+
     padding:13px;
-    background:#020b12;
+
     border:1px solid #075f80;
-    color:white;
+
     border-radius:8px;
+
     outline:none;
+
+    background:#020b12;
+
+    color:white;
 }
 
 .modal-buttons{
+
     display:flex;
+
     gap:10px;
+
     margin-top:15px;
 }
 
 .modal-buttons button{
+
     flex:1;
+
     padding:11px;
+
     border-radius:8px;
+
     cursor:pointer;
 }
 
-.cancel{
+.batal{
+
     background:#16222b;
-    color:white;
+
     border:1px solid #34515f;
-}
 
-.confirm{
-    background:#00b978;
     color:white;
-    border:0;
 }
 
-/* STATUS */
-.status{
+.hubungkan{
+
+    border:0;
+
+    background:#00b978;
+
+    color:white;
+}
+
+/* ================= NOTIFIKASI ================= */
+
+.notifikasi{
+
     position:fixed;
-    bottom:15px;
+
     left:50%;
+    bottom:18px;
+
     transform:translateX(-50%);
-    background:#02141f;
-    border:1px solid #00bfff;
-    color:#6eeaff;
-    padding:10px 18px;
-    border-radius:30px;
-    font-size:12px;
+
     display:none;
+
+    max-width:90%;
+
+    padding:11px 18px;
+
+    border:1px solid #00bfff;
+
+    border-radius:30px;
+
+    background:#02141f;
+
+    color:#6eeaff;
+
+    font-size:12px;
+
     z-index:200;
 }
+
 </style>
 </head>
 
+
 <body>
 
-<!-- HEADER -->
+
+<!-- ================= HEADER ================= -->
+
 <header class="header">
-    <div class="header-top">
+
+    <div class="header-content">
 
         <div class="logo">
-            <div class="logo-icon">ðŸ“¡</div>
+
+            <div class="logo-icon">
+                ðŸ“¡
+            </div>
 
             <div>
-                <h1>WiFi Radar & Connect</h1>
-                <p>SCAN â€¢ DETECT â€¢ CONNECT</p>
+
+                <div class="logo-title">
+                    Radar Wi-Fi
+                </div>
+
+                <div class="logo-subtitle">
+                    DETEKSI â€¢ INFORMASI â€¢ HUBUNGKAN
+                </div>
+
             </div>
+
         </div>
 
-        <div class="settings">âš™ï¸</div>
+        <div>
+            âš™ï¸
+        </div>
 
     </div>
+
 </header>
 
 
-<!-- USER -->
-<div class="user-panel">
+<!-- ================= USER ================= -->
 
-    <img id="foto" src="">
+<div class="user">
+
+    <img
+        id="foto"
+        alt="Foto pengguna">
 
     <div class="user-info">
-        <h3 id="nama">User</h3>
-        <p id="email">user@email.com</p>
+
+        <h3 id="nama">
+            Pengguna
+        </h3>
+
+        <p id="email">
+            -
+        </p>
+
     </div>
 
-    <button class="logout" onclick="logout()">
-        Logout
+    <button
+        class="logout"
+        onclick="keluar()">
+
+        Keluar
+
     </button>
 
 </div>
 
 
-<!-- STATISTICS -->
+<!-- ================= STATISTIK ================= -->
+
 <div class="stats">
 
     <div class="stat">
-        <small>Wi-Fi Terdeteksi</small>
-        <strong id="wifiCount">0</strong>
+
+        <span class="stat-label">
+            Jaringan terdeteksi
+        </span>
+
+        <strong
+            class="stat-value"
+            id="jumlahWifi">
+
+            0
+
+        </strong>
+
     </div>
+
 
     <div class="stat">
-        <small>Status</small>
-        <strong id="scanStatus">READY</strong>
-    </div>
 
-</div>
+        <span class="stat-label">
+            Status pemindaian
+        </span>
 
+        <strong
+            class="stat-value"
+            id="statusScan">
 
-<!-- RADAR -->
-<div class="radar-wrapper">
+            SIAP
 
-    <div class="radar" id="radar">
-
-        <span class="direction n">N</span>
-        <span class="direction s">S</span>
-        <span class="direction e">E</span>
-        <span class="direction w">W</span>
-
-        <div class="center"></div>
+        </strong>
 
     </div>
 
 </div>
 
 
-<!-- SCAN -->
-<div class="controls">
+<!-- ================= RADAR ================= -->
+
+<div class="radar-container">
+
+    <div
+        class="radar"
+        id="radar">
+
+        <span class="arah arah-atas">
+            U
+        </span>
+
+        <span class="arah arah-bawah">
+            S
+        </span>
+
+        <span class="arah arah-kanan">
+            T
+        </span>
+
+        <span class="arah arah-kiri">
+            B
+        </span>
+
+        <div class="radar-center"></div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= SCAN ================= -->
+
+<div class="kontrol">
 
     <button
-        class="scan-btn"
-        onclick="scanWifi()">
+        class="tombol-scan"
+        onclick="mulaiPemindaian()">
 
-        ðŸ”„ SCAN WI-FI
+        ðŸ”„ MULAI PEMINDAIAN WI-FI
 
     </button>
 
 </div>
 
 
-<div class="section-title">
-    ðŸ“¡ JARINGAN WI-FI TERDETEKSI
+<!-- ================= INFO ================= -->
+
+<div class="info">
+
+    <b>â„¹ï¸ Informasi</b>
+    <br><br>
+
+    Radar ini menggunakan antarmuka web.
+    Browser tidak memberikan akses kepada HTML
+    untuk membaca daftar SSID Wi-Fi di sekitar
+    perangkat secara langsung.
+
+    <br><br>
+
+    Untuk pemindaian Wi-Fi sungguhan,
+    aplikasi harus menggunakan fitur Android
+    melalui aplikasi native/WebView.
+
 </div>
 
 
-<!-- WIFI LIST -->
+<!-- ================= DAFTAR ================= -->
+
+<div class="judul-daftar">
+
+    ðŸ“¡ JARINGAN WI-FI
+
+</div>
+
 <div
-    class="wifi-list"
-    id="wifiList">
+    class="daftar"
+    id="daftarWifi">
+
 </div>
 
 
-<!-- CONNECT MODAL -->
+<!-- ================= MODAL ================= -->
+
 <div
     class="modal"
-    id="connectModal">
+    id="modal">
 
     <div class="modal-box">
 
-        <h2 id="modalWifiName">
-            Connect Wi-Fi
+        <h2 id="namaWifiModal">
+            Hubungkan Wi-Fi
         </h2>
 
         <p>
-            Masukkan password Wi-Fi yang Anda
-            miliki atau yang diberikan oleh pemilik jaringan.
+            Masukkan kata sandi jaringan yang
+            Anda miliki atau yang diberikan oleh
+            pemilik jaringan.
         </p>
 
         <input
-            id="passwordInput"
+            id="password"
             class="password"
             type="password"
-            placeholder="Password Wi-Fi">
+            placeholder="Kata sandi Wi-Fi">
 
         <div class="modal-buttons">
 
             <button
-                class="cancel"
-                onclick="closeModal()">
+                class="batal"
+                onclick="tutupModal()">
+
                 Batal
+
             </button>
 
             <button
-                class="confirm"
-                onclick="connectWifi()">
-                Connect
+                class="hubungkan"
+                onclick="hubungkanWifi()">
+
+                Hubungkan
+
             </button>
 
         </div>
@@ -616,299 +944,281 @@ body{
 </div>
 
 
+<!-- ================= NOTIFIKASI ================= -->
+
 <div
-    class="status"
-    id="statusMessage">
+    class="notifikasi"
+    id="notifikasi">
+
 </div>
 
 
 <script>
 
-/* ==========================================
-   USER SYSTEM
-========================================== */
 
-const user =
+/* =====================================================
+   SISTEM PENGGUNA
+===================================================== */
+
+const pengguna =
     JSON.parse(
         localStorage.getItem("currentUser")
     );
 
-if(!user){
 
-    window.location.href = "login.html";
+if(!pengguna){
+
+    window.location.href =
+        "login.html";
 
 }else{
 
     document.getElementById("foto").src =
-        user.foto || "https://via.placeholder.com/100";
+        pengguna.foto ||
+        "https://via.placeholder.com/100";
 
     document.getElementById("nama").innerText =
-        user.nama || "User";
+        pengguna.nama ||
+        "Pengguna";
 
     document.getElementById("email").innerText =
-        user.email || "";
-
+        pengguna.email ||
+        "-";
 }
 
 
-/* ==========================================
-   LOGOUT
-========================================== */
+/* =====================================================
+   KELUAR
+===================================================== */
 
-function logout(){
+function keluar(){
 
-    localStorage.removeItem("currentUser");
+    localStorage.removeItem(
+        "currentUser"
+    );
 
     window.location.href =
         "login.html";
 }
 
 
-/* ==========================================
-   WIFI DATA
-   ------------------------------------------
-   DATA DI BAWAH ADALAH DATA DEMO.
-   BROWSER TIDAK DAPAT MELAKUKAN SCAN SSID
-   WIFI SEKITAR SECARA LANGSUNG.
-========================================== */
+/* =====================================================
+   DATA DEMO
+   -----------------------------------------------------
+   Data ini BUKAN hasil scan perangkat.
+   Browser tidak dapat membaca SSID Wi-Fi sekitar.
+===================================================== */
 
-const wifiNetworks = [
+const jaringanDemo = [
 
     {
-        ssid:"RumahKu",
-        signal:-52,
-        security:"WPA2",
-        frequency:"2.4 GHz",
-        distance:"12 m",
-        type:"strong",
-        x:25,
-        y:55
+        nama:"WiFi-Rumah",
+        sinyal:-48,
+        keamanan:"WPA2",
+        frekuensi:"2.4 GHz",
+        kelas:"sangat-kuat",
+        x:27,
+        y:54
     },
 
     {
-        ssid:"@wifi.id",
-        signal:-65,
-        security:"WPA2",
-        frequency:"2.4 GHz",
-        distance:"38 m",
-        type:"strong",
+        nama:"WiFi-Kantor",
+        sinyal:-61,
+        keamanan:"WPA2",
+        frekuensi:"5 GHz",
+        kelas:"sangat-kuat",
         x:58,
-        y:42
-    },
-
-    {
-        ssid:"Kopi Kenangan",
-        signal:-68,
-        security:"WPA2",
-        frequency:"2.4 GHz",
-        distance:"62 m",
-        type:"strong",
-        x:72,
-        y:27
-    },
-
-    {
-        ssid:"Cafe Gratis",
-        signal:-74,
-        security:"Open",
-        frequency:"2.4 GHz",
-        distance:"85 m",
-        type:"medium",
-        x:80,
-        y:50
-    },
-
-    {
-        ssid:"GalaxyNet",
-        signal:-76,
-        security:"WPA2",
-        frequency:"5 GHz",
-        distance:"102 m",
-        type:"medium",
-        x:67,
-        y:70
-    },
-
-    {
-        ssid:"Indomaret WiFi",
-        signal:-72,
-        security:"Open",
-        frequency:"2.4 GHz",
-        distance:"125 m",
-        type:"medium",
-        x:32,
-        y:30
-    },
-
-    {
-        ssid:"TP-Link_3F2A",
-        signal:-81,
-        security:"WPA/WPA2",
-        frequency:"2.4 GHz",
-        distance:"158 m",
-        type:"medium",
-        x:15,
         y:38
     },
 
     {
-        ssid:"BCA Hotspot",
-        signal:-88,
-        security:"WPA2",
-        frequency:"5 GHz",
-        distance:"201 m",
-        type:"weak",
-        x:40,
-        y:78
+        nama:"Hotspot-Tamu",
+        sinyal:-70,
+        keamanan:"WPA2",
+        frekuensi:"2.4 GHz",
+        kelas:"sedang",
+        x:73,
+        y:27
+    },
+
+    {
+        nama:"WiFi-Publik",
+        sinyal:-76,
+        keamanan:"Terbuka",
+        frekuensi:"2.4 GHz",
+        kelas:"sedang",
+        x:79,
+        y:59
+    },
+
+    {
+        nama:"Jaringan-5G",
+        sinyal:-82,
+        keamanan:"WPA3",
+        frekuensi:"5 GHz",
+        kelas:"lemah",
+        x:38,
+        y:76
     }
 
 ];
 
 
-let selectedWifi = null;
+let wifiTerpilih = null;
 
 
-/* ==========================================
-   RENDER WIFI
-========================================== */
+/* =====================================================
+   TAMPILKAN DATA
+===================================================== */
 
-function renderWifi(){
-
-    const list =
-        document.getElementById("wifiList");
+function tampilkanJaringan(){
 
     const radar =
         document.getElementById("radar");
 
-    list.innerHTML = "";
+    const daftar =
+        document.getElementById("daftarWifi");
+
 
     /*
-     * Hapus titik radar lama
-     */
+       Hapus titik lama
+    */
+
     document
-        .querySelectorAll(".wifi-dot")
-        .forEach(dot => dot.remove());
+        .querySelectorAll(".titik-wifi")
+        .forEach(
+            titik => titik.remove()
+        );
 
 
-    document.getElementById("wifiCount")
-        .innerText = wifiNetworks.length;
+    daftar.innerHTML = "";
 
 
-    wifiNetworks.forEach((wifi,index)=>{
+    document.getElementById(
+        "jumlahWifi"
+    ).innerText =
+        jaringanDemo.length;
 
-        /* ------------------------------
-           RADAR DOT
-        ------------------------------ */
 
-        const dot =
+    jaringanDemo.forEach(wifi => {
+
+
+        /* ================= TITIK RADAR ================= */
+
+        const titik =
             document.createElement("div");
 
-        dot.className =
-            "wifi-dot " + wifi.type;
+        titik.className =
+            "titik-wifi " +
+            wifi.kelas;
 
-        dot.style.left =
+        titik.style.left =
             wifi.x + "%";
 
-        dot.style.top =
+        titik.style.top =
             wifi.y + "%";
 
-        dot.innerHTML =
-            `<span class="dot-label">
-                ${wifi.ssid}
+
+        titik.innerHTML =
+            `<span class="nama-titik">
+                ${aman(wifi.nama)}
             </span>`;
 
-        dot.onclick = () => {
-            openConnect(wifi);
-        };
 
-        radar.appendChild(dot);
+        titik.onclick =
+            () => bukaModal(wifi);
 
 
-        /* ------------------------------
-           WIFI CARD
-        ------------------------------ */
+        radar.appendChild(titik);
 
-        const card =
+
+        /* ================= KARTU ================= */
+
+        const kartu =
             document.createElement("div");
 
-        card.className =
+        kartu.className =
             "wifi-card";
 
 
-        card.innerHTML = `
+        kartu.innerHTML = `
 
             <div class="wifi-icon">
                 ðŸ“¶
             </div>
 
-            <div class="wifi-details">
+            <div class="wifi-detail">
 
                 <div class="wifi-name">
-                    ${escapeHtml(wifi.ssid)}
+                    ${aman(wifi.nama)}
                 </div>
 
                 <div class="wifi-meta">
-                    ðŸ” ${wifi.security}
+                    ðŸ” ${wifi.keamanan}
                     &nbsp; | &nbsp;
-                    ðŸ“» ${wifi.frequency}
+                    ðŸ“» ${wifi.frekuensi}
                 </div>
 
-                <div class="signal">
-                    ðŸ“¶ ${wifi.signal} dBm
-                    &nbsp; â€¢ &nbsp;
-                    ðŸ“ ${wifi.distance}
+                <div class="wifi-signal">
+                    ðŸ“¶ ${wifi.sinyal} dBm
                 </div>
 
             </div>
 
-            <button class="connect">
-                CONNECT
+            <button class="tombol-connect">
+                Hubungkan
             </button>
+
         `;
 
 
-        card
-            .querySelector(".connect")
-            .onclick = () => {
-                openConnect(wifi);
-            };
+        kartu
+            .querySelector(
+                ".tombol-connect"
+            )
+            .onclick =
+            () => bukaModal(wifi);
 
 
-        list.appendChild(card);
+        daftar.appendChild(kartu);
 
     });
 
 }
 
 
-/* ==========================================
-   SCAN ANIMATION
-========================================== */
+/* =====================================================
+   PEMINDAIAN
+===================================================== */
 
-function scanWifi(){
+function mulaiPemindaian(){
 
     const status =
-        document.getElementById("scanStatus");
+        document.getElementById(
+            "statusScan"
+        );
+
 
     status.innerText =
-        "SCAN";
+        "MEMINDAI";
 
-    showStatus(
-        "ðŸ“¡ Radar sedang melakukan scanning..."
+
+    tampilkanNotifikasi(
+        "ðŸ“¡ Pemindaian sedang berjalan..."
     );
 
 
-    setTimeout(()=>{
+    setTimeout(() => {
 
         status.innerText =
-            "READY";
+            "SELESAI";
 
-        renderWifi();
 
-        showStatus(
-            "âœ… Scanning selesai â€” " +
-            wifiNetworks.length +
-            " jaringan ditemukan"
+        tampilkanJaringan();
+
+
+        tampilkanNotifikasi(
+            "Pemindaian antarmuka selesai."
         );
 
     },1800);
@@ -916,117 +1226,150 @@ function scanWifi(){
 }
 
 
-/* ==========================================
-   CONNECT MODAL
-========================================== */
+/* =====================================================
+   MODAL
+===================================================== */
 
-function openConnect(wifi){
+function bukaModal(wifi){
 
-    selectedWifi = wifi;
+    wifiTerpilih =
+        wifi;
+
 
     document.getElementById(
-        "modalWifiName"
+        "namaWifiModal"
     ).innerText =
-        "ðŸ“¡ " + wifi.ssid;
+        "ðŸ“¡ " + wifi.nama;
+
 
     document.getElementById(
-        "passwordInput"
+        "password"
     ).value = "";
 
+
     document.getElementById(
-        "connectModal"
-    ).style.display = "flex";
+        "modal"
+    ).style.display =
+        "flex";
 
 }
 
 
-function closeModal(){
+function tutupModal(){
 
     document.getElementById(
-        "connectModal"
-    ).style.display = "none";
+        "modal"
+    ).style.display =
+        "none";
 
-    selectedWifi = null;
 
+    wifiTerpilih =
+        null;
 }
 
 
-/* ==========================================
-   CONNECT
-   ------------------------------------------
-   Browser tidak memiliki API umum untuk
-   menghubungkan perangkat ke Wi-Fi secara
-   langsung.
-========================================== */
+/* =====================================================
+   HUBUNGKAN
+===================================================== */
 
-function connectWifi(){
+function hubungkanWifi(){
 
-    if(!selectedWifi)
+    if(!wifiTerpilih)
         return;
 
 
     const password =
         document.getElementById(
-            "passwordInput"
+            "password"
         ).value;
 
 
     if(!password){
 
-        showStatus(
-            "âš ï¸ Masukkan password terlebih dahulu"
+        tampilkanNotifikasi(
+            "âš ï¸ Silakan masukkan kata sandi."
         );
 
         return;
     }
 
 
-    closeModal();
-
-
-    showStatus(
-        "ðŸ” Password diterima. " +
-        "Silakan sambungkan melalui pengaturan Wi-Fi Android."
-    );
+    tutupModal();
 
 
     /*
-     * Tidak ada kode pembobolan password di sini.
-     * Password hanya digunakan sebagai input pengguna.
-     */
+       HTML murni tidak mempunyai API umum
+       untuk menghubungkan Wi-Fi Android.
+
+       Jadi kita arahkan pengguna ke pengaturan
+       Wi-Fi perangkat.
+    */
+
+    tampilkanNotifikasi(
+        "ðŸ“± Buka pengaturan Wi-Fi Android untuk menyelesaikan koneksi."
+    );
+
+
+    setTimeout(() => {
+
+        /*
+           Pada browser biasa, bagian ini tidak
+           dijamin didukung.
+
+           Android WebView/native dapat menggantinya
+           dengan fungsi Kotlin.
+        */
+
+        try{
+
+            window.location.href =
+                "intent:#Intent;" +
+                "action=android.settings.WIFI_SETTINGS;" +
+                "end";
+
+        }catch(error){
+
+            console.log(error);
+
+        }
+
+    },1000);
 
 }
 
 
-/* ==========================================
-   STATUS MESSAGE
-========================================== */
+/* =====================================================
+   NOTIFIKASI
+===================================================== */
 
-let statusTimer;
+let timerNotifikasi;
 
 
-function showStatus(message){
+function tampilkanNotifikasi(teks){
 
-    const status =
+    const elemen =
         document.getElementById(
-            "statusMessage"
+            "notifikasi"
         );
 
 
-    status.innerText =
-        message;
+    elemen.innerText =
+        teks;
 
-    status.style.display =
+
+    elemen.style.display =
         "block";
 
 
-    clearTimeout(statusTimer);
+    clearTimeout(
+        timerNotifikasi
+    );
 
 
-    statusTimer =
-        setTimeout(()=>{
+    timerNotifikasi =
+        setTimeout(() => {
 
-            status.style.display =
+            elemen.style.display =
                 "none";
 
         },4000);
@@ -1034,27 +1377,27 @@ function showStatus(message){
 }
 
 
-/* ==========================================
-   HTML ESCAPE
-========================================== */
+/* =====================================================
+   KEAMANAN HTML
+===================================================== */
 
-function escapeHtml(text){
+function aman(teks){
 
-    const div =
+    const elemen =
         document.createElement("div");
 
-    div.textContent =
-        text;
+    elemen.textContent =
+        teks;
 
-    return div.innerHTML;
+    return elemen.innerHTML;
 }
 
 
-/* ==========================================
-   START
-========================================== */
+/* =====================================================
+   MULAI
+===================================================== */
 
-renderWifi();
+tampilkanJaringan();
 
 </script>
 
