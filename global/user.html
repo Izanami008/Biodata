@@ -1,42 +1,1063 @@
+```html
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-<title>User</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>WiFi Radar & Connect</title>
+
 <style>
-body{background:#0f172a;color:white;font-family:Arial;text-align:center;padding-top:50px;}
-img{width:100px;height:100px;border-radius:50%;}
-button{padding:10px 20px;background:red;color:white;border:none;border-radius:5px;margin-top:20px;}
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    background:
+        radial-gradient(circle at center,#062b38 0%,#020b16 45%,#01050b 100%);
+    color:#fff;
+    font-family:Arial,Helvetica,sans-serif;
+    min-height:100vh;
+    overflow-x:hidden;
+}
+
+/* HEADER */
+.header{
+    padding:18px;
+    border-bottom:1px solid #00bfff;
+    background:rgba(0,15,30,.92);
+    box-shadow:0 0 25px rgba(0,191,255,.25);
+}
+
+.header-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.logo-icon{
+    font-size:38px;
+    filter:drop-shadow(0 0 10px #00d9ff);
+}
+
+.logo h1{
+    color:#4ddcff;
+    font-size:22px;
+    text-shadow:0 0 10px #00bfff;
+}
+
+.logo p{
+    color:#83a9b8;
+    font-size:12px;
+    margin-top:3px;
+}
+
+.settings{
+    font-size:25px;
+    color:#4ddcff;
+}
+
+/* USER */
+.user-panel{
+    margin:15px;
+    padding:12px;
+    border:1px solid #087ea4;
+    border-radius:15px;
+    background:rgba(0,25,40,.7);
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.user-panel img{
+    width:55px;
+    height:55px;
+    border-radius:50%;
+    object-fit:cover;
+    border:2px solid #00d9ff;
+    box-shadow:0 0 15px #00bfff;
+}
+
+.user-info{
+    text-align:left;
+    flex:1;
+}
+
+.user-info h3{
+    color:#fff;
+    font-size:16px;
+}
+
+.user-info p{
+    color:#75a6b8;
+    font-size:12px;
+    margin-top:4px;
+}
+
+.logout{
+    background:#e11d48;
+    color:white;
+    border:0;
+    border-radius:8px;
+    padding:8px 12px;
+    cursor:pointer;
+}
+
+/* STAT */
+.stats{
+    display:flex;
+    gap:10px;
+    padding:0 15px 15px;
+}
+
+.stat{
+    flex:1;
+    background:rgba(0,25,40,.75);
+    border:1px solid #087ea4;
+    border-radius:12px;
+    padding:12px;
+}
+
+.stat small{
+    color:#6ca2b5;
+}
+
+.stat strong{
+    display:block;
+    color:#35dcff;
+    font-size:24px;
+    margin-top:4px;
+}
+
+/* RADAR */
+.radar-wrapper{
+    width:min(92vw,420px);
+    aspect-ratio:1/1;
+    margin:10px auto 20px;
+    position:relative;
+}
+
+.radar{
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+    border:2px solid #00cfff;
+    box-shadow:
+        0 0 20px #00cfff,
+        inset 0 0 30px rgba(0,207,255,.25);
+    overflow:hidden;
+
+    background:
+        repeating-radial-gradient(
+            circle,
+            transparent 0 54px,
+            rgba(0,200,255,.35) 55px 56px
+        ),
+        linear-gradient(
+            transparent 49.7%,
+            rgba(0,200,255,.35) 50%,
+            transparent 50.3%
+        ),
+        linear-gradient(
+            90deg,
+            transparent 49.7%,
+            rgba(0,200,255,.35) 50%,
+            transparent 50.3%
+        ),
+        radial-gradient(
+            circle,
+            rgba(0,200,255,.18),
+            rgba(0,20,35,.95)
+        );
+}
+
+/* radar sweep */
+.radar::after{
+    content:"";
+    position:absolute;
+    width:50%;
+    height:50%;
+    left:50%;
+    top:50%;
+    transform-origin:0 0;
+
+    background:
+        conic-gradient(
+            from 0deg,
+            rgba(0,255,150,.5),
+            rgba(0,255,150,.12),
+            transparent 75%
+        );
+
+    animation:scan 2.8s linear infinite;
+}
+
+@keyframes scan{
+    from{
+        transform:rotate(0deg);
+    }
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+.center{
+    position:absolute;
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    background:#00ffff;
+    box-shadow:
+        0 0 10px #00ffff,
+        0 0 30px #00ffff;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    z-index:5;
+}
+
+/* directions */
+.direction{
+    position:absolute;
+    color:#43dcff;
+    font-weight:bold;
+    text-shadow:0 0 8px #00bfff;
+    z-index:6;
+}
+
+.n{top:5px;left:50%;transform:translateX(-50%);}
+.s{bottom:5px;left:50%;transform:translateX(-50%);}
+.e{right:7px;top:50%;transform:translateY(-50%);}
+.w{left:7px;top:50%;transform:translateY(-50%);}
+
+/* WIFI DOT */
+.wifi-dot{
+    position:absolute;
+    width:18px;
+    height:18px;
+    border-radius:50%;
+    z-index:10;
+    cursor:pointer;
+    animation:pulse 1.5s infinite;
+}
+
+.wifi-dot::after{
+    content:"";
+    position:absolute;
+    inset:-8px;
+    border:1px solid currentColor;
+    border-radius:50%;
+    opacity:.4;
+}
+
+@keyframes pulse{
+    0%,100%{
+        transform:scale(1);
+    }
+    50%{
+        transform:scale(1.35);
+    }
+}
+
+.strong{
+    background:#00ff88;
+    color:#00ff88;
+    box-shadow:0 0 15px #00ff88;
+}
+
+.medium{
+    background:#ffe600;
+    color:#ffe600;
+    box-shadow:0 0 15px #ffe600;
+}
+
+.weak{
+    background:#ff3b30;
+    color:#ff3b30;
+    box-shadow:0 0 15px #ff3b30;
+}
+
+.dot-label{
+    position:absolute;
+    left:24px;
+    top:-5px;
+    white-space:nowrap;
+    color:white;
+    font-size:10px;
+    text-shadow:0 0 5px black;
+}
+
+/* CONTROL */
+.controls{
+    padding:0 15px 15px;
+}
+
+.scan-btn{
+    width:100%;
+    border:1px solid #00d9ff;
+    border-radius:12px;
+    padding:14px;
+    color:#fff;
+    font-weight:bold;
+    font-size:16px;
+    background:linear-gradient(
+        90deg,
+        #003e58,
+        #006c8d
+    );
+    box-shadow:0 0 15px rgba(0,217,255,.35);
+    cursor:pointer;
+}
+
+.scan-btn:active{
+    transform:scale(.98);
+}
+
+/* LIST */
+.section-title{
+    padding:10px 15px;
+    color:#43dcff;
+    font-size:14px;
+}
+
+.wifi-list{
+    padding:0 15px 30px;
+}
+
+.wifi-card{
+    margin-bottom:10px;
+    padding:13px;
+    border:1px solid #075f80;
+    border-radius:13px;
+    background:rgba(0,22,36,.85);
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.wifi-icon{
+    width:45px;
+    height:45px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:#032d3d;
+    font-size:22px;
+}
+
+.wifi-details{
+    flex:1;
+    text-align:left;
+}
+
+.wifi-name{
+    font-size:15px;
+    font-weight:bold;
+}
+
+.wifi-meta{
+    color:#7ba5b3;
+    font-size:11px;
+    margin-top:5px;
+}
+
+.signal{
+    color:#00ff88;
+    font-size:12px;
+    margin-top:3px;
+}
+
+.connect{
+    border:1px solid #00ff9d;
+    background:transparent;
+    color:#00ff9d;
+    border-radius:8px;
+    padding:8px 10px;
+    cursor:pointer;
+}
+
+.connect:hover{
+    background:#00ff9d;
+    color:#00140d;
+}
+
+/* MODAL */
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.8);
+    z-index:100;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.modal-box{
+    width:100%;
+    max-width:380px;
+    background:#041522;
+    border:1px solid #00cfff;
+    border-radius:18px;
+    padding:22px;
+    box-shadow:0 0 30px rgba(0,207,255,.5);
+}
+
+.modal-box h2{
+    color:#43dcff;
+    margin-bottom:8px;
+}
+
+.modal-box p{
+    color:#88aab6;
+    font-size:13px;
+    margin-bottom:15px;
+}
+
+.password{
+    width:100%;
+    padding:13px;
+    background:#020b12;
+    border:1px solid #075f80;
+    color:white;
+    border-radius:8px;
+    outline:none;
+}
+
+.modal-buttons{
+    display:flex;
+    gap:10px;
+    margin-top:15px;
+}
+
+.modal-buttons button{
+    flex:1;
+    padding:11px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.cancel{
+    background:#16222b;
+    color:white;
+    border:1px solid #34515f;
+}
+
+.confirm{
+    background:#00b978;
+    color:white;
+    border:0;
+}
+
+/* STATUS */
+.status{
+    position:fixed;
+    bottom:15px;
+    left:50%;
+    transform:translateX(-50%);
+    background:#02141f;
+    border:1px solid #00bfff;
+    color:#6eeaff;
+    padding:10px 18px;
+    border-radius:30px;
+    font-size:12px;
+    display:none;
+    z-index:200;
+}
 </style>
 </head>
 
 <body>
 
-<img id="foto">
+<!-- HEADER -->
+<header class="header">
+    <div class="header-top">
 
-<h2 id="nama"></h2>
+        <div class="logo">
+            <div class="logo-icon">ðŸ“¡</div>
 
-<p id="email"></p>
+            <div>
+                <h1>WiFi Radar & Connect</h1>
+                <p>SCAN â€¢ DETECT â€¢ CONNECT</p>
+            </div>
+        </div>
 
-<button onclick="logout()">Logout</button>
+        <div class="settings">âš™ï¸</div>
+
+    </div>
+</header>
+
+
+<!-- USER -->
+<div class="user-panel">
+
+    <img id="foto" src="">
+
+    <div class="user-info">
+        <h3 id="nama">User</h3>
+        <p id="email">user@email.com</p>
+    </div>
+
+    <button class="logout" onclick="logout()">
+        Logout
+    </button>
+
+</div>
+
+
+<!-- STATISTICS -->
+<div class="stats">
+
+    <div class="stat">
+        <small>Wi-Fi Terdeteksi</small>
+        <strong id="wifiCount">0</strong>
+    </div>
+
+    <div class="stat">
+        <small>Status</small>
+        <strong id="scanStatus">READY</strong>
+    </div>
+
+</div>
+
+
+<!-- RADAR -->
+<div class="radar-wrapper">
+
+    <div class="radar" id="radar">
+
+        <span class="direction n">N</span>
+        <span class="direction s">S</span>
+        <span class="direction e">E</span>
+        <span class="direction w">W</span>
+
+        <div class="center"></div>
+
+    </div>
+
+</div>
+
+
+<!-- SCAN -->
+<div class="controls">
+
+    <button
+        class="scan-btn"
+        onclick="scanWifi()">
+
+        ðŸ”„ SCAN WI-FI
+
+    </button>
+
+</div>
+
+
+<div class="section-title">
+    ðŸ“¡ JARINGAN WI-FI TERDETEKSI
+</div>
+
+
+<!-- WIFI LIST -->
+<div
+    class="wifi-list"
+    id="wifiList">
+</div>
+
+
+<!-- CONNECT MODAL -->
+<div
+    class="modal"
+    id="connectModal">
+
+    <div class="modal-box">
+
+        <h2 id="modalWifiName">
+            Connect Wi-Fi
+        </h2>
+
+        <p>
+            Masukkan password Wi-Fi yang Anda
+            miliki atau yang diberikan oleh pemilik jaringan.
+        </p>
+
+        <input
+            id="passwordInput"
+            class="password"
+            type="password"
+            placeholder="Password Wi-Fi">
+
+        <div class="modal-buttons">
+
+            <button
+                class="cancel"
+                onclick="closeModal()">
+                Batal
+            </button>
+
+            <button
+                class="confirm"
+                onclick="connectWifi()">
+                Connect
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div
+    class="status"
+    id="statusMessage">
+</div>
+
 
 <script>
 
-const user=JSON.parse(localStorage.getItem("currentUser"));
+/* ==========================================
+   USER SYSTEM
+========================================== */
+
+const user =
+    JSON.parse(
+        localStorage.getItem("currentUser")
+    );
 
 if(!user){
-window.location.href="login.html";
+
+    window.location.href = "login.html";
+
+}else{
+
+    document.getElementById("foto").src =
+        user.foto || "https://via.placeholder.com/100";
+
+    document.getElementById("nama").innerText =
+        user.nama || "User";
+
+    document.getElementById("email").innerText =
+        user.email || "";
+
 }
 
-document.getElementById("foto").src=user.foto;
-document.getElementById("nama").innerText=user.nama;
-document.getElementById("email").innerText=user.email;
+
+/* ==========================================
+   LOGOUT
+========================================== */
 
 function logout(){
-localStorage.removeItem("currentUser");
-window.location.href="login.html";
+
+    localStorage.removeItem("currentUser");
+
+    window.location.href =
+        "login.html";
 }
+
+
+/* ==========================================
+   WIFI DATA
+   ------------------------------------------
+   DATA DI BAWAH ADALAH DATA DEMO.
+   BROWSER TIDAK DAPAT MELAKUKAN SCAN SSID
+   WIFI SEKITAR SECARA LANGSUNG.
+========================================== */
+
+const wifiNetworks = [
+
+    {
+        ssid:"RumahKu",
+        signal:-52,
+        security:"WPA2",
+        frequency:"2.4 GHz",
+        distance:"12 m",
+        type:"strong",
+        x:25,
+        y:55
+    },
+
+    {
+        ssid:"@wifi.id",
+        signal:-65,
+        security:"WPA2",
+        frequency:"2.4 GHz",
+        distance:"38 m",
+        type:"strong",
+        x:58,
+        y:42
+    },
+
+    {
+        ssid:"Kopi Kenangan",
+        signal:-68,
+        security:"WPA2",
+        frequency:"2.4 GHz",
+        distance:"62 m",
+        type:"strong",
+        x:72,
+        y:27
+    },
+
+    {
+        ssid:"Cafe Gratis",
+        signal:-74,
+        security:"Open",
+        frequency:"2.4 GHz",
+        distance:"85 m",
+        type:"medium",
+        x:80,
+        y:50
+    },
+
+    {
+        ssid:"GalaxyNet",
+        signal:-76,
+        security:"WPA2",
+        frequency:"5 GHz",
+        distance:"102 m",
+        type:"medium",
+        x:67,
+        y:70
+    },
+
+    {
+        ssid:"Indomaret WiFi",
+        signal:-72,
+        security:"Open",
+        frequency:"2.4 GHz",
+        distance:"125 m",
+        type:"medium",
+        x:32,
+        y:30
+    },
+
+    {
+        ssid:"TP-Link_3F2A",
+        signal:-81,
+        security:"WPA/WPA2",
+        frequency:"2.4 GHz",
+        distance:"158 m",
+        type:"medium",
+        x:15,
+        y:38
+    },
+
+    {
+        ssid:"BCA Hotspot",
+        signal:-88,
+        security:"WPA2",
+        frequency:"5 GHz",
+        distance:"201 m",
+        type:"weak",
+        x:40,
+        y:78
+    }
+
+];
+
+
+let selectedWifi = null;
+
+
+/* ==========================================
+   RENDER WIFI
+========================================== */
+
+function renderWifi(){
+
+    const list =
+        document.getElementById("wifiList");
+
+    const radar =
+        document.getElementById("radar");
+
+    list.innerHTML = "";
+
+    /*
+     * Hapus titik radar lama
+     */
+    document
+        .querySelectorAll(".wifi-dot")
+        .forEach(dot => dot.remove());
+
+
+    document.getElementById("wifiCount")
+        .innerText = wifiNetworks.length;
+
+
+    wifiNetworks.forEach((wifi,index)=>{
+
+        /* ------------------------------
+           RADAR DOT
+        ------------------------------ */
+
+        const dot =
+            document.createElement("div");
+
+        dot.className =
+            "wifi-dot " + wifi.type;
+
+        dot.style.left =
+            wifi.x + "%";
+
+        dot.style.top =
+            wifi.y + "%";
+
+        dot.innerHTML =
+            `<span class="dot-label">
+                ${wifi.ssid}
+            </span>`;
+
+        dot.onclick = () => {
+            openConnect(wifi);
+        };
+
+        radar.appendChild(dot);
+
+
+        /* ------------------------------
+           WIFI CARD
+        ------------------------------ */
+
+        const card =
+            document.createElement("div");
+
+        card.className =
+            "wifi-card";
+
+
+        card.innerHTML = `
+
+            <div class="wifi-icon">
+                ðŸ“¶
+            </div>
+
+            <div class="wifi-details">
+
+                <div class="wifi-name">
+                    ${escapeHtml(wifi.ssid)}
+                </div>
+
+                <div class="wifi-meta">
+                    ðŸ” ${wifi.security}
+                    &nbsp; | &nbsp;
+                    ðŸ“» ${wifi.frequency}
+                </div>
+
+                <div class="signal">
+                    ðŸ“¶ ${wifi.signal} dBm
+                    &nbsp; â€¢ &nbsp;
+                    ðŸ“ ${wifi.distance}
+                </div>
+
+            </div>
+
+            <button class="connect">
+                CONNECT
+            </button>
+        `;
+
+
+        card
+            .querySelector(".connect")
+            .onclick = () => {
+                openConnect(wifi);
+            };
+
+
+        list.appendChild(card);
+
+    });
+
+}
+
+
+/* ==========================================
+   SCAN ANIMATION
+========================================== */
+
+function scanWifi(){
+
+    const status =
+        document.getElementById("scanStatus");
+
+    status.innerText =
+        "SCAN";
+
+    showStatus(
+        "ðŸ“¡ Radar sedang melakukan scanning..."
+    );
+
+
+    setTimeout(()=>{
+
+        status.innerText =
+            "READY";
+
+        renderWifi();
+
+        showStatus(
+            "âœ… Scanning selesai â€” " +
+            wifiNetworks.length +
+            " jaringan ditemukan"
+        );
+
+    },1800);
+
+}
+
+
+/* ==========================================
+   CONNECT MODAL
+========================================== */
+
+function openConnect(wifi){
+
+    selectedWifi = wifi;
+
+    document.getElementById(
+        "modalWifiName"
+    ).innerText =
+        "ðŸ“¡ " + wifi.ssid;
+
+    document.getElementById(
+        "passwordInput"
+    ).value = "";
+
+    document.getElementById(
+        "connectModal"
+    ).style.display = "flex";
+
+}
+
+
+function closeModal(){
+
+    document.getElementById(
+        "connectModal"
+    ).style.display = "none";
+
+    selectedWifi = null;
+
+}
+
+
+/* ==========================================
+   CONNECT
+   ------------------------------------------
+   Browser tidak memiliki API umum untuk
+   menghubungkan perangkat ke Wi-Fi secara
+   langsung.
+========================================== */
+
+function connectWifi(){
+
+    if(!selectedWifi)
+        return;
+
+
+    const password =
+        document.getElementById(
+            "passwordInput"
+        ).value;
+
+
+    if(!password){
+
+        showStatus(
+            "âš ï¸ Masukkan password terlebih dahulu"
+        );
+
+        return;
+    }
+
+
+    closeModal();
+
+
+    showStatus(
+        "ðŸ” Password diterima. " +
+        "Silakan sambungkan melalui pengaturan Wi-Fi Android."
+    );
+
+
+    /*
+     * Tidak ada kode pembobolan password di sini.
+     * Password hanya digunakan sebagai input pengguna.
+     */
+
+}
+
+
+/* ==========================================
+   STATUS MESSAGE
+========================================== */
+
+let statusTimer;
+
+
+function showStatus(message){
+
+    const status =
+        document.getElementById(
+            "statusMessage"
+        );
+
+
+    status.innerText =
+        message;
+
+    status.style.display =
+        "block";
+
+
+    clearTimeout(statusTimer);
+
+
+    statusTimer =
+        setTimeout(()=>{
+
+            status.style.display =
+                "none";
+
+        },4000);
+
+}
+
+
+/* ==========================================
+   HTML ESCAPE
+========================================== */
+
+function escapeHtml(text){
+
+    const div =
+        document.createElement("div");
+
+    div.textContent =
+        text;
+
+    return div.innerHTML;
+}
+
+
+/* ==========================================
+   START
+========================================== */
+
+renderWifi();
 
 </script>
 
 </body>
 </html>
+```
