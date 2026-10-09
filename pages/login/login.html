@@ -6,93 +6,105 @@
 <title>Login Marketplace</title>
 
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,sans-serif;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
 }
 
-body{
-    background:#0f172a;
-    color:#fff;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    min-height:100vh;
+body {
+    background: #0f172a;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
 }
 
-.box{
-    width:360px;
-    background:#1e293b;
-    padding:35px;
-    border-radius:16px;
-    box-shadow:0 0 20px rgba(0,255,204,.18);
-    text-align:center;
+.box {
+    width: 100%;
+    max-width: 360px;
+    background: #1e293b;
+    padding: 35px;
+    border-radius: 16px;
+    box-shadow: 0 0 20px rgba(0,255,204,.18);
+    text-align: center;
 }
 
-.profile-img{
-    width:80px;
-    height:80px;
-    border-radius:50%;
-    object-fit:cover;
-    border:2px solid #00ffcc;
-    margin-bottom:14px;
+.profile-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #00ffcc;
+    margin-bottom: 14px;
 }
 
-h2{
-    margin-bottom:10px;
+h2 {
+    margin-bottom: 10px;
 }
 
-input{
-    width:100%;
-    padding:12px;
-    margin-top:10px;
-    border:none;
-    border-radius:8px;
-    outline:none;
+input {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 8px;
+    outline: none;
+    font-size: 15px;
 }
 
-button{
-    width:100%;
-    margin-top:14px;
-    padding:12px;
-    border:none;
-    border-radius:8px;
-    background:#00ffcc;
-    color:#000;
-    font-weight:bold;
-    cursor:pointer;
+button {
+    width: 100%;
+    margin-top: 14px;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: #00ffcc;
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 15px;
 }
 
-button:hover{
-    background:#00d6aa;
+button:hover {
+    background: #00d6aa;
 }
 
-.home-btn{
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    margin-top:18px;
-    padding:10px 16px;
-    border-radius:10px;
-    background:rgba(255,255,255,.05);
-    border:1px solid rgba(255,255,255,.08);
-    color:#00ffcc;
-    text-decoration:none;
-    transition:.25s;
+.home-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 18px;
+    padding: 10px 16px;
+    border-radius: 10px;
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.08);
+    color: #00ffcc;
+    text-decoration: none;
+    transition: .25s;
 }
 
-.home-btn:hover{
-    background:#00ffcc;
-    color:#000;
+.home-btn:hover {
+    background: #00ffcc;
+    color: #000;
 }
 
-#error{
-    color:#ff6b6b;
-    min-height:18px;
-    margin-top:8px;
-    font-size:14px;
+#error {
+    color: #ff6b6b;
+    min-height: 18px;
+    margin-top: 8px;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+@media (max-width: 400px) {
+    .box {
+        padding: 25px;
+    }
 }
 </style>
 </head>
@@ -101,20 +113,41 @@ button:hover{
 
 <div class="box">
 
-    <img src="img/IMG_20260413_093051.png" class="profile-img" alt="profile">
+    <img
+        src="img/IMG_20260413_093051.png"
+        class="profile-img"
+        alt="Profile"
+    >
 
     <h2>Login Marketplace</h2>
-
-    <p id="error"></p>
+    <p id="error" role="alert"></p>
 
     <form id="loginForm">
-        <input type="text" id="username" placeholder="Username" required>
-        <input type="password" id="password" placeholder="Password" required>
+        <input
+            type="text"
+            id="username"
+            placeholder="Username"
+            autocomplete="username"
+            required
+        >
+
+        <input
+            type="password"
+            id="password"
+            placeholder="Password"
+            autocomplete="current-password"
+            required
+        >
+
         <button type="submit">Login</button>
     </form>
 
-    <a href="services.html" class="home-btn">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+    <!-- Tombol Home: kembali ke index utama Biodata -->
+    <a href="#" id="homeButton" class="home-btn">
+        <svg width="16" height="16"
+             viewBox="0 0 24 24"
+             fill="currentColor"
+             aria-hidden="true">
             <path d="M12 3l9 9h-3v9h-12v-9h-3z"/>
         </svg>
         Home
@@ -123,38 +156,77 @@ button:hover{
 </div>
 
 <script>
+// ======================================
+// PENGATURAN HALAMAN HOME
+// ======================================
+
+// Jika login.html ada di folder utama:
+const HOME_MAIN = "index.html";
+
+// Jika login.html ada di folder pages/login:
+const HOME_PAGES_LOGIN = "../../index.html";
+
+// Tentukan berdasarkan lokasi file login.
+const path = window.location.pathname.replace(/\\/g, "/");
+
+const homePath = /\/pages\/login\/[^/]*$/i.test(path)
+    ? HOME_PAGES_LOGIN
+    : HOME_MAIN;
+
+document.getElementById("homeButton").href = homePath;
+
+
+// ======================================
+// LOGIN ADMIN DAN USER
+// ======================================
+
+// Demo login. Ganti dengan autentikasi server
+// sebelum website digunakan secara online.
 const ADMIN = {
-    user:"admin",
-    pass:"12345"
+    user: "admin",
+    pass: "12345"
 };
 
 const USER = {
-    user:"user",
-    pass:"12345"
+    user: "user",
+    pass: "12345"
 };
 
-document.getElementById("loginForm").addEventListener("submit", function(e){
+document.getElementById("loginForm")
+.addEventListener("submit", function(e) {
     e.preventDefault();
 
-    const username = document.getElementById("username").value.trim();
-    const password = document.getElementById("password").value.trim();
+    const username = document
+        .getElementById("username")
+        .value.trim();
+
+    const password = document
+        .getElementById("password")
+        .value;
+
     const error = document.getElementById("error");
 
-    error.innerText = "";
+    error.textContent = "";
 
-    if(username === ADMIN.user && password === ADMIN.pass){
-        localStorage.setItem("user","admin");
+    if (
+        username === ADMIN.user &&
+        password === ADMIN.pass
+    ) {
+        localStorage.setItem("user", "admin");
         window.location.href = "admin/admin.html";
         return;
     }
 
-    if(username === USER.user && password === USER.pass){
-        localStorage.setItem("user","user");
+    if (
+        username === USER.user &&
+        password === USER.pass
+    ) {
+        localStorage.setItem("user", "user");
         window.location.href = "user/user.html";
         return;
     }
 
-    error.innerText = "Username atau password salah";
+    error.textContent = "Username atau password salah.";
 });
 </script>
 
