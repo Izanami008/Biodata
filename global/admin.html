@@ -1,1517 +1,1268 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Database Center</title>
+<title>Admin Data Center</title>
 
 <style>
-:root{
-    --bg:#0b1120;
-    --panel:#111c30;
-    --panel2:#17243b;
-    --border:#263650;
-    --text:#edf4ff;
-    --muted:#91a4c0;
-    --accent:#00e5b0;
-    --blue:#4299ff;
-    --red:#ff5b6e;
+:root {
+    --bg: #0b1120;
+    --panel: #121c2e;
+    --panel2: #18253a;
+    --border: #293950;
+    --text: #edf4ff;
+    --muted: #91a2ba;
+    --green: #00e5b0;
+    --red: #ff5572;
+    --blue: #60a5fa;
 }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,sans-serif;
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-body{
-    background:var(--bg);
-    color:var(--text);
-    min-height:100vh;
+body {
+    font-family: Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
 }
 
-button,input,select{
-    font:inherit;
+button, input, select, textarea {
+    font: inherit;
 }
 
-button{
-    cursor:pointer;
-    border:0;
+button {
+    cursor: pointer;
+    border: 0;
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: #061a17;
+    background: var(--green);
+    font-weight: bold;
 }
 
-.layout{
-    display:flex;
-    min-height:100vh;
+button:hover {
+    filter: brightness(1.1);
 }
 
-.sidebar{
-    width:240px;
-    background:#0e192b;
-    border-right:1px solid var(--border);
-    padding:22px 14px;
-    flex-shrink:0;
+button.danger {
+    background: var(--red);
+    color: white;
 }
 
-.brand{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    padding:8px;
-    margin-bottom:30px;
+button.secondary {
+    background: #34465f;
+    color: white;
 }
 
-.brand-icon{
-    width:42px;
-    height:42px;
-    display:grid;
-    place-items:center;
-    border-radius:12px;
-    color:#001a14;
-    background:var(--accent);
-    font-size:23px;
-    font-weight:bold;
+button.blue {
+    background: var(--blue);
+    color: #071526;
 }
 
-.brand h2{
-    font-size:17px;
+input, select, textarea {
+    width: 100%;
+    padding: 11px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: #0c1525;
+    color: white;
+    outline: none;
 }
 
-.brand p{
-    color:var(--muted);
-    font-size:11px;
-    margin-top:4px;
+input:focus, select:focus, textarea:focus {
+    border-color: var(--green);
 }
 
-.menu-label{
-    color:#6f83a2;
-    font-size:11px;
-    font-weight:bold;
-    letter-spacing:1.5px;
-    padding:10px;
+label {
+    display: block;
+    font-size: 13px;
+    color: var(--muted);
+    margin: 12px 0 6px;
 }
 
-.nav{
-    display:flex;
-    flex-direction:column;
-    gap:6px;
+.layout {
+    display: flex;
+    min-height: 100vh;
 }
 
-.nav button{
-    background:transparent;
-    color:#b7c6dd;
-    text-align:left;
-    padding:13px 12px;
-    border-radius:9px;
-    display:flex;
-    align-items:center;
-    gap:12px;
-    width:100%;
+.sidebar {
+    width: 245px;
+    flex-shrink: 0;
+    padding: 22px 15px;
+    background: #0e1728;
+    border-right: 1px solid var(--border);
 }
 
-.nav button:hover,
-.nav button.active{
-    background:#18334a;
-    color:var(--accent);
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 5px 24px;
+    border-bottom: 1px solid var(--border);
 }
 
-.nav .ico{
-    width:22px;
-    text-align:center;
-    font-size:17px;
+.brand img {
+    width: 48px;
+    height: 48px;
+    border-radius: 13px;
+    object-fit: cover;
+    border: 2px solid var(--green);
+    cursor: pointer;
+    background: var(--panel2);
 }
 
-.sidebar-bottom{
-    margin-top:30px;
-    padding:12px;
-    border-top:1px solid var(--border);
-    color:var(--muted);
-    font-size:12px;
-    line-height:1.7;
+.brand h2 {
+    font-size: 15px;
 }
 
-.main{
-    flex:1;
-    min-width:0;
-    padding:25px;
+.brand p {
+    color: var(--green);
+    font-size: 10px;
+    margin-top: 5px;
 }
 
-.topbar{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:15px;
-    flex-wrap:wrap;
-    margin-bottom:28px;
+.nav-title {
+    color: var(--muted);
+    font-size: 11px;
+    margin: 25px 10px 10px;
+    letter-spacing: 1px;
 }
 
-.topbar h1{
-    font-size:25px;
+.nav-btn {
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    color: #aebdd2;
+    margin: 4px 0;
+    padding: 13px;
+    font-weight: normal;
 }
 
-.topbar p{
-    color:var(--muted);
-    font-size:13px;
-    margin-top:7px;
+.nav-btn.active,
+.nav-btn:hover {
+    background: #1b2b40;
+    color: var(--green);
 }
 
-.top-actions{
-    display:flex;
-    gap:8px;
-    align-items:center;
+.main {
+    flex: 1;
+    min-width: 0;
+    padding: 25px;
 }
 
-.status{
-    border:1px solid #1a6657;
-    color:var(--accent);
-    background:#10342f;
-    padding:8px 11px;
-    border-radius:8px;
-    font-size:12px;
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 25px;
 }
 
-.btn{
-    padding:10px 13px;
-    border-radius:8px;
-    font-size:13px;
-    font-weight:bold;
-    background:var(--accent);
-    color:#001a14;
+.topbar h1 {
+    font-size: 25px;
 }
 
-.btn:hover{
-    filter:brightness(1.1);
+.topbar p {
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 6px;
 }
 
-.btn.secondary{
-    background:#253650;
-    color:var(--text);
+.section {
+    display: none;
 }
 
-.btn.danger{
-    background:#542330;
-    color:#ffabb5;
+.section.active {
+    display: block;
 }
 
-.cards{
-    display:grid;
-    grid-template-columns:repeat(4,minmax(0,1fr));
-    gap:15px;
-    margin-bottom:24px;
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 15px;
+    margin-bottom: 22px;
 }
 
-.card{
-    padding:19px;
-    background:var(--panel);
-    border:1px solid var(--border);
-    border-radius:13px;
-    min-width:0;
+.stat, .panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 19px;
 }
 
-.card-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:8px;
+.stat p {
+    color: var(--muted);
+    font-size: 13px;
 }
 
-.card-label{
-    color:var(--muted);
-    font-size:13px;
+.stat h2 {
+    font-size: 27px;
+    margin-top: 12px;
+    overflow-wrap: anywhere;
 }
 
-.card-icon{
-    width:36px;
-    height:36px;
-    display:grid;
-    place-items:center;
-    border-radius:10px;
-    background:#1b3048;
-    font-size:18px;
+.stat span {
+    color: var(--green);
+    font-size: 12px;
 }
 
-.card-number{
-    font-size:30px;
-    font-weight:bold;
-    margin-top:17px;
-    overflow-wrap:anywhere;
+.panel {
+    margin-bottom: 20px;
 }
 
-.card-foot{
-    color:var(--muted);
-    font-size:11px;
-    margin-top:8px;
+.panel h3 {
+    margin-bottom: 16px;
+    font-size: 17px;
 }
 
-.panel{
-    background:var(--panel);
-    border:1px solid var(--border);
-    border-radius:13px;
-    margin-bottom:22px;
-    overflow:hidden;
+.panel-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 15px;
 }
 
-.panel-head{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    flex-wrap:wrap;
-    gap:12px;
-    padding:18px;
-    border-bottom:1px solid var(--border);
+.panel-head h3 {
+    margin: 0;
 }
 
-.panel-head h3{
-    font-size:16px;
+.toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 15px;
 }
 
-.panel-head p{
-    color:var(--muted);
-    font-size:12px;
-    margin-top:5px;
+.toolbar input {
+    flex: 1;
+    min-width: 160px;
 }
 
-.toolbar{
-    display:flex;
-    flex-wrap:wrap;
-    gap:8px;
-    align-items:center;
+.table-wrap {
+    overflow-x: auto;
+    width: 100%;
 }
 
-.search{
-    background:#0b1527;
-    border:1px solid var(--border);
-    border-radius:8px;
-    padding:10px 12px;
-    color:var(--text);
-    outline:none;
-    width:230px;
-    max-width:100%;
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 650px;
 }
 
-.search:focus,
-input:focus,
-select:focus{
-    border-color:var(--accent);
+th, td {
+    padding: 13px 11px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    vertical-align: middle;
 }
 
-.table-wrap{
-    width:100%;
-    overflow-x:auto;
+th {
+    color: var(--green);
+    background: #172439;
+    white-space: nowrap;
 }
 
-table{
-    width:100%;
-    border-collapse:collapse;
-    min-width:650px;
+td {
+    color: #d9e4f3;
 }
 
-th,td{
-    padding:14px 16px;
-    text-align:left;
-    border-bottom:1px solid #223149;
-    font-size:13px;
+td button {
+    margin: 2px;
+    padding: 7px 9px;
+    font-size: 11px;
 }
 
-th{
-    color:#9db0cc;
-    background:#121e32;
-    font-size:11px;
-    letter-spacing:.5px;
-    text-transform:uppercase;
+.empty {
+    text-align: center;
+    color: var(--muted);
+    padding: 28px;
 }
 
-td{
-    color:#dce7f7;
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 15px;
 }
 
-tbody tr:hover{
-    background:#142239;
+.form-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 18px;
+    flex-wrap: wrap;
 }
 
-.photo{
-    width:38px;
-    height:38px;
-    border-radius:9px;
-    object-fit:cover;
-    background:#253650;
+.badge {
+    display: inline-block;
+    padding: 5px 9px;
+    border-radius: 20px;
+    font-size: 11px;
+    background: #213b36;
+    color: var(--green);
 }
 
-.pill{
-    display:inline-block;
-    padding:5px 8px;
-    border-radius:6px;
-    font-size:11px;
-    background:#193b36;
-    color:var(--accent);
+.badge.pending {
+    background: #493a20;
+    color: #ffd479;
 }
 
-.pill.blue{
-    background:#1a304d;
-    color:#7cbaff;
+.badge.cancel {
+    background: #472631;
+    color: #ff9aad;
 }
 
-.pill.red{
-    background:#48242d;
-    color:#ff9ca8;
+.photo-preview {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    border: 3px solid var(--green);
+    margin: 15px 0;
+    background: var(--panel2);
 }
 
-.row-actions{
-    display:flex;
-    gap:6px;
+.note {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.7;
+    margin-top: 12px;
 }
 
-.small-btn{
-    padding:7px 9px;
-    border-radius:6px;
-    background:#253650;
-    color:#dce7f7;
-    font-size:11px;
-}
-
-.small-btn.delete{
-    background:#512630;
-    color:#ffabb5;
-}
-
-.empty{
-    text-align:center;
-    padding:35px;
-    color:var(--muted);
-}
-
-.section{
-    display:none;
-}
-
-.section.active{
-    display:block;
-}
-
-.welcome{
-    padding:23px;
-    margin-bottom:23px;
-    border:1px solid #24544e;
-    border-radius:13px;
-    background:linear-gradient(110deg,#12352f,#13243a);
-}
-
-.welcome h2{
-    font-size:20px;
-    margin-bottom:9px;
-}
-
-.welcome p{
-    color:#afc9d5;
-    font-size:13px;
-    line-height:1.7;
-}
-
-.quick-grid{
-    display:grid;
-    grid-template-columns:repeat(3,minmax(0,1fr));
-    gap:14px;
-}
-
-.quick{
-    text-align:left;
-    color:var(--text);
-    background:var(--panel);
-    border:1px solid var(--border);
-    border-radius:12px;
-    padding:18px;
-}
-
-.quick:hover{
-    border-color:var(--accent);
-}
-
-.quick strong{
-    display:block;
-    margin:10px 0 7px;
-}
-
-.quick span{
-    color:var(--muted);
-    font-size:12px;
-    line-height:1.6;
-}
-
-.modal{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:#000a;
-    z-index:100;
-    padding:18px;
-    align-items:center;
-    justify-content:center;
-}
-
-.modal.show{
-    display:flex;
-}
-
-.modal-content{
-    width:100%;
-    max-width:450px;
-    max-height:90vh;
-    overflow-y:auto;
-    padding:23px;
-    background:var(--panel);
-    border:1px solid var(--border);
-    border-radius:14px;
-}
-
-.modal-head{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:20px;
-}
-
-.modal-head h3{
-    font-size:18px;
-}
-
-.close{
-    background:transparent;
-    color:var(--muted);
-    font-size:25px;
-}
-
-.field{
-    margin-bottom:14px;
-}
-
-.field label{
-    display:block;
-    font-size:12px;
-    color:#afc0d8;
-    margin-bottom:7px;
-}
-
-.field input,
-.field select,
-.field textarea{
-    width:100%;
-    padding:11px;
-    color:var(--text);
-    background:#0b1527;
-    border:1px solid var(--border);
-    border-radius:8px;
-    outline:none;
-}
-
-.field textarea{
-    min-height:85px;
-    resize:vertical;
-}
-
-.modal-actions{
-    display:flex;
-    gap:8px;
-    margin-top:20px;
-}
-
-.modal-actions button{
-    flex:1;
-}
-
-.note{
-    color:var(--muted);
-    font-size:12px;
-    line-height:1.7;
-    margin-top:12px;
-}
-
-@media(max-width:1050px){
-    .cards{
-        grid-template-columns:repeat(2,minmax(0,1fr));
+@media (max-width: 900px) {
+    .sidebar {
+        width: 205px;
     }
 
-    .sidebar{
-        width:205px;
+    .stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
-@media(max-width:700px){
-    .layout{
-        display:block;
+@media (max-width: 600px) {
+    .layout {
+        display: block;
     }
 
-    .sidebar{
-        width:100%;
-        padding:12px;
-        border-right:0;
-        border-bottom:1px solid var(--border);
+    .sidebar {
+        width: 100%;
+        padding: 13px;
+        border-right: 0;
+        border-bottom: 1px solid var(--border);
     }
 
-    .brand{
-        margin-bottom:10px;
+    .brand {
+        padding-bottom: 12px;
     }
 
-    .menu-label,
-    .sidebar-bottom{
-        display:none;
+    .nav-title {
+        margin-top: 14px;
     }
 
-    .nav{
-        flex-direction:row;
-        overflow-x:auto;
-        padding-bottom:4px;
+    .nav-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 4px;
     }
 
-    .nav button{
-        width:auto;
-        white-space:nowrap;
-        padding:10px;
-        font-size:12px;
+    .nav-btn {
+        margin: 0;
+        padding: 11px 8px;
+        font-size: 12px;
     }
 
-    .main{
-        padding:16px 12px;
+    .main {
+        padding: 15px;
     }
 
-    .topbar h1{
-        font-size:21px;
+    .topbar h1 {
+        font-size: 21px;
     }
 
-    .cards{
-        gap:9px;
+    .stats {
+        gap: 9px;
     }
 
-    .card{
-        padding:13px;
+    .stat, .panel {
+        padding: 13px;
     }
 
-    .card-number{
-        font-size:25px;
+    .stat h2 {
+        font-size: 22px;
     }
 
-    .quick-grid{
-        grid-template-columns:1fr;
-    }
-
-    .search{
-        width:100%;
+    .form-grid {
+        grid-template-columns: 1fr;
     }
 }
 </style>
 </head>
 
 <body>
+
 <div class="layout">
 
-<aside class="sidebar">
-    <div class="brand">
-        <div class="brand-icon">D</div>
-        <div>
-            <h2>DATA CENTER</h2>
-            <p>ADMIN MANAGEMENT</p>
-        </div>
-    </div>
-
-    <div class="menu-label">MENU UTAMA</div>
-
-    <nav class="nav">
-        <button class="active" data-page="dashboard">
-            <span class="ico">▦</span> Dashboard
-        </button>
-        <button data-page="users">
-            <span class="ico">♙</span> Data User
-        </button>
-        <button data-page="products">
-            <span class="ico">▤</span> Data Produk
-        </button>
-        <button data-page="orders">
-            <span class="ico">▣</span> Riwayat Pesanan
-        </button>
-        <button data-page="photos">
-            <span class="ico">▧</span> Data Foto
-        </button>
-    </nav>
-
-    <div class="sidebar-bottom">
-        <strong>Local Storage</strong><br>
-        Penyimpanan browser aktif.<br>
-        Bukan database server.
-    </div>
-</aside>
-
-<main class="main">
-
-    <div class="topbar">
-        <div>
-            <h1 id="pageTitle">Dashboard</h1>
-            <p id="pageSubtitle">Ringkasan informasi dan penyimpanan data.</p>
-        </div>
-
-        <div class="top-actions">
-            <span class="status">● Sistem aktif</span>
-            <button class="btn secondary" onclick="refreshData()">↻ Refresh</button>
-            <button class="btn danger" onclick="logout()">Logout</button>
-        </div>
-    </div>
-
-    <!-- DASHBOARD -->
-    <section class="section active" id="dashboard">
-
-        <div class="welcome">
-            <h2>Pusat Data Marketplace</h2>
-            <p>
-                Kelola informasi pengguna, produk, foto, dan riwayat pesanan
-                dari satu halaman. Data produk dan pesanan menggunakan
-                localStorage yang sama dengan halaman marketplace.
-            </p>
-        </div>
-
-        <div class="cards">
-            <div class="card">
-                <div class="card-top">
-                    <span class="card-label">Total User</span>
-                    <span class="card-icon">♙</span>
-                </div>
-                <div class="card-number" id="totalUser">0</div>
-                <div class="card-foot">Data pengguna tersimpan</div>
-            </div>
-
-            <div class="card">
-                <div class="card-top">
-                    <span class="card-label">Total Produk</span>
-                    <span class="card-icon">▤</span>
-                </div>
-                <div class="card-number" id="totalProduct">0</div>
-                <div class="card-foot">Data inventaris produk</div>
-            </div>
-
-            <div class="card">
-                <div class="card-top">
-                    <span class="card-label">Total Foto</span>
-                    <span class="card-icon">▧</span>
-                </div>
-                <div class="card-number" id="totalPhoto">0</div>
-                <div class="card-foot">Foto pengguna dan produk</div>
-            </div>
-
-            <div class="card">
-                <div class="card-top">
-                    <span class="card-label">Total Pesanan</span>
-                    <span class="card-icon">▣</span>
-                </div>
-                <div class="card-number" id="totalOrders">0</div>
-                <div class="card-foot">Catatan transaksi tersimpan</div>
+    <aside class="sidebar">
+        <div class="brand">
+            <img
+                id="adminPhoto"
+                src="../img/default-profile.png"
+                alt="Foto Admin"
+                title="Klik untuk mengganti foto"
+                onclick="document.getElementById('photoInput').click()"
+            >
+            <div>
+                <h2>DATA CENTER</h2>
+                <p>ADMIN MANAGEMENT</p>
             </div>
         </div>
 
-        <div class="panel">
-            <div class="panel-head">
-                <div>
-                    <h3>Akses Cepat</h3>
-                    <p>Pilih kategori informasi yang ingin dikelola.</p>
+        <input
+            type="file"
+            id="photoInput"
+            accept="image/*"
+            hidden
+            onchange="changeAdminPhoto(event)"
+        >
+
+        <button
+            class="secondary"
+            style="width:100%;margin-top:13px"
+            onclick="document.getElementById('photoInput').click()"
+        >📷 Ganti Foto Admin</button>
+
+        <div class="nav-title">MENU UTAMA</div>
+        <nav class="nav-list">
+            <button class="nav-btn active" onclick="showSection('dashboard',this)">📊 Dashboard</button>
+            <button class="nav-btn" onclick="showSection('users',this)">👥 Data User</button>
+            <button class="nav-btn" onclick="showSection('products',this)">📦 Data Produk</button>
+            <button class="nav-btn" onclick="showSection('orders',this)">🧾 Pesanan</button>
+            <button class="nav-btn" onclick="showSection('photos',this)">🖼️ Foto Admin</button>
+        </nav>
+
+        <div class="nav-title">AKUN</div>
+        <button class="nav-btn" onclick="logout()">🚪 Keluar</button>
+    </aside>
+
+    <main class="main">
+        <header class="topbar">
+            <div>
+                <h1 id="pageTitle">Dashboard</h1>
+                <p>Panel pengelolaan data website</p>
+            </div>
+            <button class="secondary" onclick="refreshData()">↻ Refresh</button>
+        </header>
+
+        <!-- DASHBOARD -->
+        <section id="dashboard" class="section active">
+            <div class="stats">
+                <div class="stat">
+                    <p>Total Pengguna</p>
+                    <h2 id="totalUsers">0</h2>
+                    <span>Data pengguna tersimpan</span>
+                </div>
+                <div class="stat">
+                    <p>Total Produk</p>
+                    <h2 id="totalProducts">0</h2>
+                    <span>Data katalog produk</span>
+                </div>
+                <div class="stat">
+                    <p>Total Pesanan</p>
+                    <h2 id="totalOrders">0</h2>
+                    <span>Riwayat transaksi</span>
+                </div>
+                <div class="stat">
+                    <p>Nilai Pesanan</p>
+                    <h2 id="totalRevenue">Rp0</h2>
+                    <span>Perkiraan nilai pesanan</span>
                 </div>
             </div>
 
-            <div class="quick-grid" style="padding:16px">
-                <button class="quick" onclick="showPage('users')">
-                    <span>♙</span>
-                    <strong>Database User</strong>
-                    <span>Lihat, tambah, edit, dan hapus informasi pengguna.</span>
-                </button>
-
-                <button class="quick" onclick="showPage('products')">
-                    <span>▤</span>
-                    <strong>Database Produk</strong>
-                    <span>Kelola nama, harga, stok, deskripsi, dan foto produk.</span>
-                </button>
-
-                <button class="quick" onclick="showPage('orders')">
-                    <span>▣</span>
-                    <strong>Data Pesanan</strong>
-                    <span>Lihat riwayat pesanan yang tersimpan.</span>
-                </button>
-            </div>
-        </div>
-
-        <div class="panel">
-            <div class="panel-head">
-                <div>
-                    <h3>Informasi Penyimpanan</h3>
-                    <p>Status sumber data yang digunakan halaman ini.</p>
+            <div class="panel">
+                <div class="panel-head">
+                    <h3>Informasi Sistem</h3>
+                    <span class="badge">AKTIF</span>
                 </div>
-            </div>
-            <div style="padding:18px;line-height:2;font-size:13px">
-                <div>● <strong>users</strong> — informasi pengguna</div>
-                <div>● <strong>products</strong> — inventaris marketplace</div>
-                <div>● <strong>orders</strong> — riwayat pesanan</div>
-                <div>● <strong>adminFoto</strong> — foto profil admin</div>
                 <p class="note">
-                    Data dapat hilang jika penyimpanan browser dibersihkan.
-                    Untuk database sungguhan yang aman dan dapat diakses
-                    beberapa perangkat, gunakan backend dan MySQL.
+                    Dashboard ini membaca data dari localStorage browser.
+                    Data produk, pengguna, dan pesanan menggunakan key yang sama
+                    dengan halaman website yang terhubung: products, users, user,
+                    dan orders. Pastikan halaman lain memakai format data yang sesuai.
                 </p>
             </div>
-        </div>
-    </section>
 
-    <!-- DATA USER -->
-    <section class="section" id="users">
-        <div class="panel">
-            <div class="panel-head">
-                <div>
+            <div class="panel">
+                <h3>Pesanan Terbaru</h3>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Nama</th>
+                                <th>Produk</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentOrders"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- USERS -->
+        <section id="users" class="section">
+            <div class="panel">
+                <div class="panel-head">
+                    <h3>Tambah Pengguna</h3>
+                </div>
+
+                <form id="userForm">
+                    <input type="hidden" id="userEditIndex" value="-1">
+
+                    <div class="form-grid">
+                        <div>
+                            <label>Nama pengguna</label>
+                            <input id="userName" required placeholder="Nama lengkap">
+                        </div>
+                        <div>
+                            <label>Email / Username</label>
+                            <input id="userEmail" required placeholder="Email atau username">
+                        </div>
+                        <div>
+                            <label>Nomor telepon</label>
+                            <input id="userPhone" placeholder="Nomor telepon">
+                        </div>
+                        <div>
+                            <label>Peran</label>
+                            <select id="userRole">
+                                <option value="user">User</option>
+                                <option value="admin">Admin</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" id="userSubmit">Simpan Pengguna</button>
+                        <button type="button" class="secondary" onclick="resetUserForm()">Reset</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="panel">
+                <div class="panel-head">
                     <h3>Database Pengguna</h3>
-                    <p>Kelola informasi akun pengguna yang tersimpan.</p>
                 </div>
                 <div class="toolbar">
-                    <input class="search" id="userSearch"
-                        placeholder="Cari nama atau email..."
-                        oninput="renderUsers()">
-                    <button class="btn" onclick="openUserModal()">+ Tambah User</button>
+                    <input id="userSearch" placeholder="Cari nama atau email..." oninput="renderUsers()">
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Nama</th>
+                                <th>Email / Username</th>
+                                <th>Telepon</th>
+                                <th>Peran</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="userTable"></tbody>
+                    </table>
                 </div>
             </div>
+        </section>
 
-            <div class="table-wrap">
-                <table>
-                    <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Nama</th>
-                        <th>Email</th>
-                        <th>Foto</th>
-                        <th>Role</th>
-                        <th>Aksi</th>
-                    </tr>
-                    </thead>
-                    <tbody id="userTableBody"></tbody>
-                </table>
+        <!-- PRODUCTS -->
+        <section id="products" class="section">
+            <div class="panel">
+                <h3>Tambah / Edit Produk</h3>
+
+                <form id="productForm">
+                    <input type="hidden" id="productEditIndex" value="-1">
+
+                    <div class="form-grid">
+                        <div>
+                            <label>Nama produk</label>
+                            <input id="productName" required placeholder="Nama produk">
+                        </div>
+                        <div>
+                            <label>Harga (Rp)</label>
+                            <input id="productPrice" type="number" min="0" required placeholder="Contoh: 50000">
+                        </div>
+                        <div>
+                            <label>Stok</label>
+                            <input id="productStock" type="number" min="0" value="0" required>
+                        </div>
+                        <div>
+                            <label>Kategori</label>
+                            <input id="productCategory" placeholder="Kategori produk">
+                        </div>
+                        <div style="grid-column:1/-1">
+                            <label>URL gambar (opsional)</label>
+                            <input id="productImage" placeholder="../img/produk.png">
+                        </div>
+                        <div style="grid-column:1/-1">
+                            <label>Deskripsi</label>
+                            <textarea id="productDescription" rows="3" placeholder="Deskripsi produk"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" id="productSubmit">Simpan Produk</button>
+                        <button type="button" class="secondary" onclick="resetProductForm()">Reset</button>
+                    </div>
+                </form>
             </div>
-        </div>
-    </section>
 
-    <!-- DATA PRODUK -->
-    <section class="section" id="products">
-        <div class="panel">
-            <div class="panel-head">
-                <div>
-                    <h3>Database Produk</h3>
-                    <p>Data produk ini menggunakan kunci products milik marketplace.</p>
-                </div>
+            <div class="panel">
+                <h3>Database Produk</h3>
                 <div class="toolbar">
-                    <input class="search" id="productSearch"
-                        placeholder="Cari produk..."
-                        oninput="renderProducts()">
-                    <button class="btn" onclick="openProductModal()">+ Tambah Produk</button>
+                    <input id="productSearch" placeholder="Cari produk..." oninput="renderProducts()">
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Nama Produk</th>
+                                <th>Harga</th>
+                                <th>Stok</th>
+                                <th>Kategori</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productTable"></tbody>
+                    </table>
                 </div>
             </div>
+        </section>
 
-            <div class="table-wrap">
-                <table>
-                    <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Foto</th>
-                        <th>Nama Produk</th>
-                        <th>Harga</th>
-                        <th>Stok</th>
-                        <th>Aksi</th>
-                    </tr>
-                    </thead>
-                    <tbody id="productTableBody"></tbody>
-                </table>
-            </div>
-        </div>
-    </section>
-
-    <!-- RIWAYAT PESANAN -->
-    <section class="section" id="orders">
-        <div class="panel">
-            <div class="panel-head">
-                <div>
+        <!-- ORDERS -->
+        <section id="orders" class="section">
+            <div class="panel">
+                <div class="panel-head">
                     <h3>Riwayat Pesanan</h3>
-                    <p>Catatan pesanan yang dibuat dari halaman marketplace.</p>
+                    <button class="blue" onclick="exportOrders()">Ekspor CSV</button>
                 </div>
-                <input class="search" id="orderSearch"
-                    placeholder="Cari ID atau status..."
-                    oninput="renderOrders()">
-            </div>
 
-            <div class="table-wrap">
-                <table>
-                    <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>ID Pesanan</th>
-                        <th>Tanggal</th>
-                        <th>Jumlah Item</th>
-                        <th>Total</th>
-                        <th>Status</th>
-                    </tr>
-                    </thead>
-                    <tbody id="orderTableBody"></tbody>
-                </table>
-            </div>
-        </div>
-    </section>
-
-    <!-- DATA FOTO -->
-    <section class="section" id="photos">
-        <div class="panel">
-            <div class="panel-head">
-                <div>
-                    <h3>Arsip Foto</h3>
-                    <p>Foto yang alamatnya tersimpan pada data pengguna atau produk.</p>
+                <div class="toolbar">
+                    <input id="orderSearch" placeholder="Cari nama, produk, atau status..." oninput="renderOrders()">
                 </div>
-                <input class="search" id="photoSearch"
-                    placeholder="Cari nama foto..."
-                    oninput="renderPhotos()">
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>ID Pesanan</th>
+                                <th>Pelanggan</th>
+                                <th>Produk</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orderTable"></tbody>
+                    </table>
+                </div>
             </div>
+        </section>
 
-            <div class="table-wrap">
-                <table>
-                    <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Preview</th>
-                        <th>Nama</th>
-                        <th>Kategori</th>
-                        <th>Sumber</th>
-                    </tr>
-                    </thead>
-                    <tbody id="photoTableBody"></tbody>
-                </table>
+        <!-- ADMIN PHOTO -->
+        <section id="photos" class="section">
+            <div class="panel">
+                <h3>Pengaturan Foto Admin</h3>
+                <p class="note">
+                    Foto default diambil dari file img/default-profile.png.
+                    Foto yang kamu pilih akan disimpan di browser ini dan digunakan
+                    sebagai foto profil admin.
+                </p>
+
+                <img
+                    id="photoPreview"
+                    class="photo-preview"
+                    src="../img/default-profile.png"
+                    alt="Pratinjau foto admin"
+                >
+
+                <label>Pilih foto baru</label>
+                <input type="file" id="photoInputPage" accept="image/*" onchange="changeAdminPhoto(event)">
+
+                <div class="form-actions">
+                    <button onclick="document.getElementById('photoInputPage').click()">Pilih Foto</button>
+                    <button class="secondary" onclick="resetAdminPhoto()">Gunakan Foto Default</button>
+                </div>
+
+                <p class="note">Format gambar: JPG, PNG, atau WebP. Maksimal 2 MB.</p>
             </div>
-        </div>
-    </section>
+        </section>
 
-</main>
-</div>
-
-<!-- MODAL USER -->
-<div class="modal" id="userModal">
-    <div class="modal-content">
-        <div class="modal-head">
-            <h3 id="userModalTitle">Tambah User</h3>
-            <button class="close" onclick="closeModal('userModal')">&times;</button>
-        </div>
-
-        <form id="userForm">
-            <div class="field">
-                <label>Nama</label>
-                <input name="nama" required>
-            </div>
-
-            <div class="field">
-                <label>Email</label>
-                <input name="email" type="email" required>
-            </div>
-
-            <div class="field">
-                <label>Role</label>
-                <select name="role">
-                    <option value="Admin">Admin</option>
-                    <option value="User">User</option>
-                </select>
-            </div>
-
-            <div class="field">
-                <label>Foto URL</label>
-                <input name="foto" placeholder="https://example.com/foto.jpg">
-            </div>
-
-            <div class="note">
-                Form ini menyimpan informasi profil, bukan membuat akun login
-                atau mengganti password akun pada sistem autentikasi.
-            </div>
-
-            <div class="modal-actions">
-                <button type="button" class="btn secondary"
-                    onclick="closeModal('userModal')">Batal</button>
-                <button type="submit" class="btn">Simpan Data</button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<!-- MODAL PRODUK -->
-<div class="modal" id="productModal">
-    <div class="modal-content">
-        <div class="modal-head">
-            <h3 id="productModalTitle">Tambah Produk</h3>
-            <button class="close" onclick="closeModal('productModal')">&times;</button>
-        </div>
-
-        <form id="productForm">
-            <div class="field">
-                <label>Nama Produk</label>
-                <input name="name" required>
-            </div>
-
-            <div class="field">
-                <label>Harga (Rp)</label>
-                <input name="price" type="number" min="0" required>
-            </div>
-
-            <div class="field">
-                <label>Stok</label>
-                <input name="stock" type="number" min="0" required>
-            </div>
-
-            <div class="field">
-                <label>URL atau lokasi gambar</label>
-                <input name="image" placeholder="https://example.com/foto.jpg">
-            </div>
-
-            <div class="field">
-                <label>Deskripsi</label>
-                <textarea name="desc"></textarea>
-            </div>
-
-            <div class="modal-actions">
-                <button type="button" class="btn secondary"
-                    onclick="closeModal('productModal')">Batal</button>
-                <button type="submit" class="btn">Simpan Produk</button>
-            </div>
-        </form>
-    </div>
+    </main>
 </div>
 
 <script>
-// ===================================
-// KONFIGURASI PENYIMPANAN BERSAMA
-// ===================================
+"use strict";
 
-function readData(key){
-    try{
-        const data = JSON.parse(localStorage.getItem(key));
-        return Array.isArray(data) ? data : [];
-    }catch(e){
+/*
+  Penyimpanan memakai localStorage.
+  Pastikan halaman produk dan checkout menggunakan key yang sama.
+*/
+
+const KEYS = {
+    products: "products",
+    orders: "orders",
+    users: "users",
+    currentUser: "user",
+    adminPhoto: "adminFoto"
+};
+
+function readData(key) {
+    try {
+        const value = JSON.parse(localStorage.getItem(key) || "[]");
+        return Array.isArray(value) ? value : [];
+    } catch (error) {
+        console.error("Gagal membaca data:", key, error);
         return [];
     }
 }
 
-let users = readData("users");
-let products = readData("products");
-let orders = readData("orders");
-
-let editUserIndex = null;
-let editProductIndex = null;
-
-// ===================================
-// UTILITAS
-// ===================================
-
-function escapeHTML(value){
-    return String(value ?? "").replace(/[&<>"']/g, c => ({
-        "&":"&amp;",
-        "<":"&lt;",
-        ">":"&gt;",
-        '"':"&quot;",
-        "'":"&#39;"
-    })[c]);
+function saveData(key, value) {
+    try {
+        localStorage.setItem(key, JSON.stringify(value));
+        return true;
+    } catch (error) {
+        alert("Data gagal disimpan. Penyimpanan browser mungkin penuh.");
+        return false;
+    }
 }
 
-function money(value){
-    return "Rp " + (Number(value) || 0).toLocaleString("id-ID");
+function escapeHTML(value) {
+    return String(value ?? "").replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    })[char]);
 }
 
-function photoURL(value){
-    const url = String(value || "");
+function rupiah(value) {
+    return new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+        maximumFractionDigits: 0
+    }).format(Number(value) || 0);
+}
 
-    if(
-        /^https?:\/\//i.test(url) ||
-        /^data:image\//i.test(url) ||
-        /^(?:\.\.?\/|\/|img\/)/i.test(url)
-    ){
-        return escapeHTML(url);
+function getOrderName(order) {
+    return order.nama || order.name || order.customerName ||
+        order.username || order.email || order.user || "Pelanggan";
+}
+
+function getOrderProduct(order) {
+    const items = order.items || order.products || order.cart;
+
+    if (Array.isArray(items)) {
+        return items.map(item =>
+            (item.name || item.nama || item.title || "Produk") +
+            (item.quantity || item.qty ? " x" + (item.quantity || item.qty) : "")
+        ).join(", ") || "Pesanan";
     }
 
-    return "";
+    return order.productName || order.product || order.namaProduk ||
+        order.produk || "Pesanan";
 }
 
-function saveUsers(){
-    localStorage.setItem("users", JSON.stringify(users));
+function getOrderTotal(order) {
+    return Number(order.total ?? order.totalPrice ?? order.amount ??
+        order.harga ?? order.subtotal ?? 0);
 }
 
-function saveProducts(){
-    localStorage.setItem("products", JSON.stringify(products));
+function getOrderStatus(order) {
+    return order.status || order.statusPesanan || "Menunggu";
 }
 
-function saveOrders(){
-    localStorage.setItem("orders", JSON.stringify(orders));
-}
-
-function closeModal(id){
-    document.getElementById(id).classList.remove("show");
-}
-
-document.querySelectorAll(".modal").forEach(modal => {
-    modal.addEventListener("click", event => {
-        if(event.target === modal){
-            modal.classList.remove("show");
-        }
-    });
-});
-
-// ===================================
-// NAVIGASI
-// ===================================
-
-const pageInfo = {
-    dashboard:["Dashboard","Ringkasan informasi dan penyimpanan data."],
-    users:["Data User","Database informasi pengguna."],
-    products:["Data Produk","Database inventaris marketplace."],
-    orders:["Riwayat Pesanan","Catatan transaksi yang tersimpan."],
-    photos:["Data Foto","Arsip foto dari data pengguna dan produk."]
-};
-
-function showPage(page){
-    if(!pageInfo[page]) return;
-
+function showSection(id, button) {
     document.querySelectorAll(".section").forEach(section => {
         section.classList.remove("active");
     });
 
-    document.getElementById(page).classList.add("active");
+    const target = document.getElementById(id);
+    if (target) target.classList.add("active");
 
-    document.querySelectorAll(".nav button").forEach(button => {
-        button.classList.toggle("active", button.dataset.page === page);
+    document.querySelectorAll(".nav-btn").forEach(nav => {
+        nav.classList.remove("active");
     });
 
-    document.getElementById("pageTitle").innerText = pageInfo[page][0];
-    document.getElementById("pageSubtitle").innerText = pageInfo[page][1];
+    if (button) button.classList.add("active");
 
-    if(page === "users") renderUsers();
-    if(page === "products") renderProducts();
-    if(page === "orders") renderOrders();
-    if(page === "photos") renderPhotos();
+    const titles = {
+        dashboard: "Dashboard",
+        users: "Data Pengguna",
+        products: "Data Produk",
+        orders: "Riwayat Pesanan",
+        photos: "Foto Admin"
+    };
+
+    document.getElementById("pageTitle").textContent = titles[id] || "Admin";
 }
 
-document.querySelectorAll(".nav button").forEach(button => {
-    button.addEventListener("click", () => showPage(button.dataset.page));
-});
-
-// ===================================
-// DASHBOARD
-// ===================================
-
-function renderDashboard(){
-    users = readData("users");
-    products = readData("products");
-    orders = readData("orders");
-
-    const userPhotos = users.filter(u => u.foto).length;
-    const productPhotos = products.filter(p => p.image).length;
-
-    document.getElementById("totalUser").innerText = users.length;
-    document.getElementById("totalProduct").innerText = products.length;
-    document.getElementById("totalPhoto").innerText =
-        userPhotos + productPhotos;
-    document.getElementById("totalOrders").innerText = orders.length;
-}
-
-function refreshData(){
-    users = readData("users");
-    products = readData("products");
-    orders = readData("orders");
-
+function refreshData() {
     renderDashboard();
     renderUsers();
     renderProducts();
     renderOrders();
-    renderPhotos();
-
-    alert("Data berhasil diperbarui.");
+    loadAdminPhoto();
 }
 
-// ===================================
-// DATA USER
-// ===================================
+/* DASHBOARD */
 
-function renderUsers(){
-    users = readData("users");
+function renderDashboard() {
+    const users = readData(KEYS.users);
+    const products = readData(KEYS.products);
+    const orders = readData(KEYS.orders);
 
-    const keyword = (
-        document.getElementById("userSearch")?.value || ""
-    ).toLowerCase();
+    document.getElementById("totalUsers").textContent = users.length;
+    document.getElementById("totalProducts").textContent = products.length;
+    document.getElementById("totalOrders").textContent = orders.length;
 
-    const filtered = users
-        .map((u,i) => ({u,i}))
-        .filter(({u}) =>
-            String(u.nama || u.username || "").toLowerCase().includes(keyword) ||
-            String(u.email || "").toLowerCase().includes(keyword)
+    const revenue = orders.reduce((sum, order) => sum + getOrderTotal(order), 0);
+    document.getElementById("totalRevenue").textContent = rupiah(revenue);
+
+    const recent = orders.slice(-5).reverse();
+    const body = document.getElementById("recentOrders");
+
+    body.innerHTML = recent.length ? recent.map((order, index) => `
+        <tr>
+            <td>${index + 1}</td>
+            <td>${escapeHTML(getOrderName(order))}</td>
+            <td>${escapeHTML(getOrderProduct(order))}</td>
+            <td>${rupiah(getOrderTotal(order))}</td>
+            <td>${escapeHTML(getOrderStatus(order))}</td>
+        </tr>
+    `).join("") : `<tr><td colspan="5" class="empty">Belum ada pesanan.</td></tr>`;
+}
+
+/* DATA USERS */
+
+function renderUsers() {
+    const users = readData(KEYS.users);
+    const query = (document.getElementById("userSearch").value || "").toLowerCase();
+
+    const filtered = users.map((user, index) => ({ user, index }))
+        .filter(({ user }) =>
+            JSON.stringify(user).toLowerCase().includes(query)
         );
 
-    const tbody = document.getElementById("userTableBody");
-
-    if(filtered.length === 0){
-        tbody.innerHTML =
-            '<tr><td colspan="6" class="empty">Belum ada data pengguna.</td></tr>';
-    }else{
-        tbody.innerHTML = filtered.map(({u,i}) => `
+    document.getElementById("userTable").innerHTML = filtered.length
+        ? filtered.map(({ user, index }) => `
             <tr>
-                <td>${i+1}</td>
-                <td>${escapeHTML(u.nama || u.username || "-")}</td>
-                <td>${escapeHTML(u.email || "-")}</td>
-                <td>${u.foto
-                    ? `<img class="photo" src="${photoURL(u.foto)}" alt="Foto"
-                         onerror="this.style.display='none'">`
-                    : "-"
-                }</td>
-                <td><span class="pill blue">${escapeHTML(u.role || "User")}</span></td>
+                <td>${index + 1}</td>
+                <td>${escapeHTML(user.nama || user.name || user.username || "-")}</td>
+                <td>${escapeHTML(user.email || user.username || "-")}</td>
+                <td>${escapeHTML(user.telepon || user.phone || user.nohp || "-")}</td>
+                <td>${escapeHTML(user.role || user.peran || "user")}</td>
                 <td>
-                    <div class="row-actions">
-                        <button class="small-btn" onclick="editUser(${i})">Edit</button>
-                        <button class="small-btn delete" onclick="deleteUser(${i})">Hapus</button>
-                    </div>
+                    <button class="blue" onclick="editUser(${index})">Edit</button>
+                    <button class="danger" onclick="deleteUser(${index})">Hapus</button>
                 </td>
             </tr>
-        `).join("");
-    }
-
-    renderDashboard();
+        `).join("")
+        : `<tr><td colspan="6" class="empty">Data pengguna belum tersedia.</td></tr>`;
 }
 
-function openUserModal(){
-    editUserIndex = null;
-    document.getElementById("userForm").reset();
-    document.getElementById("userModalTitle").innerText = "Tambah User";
-    document.getElementById("userModal").classList.add("show");
-}
-
-function editUser(i){
-    users = readData("users");
-    const u = users[i];
-
-    if(!u) return;
-
-    editUserIndex = i;
-
-    const form = document.getElementById("userForm");
-    form.elements.nama.value = u.nama || u.username || "";
-    form.elements.email.value = u.email || "";
-    form.elements.role.value = u.role || "User";
-    form.elements.foto.value = u.foto || "";
-
-    document.getElementById("userModalTitle").innerText = "Edit User";
-    document.getElementById("userModal").classList.add("show");
-}
-
-document.getElementById("userForm").addEventListener("submit", event => {
+document.getElementById("userForm").addEventListener("submit", function(event) {
     event.preventDefault();
 
-    users = readData("users");
+    const users = readData(KEYS.users);
+    const editIndex = Number(document.getElementById("userEditIndex").value);
 
-    const form = event.target;
-    const nama = form.elements.nama.value.trim();
-    const email = form.elements.email.value.trim();
+    const name = document.getElementById("userName").value.trim();
+    const email = document.getElementById("userEmail").value.trim();
+    const phone = document.getElementById("userPhone").value.trim();
+    const role = document.getElementById("userRole").value;
 
-    if(!nama || !email){
-        alert("Nama dan email wajib diisi.");
+    if (!name || !email) {
+        alert("Nama dan email/username wajib diisi.");
         return;
     }
 
-    const old = editUserIndex !== null ? users[editUserIndex] : {};
+    const duplicate = users.some((user, index) =>
+        index !== editIndex &&
+        String(user.email || user.username || "").toLowerCase() === email.toLowerCase()
+    );
 
-    const newUser = {
-        ...old,
-        nama,
-        email,
-        role: form.elements.role.value,
-        foto: form.elements.foto.value.trim()
-    };
-
-    if(editUserIndex !== null){
-        users[editUserIndex] = newUser;
-    }else{
-        users.push(newUser);
+    if (duplicate) {
+        alert("Email atau username tersebut sudah ada.");
+        return;
     }
 
-    saveUsers();
-    closeModal("userModal");
-    renderUsers();
+    if (editIndex >= 0 && users[editIndex]) {
+        users[editIndex] = {
+            ...users[editIndex],
+            nama: name,
+            name: name,
+            email: email,
+            telepon: phone,
+            role: role
+        };
+    } else {
+        users.push({
+            nama: name,
+            name: name,
+            email: email,
+            telepon: phone,
+            role: role,
+            createdAt: new Date().toISOString()
+        });
+    }
+
+    if (saveData(KEYS.users, users)) {
+        resetUserForm();
+        renderUsers();
+        renderDashboard();
+        alert("Data pengguna berhasil disimpan.");
+    }
 });
 
-function deleteUser(i){
-    users = readData("users");
+function editUser(index) {
+    const user = readData(KEYS.users)[index];
+    if (!user) return;
 
-    if(!users[i]) return;
+    document.getElementById("userEditIndex").value = index;
+    document.getElementById("userName").value = user.nama || user.name || user.username || "";
+    document.getElementById("userEmail").value = user.email || user.username || "";
+    document.getElementById("userPhone").value = user.telepon || user.phone || user.nohp || "";
+    document.getElementById("userRole").value = user.role || "user";
+    document.getElementById("userSubmit").textContent = "Update Pengguna";
 
-    if(confirm("Hapus data pengguna ini?")){
-        users.splice(i,1);
-        saveUsers();
+    document.getElementById("userForm").scrollIntoView({ behavior: "smooth" });
+}
+
+function deleteUser(index) {
+    const users = readData(KEYS.users);
+    if (!users[index]) return;
+
+    if (!confirm("Yakin ingin menghapus data pengguna ini?")) return;
+
+    users.splice(index, 1);
+    if (saveData(KEYS.users, users)) {
         renderUsers();
+        renderDashboard();
     }
 }
 
-// ===================================
-// DATA PRODUK
-// ===================================
+function resetUserForm() {
+    document.getElementById("userForm").reset();
+    document.getElementById("userEditIndex").value = "-1";
+    document.getElementById("userSubmit").textContent = "Simpan Pengguna";
+}
 
-function renderProducts(){
-    products = readData("products");
+/* DATA PRODUCTS */
 
-    const keyword = (
-        document.getElementById("productSearch")?.value || ""
-    ).toLowerCase();
+function renderProducts() {
+    const products = readData(KEYS.products);
+    const query = (document.getElementById("productSearch").value || "").toLowerCase();
 
-    const filtered = products
-        .map((p,i) => ({p,i}))
-        .filter(({p}) =>
-            String(p.name || "").toLowerCase().includes(keyword)
+    const filtered = products.map((product, index) => ({ product, index }))
+        .filter(({ product }) =>
+            JSON.stringify(product).toLowerCase().includes(query)
         );
 
-    const tbody = document.getElementById("productTableBody");
-
-    if(filtered.length === 0){
-        tbody.innerHTML =
-            '<tr><td colspan="6" class="empty">Belum ada produk.</td></tr>';
-    }else{
-        tbody.innerHTML = filtered.map(({p,i}) => `
+    document.getElementById("productTable").innerHTML = filtered.length
+        ? filtered.map(({ product, index }) => `
             <tr>
-                <td>${i+1}</td>
-                <td>${p.image
-                    ? `<img class="photo" src="${photoURL(p.image)}" alt="Produk"
-                         onerror="this.style.display='none'">`
-                    : "-"
-                }</td>
-                <td>${escapeHTML(p.name || "-")}</td>
-                <td>${money(p.price)}</td>
-                <td><span class="pill">${Number(p.stock) || 0}</span></td>
+                <td>${index + 1}</td>
+                <td>${escapeHTML(product.nama || product.name || product.title || "-")}</td>
+                <td>${rupiah(product.harga ?? product.price ?? 0)}</td>
+                <td>${escapeHTML(product.stok ?? product.stock ?? 0)}</td>
+                <td>${escapeHTML(product.kategori || product.category || "-")}</td>
                 <td>
-                    <div class="row-actions">
-                        <button class="small-btn" onclick="editProduct(${i})">Edit</button>
-                        <button class="small-btn delete" onclick="deleteProduct(${i})">Hapus</button>
-                    </div>
+                    <button class="blue" onclick="editProduct(${index})">Edit</button>
+                    <button class="danger" onclick="deleteProduct(${index})">Hapus</button>
                 </td>
             </tr>
-        `).join("");
-    }
-
-    renderDashboard();
+        `).join("")
+        : `<tr><td colspan="6" class="empty">Belum ada data produk.</td></tr>`;
 }
 
-function openProductModal(){
-    editProductIndex = null;
-    document.getElementById("productForm").reset();
-    document.getElementById("productModalTitle").innerText = "Tambah Produk";
-    document.getElementById("productModal").classList.add("show");
-}
-
-function editProduct(i){
-    products = readData("products");
-    const p = products[i];
-
-    if(!p) return;
-
-    editProductIndex = i;
-
-    const form = document.getElementById("productForm");
-    form.elements.name.value = p.name || "";
-    form.elements.price.value = Number(p.price) || 0;
-    form.elements.stock.value = Number(p.stock) || 0;
-    form.elements.image.value = p.image || "";
-    form.elements.desc.value = p.desc || "";
-
-    document.getElementById("productModalTitle").innerText = "Edit Produk";
-    document.getElementById("productModal").classList.add("show");
-}
-
-document.getElementById("productForm").addEventListener("submit", event => {
+document.getElementById("productForm").addEventListener("submit", function(event) {
     event.preventDefault();
 
-    products = readData("products");
+    const products = readData(KEYS.products);
+    const editIndex = Number(document.getElementById("productEditIndex").value);
 
-    const form = event.target;
+    const name = document.getElementById("productName").value.trim();
+    const price = Number(document.getElementById("productPrice").value);
+    const stock = Number(document.getElementById("productStock").value);
+    const category = document.getElementById("productCategory").value.trim();
+    const image = document.getElementById("productImage").value.trim();
+    const description = document.getElementById("productDescription").value.trim();
 
-    const product = {
-        name: form.elements.name.value.trim(),
-        price: Number(form.elements.price.value),
-        stock: Number(form.elements.stock.value),
-        image: form.elements.image.value.trim(),
-        desc: form.elements.desc.value.trim()
-    };
-
-    if(!product.name || product.price < 0 || product.stock < 0){
-        alert("Periksa kembali nama, harga, dan stok produk.");
+    if (!name || price < 0 || stock < 0 || !Number.isFinite(price) || !Number.isFinite(stock)) {
+        alert("Periksa nama, harga, dan stok produk.");
         return;
     }
 
-    if(editProductIndex !== null){
-        products[editProductIndex] = {
-            ...products[editProductIndex],
-            ...product
-        };
-    }else{
+    const oldProduct = editIndex >= 0 ? products[editIndex] : {};
+
+    const product = {
+        ...oldProduct,
+        nama: name,
+        name: name,
+        harga: price,
+        price: price,
+        stok: stock,
+        stock: stock,
+        kategori: category,
+        category: category,
+        gambar: image,
+        image: image,
+        deskripsi: description,
+        description: description
+    };
+
+    if (editIndex >= 0 && products[editIndex]) {
+        products[editIndex] = product;
+    } else {
         products.push(product);
     }
 
-    saveProducts();
-    closeModal("productModal");
-    renderProducts();
+    if (saveData(KEYS.products, products)) {
+        resetProductForm();
+        renderProducts();
+        renderDashboard();
+        alert("Data produk berhasil disimpan.");
+    }
 });
 
-function deleteProduct(i){
-    products = readData("products");
+function editProduct(index) {
+    const product = readData(KEYS.products)[index];
+    if (!product) return;
 
-    if(!products[i]) return;
+    document.getElementById("productEditIndex").value = index;
+    document.getElementById("productName").value = product.nama || product.name || product.title || "";
+    document.getElementById("productPrice").value = product.harga ?? product.price ?? 0;
+    document.getElementById("productStock").value = product.stok ?? product.stock ?? 0;
+    document.getElementById("productCategory").value = product.kategori || product.category || "";
+    document.getElementById("productImage").value = product.gambar || product.image || product.img || "";
+    document.getElementById("productDescription").value = product.deskripsi || product.description || "";
+    document.getElementById("productSubmit").textContent = "Update Produk";
 
-    if(confirm("Hapus produk ini dari database marketplace?")){
-        products.splice(i,1);
-        saveProducts();
+    document.getElementById("productForm").scrollIntoView({ behavior: "smooth" });
+}
+
+function deleteProduct(index) {
+    const products = readData(KEYS.products);
+    if (!products[index]) return;
+
+    if (!confirm("Yakin ingin menghapus produk ini?")) return;
+
+    products.splice(index, 1);
+    if (saveData(KEYS.products, products)) {
         renderProducts();
+        renderDashboard();
     }
 }
 
-// ===================================
-// RIWAYAT PESANAN
-// ===================================
+function resetProductForm() {
+    document.getElementById("productForm").reset();
+    document.getElementById("productEditIndex").value = "-1";
+    document.getElementById("productStock").value = 0;
+    document.getElementById("productSubmit").textContent = "Simpan Produk";
+}
 
-function renderOrders(){
-    orders = readData("orders");
+/* ORDERS */
 
-    const keyword = (
-        document.getElementById("orderSearch")?.value || ""
-    ).toLowerCase();
+function renderOrders() {
+    const orders = readData(KEYS.orders);
+    const query = (document.getElementById("orderSearch").value || "").toLowerCase();
 
-    const filtered = orders
-        .map((o,i) => ({o,i}))
-        .filter(({o}) =>
-            String(o.id || "").toLowerCase().includes(keyword) ||
-            String(o.status || "").toLowerCase().includes(keyword) ||
-            String(o.date || "").toLowerCase().includes(keyword)
-        );
+    const filtered = orders.map((order, index) => ({ order, index }))
+        .filter(({ order }) => JSON.stringify(order).toLowerCase().includes(query));
 
-    const tbody = document.getElementById("orderTableBody");
+    document.getElementById("orderTable").innerHTML = filtered.length
+        ? filtered.map(({ order, index }) => {
+            const status = getOrderStatus(order);
+            const normalized = String(status).toLowerCase();
+            let badgeClass = "";
 
-    if(filtered.length === 0){
-        tbody.innerHTML =
-            '<tr><td colspan="6" class="empty">Belum ada pesanan tersimpan.</td></tr>';
-    }else{
-        tbody.innerHTML = filtered.map(({o,i}) => {
-            const count = Array.isArray(o.items) ? o.items.length : 0;
-            const status = String(o.status || "Tidak diketahui");
+            if (normalized.includes("tunggu") || normalized.includes("pending")) {
+                badgeClass = "pending";
+            } else if (normalized.includes("batal") || normalized.includes("cancel")) {
+                badgeClass = "cancel";
+            }
 
             return `
                 <tr>
-                    <td>${i+1}</td>
-                    <td>${escapeHTML(o.id || ("ORD-" + (i+1)))}</td>
-                    <td>${escapeHTML(o.date || "-")}</td>
-                    <td>${count}</td>
-                    <td>${money(o.total)}</td>
-                    <td><span class="pill ${status.toLowerCase().includes("batal") ? "red" : ""}">
-                        ${escapeHTML(status)}
-                    </span></td>
+                    <td>${index + 1}</td>
+                    <td>${escapeHTML(order.id || order.orderId || order.kode || ("ORD-" + (index + 1)))}</td>
+                    <td>${escapeHTML(getOrderName(order))}</td>
+                    <td>${escapeHTML(getOrderProduct(order))}</td>
+                    <td>${rupiah(getOrderTotal(order))}</td>
+                    <td><span class="badge ${badgeClass}">${escapeHTML(status)}</span></td>
+                    <td>
+                        <select aria-label="Status pesanan" onchange="updateOrderStatus(${index},this.value)">
+                            ${["Menunggu","Diproses","Dikirim","Selesai","Dibatalkan"].map(s =>
+                                `<option value="${s}" ${String(status).toLowerCase() === s.toLowerCase() ? "selected" : ""}>${s}</option>`
+                            ).join("")}
+                        </select>
+                        <button class="danger" onclick="deleteOrder(${index})">Hapus</button>
+                    </td>
                 </tr>
             `;
-        }).join("");
-    }
-
-    renderDashboard();
+        }).join("")
+        : `<tr><td colspan="7" class="empty">Belum ada riwayat pesanan.</td></tr>`;
 }
 
-// ===================================
-// ARSIP FOTO
-// ===================================
+function updateOrderStatus(index, status) {
+    const orders = readData(KEYS.orders);
+    if (!orders[index]) return;
 
-function renderPhotos(){
-    users = readData("users");
-    products = readData("products");
+    orders[index].status = status;
 
-    const keyword = (
-        document.getElementById("photoSearch")?.value || ""
-    ).toLowerCase();
-
-    const photos = [];
-
-    users.forEach(u => {
-        if(u.foto){
-            photos.push({
-                name: u.nama || u.username || "Pengguna",
-                category: "Foto User",
-                source: "users",
-                url: u.foto
-            });
-        }
-    });
-
-    products.forEach(p => {
-        if(p.image){
-            photos.push({
-                name: p.name || "Produk",
-                category: "Foto Produk",
-                source: "products",
-                url: p.image
-            });
-        }
-    });
-
-    const filtered = photos.filter(p =>
-        p.name.toLowerCase().includes(keyword) ||
-        p.category.toLowerCase().includes(keyword)
-    );
-
-    const tbody = document.getElementById("photoTableBody");
-
-    if(filtered.length === 0){
-        tbody.innerHTML =
-            '<tr><td colspan="5" class="empty">Belum ada foto tersimpan.</td></tr>';
-    }else{
-        tbody.innerHTML = filtered.map((p,i) => `
-            <tr>
-                <td>${i+1}</td>
-                <td><img class="photo" src="${photoURL(p.url)}" alt="Foto"
-                    onerror="this.style.display='none'"></td>
-                <td>${escapeHTML(p.name)}</td>
-                <td><span class="pill blue">${p.category}</span></td>
-                <td>${p.source}</td>
-            </tr>
-        `).join("");
-    }
-
-    renderDashboard();
-}
-
-// ===================================
-// LOGOUT
-// ===================================
-
-function logout(){
-    if(!confirm("Yakin ingin keluar dari panel admin?")) return;
-
-    localStorage.removeItem("adminLoggedIn");
-    localStorage.removeItem("adminFoto");
-
-    // Pertahankan tujuan logout dari proyek lama.
-    window.location.href = "login.html";
-}
-
-// ===================================
-// SINKRON DATA DARI TAB LAIN
-// ===================================
-
-window.addEventListener("storage", event => {
-    if(["users","products","orders"].includes(event.key)){
-        users = readData("users");
-        products = readData("products");
-        orders = readData("orders");
-
-        renderDashboard();
-        renderUsers();
-        renderProducts();
+    if (saveData(KEYS.orders, orders)) {
         renderOrders();
-        renderPhotos();
+        renderDashboard();
     }
+}
+
+function deleteOrder(index) {
+    const orders = readData(KEYS.orders);
+    if (!orders[index]) return;
+
+    if (!confirm("Yakin ingin menghapus pesanan ini?")) return;
+
+    orders.splice(index, 1);
+    if (saveData(KEYS.orders, orders)) {
+        renderOrders();
+        renderDashboard();
+    }
+}
+
+function exportOrders() {
+    const orders = readData(KEYS.orders);
+
+    if (!orders.length) {
+        alert("Belum ada data pesanan untuk diekspor.");
+        return;
+    }
+
+    const rows = [
+        ["ID", "Pelanggan", "Produk", "Total", "Status"],
+        ...orders.map((order, index) => [
+            order.id || order.orderId || ("ORD-" + (index + 1)),
+            getOrderName(order),
+            getOrderProduct(order),
+            getOrderTotal(order),
+            getOrderStatus(order)
+        ])
+    ];
+
+    const csv = rows.map(row =>
+        row.map(value => '"' + String(value ?? "").replace(/"/g, '""') + '"').join(",")
+    ).join("\r\n");
+
+    const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = "riwayat-pesanan.csv";
+    link.click();
+
+    URL.revokeObjectURL(url);
+}
+
+/* ADMIN PHOTO */
+
+function loadAdminPhoto() {
+    const savedPhoto = localStorage.getItem(KEYS.adminPhoto);
+    const photo = savedPhoto || "../img/default-profile.png";
+
+    document.getElementById("adminPhoto").src = photo;
+    document.getElementById("photoPreview").src = photo;
+}
+
+function changeAdminPhoto(event) {
+    const file = event.target.files && event.target.files[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+        alert("Pilih file gambar yang valid.");
+        event.target.value = "";
+        return;
+    }
+
+    if (file.size > 2 * 1024 * 1024) {
+        alert("Ukuran foto maksimal 2 MB.");
+        event.target.value = "";
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+        const imageData = e.target.result;
+
+        try {
+            localStorage.setItem(KEYS.adminPhoto, imageData);
+            loadAdminPhoto();
+            alert("Foto admin berhasil diganti.");
+        } catch (error) {
+            alert("Foto gagal disimpan. Coba gambar yang lebih kecil atau hapus data lama.");
+        }
+
+        event.target.value = "";
+        const secondInput = document.getElementById("photoInputPage");
+        if (secondInput) secondInput.value = "";
+    };
+
+    reader.readAsDataURL(file);
+}
+
+function resetAdminPhoto() {
+    if (!confirm("Kembalikan foto admin ke foto default?")) return;
+
+    localStorage.removeItem(KEYS.adminPhoto);
+    loadAdminPhoto();
+}
+
+/* LOGOUT */
+
+function logout() {
+    if (!confirm("Yakin ingin keluar dari halaman admin?")) return;
+
+    /*
+      Hapus sesi login saja, bukan data produk/pesanan.
+      Jika login kamu memakai nama key lain, sesuaikan di sini.
+    */
+    localStorage.removeItem(KEYS.currentUser);
+    window.location.href = "../login.html";
+}
+
+/* START */
+
+document.getElementById("adminPhoto").addEventListener("error", function() {
+    // Jangan membuat loop jika file foto default tidak ditemukan.
+    this.onerror = null;
 });
 
-// ===================================
-// MULAI APLIKASI
-// ===================================
+document.getElementById("photoPreview").addEventListener("error", function() {
+    this.onerror = null;
+});
 
-renderDashboard();
-renderUsers();
-renderProducts();
-renderOrders();
-renderPhotos();
+loadAdminPhoto();
+refreshData();
 </script>
 
 </body>
