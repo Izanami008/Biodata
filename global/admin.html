@@ -1240,14 +1240,12 @@ function resetAdminPhoto() {
 /* LOGOUT */
 
 function logout() {
-    if (!confirm("Yakin ingin keluar dari halaman admin?")) return;
+    if (!confirm("Yakin ingin keluar dari halaman admin?")) {
+        return;
+    }
 
-    /*
-      Hapus sesi login saja, bukan data produk/pesanan.
-      Jika login kamu memakai nama key lain, sesuaikan di sini.
-    */
-    localStorage.removeItem(KEYS.currentUser);
-    window.location.href = "../login.html";
+    localStorage.removeItem("user");
+    window.location.href = "login.html";
 }
 
 /* START */
