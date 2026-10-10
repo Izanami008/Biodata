@@ -1,10 +1,9 @@
 
 <?php
-
-$host = "sql301.infinityfree.com";
-$dbname = "if0_43133752_izanami";
-$username = "if0_43133752";
-$password = "hVApI5DBGg24z";
+$host = 'sql301.infinityfree.com';
+$dbname = 'if0_43133752_izanami';
+$username = 'if0_43133752';
+$password = getenv('DB_PASS');
 
 try {
     $pdo = new PDO(
@@ -17,8 +16,8 @@ try {
             PDO::ATTR_EMULATE_PREPARES => false
         ]
     );
-
 } catch (PDOException $e) {
+    error_log($e->getMessage());
     http_response_code(500);
-    exit("Koneksi database gagal. Periksa konfigurasi MySQL.");
+    exit('Koneksi database gagal.');
 }
