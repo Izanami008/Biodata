@@ -1,88 +1,246 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Register</title>
+<title>Register | Izanami</title>
+
 <style>
-body{background:#0f172a;color:white;font-family:Arial;display:flex;justify-content:center;align-items:center;height:100vh;}
-.box{background:#1e293b;padding:40px;border-radius:15px;width:400px;box-shadow:0 0 20px rgba(0,255,204,0.3);text-align:center;}
-.box h2{margin-bottom:20px;}
-input[type="text"], input[type="email"], input[type="password"], input[type="file"]{padding:12px;margin:10px 0;width:100%;border-radius:8px;border:none;outline:none;}
-button{padding:12px;width:100%;margin-top:10px;background:#00ffcc;border:none;border-radius:8px;font-weight:bold;cursor:pointer;}
-.error{color:red;margin-bottom:10px;}
-p.login-text{margin-top:15px;}
-p.login-text a{color:#00ffcc;text-decoration:none;font-weight:bold;}
-.home-icon{display:block;margin:20px auto 0;font-size:30px;color:#00ffcc;text-decoration:none;}
-.profile-preview{width:80px;height:80px;border-radius:50%;object-fit:cover;margin-bottom:15px;border:2px solid #00ffcc;}
+* { box-sizing: border-box; }
+
+body {
+    background: #0f172a;
+    color: white;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+}
+
+.box {
+    background: #1e293b;
+    padding: 32px;
+    border-radius: 15px;
+    width: 100%;
+    max-width: 380px;
+    box-shadow: 0 0 20px rgba(0,255,204,0.3);
+    text-align: center;
+}
+
+h2 { margin-top: 0; }
+
+.profile-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 12px;
+    border: 2px solid #00ffcc;
+}
+
+input {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 8px;
+    outline: none;
+    font-size: 15px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    background: #00ffcc;
+    color: #0f172a;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.message {
+    min-height: 20px;
+    font-size: 14px;
+    color: #fca5a5;
+}
+
+.message.success { color: #86efac; }
+
+a {
+    color: #00ffcc;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.home-icon {
+    display: block;
+    margin-top: 20px;
+    font-size: 30px;
+}
 </style>
 </head>
+
 <body>
-
 <div class="box">
-<h2>Register</h2>
-<img src="../img/default-profile.png" alt="Profile" class="profile-preview" id="profilePreview">
-<p class="error" id="errorMsg"></p>
+    <h2>Buat Akun Izanami</h2>
 
-<form id="registerForm">
-<input type="text" id="fullname" placeholder="Nama Lengkap" required>
-<input type="text" id="username" placeholder="Username" required>
-<input type="email" id="email" placeholder="Email" required>
-<input type="password" id="password" placeholder="Password" required>
-<input type="file" id="foto" accept="image/*">
-<button type="submit">Register</button>
-</form>
+    <img
+        src="../img/default-profile.png"
+        alt="Profile"
+        class="profile-img"
+    >
 
-<p class="login-text">Sudah punya akun? <a href="login.html">Login</a></p>
-<a href="../index.html" class="home-icon" title="Halaman Utama">🏠</a>
+    <p id="message" class="message" role="status" aria-live="polite"></p>
+
+    <form id="registerForm">
+        <input
+            type="text"
+            id="fullname"
+            name="fullname"
+            placeholder="Nama lengkap"
+            autocomplete="name"
+            maxlength="150"
+            required
+        >
+
+        <input
+            type="text"
+            id="username"
+            name="username"
+            placeholder="Username (3–80 karakter)"
+            autocomplete="username"
+            minlength="3"
+            maxlength="80"
+            pattern="[A-Za-z0-9_.-]+"
+            title="Gunakan huruf, angka, titik, garis bawah, atau tanda hubung."
+            required
+        >
+
+        <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Email"
+            autocomplete="email"
+            maxlength="190"
+            required
+        >
+
+        <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Password (minimal 8 karakter)"
+            autocomplete="new-password"
+            minlength="8"
+            maxlength="72"
+            required
+        >
+
+        <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            placeholder="Ulangi password"
+            autocomplete="new-password"
+            minlength="8"
+            maxlength="72"
+            required
+        >
+
+        <button type="submit" id="registerButton">
+            Register
+        </button>
+    </form>
+
+    <p>Sudah punya akun? <a href="login.html">Login</a></p>
+
+    <a href="../index.html" class="home-icon" title="Halaman Utama">🏠</a>
 </div>
 
 <script>
-const profilePreview = document.getElementById('profilePreview');
-const fotoInput = document.getElementById('foto');
+const form = document.getElementById("registerForm");
+const message = document.getElementById("message");
+const button = document.getElementById("registerButton");
 
-// Preview foto saat dipilih
-fotoInput.addEventListener('change', function(){
-    const file = this.files[0];
-    if(file){
-        const reader = new FileReader();
-        reader.onload = function(e){
-            profilePreview.src = e.target.result;
-        }
-        reader.readAsDataURL(file);
-    } else {
-        profilePreview.src = "../img/default-profile.png";
-    }
-});
+form.addEventListener("submit", async function (event) {
+    event.preventDefault();
 
-// Ambil data user dari localStorage
-function getUsers(){ return JSON.parse(localStorage.getItem("users")||"[]"); }
+    message.textContent = "";
+    message.classList.remove("success");
 
-document.getElementById("registerForm").addEventListener("submit", function(e){
-    e.preventDefault();
-    const fullname = document.getElementById("fullname").value;
-    const username = document.getElementById("username").value;
-    const email = document.getElementById("email").value;
+    const fullname = document.getElementById("fullname").value.trim();
+    const username = document.getElementById("username").value.trim();
+    const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value;
-    const errorMsg = document.getElementById("errorMsg");
+    const confirmPassword = document.getElementById("confirmPassword").value;
 
-    let users = getUsers();
-    if(users.find(u=>u.username===username)){
-        errorMsg.textContent = "Username sudah digunakan!";
+    if (password !== confirmPassword) {
+        message.textContent = "Konfirmasi password tidak cocok.";
         return;
     }
 
-    // Foto base64
-    let fotoData = profilePreview.src || "../img/default-profile.png";
+    if (password.length < 8) {
+        message.textContent = "Password minimal 8 karakter.";
+        return;
+    }
 
-    // Simpan user
-    users.push({fullname, username, email, password, foto: fotoData, role:"User"});
-    localStorage.setItem("users", JSON.stringify(users));
+    button.disabled = true;
+    button.textContent = "Mendaftarkan...";
 
-    alert("Registrasi berhasil! Silakan login.");
-    window.location.href = "login.html";
+    try {
+        const response = await fetch("../api/register.php", {
+            method: "POST",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({
+                fullname,
+                username,
+                email,
+                password
+            })
+        });
+
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+            throw new Error(result.message || "Registrasi gagal.");
+        }
+
+        message.textContent = "Registrasi berhasil! Mengalihkan ke login...";
+        message.classList.add("success");
+        form.reset();
+
+        setTimeout(() => {
+            window.location.href = "login.html";
+        }, 1000);
+
+    } catch (error) {
+        message.textContent =
+            error.message === "Failed to fetch"
+                ? "Server tidak dapat dihubungi. Periksa API dan koneksi."
+                : error.message || "Terjadi kesalahan saat registrasi.";
+    } finally {
+        button.disabled = false;
+        button.textContent = "Register";
+    }
 });
 </script>
-
 </body>
-</html>
+    </html>
+    
